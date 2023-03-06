@@ -1,0 +1,54 @@
+.topnav-df5 {
+  height: 50px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 110;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FF385C;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 0px;
+  background-color: white;
+}
+
+.topnav-pn1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 1440px;
+  padding: 0px 20px;
+}
+
+.topnav-jk9 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.topnav-lb9 {
+  all: unset;
+
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.topnav-ek4 {
+height: 40px;
+width: 40px;
+}
+
+@media only screen
+and (min-width : 768px) {
+  .topnav-df5 {
+    height: 70px;
+  }
+  .topnav-ek4 {
+  height: 45px;
+  width: 45px;
+  }
+  .topnav-jk9 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}

@@ -1,0 +1,30 @@
+.portfolioitem-ie3 {
+  all: unset;
+  grid-column: auto;
+  overflow: hidden;
+  background-color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.portfolioitem-uc3 {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  aspect-ratio: 4/3;
+  display: block;
+}
+
+.portfolioitem-tz4 {
+  position: relative;
+}
+
+.portfolioitem-ja2 {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: white;
+  padding: 4px 8px;
+  border-radius: 3px;
+  overflow: clip;
+}
