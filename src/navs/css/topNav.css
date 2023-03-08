@@ -7,10 +7,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #FF385C;
+  color: black;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 0px;
   background-color: white;
 }
+
+
 
 .topnav-pn1 {
   display: flex;
@@ -20,9 +22,33 @@
   padding: 0px 20px;
 }
 
+.topnav-po9 {
+  display: flex;
+  align-items: center;
+}
+
 .topnav-jk9 {
   font-size: 18px;
   font-weight: bold;
+}
+
+.topnav-ly8 {
+
+    all: unset;
+    cursor: pointer;
+    margin-left: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #FF385C;
+    color: white;
+    border: 1px solid #FF385C;
+    padding: 5px 8px;
+    border-radius: 12px;
+}
+
+.topnav-ly8:active {
+transform: scale(1.06);
+
 }
 
 .topnav-lb9 {
@@ -49,6 +75,5 @@ and (min-width : 768px) {
   }
   .topnav-jk9 {
     font-size: 20px;
-    font-weight: bold;
   }
 }

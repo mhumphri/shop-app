@@ -7,6 +7,10 @@
   cursor: pointer;
 }
 
+.portfolioitem-ie3.auto-pointer {
+  cursor: auto;
+}
+
 .portfolioitem-uc3 {
   width: 100%;
   object-fit: cover;
