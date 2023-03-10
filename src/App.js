@@ -25,7 +25,11 @@ function App() {
           path="/:itemName"
           element={
             <>
+<<<<<<< HEAD
               <TopNav narrowView={true} />
+=======
+              <TopNav />
+>>>>>>> adf875df92158750b667a3e300d8915afbdffb2d
               <RangeSlider />
             </>
           }
