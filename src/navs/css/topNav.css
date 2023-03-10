@@ -13,12 +13,7 @@
   background-color: white;
 }
 
-<<<<<<< HEAD
 /* outer nav container */
-=======
-
-
->>>>>>> adf875df92158750b667a3e300d8915afbdffb2d
 .topnav-pn1 {
   display: flex;
   align-items: center;
@@ -27,7 +22,6 @@
   padding: 0px 20px;
 }
 
-<<<<<<< HEAD
 /* outer nav container - reduced width if set to narrow */
 .topnav-pn1.narrow {
   max-width: 768px;
@@ -42,43 +36,13 @@
 }
 
 /* "mic's portfolio" text container */
-=======
-.topnav-po9 {
-  display: flex;
-  align-items: center;
-}
-
->>>>>>> adf875df92158750b667a3e300d8915afbdffb2d
 .topnav-jk9 {
   font-size: 18px;
   font-weight: bold;
 }
 
-<<<<<<< HEAD
 /* "item info" button */
 .topnav-ly8 {
-=======
-.topnav-ly8 {
-
-    all: unset;
-    cursor: pointer;
-    margin-left: 20px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #FF385C;
-    color: white;
-    border: 1px solid #FF385C;
-    padding: 5px 8px;
-    border-radius: 12px;
-}
-
-.topnav-ly8:active {
-transform: scale(1.06);
-
-}
-
-.topnav-lb9 {
->>>>>>> adf875df92158750b667a3e300d8915afbdffb2d
   all: unset;
   cursor: pointer;
   margin-left: 20px;
@@ -125,14 +89,11 @@ transform: scale(1.06);
   /* "mic's portfolio" text container - larger font size in large view */
   .topnav-jk9 {
     font-size: 20px;
-<<<<<<< HEAD
   }
 
   /* nav LHS container - auto width in large view (becomes LHS only instead of full width) */
   .topnav-po9 {
     width: auto;
     justify-content: auto;
-=======
->>>>>>> adf875df92158750b667a3e300d8915afbdffb2d
   }
 }

@@ -8,18 +8,12 @@
   cursor: pointer;
 }
 
-<<<<<<< HEAD
 /* outer container - standard pointer if render is for div (not button or link) */
-=======
->>>>>>> adf875df92158750b667a3e300d8915afbdffb2d
 .portfolioitem-ie3.auto-pointer {
   cursor: auto;
 }
 
-<<<<<<< HEAD
 /* portfolio item image */
-=======
->>>>>>> adf875df92158750b667a3e300d8915afbdffb2d
 .portfolioitem-uc3 {
   width: 100%;
   object-fit: cover;

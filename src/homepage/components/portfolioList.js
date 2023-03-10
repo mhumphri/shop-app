@@ -1,8 +1,5 @@
 import PortfolioItem from "./portfolioItem";
-<<<<<<< HEAD
 // array of data - each element contains data for a single portfolio item
-=======
->>>>>>> adf875df92158750b667a3e300d8915afbdffb2d
 import itemArray from "../../data/itemArray";
 import "../css/portfolioList.css";
 
