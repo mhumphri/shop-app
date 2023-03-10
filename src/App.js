@@ -1,38 +1,37 @@
-import React from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import React from "react";
+import { useSelector } from "react-redux";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import TopNav from "./navs/components/topNav";
 import PortfolioList from "./homepage/components/portfolioList";
 import RangeSlider from "./rangeSlider/components/rangeSlider";
 import Modal from "./modal/components/modal";
 
 function App() {
+  const mainModal = useSelector((state) => state.modals.mainModal);
+
   return (
     <Router>
-                <Routes>
-                  <Route
-                    path="/"
-                    element={
-                      <>
-                      <TopNav />
-                      <PortfolioList />
-                      </>
-                    }
-                  />
-                  <Route
-                    path="/rangeSlider"
-                    element={
-                      <>
-                      <TopNav />
-                      <RangeSlider />
-                      </>
-                    }
-                  />
-                </Routes>
-    <Modal />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <TopNav />
+              <PortfolioList />
+            </>
+          }
+        />
+        <Route
+          path="/:itemName"
+          element={
+            <>
+              <TopNav narrowView={true} />
+              <RangeSlider />
+            </>
+          }
+        />
+      </Routes>
+      {mainModal ? <Modal /> : null}
     </Router>
   );
 }

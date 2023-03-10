@@ -1,3 +1,4 @@
+/* header container */
 .topnav-df5 {
   height: 50px;
   position: fixed;
@@ -7,11 +8,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #FF385C;
+  color: black;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 0px;
   background-color: white;
 }
 
+/* outer nav container */
 .topnav-pn1 {
   display: flex;
   align-items: center;
@@ -20,35 +22,78 @@
   padding: 0px 20px;
 }
 
+/* outer nav container - reduced width if set to narrow */
+.topnav-pn1.narrow {
+  max-width: 768px;
+}
+
+/* nav LHS container - 100% width in small view */
+.topnav-po9 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* "mic's portfolio" text container */
 .topnav-jk9 {
   font-size: 18px;
   font-weight: bold;
 }
 
+/* "item info" button */
+.topnav-ly8 {
+  all: unset;
+  cursor: pointer;
+  margin-left: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #FF385C;
+  color: white;
+  border: 1px solid #FF385C;
+  padding: 5px 8px;
+  border-radius: 12px;
+}
+
+/* "item info" button - expands when clicked */
+.topnav-ly8:active {
+  transform: scale(1.06);
+}
+
+/* link */
 .topnav-lb9 {
   all: unset;
-
-  display: flex;
   align-items: center;
   cursor: pointer;
 }
 
+/* github image */
 .topnav-ek4 {
-height: 40px;
-width: 40px;
+  height: 40px;
+  width: 40px;
 }
 
-@media only screen
-and (min-width : 768px) {
+@media only screen and (min-width : 768px) {
+
+  /* header container - increased height in large view */
   .topnav-df5 {
     height: 70px;
   }
+
+  /* github image - increased height and width in large view */
   .topnav-ek4 {
-  height: 45px;
-  width: 45px;
+    height: 45px;
+    width: 45px;
   }
+
+  /* "mic's portfolio" text container - larger font size in large view */
   .topnav-jk9 {
     font-size: 20px;
-    font-weight: bold;
+  }
+
+  /* nav LHS container - auto width in large view (becomes LHS only instead of full width) */
+  .topnav-po9 {
+    width: auto;
+    justify-content: auto;
   }
 }

@@ -1,14 +1,23 @@
-.rangeslider-hy5 {
+/* outer container */
+.rangeslider-dx3 {
   margin-top: 50px;
   display: flex;
   justify-content: center;
 }
 
-@media only screen
-and (min-width : 768px) {
-  .rangeslider-hy5 {
+/* outer container 2 - sets content width */
+.rangeslider-hy5 {
+  display: flex;
+  justify-content: center;
+  max-width: 768px;
+  padding: 20px 20px;
+  width: 100%;
+}
+
+@media only screen and (min-width : 768px) {
+
+  /* outer container - increased top margin to accomodate nav */
+  .rangeslider-dx3 {
     margin-top: 70px;
-    display: flex;
-    justify-content: center;
   }
 }

@@ -1,17 +1,51 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { updateMainModal } from "../../redux/modals/modalsSlice";
 import TestImg1 from "../images/testImg1.jpg";
 
 import "../css/portfolioItem.css";
 
-function PortfolioItem() {
-  return (
-    <a href="/rangeSlider" className="portfolioitem-ie3">
-      <div className="portfolioitem-tz4">
-        <div className="portfolioitem-ja2">range slider</div>
-        <img className="portfolioitem-uc3" alt="test" src={TestImg1} />
-      </div>
-    </a>
-  );
+// renders individual portfolio item either as link, button (for modal) or simple div
+
+function PortfolioItem(props) {
+
+  // redux hook for dispatching data
+  const dispatch = useDispatch();
+
+  // render of inner content
+  const innerContent = [
+    <div className="portfolioitem-tz4">
+      {props.name ? (
+        <div className="portfolioitem-ja2">{props.name}</div>
+      ) : null}
+      <img className="portfolioitem-uc3" alt="test" src={TestImg1} />
+    </div>,
+  ];
+
+  // if props.href is true link is rendered
+  if (props.href) {
+    return (
+      <a href="/rangeSlider" className="portfolioitem-ie3">
+        {innerContent}
+      </a>
+    );
+  }
+
+  // if props.modal is true button is rendered
+  else if (props.modal) {
+    return (
+      <button
+        onClick={() => dispatch(updateMainModal(props.modal))}
+        className="portfolioitem-ie3"
+      >
+        {innerContent}
+      </button>
+    );
+  }
+  // else div is rendered
+   else {
+    return <div className="portfolioitem-ie3 auto-pointer">{innerContent}</div>;
+  }
 }
 
-export default PortfolioItem
+export default PortfolioItem;

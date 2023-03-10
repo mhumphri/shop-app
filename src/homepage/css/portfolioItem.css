@@ -1,3 +1,4 @@
+/* outer container */
 .portfolioitem-ie3 {
   all: unset;
   grid-column: auto;
@@ -7,6 +8,12 @@
   cursor: pointer;
 }
 
+/* outer container - standard pointer if render is for div (not button or link) */
+.portfolioitem-ie3.auto-pointer {
+  cursor: auto;
+}
+
+/* portfolio item image */
 .portfolioitem-uc3 {
   width: 100%;
   object-fit: cover;
@@ -15,10 +22,12 @@
   display: block;
 }
 
+/* inner content container */
 .portfolioitem-tz4 {
   position: relative;
 }
 
+/* item label (floats in top LHS) */
 .portfolioitem-ja2 {
   position: absolute;
   top: 15px;
