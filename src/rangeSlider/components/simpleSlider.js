@@ -33,14 +33,18 @@ function SimpleSlider() {
     };
   }, []);
 
+
+
   // sets & removes pointermove event listener when slider button is dragged
-  const handleButton = () => {
+  const handleButton = (e) => {
+    console.log("E: " + e)
+    let newButtonPos =
+      ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
+      setButtonPos(newButtonPos);
     window.addEventListener("pointermove", handleDrag);
     setPointerDown(true)
-
     window.addEventListener("pointerup", () => {
       setPointerDown(false)
-
       window.removeEventListener("pointermove", handleDrag);
     });
   };
@@ -62,10 +66,10 @@ function SimpleSlider() {
   return (
     <div class="rangeslider-hc7">
       <div>
-        <div class="rangeslider-jn7">
+        <div class="rangeslider-jn7" onPointerDown={handleButton}>
           <div class="rangeslider-ty3" ref={sliderTrack}></div>
           <div class="rangeslider-af3">
-            <SliderButton buttonPos={buttonPos} handleDrag={handleDrag} />
+            <SliderButton buttonPos={buttonPos} handleDrag={handleDrag} pointerDown={pointerDown} />
           </div>
           <div
             class="rangeslider-vs7"
