@@ -9,7 +9,7 @@ import "../css/rangeSlider.css";
 
 function RangeSlider() {
 
-
+    document.body.style.overflow = "hidden";
 
   return (
     <>
@@ -18,7 +18,7 @@ function RangeSlider() {
         <div className="rangeslider-ns6">
           <div className="rangeslider-wr4">
           <h2 className="rangeSlider-kz1">simple slider</h2>
-          <SimpleSlider / > 
+          <SimpleSlider / >
             <h2 className="rangeSlider-kz1">two handle slider</h2>
             <TwoHandleSlider / >
             <h2 className="rangeSlider-kz1">discrete slider</h2>
