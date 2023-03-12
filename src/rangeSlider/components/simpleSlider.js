@@ -37,15 +37,10 @@ function SimpleSlider() {
   const handleButton = () => {
     window.addEventListener("pointermove", handleDrag);
     setPointerDown(true)
-<<<<<<< HEAD
     document.body.style.overflow = "hidden";
     window.addEventListener("pointerup", () => {
       setPointerDown(false)
       document.body.style.overflow = "auto";
-=======
-    window.addEventListener("pointerup", () => {
-      setPointerDown(false)
->>>>>>> 7e4c152e3d704995da218a1da903bfa6a1e248af
       window.removeEventListener("pointermove", handleDrag);
     });
   };
