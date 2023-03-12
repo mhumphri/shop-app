@@ -22,9 +22,9 @@
   padding: 0px 20px;
 }
 
-/* outer nav container - reduced width if set to narrow */
+/* outer nav container - narrow view */
 .topnav-pn1.narrow {
-  max-width: 768px;
+  width: 992px;
 }
 
 /* nav LHS container - 100% width in small view */
@@ -96,4 +96,10 @@
     width: auto;
     justify-content: auto;
   }
+
+/* nav LHS container - narrow view (reverses changes resposive changes above 768px for standard element */
+.topnav-po9.narrow {
+  width: 100%;
+  justify-content: space-between;
+}
 }
