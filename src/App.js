@@ -25,7 +25,7 @@ function App() {
           path="/:itemName"
           element={
             <>
-              <TopNav narrowView={true} />
+              <TopNav narrow={true} />
               <RangeSlider />
             </>
           }
