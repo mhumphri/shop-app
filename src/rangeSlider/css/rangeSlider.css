@@ -76,8 +76,8 @@
 
 /* button container */
 .rangeslider-af3 {
-  height: 25px;
-  top: -9px;
+  height: 40px;
+  top: -19px;
   left: -2px;
   bottom: 4px;
   width: 100%;
@@ -154,7 +154,7 @@ background-color: white;
   outline: currentcolor none medium ;
   z-index: 2 ;
   margin-left: calc(21px / -2) ;
-  /* top: calc(21px / -2 + 2px + 2px) ; */
+  top: 10px;
 }
 
 
