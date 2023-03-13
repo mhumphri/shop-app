@@ -34,6 +34,7 @@ function SimpleSlider(props) {
 
   // sets & removes pointermove event listener when slider button is dragged
   const handleButton = (e) => {
+    e.preventDefault();
     console.log("E: " + e)
     let newButtonPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
