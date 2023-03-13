@@ -98,14 +98,14 @@ function TwoHandleSlider(props) {
       <div>
         <div class="rangeslider-jn7">
           <div class="rangeslider-ty3" ref={sliderTrack}></div>
-          <div class="rangeslider-af3" onPointerDown={handlePointerDown}>
-            <SliderButton buttonPos={leftButtonPos} handleDrag={handleLeftDrag} buttonDrag={props.twoHandleLeftDrag} />
-            <SliderButton buttonPos={rightButtonPos} handleDrag={handleRightDrag} buttonDrag={props.twoHandleRightDrag} />
-          </div>
           <div
             class="rangeslider-vs7"
             style={{ left: leftButtonPos + "%", width: rightButtonPos - leftButtonPos + "%" }}
           ></div>
+          <div class="rangeslider-af3" onPointerDown={handlePointerDown}>
+            <SliderButton buttonPos={leftButtonPos} handleDrag={handleLeftDrag} buttonDrag={props.twoHandleLeftDrag} />
+            <SliderButton buttonPos={rightButtonPos} handleDrag={handleRightDrag} buttonDrag={props.twoHandleRightDrag} />
+          </div>
         </div>
       </div>
     </div>

@@ -65,13 +65,14 @@ function SimpleSlider(props) {
       <div>
         <div class="rangeslider-jn7" >
           <div class="rangeslider-ty3" ref={sliderTrack}></div>
-          <div class="rangeslider-af3" onPointerDown={handleButton}>
-            <SliderButton buttonPos={buttonPos} handleDrag={handleDrag} buttonDrag={props.simpleDrag} />
-          </div>
+
           <div
             class="rangeslider-vs7"
             style={{ left: "0%", width: buttonPos + "%" }}
           ></div>
+          <div class="rangeslider-af3" onPointerDown={handleButton}>
+            <SliderButton buttonPos={buttonPos} handleDrag={handleDrag} buttonDrag={props.simpleDrag} />
+          </div>
         </div>
       </div>
     </div>

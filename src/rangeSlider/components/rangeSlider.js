@@ -21,11 +21,11 @@ function RangeSlider() {
   // initialses sliderTrack on load and updates at screen resize events
   useEffect(() => {
 if (simpleDrag || discreteDrag || twoHandleLeftDrag || twoHandleRightDrag || distributionLeftDrag || distributionRightDrag) {
-  document.body.style.overflow = "hidden";
+  // document.body.style.overflow = "hidden";
   console.log("NO SCROLLING")
 }
 else {
-  document.body.style.overflow = "auto";
+  // document.body.style.overflow = "auto";
   console.log("SCROLLING")
 }
 }, [simpleDrag, discreteDrag, twoHandleLeftDrag, twoHandleRightDrag, distributionLeftDrag, distributionRightDrag]);
