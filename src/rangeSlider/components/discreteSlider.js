@@ -12,8 +12,8 @@ function DiscreetSlider() {
   // stores position of slider button (scale 0  to 100)
   const [buttonPos, setButtonPos] = useState(0);
 
-  // stores position of slider button (scale 0  to 100)
-  const [pointerDown, setPointerDown] = useState();
+  // boolean showing true if drag event listener currently active
+  const [buttonDrag, setButtonDrag] = useState();
 
   // ref for slider track
   const sliderTrack = useRef(null);
@@ -35,11 +35,15 @@ function DiscreetSlider() {
   }, []);
 
   // sets & removes pointermove event listener when slider button is dragged
-  const handleButton = () => {
+  const handleButton = (e) => {
+    console.log("E: " + e)
+    let newButtonPos =
+      ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
+      setButtonPos(Math.round(newButtonPos/10)*10);
     window.addEventListener("pointermove", handleDrag);
-    setPointerDown(true)
+    setButtonDrag(true)
     window.addEventListener("pointerup", () => {
-      setPointerDown(false)
+      setButtonDrag(false)
       window.removeEventListener("pointermove", handleDrag);
     });
   };
@@ -73,9 +77,9 @@ function DiscreetSlider() {
 
           {[0,10,20,30,40,50,60,70,80,90,100].map(x => <div style={{ left: x + "%"  }}className={buttonPos < x ? "rangeslider-hn2" : "rangeslider-hn2 on"} />)}
 
-          <div class="rangeslider-af3">
+          <div class="rangeslider-af3" onPointerDown={handleButton}>
 
-            <SliderButton buttonPos={buttonPos} handleDrag={handleDrag} />
+            <SliderButton buttonPos={buttonPos} handleDrag={handleDrag} buttonDrag={buttonDrag} />
 
           </div>
 

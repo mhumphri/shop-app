@@ -11,8 +11,8 @@ function SimpleSlider() {
   // stores position of slider button (scale 0  to 100)
   const [buttonPos, setButtonPos] = useState(0);
 
-  // stores position of slider button (scale 0  to 100)
-  const [pointerDown, setPointerDown] = useState();
+  // boolean showing true if drag event listener currently active
+  const [buttonDrag, setButtonDrag] = useState();
 
   // ref for slider track
   const sliderTrack = useRef(null);
@@ -42,9 +42,9 @@ function SimpleSlider() {
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
       setButtonPos(newButtonPos);
     window.addEventListener("pointermove", handleDrag);
-    setPointerDown(true)
+    setButtonDrag(true)
     window.addEventListener("pointerup", () => {
-      setPointerDown(false)
+      setButtonDrag(false)
       window.removeEventListener("pointermove", handleDrag);
     });
   };
@@ -66,10 +66,10 @@ function SimpleSlider() {
   return (
     <div class="rangeslider-hc7">
       <div>
-        <div class="rangeslider-jn7" onPointerDown={handleButton}>
+        <div class="rangeslider-jn7" >
           <div class="rangeslider-ty3" ref={sliderTrack}></div>
-          <div class="rangeslider-af3">
-            <SliderButton buttonPos={buttonPos} handleDrag={handleDrag} pointerDown={pointerDown} />
+          <div class="rangeslider-af3" onPointerDown={handleButton}>
+            <SliderButton buttonPos={buttonPos} handleDrag={handleDrag} buttonDrag={buttonDrag} />
           </div>
           <div
             class="rangeslider-vs7"

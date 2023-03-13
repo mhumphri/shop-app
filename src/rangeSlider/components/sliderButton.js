@@ -5,8 +5,7 @@ import "../css/sliderButton.css";
 
 function SliderButton(props) {
 
-  // stores position of slider button (scale 0  to 100)
-  const [pointerDown, setPointerDown] = useState();
+
 
   // stores position of slider button (scale 0  to 100)
   const [buttonHover, setButtonHover] = useState();
@@ -38,7 +37,7 @@ function SliderButton(props) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
- {props.labelDisabled ? null : <div className={props.pointerDown || buttonHover ? "rangeslider-ja5" : "rangeslider-ja5 hidden" }>{props.buttonPos.toFixed(0)}</div> }
+ {props.labelDisabled ? null : <div className={props.buttonDrag || buttonHover ? "rangeslider-ja5" : "rangeslider-ja5 hidden" }>{props.buttonPos.toFixed(0)}</div> }
     </button>
 
     </>

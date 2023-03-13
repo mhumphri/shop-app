@@ -8,10 +8,13 @@ function TwoHandleSlider() {
   // stores screen position of slider track
   const [trackPosition, setTrackPosition] = useState();
 
-  // stores position of slider button (scale 0  to 100)
   // stores position of left and right slider buttons (scale 0  to 100)
   const [leftButtonPos, setLeftButtonPos] = useState(1);
   const [rightButtonPos, setRightButtonPos] = useState(100);
+
+  // boolean showing true if drag event listener currently active
+  const [leftDrag, setLeftDrag] = useState();
+  const [rightDrag, setRightDrag] = useState();
 
   // strores position of active section of slider track
   const [activeRangeLeft, setActiveRangeLeft] = useState(leftButtonPos)
@@ -35,6 +38,34 @@ function TwoHandleSlider() {
       });
     };
   }, []);
+
+  // sets & removes pointermove event listener when slider button is dragged
+  const handlePointerDown = (e) => {
+    console.log("E: " + e)
+    let newButtonPos =
+      ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
+      const leftDistance = Math.abs(newButtonPos - leftButtonPos)
+      const rightDistance = Math.abs(newButtonPos - rightButtonPos)
+
+      if (leftDistance > rightDistance ) {
+         setRightButtonPos(newButtonPos);
+      window.addEventListener("pointermove", handleRightDrag);
+         setRightDrag(true)
+        window.addEventListener("pointerup", () => {
+        setRightDrag(false)
+        window.removeEventListener("pointermove", handleRightDrag);
+        });
+      }
+      else {
+        setLeftButtonPos(newButtonPos);
+     window.addEventListener("pointermove", handleLeftDrag);
+        setLeftDrag(true)
+       window.addEventListener("pointerup", () => {
+       setLeftDrag(false)
+       window.removeEventListener("pointermove", handleLeftDrag);
+       });
+      }
+  };
 
   /* updates leftButtonPos and priceLowTextInput in response to drag of left slider button */
   const handleLeftDrag = (e) => {
@@ -71,9 +102,9 @@ function TwoHandleSlider() {
       <div>
         <div class="rangeslider-jn7">
           <div class="rangeslider-ty3" ref={sliderTrack}></div>
-          <div class="rangeslider-af3">
-            <SliderButton buttonPos={leftButtonPos} handleDrag={handleLeftDrag} />
-            <SliderButton buttonPos={rightButtonPos} handleDrag={handleRightDrag} />
+          <div class="rangeslider-af3" onPointerDown={handlePointerDown}>
+            <SliderButton buttonPos={leftButtonPos} handleDrag={handleLeftDrag} buttonDrag={leftDrag} />
+            <SliderButton buttonPos={rightButtonPos} handleDrag={handleRightDrag} buttonDrag={rightDrag} />
           </div>
           <div
             class="rangeslider-vs7"
