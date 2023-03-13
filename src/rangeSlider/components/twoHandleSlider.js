@@ -4,17 +4,13 @@ import "../css/rangeSlider.css";
 
 // range slider portfolio item
 
-function TwoHandleSlider() {
+function TwoHandleSlider(props) {
   // stores screen position of slider track
   const [trackPosition, setTrackPosition] = useState();
 
   // stores position of left and right slider buttons (scale 0  to 100)
   const [leftButtonPos, setLeftButtonPos] = useState(1);
   const [rightButtonPos, setRightButtonPos] = useState(100);
-
-  // boolean showing true if drag event listener currently active
-  const [leftDrag, setLeftDrag] = useState();
-  const [rightDrag, setRightDrag] = useState();
 
   // strores position of active section of slider track
   const [activeRangeLeft, setActiveRangeLeft] = useState(leftButtonPos)
@@ -50,18 +46,18 @@ function TwoHandleSlider() {
       if (leftDistance > rightDistance ) {
          setRightButtonPos(newButtonPos);
       window.addEventListener("pointermove", handleRightDrag);
-         setRightDrag(true)
+         props.setTwoHandleRightDrag(true)
         window.addEventListener("pointerup", () => {
-        setRightDrag(false)
+        props.setTwoHandleRightDrag(false)
         window.removeEventListener("pointermove", handleRightDrag);
         });
       }
       else {
         setLeftButtonPos(newButtonPos);
      window.addEventListener("pointermove", handleLeftDrag);
-        setLeftDrag(true)
+        props.setTwoHandleLeftDrag(true)
        window.addEventListener("pointerup", () => {
-       setLeftDrag(false)
+       props.setTwoHandleLeftDrag(false)
        window.removeEventListener("pointermove", handleLeftDrag);
        });
       }
@@ -103,8 +99,8 @@ function TwoHandleSlider() {
         <div class="rangeslider-jn7">
           <div class="rangeslider-ty3" ref={sliderTrack}></div>
           <div class="rangeslider-af3" onPointerDown={handlePointerDown}>
-            <SliderButton buttonPos={leftButtonPos} handleDrag={handleLeftDrag} buttonDrag={leftDrag} />
-            <SliderButton buttonPos={rightButtonPos} handleDrag={handleRightDrag} buttonDrag={rightDrag} />
+            <SliderButton buttonPos={leftButtonPos} handleDrag={handleLeftDrag} buttonDrag={props.twoHandleLeftDrag} />
+            <SliderButton buttonPos={rightButtonPos} handleDrag={handleRightDrag} buttonDrag={props.twoHandleRightDrag} />
           </div>
           <div
             class="rangeslider-vs7"

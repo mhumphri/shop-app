@@ -5,15 +5,12 @@ import "../css/discreteSlider.css";
 
 // range slider portfolio item
 
-function DiscreetSlider() {
+function DiscreetSlider(props) {
   // stores screen position of slider track
   const [trackPosition, setTrackPosition] = useState();
 
   // stores position of slider button (scale 0  to 100)
   const [buttonPos, setButtonPos] = useState(0);
-
-  // boolean showing true if drag event listener currently active
-  const [buttonDrag, setButtonDrag] = useState();
 
   // ref for slider track
   const sliderTrack = useRef(null);
@@ -41,9 +38,9 @@ function DiscreetSlider() {
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
       setButtonPos(Math.round(newButtonPos/10)*10);
     window.addEventListener("pointermove", handleDrag);
-    setButtonDrag(true)
+    props.setDiscreteDrag(true)
     window.addEventListener("pointerup", () => {
-      setButtonDrag(false)
+      props.setDiscreteDrag(false)
       window.removeEventListener("pointermove", handleDrag);
     });
   };
@@ -79,7 +76,7 @@ function DiscreetSlider() {
 
           <div class="rangeslider-af3" onPointerDown={handleButton}>
 
-            <SliderButton buttonPos={buttonPos} handleDrag={handleDrag} buttonDrag={buttonDrag} />
+            <SliderButton buttonPos={buttonPos} handleDrag={handleDrag} buttonDrag={props.discreteDrag} />
 
           </div>
 

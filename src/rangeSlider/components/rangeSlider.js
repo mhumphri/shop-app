@@ -9,7 +9,27 @@ import "../css/rangeSlider.css";
 
 function RangeSlider() {
 
+  // boolean showing true if the relevant slider is currently dragginh
+  const [simpleDrag, setSimpleDrag] = useState();
+  const [discreteDrag, setDiscreteDrag] = useState();
+  const [twoHandleLeftDrag, setTwoHandleLeftDrag] = useState();
+  const [twoHandleRightDrag, setTwoHandleRightDrag] = useState();
+  const [distributionLeftDrag, setDistributionLeftDrag] = useState();
+  const [distributionRightDrag, setDistributionRightDrag] = useState();
+
+
+  // initialses sliderTrack on load and updates at screen resize events
+  useEffect(() => {
+if (simpleDrag || discreteDrag || twoHandleLeftDrag || twoHandleRightDrag || distributionLeftDrag || distributionRightDrag) {
   document.body.style.overflow = "hidden";
+  console.log("NO SCROLLING")
+}
+else {
+  document.body.style.overflow = "auto";
+  console.log("SCROLLING")
+}
+}, [simpleDrag, discreteDrag, twoHandleLeftDrag, twoHandleRightDrag, distributionLeftDrag, distributionRightDrag]);
+
 
   return (
     <>
@@ -18,15 +38,15 @@ function RangeSlider() {
         <div className="rangeslider-ns6">
           <div className="rangeslider-wr4">
           <h2 className="rangeSlider-kz1">simple slider</h2>
-          <SimpleSlider / >
+          <SimpleSlider simpleDrag={simpleDrag} setSimpleDrag={setSimpleDrag} / >
             <h2 className="rangeSlider-kz1">two handle slider</h2>
-            <TwoHandleSlider / >
+            <TwoHandleSlider twoHandleLeftDrag={twoHandleLeftDrag} setTwoHandleLeftDrag={setTwoHandleLeftDrag} twoHandleRightDrag={twoHandleRightDrag} setTwoHandleRightDrag={setTwoHandleRightDrag} / >
             <h2 className="rangeSlider-kz1">discrete slider</h2>
-            <DiscreteSlider / >
+            <DiscreteSlider discreteDrag={discreteDrag} setDiscreteDrag={setDiscreteDrag}  / >
 
           </div>
           <h2 className="rangeSlider-kz1">data distribution slider</h2>
-          <DistributionSlider / >
+          <DistributionSlider distributionLeftDrag={distributionLeftDrag} setDistributionLeftDrag={setDistributionLeftDrag} distributionRightDrag={distributionRightDrag} setDistributionRightDrag={setDistributionRightDrag}  / >
           </div>
           </div>
         </div>

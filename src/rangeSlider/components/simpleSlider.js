@@ -4,15 +4,12 @@ import "../css/rangeSlider.css";
 
 // range slider portfolio item
 
-function SimpleSlider() {
+function SimpleSlider(props) {
   // stores screen position of slider track
   const [trackPosition, setTrackPosition] = useState();
 
   // stores position of slider button (scale 0  to 100)
   const [buttonPos, setButtonPos] = useState(0);
-
-  // boolean showing true if drag event listener currently active
-  const [buttonDrag, setButtonDrag] = useState();
 
   // ref for slider track
   const sliderTrack = useRef(null);
@@ -42,9 +39,9 @@ function SimpleSlider() {
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
       setButtonPos(newButtonPos);
     window.addEventListener("pointermove", handleDrag);
-    setButtonDrag(true)
+    props.setSimpleDrag(true)
     window.addEventListener("pointerup", () => {
-      setButtonDrag(false)
+      props.setSimpleDrag(false)
       window.removeEventListener("pointermove", handleDrag);
     });
   };
@@ -69,7 +66,7 @@ function SimpleSlider() {
         <div class="rangeslider-jn7" >
           <div class="rangeslider-ty3" ref={sliderTrack}></div>
           <div class="rangeslider-af3" onPointerDown={handleButton}>
-            <SliderButton buttonPos={buttonPos} handleDrag={handleDrag} buttonDrag={buttonDrag} />
+            <SliderButton buttonPos={buttonPos} handleDrag={handleDrag} buttonDrag={props.simpleDrag} />
           </div>
           <div
             class="rangeslider-vs7"
