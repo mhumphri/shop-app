@@ -37,6 +37,8 @@
 
 /* "mic's portfolio" text container */
 .topnav-jk9 {
+  all: unset;
+  cursor: pointer;
   font-size: 18px;
   font-weight: bold;
 }

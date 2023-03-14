@@ -67,7 +67,7 @@ function TwoHandleSlider(props) {
   const handleLeftDrag = (e) => {
     let newLeftPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
-    const buttonBuffer = (13 / trackPosition.width) * 100;
+    const buttonBuffer = 21/(trackPosition.width/100);
 
     if (newLeftPos < 0) {
       newLeftPos = 0;
@@ -82,13 +82,16 @@ function TwoHandleSlider(props) {
   const handleRightDrag = (e) => {
     let newRightPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
-    const buttonBuffer = (13 / trackPosition.width) * 100;
+
+
+    const buttonBuffer = 21/(trackPosition.width/100);
 
     if (newRightPos > 100) {
       newRightPos = 100;
     } else if (newRightPos < leftButtonPos + buttonBuffer) {
       newRightPos = leftButtonPos + buttonBuffer;
     }
+
     console.log("newRightPos: " + newRightPos)
       setRightButtonPos(newRightPos)
   };

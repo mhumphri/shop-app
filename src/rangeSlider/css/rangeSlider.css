@@ -1,5 +1,9 @@
 /* COMPONENT - rangeSlider.js */
 
+body {
+    background-color: white;
+}
+
 /* outer container */
 .rangeslider-dx3 {
   margin-top: 50px;
@@ -30,7 +34,7 @@
 /* slider header */
 .rangeSlider-kz1 {
   text-align: center;
-  color: #838383;
+  color: black;
   font-size: 18px;
   font-weight: 600;
   margin: 30px 0px;
@@ -42,13 +46,13 @@
 .rangeslider-hc7 {
   margin: auto;
   width: 100%;
-  margin: 60px 0px;
+  margin: 50px 0px 80px 0px;
 }
 
 /* slider track */
 .rangeslider-ty3 {
   background-color: #3880FF;
-  opacity: 0.2;
+  opacity: 0.3;
   position: relative;
   border-radius: 2px;
   height: 3px;
@@ -61,6 +65,11 @@
   height: 5px;
 }
 
+/* slider track - narrow */
+.rangeslider-ty3.narrow {
+  height: 1px;
+}
+
 /* active (highlighted) slider track */
 .rangeslider-vs7 {
   background-color: #3880FF;
@@ -69,9 +78,14 @@
   top: 0px;
 }
 
-/* active (highlighted) slider track wide */
+/* active (highlighted) slider track - wide */
 .rangeslider-vs7.wide {
   height: 5px;
+}
+
+/* active (highlighted) slider track - narrow */
+.rangeslider-vs7.narrow {
+  height: 1px;
 }
 
 /* button container */
@@ -197,5 +211,10 @@ background-color: white;
     font-size: 22px;
     font-weight: 600;
     margin: 30px 0px;
+  }
+
+  /* slider track container */
+  .rangeslider-hc7 {
+    margin: 50px 0px 100px 0px;
   }
 }

@@ -52,7 +52,7 @@ function SimpleSlider(props) {
     let newButtonPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
 
-    if (newButtonPos < 0) {
+    if (newButtonPos < 1) {
       newButtonPos = 0;
     } else if (newButtonPos > 100) {
       newButtonPos = 100;

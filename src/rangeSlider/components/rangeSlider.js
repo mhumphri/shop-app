@@ -39,10 +39,11 @@ else {
           <div className="rangeslider-wr4">
           <h2 className="rangeSlider-kz1">simple slider</h2>
           <SimpleSlider simpleDrag={simpleDrag} setSimpleDrag={setSimpleDrag} / >
-            <h2 className="rangeSlider-kz1">two handle slider</h2>
-            <TwoHandleSlider twoHandleLeftDrag={twoHandleLeftDrag} setTwoHandleLeftDrag={setTwoHandleLeftDrag} twoHandleRightDrag={twoHandleRightDrag} setTwoHandleRightDrag={setTwoHandleRightDrag} / >
             <h2 className="rangeSlider-kz1">discrete slider</h2>
             <DiscreteSlider discreteDrag={discreteDrag} setDiscreteDrag={setDiscreteDrag}  / >
+            <h2 className="rangeSlider-kz1">two handle slider</h2>
+            <TwoHandleSlider twoHandleLeftDrag={twoHandleLeftDrag} setTwoHandleLeftDrag={setTwoHandleLeftDrag} twoHandleRightDrag={twoHandleRightDrag} setTwoHandleRightDrag={setTwoHandleRightDrag} / >
+
 
           </div>
           <h2 className="rangeSlider-kz1">data distribution slider</h2>

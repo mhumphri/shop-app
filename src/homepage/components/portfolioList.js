@@ -11,7 +11,7 @@ function PortfoiloList() {
       <div className="portfoliolist-ap7">
         <div className="portfoliolist-pp6">
           {itemArray.map((x) => (
-            <PortfolioItem name={x.name} href={x.href} modal={x.modal} />
+            <PortfolioItem name={x.name} image={x.image} href={x.href} modal={x.modal} />
           ))}
         </div>
       </div>

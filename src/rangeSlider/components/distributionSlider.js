@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import SliderButton from "./sliderButton";
 import "../css/rangeSlider.css";
 import "../css/distributionSlider.css";
@@ -6,6 +7,10 @@ import "../css/distributionSlider.css";
 // range slider portfolio item
 
 function DistributionSlider(props) {
+
+// screen width (stored in redux)
+const screenWidth = useSelector((state) => state.deviceData.screenWidth);
+
   // stores screen position of slider track
   const [trackPosition, setTrackPosition] = useState();
 
@@ -39,32 +44,64 @@ function DistributionSlider(props) {
     };
   }, []);
 
-  // updates bar chart render in response to changes in props.priceDistribution, highValue, lowValue
+  // updates bar chart render in response to changes in props.dataDistribution, highValue, lowValue
 useEffect(() => {
+
+  function stdNormalDistribution (x) {
+  return Math.pow(Math.E,-Math.pow(x,2)/2)/Math.sqrt(2*Math.PI);
+}
+
+let numBars = 25
+if (screenWidth>500) (
+  numBars = 40
+)
+if (screenWidth>767) (
+  numBars = 50
+)
+
   let newDistributionRender = [];
 
-  const priceDistribution = [0,0,0,0,4,4,7,17,100,16,26,43,42,38,64,45,51,56,38,36,44,43,36,28,13,23,13,16,7,11,7,5,10,0,4,8,3,3,2,2,3,0,0,3,0,0,3,0,3,23]
-  const numBars = priceDistribution.length
+  let dataDistribution = []
+  for (let i=0; i < numBars; i++ ) {
+
+    // const stdInputValue = -3 + i/(numBars/6)
+    const stdInputValue = -3 + i/(numBars/6.2)
+    console.log(i + ' ' + stdInputValue)
+
+    const barHeight = stdNormalDistribution(stdInputValue) *350
+    console.log("barHeight " + i + ": " + barHeight)
+    dataDistribution.push(barHeight)
+  }
+
   // adjustment factor for converting 0-100 slider track range into number of bars in chart
   const barAdjFactor = 100/numBars
 
   // scales up/down 0 to 100 slider track range into relevant range for bar chart
-  const newHighValue = rightButtonPos/barAdjFactor
-  const newLowValue = leftButtonPos/barAdjFactor
+  const newHighValue = rightButtonPos/barAdjFactor - 0.5
+  const newLowValue = leftButtonPos/barAdjFactor - 0.5
 
-  for (let i = 0; i < priceDistribution.length; i++) {
+  let barScalingFactor = 0.75
+
+  if (screenWidth>500) (
+    barScalingFactor = 1
+  )
+  if (screenWidth>767) (
+    barScalingFactor = 1.5
+  )
+
+  for (let i = 0; i < dataDistribution.length; i++) {
     if (i >= newLowValue && i <= newHighValue) {
       newDistributionRender.push(
         <div
           class="rangeslider-fi6"
-          style={{ height: priceDistribution[i]*1.5 + "px" }}
+          style={{ height: dataDistribution[i]*barScalingFactor + "px" }}
         />
       );
     } else {
       newDistributionRender.push(
         <div
           class="rangeslider-fi6 off"
-          style={{ height: priceDistribution[i]*1.5 + "px" }}
+          style={{ height: dataDistribution[i]*barScalingFactor + "px" }}
         />
       );
     }
@@ -77,7 +114,7 @@ useEffect(() => {
   setActiveRangeWidth(rightButtonPos - leftButtonPos)
 
 
-}, [rightButtonPos, leftButtonPos]);
+}, [rightButtonPos, leftButtonPos, screenWidth]);
 
 
 // sets & removes pointermove event listener when slider button is dragged
@@ -112,7 +149,7 @@ const handlePointerDown = (e) => {
   const handleLeftDrag = (e) => {
     let newLeftPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
-    const buttonBuffer = (13 / trackPosition.width) * 100;
+    const buttonBuffer = 21/(trackPosition.width/100);;
 
     if (newLeftPos < 0) {
       newLeftPos = 0;
@@ -127,7 +164,7 @@ const handlePointerDown = (e) => {
   const handleRightDrag = (e) => {
     let newRightPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
-    const buttonBuffer = (13 / trackPosition.width) * 100;
+    const buttonBuffer = 21/(trackPosition.width/100);
 
     if (newRightPos > 100) {
       newRightPos = 100;
@@ -147,9 +184,9 @@ const handlePointerDown = (e) => {
             {distributionRender}
           </div>
         <div class="rangeslider-jn7">
-          <div class="rangeslider-ty3" ref={sliderTrack}></div>
+          <div class="rangeslider-ty3 narrow" ref={sliderTrack}></div>
           <div
-            class="rangeslider-vs7"
+            class="rangeslider-vs7 narrow"
             style={{ left: leftButtonPos + "%", width: rightButtonPos - leftButtonPos + "%" }}
           ></div>
           <div class="rangeslider-af3" onPointerDown={handlePointerDown}>

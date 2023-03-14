@@ -18,7 +18,7 @@ function PortfolioItem(props) {
       {props.name ? (
         <div className="portfolioitem-ja2">{props.name}</div>
       ) : null}
-      <img className="portfolioitem-uc3" alt="test" src={TestImg1} />
+      <img className="portfolioitem-uc3" alt="alt" src={props.image} />
     </div>,
   ];
 

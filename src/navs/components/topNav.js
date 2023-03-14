@@ -18,7 +18,7 @@ function TopNav(props) {
     <header className="topnav-df5">
       <nav className={props.narrow ? "topnav-pn1 narrow" : "topnav-pn1"}>
         <div className={props.narrow ?  "topnav-po9 narrow" : "topnav-po9"}>
-          <div className="topnav-jk9">mic's portfolio</div>
+          <a href="/"className="topnav-jk9">mic's portfolio</a>
           {/* display "item info" button if item-name url parameter is set */}
           {itemName ? (
             <button
