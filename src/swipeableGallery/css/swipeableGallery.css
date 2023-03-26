@@ -69,6 +69,10 @@
 	position: absolute;
 }
 
+.t1p13dzz[class][class] {
+	justify-self: flex-start;
+}
+
 .dir-ltr.o47luuh[class][class] {
 	background: linear-gradient(180deg,transparent 80%,rgba(0,0,0,0.25));
 }
@@ -147,11 +151,11 @@ touch-action: none;
 overscroll-behavior-x: contain;
 }
 
-/*
+
 .s1tdgjmu[class][class] {
 	visibility: hidden;
 }
-*/
+
 
 .ms83rji[class][class] {
 	justify-self: flex-end;

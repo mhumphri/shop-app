@@ -13,17 +13,6 @@ const itemArray = [
     modal: "swipableGallery",
     image: TestImg1,
   },
-  {
-    name: "range slider",
-    href: "/range-slider",
-    modal: "rangeSlider",
-    image: rangeSliderImg,
-  },
-  {
-    name: "swipable gallery",
-    modal: "swipableGallery",
-    image: TestImg1,
-  }
 ]
 
 export default itemArray

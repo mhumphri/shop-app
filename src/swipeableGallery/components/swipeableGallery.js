@@ -10,13 +10,15 @@ function SwipeableGallery(props) {
 
 const photoArray = [1,2,3,4,5,6,7,8,9]
 
+
   /* index of photo currently visible */
   const [currentPhoto, setCurrentPhoto] = useState(0);
   /* total number of photos in array */
-  const [maxPhoto] = useState();
-
+  const [maxPhoto] = useState(photoArray.length-1);
+  /* boolean value indicating if chevrons currently active - used to deterin appropriate styling */
+  const [chevronsActive, setChevronsActive] = useState(false);
+    /* css styles for LHS and RHS chevrons */
   const [lhsChevronStyle, setLhsChevronStyle] = useState("s134m7bb s1tdgjmu dir dir-ltr");
-  /* css styles for RHS chevron */
   const [rhsChevronStyle, setRhsChevronStyle] = useState("s134m7bb s1tdgjmu dir dir-ltr");
 
   /* ref for photo viewer div */
@@ -29,6 +31,7 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
     if (Math.round(currentScrollPos / imageWidth) !== currentPhoto) {
       setCurrentPhoto(Math.round(currentScrollPos / imageWidth));
     }
+
   };
 
   /* moves to next image when LHS chevron is clicked  */
@@ -125,13 +128,56 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
     return newRender;
   };
 
+  const updateChevrons = () => {
+    if (chevronsActive) {
+    if (currentPhoto > 0) {
+      setLhsChevronStyle("s134m7bb swcqrz4 dir dir-ltr");
+    }
+    else {
+      setLhsChevronStyle("s134m7bb swcqrz4 s1tdgjmu  dir dir-ltr");
+    }
+
+    if (currentPhoto < maxPhoto) {
+      setRhsChevronStyle("s134m7bb swcqrz4 dir dir-ltr");
+    }
+    else {
+      setRhsChevronStyle("s134m7bb swcqrz4 s1tdgjmu dir dir-ltr");
+    }
+  }
+  else {
+    setLhsChevronStyle("s134m7bb swcqrz4 s1tdgjmu  dir dir-ltr");
+    setRhsChevronStyle("s134m7bb swcqrz4 s1tdgjmu dir dir-ltr");
+  }
+  }
+
+  /* updates chevron styling in response to changes in currentPhoto and props.activeResult */
+  useEffect(() => {
+    updateChevrons();
+  }, [currentPhoto, chevronsActive]);
+
+  /* activates chevron styling and active item in reponse to mouse entering */
+  const handleMouseEnter = () => {
+    setChevronsActive(true)
+  };
+
+  /* de-activates chevron styling and active item in reponse to mouse entering */
+  const handleMouseLeave = () => {
+    setChevronsActive(false)
+
+
+  };
+
+
+
 
   // redux hook for dispatching data
   const dispatch = useDispatch();
 
   // render of inner content
   const innerContent = [
-    <div class="c14dgvke dir dir-ltr">
+    <div class="c14dgvke dir dir-ltr"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}>
       <div
         aria-describedby="carousel-description"
         class="cnjlbcx_v2 cp0pqp0 rztl681 dir dir-ltr"
@@ -141,7 +187,13 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
 {/* contains info label and chvrons etc */}
           <div class="c18vjgz6 dir dir-ltr">
             <div class="o47luuh o1q97y5m dir dir-ltr">
-              <div class="tsz9f4o dir dir-ltr"></div>
+              <div class="tsz9f4o dir dir-ltr">
+
+                  <div className="portfolioitem-ja2">
+                  swipeable gallery
+                  </div>
+
+              </div>
               <div class="m1dum4mk dir dir-ltr">
                 <div class="m1tlldn6 dir dir-ltr">
                   <div class={lhsChevronStyle}>
