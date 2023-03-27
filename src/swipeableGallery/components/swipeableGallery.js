@@ -207,10 +207,6 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
                     <div class="swipeable-gallery-m1t">
                       <div class={lhsChevronStyle}>
                         <button
-                          data-is-hidden="true"
-                          aria-hidden="true"
-                          aria-label="Previous image"
-                          type="button"
                           class="swipeable-gallery-1d3"
                           onClick={scrollLeft}
                         >
@@ -218,10 +214,6 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
                               className="swipeable-gallery-cl1"
                               viewBox="0 0 32 32"
                               xmlns="http://www.w3.org/2000/svg"
-
-                              aria-hidden="true"
-                              role="presentation"
-                              focusable="false"
                             >
                               <g fill="none">
                                 <path d="m20 28-11.29289322-11.2928932c-.39052429-.3905243-.39052429-1.0236893 0-1.4142136l11.29289322-11.2928932"></path>
@@ -233,9 +225,6 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
                     <div class="swipeable-gallery-ms8">
                       <div class={rhsChevronStyle}>
                         <button
-                          aria-hidden="false"
-                          aria-label="Next image"
-                          type="button"
                           class="swipeable-gallery-1d3"
                           onClick={scrollRight}
                         >
@@ -243,11 +232,8 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
                               className="swipeable-gallery-cl1"
                               viewBox="0 0 32 32"
                               xmlns="http://www.w3.org/2000/svg"
-                              aria-hidden="true"
-                              role="presentation"
-                              focusable="false"
                             >
-                              <g fill="none">
+                              <g>
                                 <path d="m12 4 11.2928932 11.2928932c.3905243.3905243.3905243 1.0236893 0 1.4142136l-11.2928932 11.2928932"></path>
                               </g>
                             </svg>
