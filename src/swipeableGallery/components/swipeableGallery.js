@@ -46,6 +46,7 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
 
   /* moves to next image when RHS chevron is clicked  */
   const scrollRight = () => {
+    console.log("scrollRight")
     const currentScrollPos = galleryRef.current.scrollLeft;
     const imageWidth = galleryRef.current.offsetWidth;
     galleryRef.current.scrollTo({
@@ -58,9 +59,9 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
   const dotsRender = (livePhoto) => {
     let newDots = [];
     for (let i = 0; i < photoArray.length; i++) {
-      let style = "_1k9ksvh";
+      let style = "swipeable-gallery-1k9";
       if (i === livePhoto) {
-        style = "_4o74ccl";
+        style = "swipeable-gallery-4o7";
       }
 
       let dotScale = 1;
@@ -118,7 +119,7 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
 
     const newRender = (
       <div
-        class="_1b2klj3"
+        class="swipeable-gallery-1b2"
         style={{ transform: "translateX(" + dotsPosition + "px)" }}
       >
         {newDots}
@@ -131,22 +132,22 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
   const updateChevrons = () => {
     if (chevronsActive) {
     if (currentPhoto > 0) {
-      setLhsChevronStyle("s134m7bb swcqrz4 dir dir-ltr");
+      setLhsChevronStyle("s134m7bb dir dir-ltr");
     }
     else {
-      setLhsChevronStyle("s134m7bb swcqrz4 s1tdgjmu  dir dir-ltr");
+      setLhsChevronStyle("s134m7bb s1tdgjmu  dir dir-ltr");
     }
 
     if (currentPhoto < maxPhoto) {
-      setRhsChevronStyle("s134m7bb swcqrz4 dir dir-ltr");
+      setRhsChevronStyle("s134m7bb dir dir-ltr");
     }
     else {
-      setRhsChevronStyle("s134m7bb swcqrz4 s1tdgjmu dir dir-ltr");
+      setRhsChevronStyle("s134m7bb s1tdgjmu dir dir-ltr");
     }
   }
   else {
-    setLhsChevronStyle("s134m7bb swcqrz4 s1tdgjmu  dir dir-ltr");
-    setRhsChevronStyle("s134m7bb swcqrz4 s1tdgjmu dir dir-ltr");
+    setLhsChevronStyle("s134m7bb s1tdgjmu  dir dir-ltr");
+    setRhsChevronStyle("s134m7bb s1tdgjmu dir dir-ltr");
   }
   }
 
@@ -182,168 +183,21 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
   // redux hook for dispatching data
   const dispatch = useDispatch();
 
-  // render of inner content
-  const innerContent = [
-    <div class="c14dgvke dir dir-ltr"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}>
-      <div
-        aria-describedby="carousel-description"
-        class="cnjlbcx_v2 cp0pqp0 rztl681 dir dir-ltr"
-        role="group"
-      >
-
-{/* contains info label and chvrons etc */}
-          <div class="c18vjgz6 dir dir-ltr">
-            <div class="o47luuh o1q97y5m dir dir-ltr">
-              <div class="tsz9f4o dir dir-ltr">
-
-                  <div className="portfolioitem-ja2">
-                  swipeable gallery
-                  </div>
-
-              </div>
-              <div class="m1dum4mk dir dir-ltr">
-                <div class="m1tlldn6 dir dir-ltr">
-                  <div class={lhsChevronStyle}>
-                    <button
-                      data-is-hidden="true"
-                      aria-hidden="true"
-                      aria-label="Previous image"
-                      type="button"
-                      class="_1d3iagv"
-                      onClick={scrollLeft}
-                    >
-                      <span class="_3hmsj">
-                        <svg
-                          viewBox="0 0 32 32"
-                          xmlns="http://www.w3.org/2000/svg"
-                          style={{
-                            display: "block",
-                            fill: "none",
-                            height: "12px",
-                            width: "12px",
-                            stroke: "currentcolor",
-                            strokeWidth: "4px",
-                            overflow: "visible",
-                          }}
-                          aria-hidden="true"
-                          role="presentation"
-                          focusable="false"
-                        >
-                          <g fill="none">
-                            <path d="m20 28-11.29289322-11.2928932c-.39052429-.3905243-.39052429-1.0236893 0-1.4142136l11.29289322-11.2928932"></path>
-                          </g>
-                        </svg>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <div class="ms83rji dir dir-ltr">
-                  <div class={rhsChevronStyle}>
-                    <button
-                      aria-hidden="false"
-                      aria-label="Next image"
-                      type="button"
-                      class="_1d3iagv"
-                      onClick={scrollRight}
-                    >
-                      <span class="_3hmsj">
-                        <svg
-                          viewBox="0 0 32 32"
-                          xmlns="http://www.w3.org/2000/svg"
-                          style={{
-                            display: "block",
-                            fill: "none",
-                            height: "12px",
-                            width: "12px",
-                            stroke: "currentcolor",
-                            strokeWidth: "4px",
-                            overflow: "visible",
-                          }}
-                          aria-hidden="true"
-                          role="presentation"
-                          focusable="false"
-                        >
-                          <g fill="none">
-                            <path d="m12 4 11.2928932 11.2928932c.3905243.3905243.3905243 1.0236893 0 1.4142136l-11.2928932 11.2928932"></path>
-                          </g>
-                        </svg>
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div class="b1tv82fw dir dir-ltr">
-                <div class="bycbjmy dir dir-ltr"></div>
-                <div class="balhpdq dir dir-ltr">
-                  <div
-                    aria-label="Photo 1 of 13"
-                    role="img"
-                    class="_r752or"
-                  >
-                    <div class="_szn05y">
-                      {dotsRender(currentPhoto)}
-                    </div>
-                  </div>
-                </div>
-                <div class="b18glxm4 dir dir-ltr"></div>
-              </div>
-            </div>
-          </div>
 
 
 
 
-
-
-              <div class="swipeable-gallery-cw9">
-                {/* important div - gives height */}
-                <div
-                  class="swipeable-gallery-c14 block-swipe-nav"
-                  onScroll={onGalleryScroll}
-                  ref={galleryRef}
-                >
-                {photoArray.map((x) => (
-                  <div
-                    class="swipeable-gallery-rfe"
-                  >
-<div className="swipeable-gallery-tz4">
-  <img className="swipeable-gallery-uc3" alt="alt" src={props.image} />
-</div>
-</div>
-
-))
-}
-
-
-
-                </div>
-              </div>
-
-
-
-
-    </div>
-  </div>
-  ];
-
-
-    return  <div class="mz543g6 dir dir-ltr">
-        <div class="c14dgvke dir dir-ltr"
+  return      <>
+  <div class="swipeable-gallery-c14d"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           >
-          <div
-            aria-describedby="carousel-description"
-            class="cnjlbcx_v2 cp0pqp0 rztl681 dir dir-ltr"
-            role="group"
-          >
 
 
-              <div class="c18vjgz6 dir dir-ltr">
-                <div class="o47luuh o1q97y5m dir dir-ltr">
-                  <div class="tsz9f4o dir dir-ltr">
+
+
+                <div class="swipeable-gallery-o1q">
+                  <div>
                     <div className="portfolioitem-ja2">
                     swipeable gallery
                     </div>
@@ -402,25 +256,25 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
                     </div>
                   </div>
 
-                  <div class="b1tv82fw dir dir-ltr">
-                    <div class="bycbjmy dir dir-ltr"></div>
-                    <div class="balhpdq dir dir-ltr">
+                  <div class="swipeable-gallery-b1t">
+                    <div class="swipeable-gallery-byc"></div>
+                    <div class="swipeable-gallery-bal">
                       <div
                         aria-label="Photo 1 of 13"
                         role="img"
-                        class="_r752or"
+                        class="swipeable-gallery-r75"
                       >
-                        <div class="_szn05y">
+                        <div class="swipeable-gallery-szn">
                           {dotsRender(currentPhoto)}
                         </div>
                       </div>
                     </div>
-                    <div class="b18glxm4 dir dir-ltr"></div>
+                    <div class="swipeable-gallery-b18"></div>
                   </div>
                 </div>
-              </div>
 
-  <div class="swipeable-gallery-cw9a">
+
+
 
                   <div class="swipeable-gallery-cw9">
                     <div
@@ -439,11 +293,12 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
                           ))}
                     </div>
                   </div>
-                </div>
 
-          </div>
+
+
         </div>
-      </div>
+        </>
+
 
 }
 
