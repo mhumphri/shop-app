@@ -1,3 +1,7 @@
+body, html {
+		overscroll-behavior-x: none;
+}
+
 .c14dgvke[class][class] {
 /*	mask-image: -webkit-radial-gradient(white, black);
 	overflow: hidden;
@@ -132,11 +136,13 @@ overscroll-behavior-x: contain;
 touch-action: none;
 }
 
+/*
 ._1d3iagv::-moz-focus-inner {
 	border: medium none !important;
 	padding: 0px !important;
 	margin: 0px !important;
 }
+*/
 
 ._1d3iagv:hover {
 	border-color: rgba(0, 0, 0, 0.08) !important;
@@ -159,7 +165,6 @@ overscroll-behavior-x: contain;
 
 .ms83rji[class][class] {
 	justify-self: flex-end;
-  overscroll-behavior-x: contain;
 }
 
 /* gallery progress dots */
@@ -263,7 +268,115 @@ overflow: clip !important;
 	transition: -ms-transform 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s, transform 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s, transform 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s !important;
 }
 
+.mz543g6[class][class] {
+	--aspect_ratio_wrapper-ratio: 20 / 19;
+	--aspect_ratio_wrapper-padding_fallback: 95%;
+	--aspect_ratio_wrapper-position_fallback: relative;
+}
 
+.dir.mz543g6[class][class] {
+	margin-bottom: var(--b-y-unon);
+}
+
+.c14dgvke[class][class] {
+	mask-image: -webkit-radial-gradient(white, black);
+	overflow: hidden;
+	pointer-events: var(--media-container_pointer-events,auto);
+	position: relative;
+}
+
+.c14dgvke[class][class] {
+	overflow: clip;
+}
+
+.dir.c14dgvke[class][class] {
+	border-radius: 12px;
+	background-color: #DDDDDD;
+}
+
+.dir.s1yvqyx7[class][class] {
+	margin-inline-start: var( --contentscroller_scroller_margin-inline-start, calc(-1 * var(--contentscroller_peek,32px)) );
+	margin-inline-end: var( --contentscroller_scroller_margin-inline-end, calc(-1 * var(--contentscroller_peek,32px)) );
+	padding: var(--contentscroller_scroller_padding,0);
+}
+
+.s1yvqyx7[class][class] {
+	grid-area: var(--contentscroller_scroller_grid-area,scroller);
+	margin-block-start: var(--contentscroller_scroller_margin-block-start,unset);
+	margin-block-end: var(--contentscroller_scroller_margin-block-end,unset);
+	margin-inline-start: var( --contentscroller_scroller_margin-inline-start, calc(-1 * var(--contentscroller_peek,32px)) );
+	margin-inline-end: var( --contentscroller_scroller_margin-inline-end, calc(-1 * var(--contentscroller_peek,32px)) );
+	place-self: var(--contentscroller_scroller_place-self,auto);
+}
+
+
+._6tbg2q {
+	height: 100% !important;
+	width: 100% !important;
+}
+
+._1h6n1zu {
+	background-position: 50% 50% !important;
+	background-repeat: no-repeat !important;
+}
+
+.cjv59qb[class][class] {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.rfexzly[class][class] {
+	display: block;
+	color: transparent;
+	z-index: -100;
+	scroll-snap-align: start;
+	scroll-snap-stop: always;
+}
+
+.awuxh4x[class][class] {
+	aspect-ratio: 4 / 3;
+}
+
+
+
+.c14whb16_v2[class][class] {
+/*	contain: var(--contentscroller_contain); */
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: var( --contentscroller_auto-columns, calc( ( 100% - var(--contentscroller_gap,16px) * (var(--contentscroller_visible-items,unset) - 1) ) / var(--contentscroller_visible-items,unset) ) );
+	gap: var(--contentscroller_gap,16px);
+	grid-template-rows: var(--contentscroller_rows,none);
+	grid-template-areas: var(--contentscroller_areas,none);
+	-moz-box-pack: start;
+	justify-content: flex-start;
+	min-height: var(--contentscroller_min-height);
+	height: 100%;
+	overflow: var(--contentscroller_overflow,auto hidden);
+	overscroll-behavior-x: contain;
+	overscroll-behavior-inline: none;
+
+	padding-block-start: var(--contentscroller_padding-block-start,unset);
+	padding-block-end: var(--contentscroller_padding-block-end,unset);
+	scroll-padding-inline: var(--contentscroller_peek,32px);
+	scrollbar-width: none;
+	touch-action: var(--contentscroller_touch-action,pan-x pan-y pinch-zoom);
+}
+
+
+.c14whb16_v2[class][class]::-webkit-scrollbar {
+  display: none;
+}
+
+.c14whb16_v2[class][class] {
+	scroll-snap-type: var(--contentscroller_scrollsnaptype,inline mandatory);
+}
+
+.dir.c14whb16_v2[class][class] {
+	margin: 0px;
+	padding-inline-start: var( --contentscroller_padding-inline-start, var(--contentscroller_peek,32px) );
+	padding-inline-end: var( --contentscroller_padding-inline-end, var(--contentscroller_peek,32px) );
+}
 
 
 
@@ -311,4 +424,131 @@ overscroll-behavior-inline: none;
 	width: 100%;
 	object-fit: cover;
 	aspect-ratio: 4/3;
+}
+
+
+
+/* CHEVRON BUTTONS */
+
+/* chevron button row container */
+.swipeable-gallery-m1d {
+	-webkit-align-items: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	display: grid;
+	grid-template-columns: repeat(2,minmax(min-content,auto));
+}
+
+/* chevron button outer container LHS */
+.swipeable-gallery-m1t {
+	justify-self: flex-start;
+}
+
+/* chevron button outer container RHS */
+.swipeable-gallery-ms8 {
+	justify-self: flex-end;
+}
+
+/* chevron button styling */
+.swipeable-gallery-1d3 {
+ /*	-moz-box-pack: center !important;
+	-moz-box-align: center !important;
+
+		outline: currentcolor none medium !important;
+
+
+
+
+	margin: 0px !important;
+	padding: 0px !important;
+		appearance: none !important;
+
+
+
+	cursor: pointer !important;
+	touch-action: manipulation !important;
+
+	background-clip: padding-box !important;
+
+	transition: -ms-transform 0.25s ease 0s, transform 0.25s ease 0s, transform 0.25s ease 0s !important;
+
+	overscroll-behavior-x: contain;
+	touch-action: none;
+
+*/
+width: 32px !important;
+height: 32px !important;
+	border-radius: 50% !important;
+		border: 1px solid rgba(0, 0, 0, 0.08) !important;
+		box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgba(0, 0, 0, 0.18) 0px 2px 4px !important;
+			display: inline-flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			color: rgb(34, 34, 34) !important;
+			background-color: rgba(255, 255, 255, 0.9) !important;
+
+
+}
+
+
+/* chevron button styling - hover */
+.swipeable-gallery-1d3:hover {
+	background-color: rgb(255, 255, 255) !important;
+	box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgba(0, 0, 0, 0.12) 0px 6px 16px !important;
+	transform: scale(1.04) !important;
+}
+
+/* chevron SVG styling */
+.swipeable-gallery-cl1 {
+	display: block;
+	fill: none;
+	height: 12px;
+	width: 12px;
+	stroke: currentcolor;
+	stroke-width: 4px;
+	overflow: visible;
+}
+
+/* GALLERY CONTAINERS */
+
+
+
+.swipeable-gallery-cw9 {
+	aspect-ratio: 4 / 3;
+	height: 100%;
+
+}
+
+/* inner scroll container */
+.swipeable-gallery-c14w {
+/*	contain: var(--contentscroller_contain);
+	gap: var(--contentscroller_gap,16px);
+	grid-template-rows: var(--contentscroller_rows,none);
+	grid-template-areas: var(--contentscroller_areas,none);
+	-moz-box-pack: start;
+	justify-content: flex-start;
+		min-height: var(--contentscroller_min-height);
+			overflow: var(--contentscroller_overflow,auto hidden);
+				overscroll-behavior-x: contain;
+	scroll-padding-inline: var(--contentscroller_peek,32px);
+				*/
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: 100%;
+	height: 100%;
+	overflow: visible hidden;
+	padding-inline-start: 0px;
+	padding-inline-end: 0px;
+	padding-block-start: unset;
+	padding-block-end: unset;
+	overscroll-behavior-inline: none;
+	scrollbar-width: none;
+	touch-action: pan-x pan-y pinch-zoom;
+	margin: 0px;
+	scroll-snap-type: inline mandatory;
+}
+
+.swipeable-gallery-c14w::-webkit-scrollbar {
+  display: none;
 }
