@@ -420,7 +420,7 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
                 </div>
               </div>
 
-
+  <div class="swipeable-gallery-cw9a">
 
                   <div class="swipeable-gallery-cw9">
                     <div
@@ -439,6 +439,7 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
                           ))}
                     </div>
                   </div>
+                </div>
 
           </div>
         </div>
