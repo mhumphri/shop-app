@@ -5,6 +5,7 @@ import { updateScreenDimensions } from "./redux/deviceData/deviceDataSlice";
 import TopNav from "./navs/components/topNav";
 import PortfolioList from "./homepage/components/portfolioList";
 import RangeSlider from "./rangeSlider/components/rangeSlider";
+import SearchMap from "./searchMap/components/searchMap";
 import Modal from "./modal/components/modal";
 
 function App() {
@@ -47,11 +48,20 @@ function App() {
           }
         />
         <Route
-          path="/:itemName"
+          path="/range-slider"
           element={
             <>
               <TopNav narrow={true} />
               <RangeSlider />
+            </>
+          }
+        />
+        <Route
+          path="/search-map"
+          element={
+            <>
+              <TopNav narrow={true} />
+              <SearchMap />
             </>
           }
         />

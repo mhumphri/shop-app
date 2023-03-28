@@ -25,7 +25,7 @@ function PortfolioItem(props) {
   // if props.href is true link is rendered
   if (props.href) {
     return (
-      <a href="/rangeSlider" className="portfolioitem-ie3">
+      <a href={props.href} className="portfolioitem-ie3">
         {innerContent}
       </a>
     );
