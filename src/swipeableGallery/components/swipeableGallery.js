@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
+import bird1 from "../../images/birds/bird1.jpg";
+import bird2 from "../../images/birds/bird2.jpg";
+import bird3 from "../../images/birds/bird3.jpg";
+import bird4 from "../../images/birds/bird4.jpg";
+import bird5 from "../../images/birds/bird5.jpg";
+import bird6 from "../../images/birds/bird6.jpg";
 
 import "../css/swipeableGallery.css";
 
@@ -8,7 +14,7 @@ import "../css/swipeableGallery.css";
 
 function SwipeableGallery(props) {
 
-const photoArray = [1,2,3,4,5,6,7,8,9]
+const photoArray = [bird1,bird2,bird3,bird4,bird5,bird6]
 
 
   /* index of photo currently visible */
@@ -17,6 +23,8 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
   const [maxPhoto] = useState(photoArray.length-1);
   /* boolean value indicating if chevrons currently active - used to deterin appropriate styling */
   const [chevronsActive, setChevronsActive] = useState(false);
+  // boolean value indicating if pointer is currently hovering over gallery
+  const [pointerHover, setPointerHover] = useState(false);
     /* css styles for LHS and RHS chevrons */
   const [lhsChevronStyle, setLhsChevronStyle] = useState("s134m7bb s1tdgjmu dir dir-ltr");
   const [rhsChevronStyle, setRhsChevronStyle] = useState("s134m7bb s1tdgjmu dir dir-ltr");
@@ -35,17 +43,20 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
   };
 
   /* moves to next image when LHS chevron is clicked  */
-  const scrollLeft = () => {
+  const scrollLeft = (e) => {
+    e.stopPropagation();
     const currentScrollPos = galleryRef.current.scrollLeft;
     const imageWidth = galleryRef.current.offsetWidth;
     galleryRef.current.scrollTo({
       left: currentScrollPos - imageWidth,
       behavior: "smooth",
     });
+    setChevronsActive(true)
   };
 
   /* moves to next image when RHS chevron is clicked  */
-  const scrollRight = () => {
+  const scrollRight = (e) => {
+    e.stopPropagation();
     console.log("scrollRight")
     const currentScrollPos = galleryRef.current.scrollLeft;
     const imageWidth = galleryRef.current.offsetWidth;
@@ -53,6 +64,7 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
       left: currentScrollPos + imageWidth,
       behavior: "smooth",
     });
+    setChevronsActive(true)
   };
 
   /* render of progress dots at the bottom of the photo (which show as you scroll through the photo array) */
@@ -129,20 +141,31 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
     return newRender;
   };
 
+  // sets styles for rhs and lhs chevrons - different depending on whether the trigger is hover or scroll. if scroll, the chevron button remains visible to prevent link from being clicked. If hover, triggers the chevron button is hidden so cant be clicked
   const updateChevrons = () => {
-    if (chevronsActive) {
+    if (pointerHover) {
     if (currentPhoto > 0) {
       setLhsChevronStyle("s134m7bb dir dir-ltr");
     }
     else {
+      if (chevronsActive) {
+      setLhsChevronStyle("s134m7bb  sqd06yw  dir dir-ltr");
+    }
+    else {
       setLhsChevronStyle("s134m7bb s1tdgjmu  dir dir-ltr");
+    }
     }
 
     if (currentPhoto < maxPhoto) {
       setRhsChevronStyle("s134m7bb dir dir-ltr");
     }
     else {
+            if (chevronsActive) {
+      setRhsChevronStyle("s134m7bb sqd06yw dir dir-ltr");
+    }
+    else {
       setRhsChevronStyle("s134m7bb s1tdgjmu dir dir-ltr");
+    }
     }
   }
   else {
@@ -154,16 +177,16 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
   /* updates chevron styling in response to changes in currentPhoto and props.activeResult */
   useEffect(() => {
     updateChevrons();
-  }, [currentPhoto, chevronsActive]);
+  }, [currentPhoto, pointerHover, chevronsActive]);
 
   /* activates chevron styling and active item in reponse to mouse entering */
   const handleMouseEnter = () => {
-    setChevronsActive(true)
+    setPointerHover(true)
   };
 
   /* de-activates chevron styling and active item in reponse to mouse entering */
   const handleMouseLeave = () => {
-    setChevronsActive(false)
+    setPointerHover(false)
 
 
   };
@@ -191,6 +214,7 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
   <div class="swipeable-gallery-c14d"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          onClick={() => dispatch(updateMainModal("swipableGallery"))}
           >
 
 
@@ -215,7 +239,7 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
                               viewBox="0 0 32 32"
                               xmlns="http://www.w3.org/2000/svg"
                             >
-                              <g fill="none">
+                              <g>
                                 <path d="m20 28-11.29289322-11.2928932c-.39052429-.3905243-.39052429-1.0236893 0-1.4142136l11.29289322-11.2928932"></path>
                               </g>
                             </svg>
@@ -273,7 +297,7 @@ const photoArray = [1,2,3,4,5,6,7,8,9]
                           class="swipeable-gallery-rfe"
                         >
       <div className="swipeable-gallery-tz4">
-        <img className="swipeable-gallery-uc3" alt="alt" src={props.image} />
+        <img className="swipeable-gallery-uc3" alt="alt" src={x} />
       </div>
       </div>
                           ))}

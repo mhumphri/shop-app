@@ -14,7 +14,7 @@ function PortfoiloList() {
           {itemArray.map((x) => (
             <PortfolioItem name={x.name} image={x.image} href={x.href} modal={x.modal} />
           ))}
-            <SwipeableGallery name={itemArray[1].name} image={itemArray[1].image} href={itemArray[1].href} modal={itemArray[1].modal} />
+            <SwipeableGallery image={itemArray[1].image}  />
         </div>
       </div>
     </div>
