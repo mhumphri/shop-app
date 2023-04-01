@@ -60,7 +60,6 @@ function App() {
           path="/search-map"
           element={
             <>
-              <TopNav narrow={true} />
               <SearchMap />
             </>
           }
