@@ -165,7 +165,7 @@ const searchbarRef = useRef(null);
 
 
 {/* <div class={props.largeNav === "location" ? "_xhcgu32" : "_yu5dnq"}> */}
-                {activeSearch ?    <div class="_xhcgu32">
+                {/* activeSearch ?    <div class="_xhcgu32">
                       <div
                         class="c1nifi44 l16t0m55 dir dir-ltr"
                         data-testid="structured-search-input-field-query-panel"
@@ -190,7 +190,7 @@ const searchbarRef = useRef(null);
         no matches
       </div>
       </div>
-      </div>}
+      </div> */}
 
 
 
