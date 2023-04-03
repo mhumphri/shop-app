@@ -30,21 +30,7 @@ function SearchMapNav(props) {
   return (
 
     <div class="h1vnkd0i dir dir-ltr">
-      <div class="c1yo0219 dir dir-ltr">
-        <div>
-          <div>
-
-
-            <div class="c1kn6kxw dir dir-ltr">
-              <header
-                class="c1kffd0v cxy853f dir dir-ltr"
-              >
-              xx
-              </header>
-            </div>
-          </div>
-        </div>
-      </div>
+xx
     </div>
 
 
