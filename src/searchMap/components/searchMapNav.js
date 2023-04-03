@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateMainModal } from "../../redux/modals/modalsSlice";
 import crossButton from "./crossButton";
 import countryPolygons from "../data/countryPolygons.json";
 import "../css/searchMapNav.css";
@@ -6,6 +8,12 @@ import "../css/searchMapNav.css";
 //
 
 function SearchMapNav(props) {
+
+  // redux hook for dispatching data
+  const dispatch = useDispatch();
+
+  // screen width (stored in redux)
+  const largeView = useSelector((state) => state.deviceData.largeView);
 
   const [activeSearch, setActiveSearch] = React.useState();
   const [fullCountryArray, setFullCountryArray] = React.useState([]);
@@ -86,9 +94,7 @@ const searchbarRef = useRef(null);
   }, [countryInput]);
 
 
-
-
-
+if (largeView) {
 
   return (
 
@@ -103,15 +109,15 @@ const searchbarRef = useRef(null);
                 class="c1kffd0v cxy853f dir dir-ltr"
               >
                 <div class="cdfwt5b cqul55 dir dir-ltr">
-                <div>xxx</div>
-                <div ref={searchbarRef}>
+                <div class="c1xntsbd dir dir-ltr"><a href="/"className="topnav-jk9">mic's portfolio</a></div>
+                <div class="c7eo6tu dir dir-ltr" ref={searchbarRef}>
                 <div class="_1bu35ic3">
                 <div class="_13rvbe2">
 
                 <div class="_dd55nf9">
                   <div class="_1rwlbyy">
                     <label
-                      class={props.largeNav === "location" ? "_buo7ycz" : "_f6t7o5n"}
+                      class="_f6t7o5n"
                       htmlFor="locationInput"
                       onClick={countrySearch}
                     >
@@ -208,7 +214,12 @@ const searchbarRef = useRef(null);
                 </div>
                 </div>
                 </div>
-                <div>zzz</div>
+                <div class="c1kbjhzw dir dir-ltr">            <button
+                              className="topnav-ly8"
+onClick={() => dispatch(updateMainModal("rangeSlider"))}
+                            >
+                              item info
+                            </button></div>
                 </div>
               </header>
             </div>
@@ -219,6 +230,144 @@ const searchbarRef = useRef(null);
 
 
   )
+}
+else {
+  return (
+    <>
+      <div class="_1lvtkaw">
+        <div class="_1x0jb4k">
+          <div class="nj62o6b dir dir-ltr">
+            {/* REMOVED - style="" */}
+            <div class="c1yo0219 dir dir-ltr">
+              {/* REMOVED - style="--gp-section-max-width: 1120px;" */}
+              <div>
+                <div
+                  data-plugin-in-point-id="FLEXIBLE_DESTINATIONS_SEARCH_BAR_V2"
+                  data-section-id="FLEXIBLE_DESTINATIONS_SEARCH_BAR_V2"
+                >
+                  <div class="coxzsxx dir dir-ltr">
+                    <div class="ilrd0ld dir dir-ltr">
+                      <div class="c109ki4m e11vjh0i dir dir-ltr">
+                        <div class="ljicvoc dir dir-ltr">
+                          <button
+                            aria-label="Search"
+                            type="button"
+                            class="_1et6785v"
+                            onClick={() => dispatch(updateMainModal("rangeSlider"))}
+                          >
+                            <div class="l1762013 dir dir-ltr">
+                              <svg
+                                viewBox="0 0 32 32"
+                                xmlns="http://www.w3.org/2000/svg"
+                                style={{
+                                  display: "block",
+                                  height: "16px",
+                                  width: "16px",
+                                  fill: "currentcolor",
+                                }}
+                                aria-hidden="true"
+                                role="presentation"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M13 0c7.18 0 13 5.82 13 13 0 2.868-.929 5.519-2.502 7.669l7.916 7.917-2.828 2.828-7.917-7.916A12.942 12.942 0 0 1 13 26C5.82 26 0 20.18 0 13S5.82 0 13 0zm0 4a9 9 0 1 0 0 18 9 9 0 0 0 0-18z"
+                                  opacity=".8"
+                                ></path>
+                              </svg>
+                            </div>
+
+                            <div class="cfpmckc_v2 fw09vnz_v2 dir dir-ltr">
+                              <div class="p1uhuw2g_v2 fw09vnz_v2 dir dir-ltr">
+                                <div class="i1hupcay_v2 dir dir-ltr">
+                                  <span class="c120lmsc_v2 dir dir-ltr">
+                            Where to?
+                                  </span>
+                                </div>
+                              </div>
+                              <div
+                                class="s1t0vaho_v2 fw09vnz_v2 dir dir-ltr"
+                                aria-hidden="true"
+                              >
+
+                                  <>
+                                    <div class="i1hupcay_v2 dir dir-ltr">
+                                      <span class="c120lmsc_v2 dir dir-ltr">
+                                        Anywhere
+                                      </span>
+                                    </div>
+                                    <div
+                                      class="s1zug1q_v2 dir dir-ltr"
+                                      aria-hidden="true"
+                                    >
+                                      •
+                                    </div>
+                                  </>
+
+                                <div class="i1hupcay_v2 dir dir-ltr">
+                                  <span class="c120lmsc_v2 dir dir-ltr">
+                                    [whenMsg]
+                                  </span>
+                                </div>
+                                <div
+                                  class="s1zug1q_v2 dir dir-ltr"
+                                  aria-hidden="true"
+                                >
+                                  •
+                                </div>
+                                <div class="i1hupcay_v2 dir dir-ltr">
+                                  <span class="c120lmsc_v2 dir dir-ltr">
+                                    [GuestMsgSm]
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </button>
+                        </div>
+
+                        <div class="r15cp21x dir dir-ltr">
+                          <button
+                            aria-label="Show filters"
+                            type="button"
+                            class="_njezmzv"
+                            onClick={() => dispatch(updateMainModal("rangeSlider"))}
+                          >
+                            <div
+                              class="fw09vnz dir dir-ltr"
+                            >
+                              <div
+                                class="_1vd92pv"
+                              >
+                                <svg
+                                  viewBox="0 0 16 16"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  style={{
+                                    display: "block",
+                                    height: "16px",
+                                    width: "16px",
+                                    fill: "rgb(34, 34, 34)",
+                                  }}
+                                  aria-hidden="true"
+                                  role="presentation"
+                                  focusable="false"
+                                >
+                                  <path d="M5 8c1.306 0 2.418.835 2.83 2H14v2H7.829A3.001 3.001 0 1 1 5 8zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6-8a3 3 0 1 1-2.829 4H2V4h6.17A3.001 3.001 0 0 1 11 2zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path>
+                                </svg>
+                              </div>
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
 
 
 }
