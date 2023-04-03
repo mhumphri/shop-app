@@ -1,5 +1,100 @@
 
 
+/* iteration 3 */
+
+._buo7ycz {
+	cursor: pointer !important;
+	display: block !important;
+	background-clip: padding-box !important;
+	border: 1px solid transparent !important;
+	border-radius: 32px !important;
+	flex: 1 0 0% !important;
+	min-width: 0px !important;
+	padding: 14px 32px !important;
+	z-index: 3 !important;
+}
+
+._buo7ycz::before {
+	border-width: 0px 1px 0px 0px !important;
+	/*
+	border-style: solid solid solid none !important;
+	*/
+	border-top-color:  !important;
+	border-right-color:  !important;
+	border-bottom-color:  !important;
+	content: "" !important;
+	height: 32px !important;
+	margin-top: -16px !important;
+	position: absolute !important;
+	right: 0px !important;
+	top: 50% !important;
+	z-index: 0 !important;
+	display: block !important;
+	border-left: 0px none !important;
+}
+
+._buo7ycz::after {
+	background-clip: padding-box !important;
+	border-style: solid !important;
+	border-width: 1px !important;
+	border-image: none 100% / 1 / 0 stretch !important;
+	border-radius: 32px !important;
+	inset: 0px !important;
+	content: "" !important;
+	position: absolute !important;
+	z-index: 0 !important;
+
+}
+
+._16fjzef {
+	position: relative !important;
+	z-index: 1 !important;
+}
+
+._snpd7k {
+	font-size: 12px !important;
+	line-height: 16px !important;
+	font-weight: 800 !important;
+	letter-spacing: 0.04em !important;
+	padding-bottom: 2px !important;
+}
+
+._1yibeas {
+	display: block !important;
+	border: 0px none !important;
+	margin: 0px !important;
+	padding: 0px !important;
+	width: 100% !important;
+	background: rgba(0, 0, 0, 0) none repeat scroll 0% 0% !important;
+	font-size: 14px !important;
+	line-height: 18px !important;
+	font-weight: 600 !important;
+	color: #222222 !important;
+	text-overflow: ellipsis !important;
+}
+
+._1yibeas:focus {
+	outline: currentcolor none medium !important;
+}
+
+._1yibeas::placeholder {
+	font-size: 14px !important;
+	line-height: 18px !important;
+	font-weight: 400 !important;
+	color: #222222 !important;
+	opacity: 0.7 !important;
+}
+
+._xhcgu32 {
+	left: 0px !important;
+	position: absolute !important;
+	right: 0px !important;
+	top: 100% !important;
+	z-index: 4 !important;
+	visibility: visible !important;
+	opacity: 1 !important;
+}
+
 /* iteration 2 */
 
 ._yu5dnq {
