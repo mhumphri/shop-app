@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import crossButton from "./crossButton";
 import countryPolygons from "../data/countryPolygons.json";
-
+import "../css/searchMapNav.css";
 
 //
 
