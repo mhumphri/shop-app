@@ -15,62 +15,32 @@ function SearchMapNav(props) {
 
 const searchbarRef = useRef(null);
 
-  useEffect(() => {
-    const featuresArray = countryPolygons.features
-    let countryArray = []
-    for (let i=0; i<featuresArray.length; i++) {
-      countryArray.push(featuresArray[i].properties.NAME)
-    }
-    countryArray.sort()
-    setFullCountryArray(countryArray)
-  }, []);
+
+const onChangeHandler = () => {
+
+}
+
+const countrySearch = () => {
+
+}
+
+const selectCountry = () => {
+
+}
 
 
 
 
 
-  const selectCountry = (newCountry) => {
-    setCountryInput(newCountry)
-    setCountryInputStored(newCountry)
-    setActiveSearch(false)
-
-  }
-
-  const countrySearch = () => {
-    setActiveSearch("country")
-    setCountryInput("")
-  }
 
 
 
 
-  const onChangeHandler = event => {
-    const newInputValue = event.target.value
-     setCountryInput(newInputValue);
 
-  };
-
-  const calcActiveCountryArray = () => {
-    let activeCountries = []
-    for (let i=0; i<fullCountryArray.length; i++) {
-      const inputLowerCase = countryInput.toLowerCase()
-      const countryNameFragment = fullCountryArray[i].substring(0, inputLowerCase.length).toLowerCase();
-      if (inputLowerCase===countryNameFragment) {
-        activeCountries.push(fullCountryArray[i])
-      }
-      if (activeCountries.length>4) {
-        break;
-      }
-    }
-    return activeCountries
-  }
-
-  const [activeCountryArray, setActiveCountryArray] = React.useState(calcActiveCountryArray());
+  const [activeCountryArray, setActiveCountryArray] = React.useState([]);
 
 
-  useEffect(() => {
-    setActiveCountryArray(calcActiveCountryArray())
-  }, [countryInput]);
+
 
 
 
