@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import LargeMap from "./largeMap";
-import SearchMapNav from "./searchMapNav";
+
 import "../css/searchMap.css";
 
 //
@@ -49,7 +49,7 @@ else {
 
   return (
 <>
-<SearchMapNav />
+
 <main className="search-map-cy5">
 
   <div class="_1hytef3">
