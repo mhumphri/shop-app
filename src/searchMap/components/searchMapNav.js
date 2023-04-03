@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import crossButton from "./crossButton";
-import countryPolygons from "../data/countryPolygons.json";
+
 import "../css/searchMapNav.css";
 
 //
@@ -15,15 +14,7 @@ function SearchMapNav(props) {
 
 const searchbarRef = useRef(null);
 
-  useEffect(() => {
-    const featuresArray = countryPolygons.features
-    let countryArray = []
-    for (let i=0; i<featuresArray.length; i++) {
-      countryArray.push(featuresArray[i].properties.NAME)
-    }
-    countryArray.sort()
-    setFullCountryArray(countryArray)
-  }, []);
+
 
   useEffect(() => {
 
