@@ -234,6 +234,8 @@ onClick={() => dispatch(updateMainModal("rangeSlider"))}
 else {
   return (
     <>
+        <div class="h1vnkd0i dir dir-ltr">
+    <div class="_y0r5kt">
       <div class="_1lvtkaw">
         <div class="_1x0jb4k">
           <div class="nj62o6b dir dir-ltr">
@@ -284,42 +286,7 @@ else {
                                   </span>
                                 </div>
                               </div>
-                              <div
-                                class="s1t0vaho_v2 fw09vnz_v2 dir dir-ltr"
-                                aria-hidden="true"
-                              >
 
-                                  <>
-                                    <div class="i1hupcay_v2 dir dir-ltr">
-                                      <span class="c120lmsc_v2 dir dir-ltr">
-                                        Anywhere
-                                      </span>
-                                    </div>
-                                    <div
-                                      class="s1zug1q_v2 dir dir-ltr"
-                                      aria-hidden="true"
-                                    >
-                                      •
-                                    </div>
-                                  </>
-
-                                <div class="i1hupcay_v2 dir dir-ltr">
-                                  <span class="c120lmsc_v2 dir dir-ltr">
-                                    [whenMsg]
-                                  </span>
-                                </div>
-                                <div
-                                  class="s1zug1q_v2 dir dir-ltr"
-                                  aria-hidden="true"
-                                >
-                                  •
-                                </div>
-                                <div class="i1hupcay_v2 dir dir-ltr">
-                                  <span class="c120lmsc_v2 dir dir-ltr">
-                                    [GuestMsgSm]
-                                  </span>
-                                </div>
-                              </div>
                             </div>
                           </button>
                         </div>
@@ -350,7 +317,7 @@ else {
                                   role="presentation"
                                   focusable="false"
                                 >
-                                  <path d="M5 8c1.306 0 2.418.835 2.83 2H14v2H7.829A3.001 3.001 0 1 1 5 8zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6-8a3 3 0 1 1-2.829 4H2V4h6.17A3.001 3.001 0 0 1 11 2zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path>
+                                  <path d="M 7,0 C 5.895431,0 5,0.895431 5,2 5,3.104569 5.895431,4 7,4 8.104569,4 9,3.104569 9,2 9,0.895431 8.104569,0 7,0 z m -4,5 0,2 2,0 0,5 -2,0 0,2 8,0 0,-2 -2,0 0,-7 -6,0 z"></path>
                                 </svg>
                               </div>
                             </div>
@@ -365,6 +332,8 @@ else {
           </div>
         </div>
       </div>
+    </div>
+  </div>
     </>
   )
 }

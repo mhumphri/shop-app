@@ -11,14 +11,14 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
 
   display: flex;
 --search-list-width: 55%;
---navigation-bar-offset: 80px;
+--navigation-bar-offset: 85px;
 }
 
 @media (min-width: 768px) {
   .search-map-cy5 {
 
 --search-list-width: 63%;
---navigation-bar-offset: 80px;
+--navigation-bar-offset: 85px;
   }
 }
 
@@ -217,7 +217,7 @@ margin-top: 24px;
 .dir-ltr.f1lf7snk[class][class] {
 	margin-right:  calc(-1 * var(--search-list-width));
 }
-	.dir-ltr.m7lqfs3[class][class]{transform:translateX(calc(var(--search-list-width) / 2));} 
+	.dir-ltr.m7lqfs3[class][class]{transform:translateX(calc(var(--search-list-width) / 2));}
 }
 
 /* "show map" button */
@@ -394,4 +394,8 @@ margin-top: 24px;
 .dir-ltr.l1pncren[class][class] {
 	padding-left: 6px;
 	font-size: 16px;
+}
+
+._y0r5kt {
+	display: contents !important;
 }
