@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
+import SearchModal from "./searchModal";
 import crossButton from "./crossButton";
 import countryPolygons from "../data/countryPolygons.json";
 import "../css/searchMapNav.css";
@@ -97,7 +98,7 @@ const searchbarRef = useRef(null);
 if (largeView) {
 
   return (
-
+    <>
     <div class="h1vnkd0i dir dir-ltr">
       <div class="c1yo0219 dir dir-ltr">
         <div>
@@ -228,7 +229,7 @@ onClick={() => dispatch(updateMainModal("rangeSlider"))}
       </div>
     </div>
 
-
+</>
   )
 }
 else {
@@ -255,7 +256,7 @@ else {
                             aria-label="Search"
                             type="button"
                             class="_1et6785v"
-                            onClick={() => dispatch(updateMainModal("rangeSlider"))}
+                            onClick={()=>setActiveSearch("country")}
                           >
                             <div class="l1762013 dir dir-ltr">
                               <svg
@@ -296,7 +297,7 @@ else {
                             aria-label="Show filters"
                             type="button"
                             class="_njezmzv"
-                            onClick={() => dispatch(updateMainModal("rangeSlider"))}
+                            onClick={() => dispatch(updateMainModal("map-search"))}
                           >
                             <div
                               class="fw09vnz dir dir-ltr"
@@ -334,6 +335,7 @@ else {
       </div>
     </div>
   </div>
+  {activeSearch ? <SearchModal closeModal={()=>setActiveSearch(false)} /> : null }
     </>
   )
 }

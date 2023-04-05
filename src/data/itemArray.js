@@ -13,6 +13,11 @@ const itemArray = [
     modal: "swipableGallery",
     image: TestImg1,
   },
+  {
+    name: "map search",
+    modal: "map-search",
+    image: TestImg1,
+  },
 ]
 
 export default itemArray
