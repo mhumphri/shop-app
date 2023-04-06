@@ -130,6 +130,7 @@ padding: 0px !important;
 	animation-iteration-count: 1 !important;
 	animation-fill-mode: both !important;
 	animation-name: slidein !important;
+  overflow: hidden;
 }
 
 @keyframes slidein {
