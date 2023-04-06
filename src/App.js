@@ -17,7 +17,15 @@ function App() {
 
   // stores current screenwidth in redux
   const updateScreenWidth = () => {
-    dispatch(updateScreenDimensions({width: window.innerWidth, height: window.innerHeight}));
+
+    let visualVpHeight
+
+    if (window.visualViewport) {
+      visualVpHeight = window.visualViewport.height
+    }
+
+    dispatch(updateScreenDimensions({width: window.innerWidth, height: window.innerHeight, visualVpHeight: window.visualViewport.height}));
+
   };
 
   // stores screen width when component loads
@@ -34,6 +42,8 @@ function App() {
       });
     };
   }, []);
+
+
 
   return (
     <Router>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/searchModal.css";
 
 
@@ -6,8 +6,26 @@ function SearchModal(props) {
 
 
   const [modalStyle, setModalStyle] = useState("_ojerypf");
+  const [vpHeight, setVpHeight] = useState(window.visualViewport.height);
+const [standardHeight, setStandardHeight] = useState(window.innerHeight);
 
 
+const updateScreenWidth = () => {
+setVpHeight(window.visualViewport.height)
+setStandardHeight(window.innerHeight);
+
+};
+
+useEffect(() => {
+  window.addEventListener("resize", () => {
+    updateScreenWidth();
+  });
+  return () => {
+    window.removeEventListener("resize", () => {
+      updateScreenWidth();
+    });
+  };
+}, []);
 
   const closeModal = () => {
     console.log("closeModal")
@@ -83,6 +101,8 @@ function SearchModal(props) {
                         >
                           Select a country
                         </h2>
+                        {"vpHeight: " +vpHeight}
+                        {"standardHeight: " +standardHeight}
 
 
 
