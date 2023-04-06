@@ -119,9 +119,9 @@ padding: 0px !important;
 
 ._ojerypf {
 	background: rgb(255, 255, 255) none repeat scroll 0% 0% !important;
-	position: absolute !important;
-	height: 100vh !important;
-	max-height: 100vh !important;
+	position: relative !important;
+	height: 100% !important;
+	max-height: 100% !important;
 	width: 100vw !important;
 	max-width: 100vw !important;
 	display: flex !important;
