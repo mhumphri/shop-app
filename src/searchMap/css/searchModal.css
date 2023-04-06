@@ -1,3 +1,48 @@
+.search-modal-sj7 {
+	display: flex !important;
+	flex: 0 0 auto !important;
+	align-items: center !important;
+	justify-content: center;
+	width: 100%;
+	min-height: 64px;
+}
+
+.search-modal-we5 {
+  color: rgb(34, 34, 34) !important;
+font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif !important;
+font-weight: 800 !important;
+font-size: 26px !important;
+line-height: 30px !important;
+margin-bottom: 32px !important;
+color: inherit !important;
+
+margin: 0px !important;
+padding: 0px !important;
+}
+
+.search-modal-po4 {
+  padding: 24px;
+}
+
+.search-modal-f1w {
+  margin-top: 24px;
+}
+
+.search-modal-bz3 {
+
+  flex: 1 1 auto !important;
+	overflow-y: auto !important;
+}
+
+.search-modal-r1n {
+	overflow: auto;
+	z-index: 10;
+  background-color: #FFFFFF;
+  left: 0;
+  right: 0;
+  display: revert;
+}
+
 ._j292vx {
 	z-index: 2000 !important;
 	position: fixed !important;
@@ -281,4 +326,36 @@
 	padding-right: 8px !important;
 	height: 100% !important;
 	text-overflow: ellipsis !important;
+}
+
+.r1ngvkcf[class][class] {
+	display: none;
+	position: absolute;
+	overflow: auto;
+	z-index: 10;
+}
+
+.r1xnlzsc[class][class] {
+	display: revert;
+}
+
+.dir.r1ngvkcf[class][class] {
+	margin-top: 16px;
+	background-color: #FFFFFF;
+	left: 0;
+	right: 0;
+}
+
+._bi8puq {
+	-moz-box-pack: center !important;
+	-moz-box-align: center !important;
+	font-size: 17px !important;
+	background-color: rgb(235, 235, 235) !important;
+	border-radius: 12px !important;
+	min-width: 48px !important;
+	height: 48px !important;
+	margin-right: 16px !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
 }
