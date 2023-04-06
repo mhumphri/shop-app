@@ -150,9 +150,9 @@ useEffect(() => {
                             spellcheck="false"
                             name="query"
                             theme="[object Object]"
-                            value={props.localLocation}
-                            onChange={(e) =>
-                              props.setLocalLocation(e.target.value)
+                            value={props.countryInput}
+                            onChange={
+                              props.onChangeHandler
                             }
                           />
                         </label>
@@ -186,6 +186,7 @@ useEffect(() => {
                         data-index="0"
                         data-testid="option-0"
                         class="_uzocf2"
+                        onClick={() => props.selectCountry(x)}
                       >
                       <div class="_bi8puq">
                         <svg

@@ -295,7 +295,7 @@ else {
                               <div class="p1uhuw2g_v2 fw09vnz_v2 dir dir-ltr">
                                 <div class="i1hupcay_v2 dir dir-ltr">
                                   <span class="c120lmsc_v2 dir dir-ltr">
-                            Where to?
+                            {countryInputStored ? countryInputStored : "Where to?" }
                                   </span>
                                 </div>
                               </div>
@@ -347,7 +347,7 @@ else {
       </div>
     </div>
   </div>
-  {activeSearch ? <SearchModal closeModal={()=>setActiveSearch(false)} activeCountryArray={activeCountryArray} /> : null }
+  {activeSearch ? <SearchModal closeModal={()=>setActiveSearch(false)} activeCountryArray={activeCountryArray} onChangeHandler={onChangeHandler} selectCountry={selectCountry} countryInput={countryInput} /> : null }
     </>
   )
 }
