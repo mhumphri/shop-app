@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../css/searchModal.css";
+
 
 
 function SearchModal(props) {
@@ -123,7 +123,7 @@ function SearchModal(props) {
                             data-testid="search_query_input"
                             autocomplete="off"
                             id="/homes-1-input"
-                            placeholder="Search countries"
+                            placeholder="Search countriesXX"
                             aria-autocomplete="none"
                             autocorrect="off"
 
