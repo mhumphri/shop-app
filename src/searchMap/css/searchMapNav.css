@@ -4,7 +4,8 @@
 
 .h1vnkd0i[class][class] {
 	position: -webkit-sticky;
-	position: sticky;
+	position: fixed;
+	background-color: #FFFFFF;
 	/* mic adj - top: 0; */
 	width: 100%;
 	z-index: 10;

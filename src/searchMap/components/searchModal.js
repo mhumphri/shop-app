@@ -101,8 +101,7 @@ useEffect(() => {
                         >
                           Select a country
                         </h2>
-                        {"vpHeight: " +vpHeight}
-                        {"standardHeight: " +standardHeight}
+
 
 
 

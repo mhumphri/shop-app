@@ -1,0 +1,31 @@
+
+
+.results-list-yt6 {
+	position: sticky;
+	top: var(--navigation-bar-offset,80px);
+	z-index: 1;
+  background-color: #FFFFFF;
+  padding-inline-start: 24px;
+padding-inline-end: 24px;
+height: 60px;
+display: flex;
+align-items: center;
+font-size: 16px;
+font-weight: 600;
+color: black;
+}
+
+.results-list-lq1 {
+
+margin-top: 85px;
+margin-bottom: 32px;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 15px;
+min-height: 100vh
+}
+
+.results-list-na8 {
+	margin-left: 24px;
+margin-right: 24px;
+}

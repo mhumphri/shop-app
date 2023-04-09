@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import LargeMap from "./largeMap";
+import ResultsList from "./resultsList";
 import SearchMapNav from "./searchMapNav";
 import "../css/searchMap.css";
 
@@ -103,7 +104,9 @@ else {
     </div>
   </div>
 
-  <div className={searchListStyle}>list</div>
+  <div className={searchListStyle}>
+    <ResultsList />
+  </div>
   <div className={mapStyle}>
 <LargeMap expandMapView={expandMapView} toggleMapView={toggleMapView} />
   </div>

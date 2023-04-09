@@ -12,9 +12,26 @@ function PortfoiloList() {
     <div className="portfoliolist-yu1">
       <div className="portfoliolist-ap7">
         <div className="portfoliolist-pp6">
+            <PortfolioItem name="range slider" image={rangeSliderImg} href="/range-slider" modal="rangeSlider" />
+            <SwipeableGallery image={itemArray[1].image}  />
+            <PortfolioItem name="search map" image={rangeSliderImg} href="/search-map" modal="searchMap" />
+            <PortfolioItem name="range slider" image={rangeSliderImg} href="/range-slider" modal="rangeSlider" />
+            <SwipeableGallery image={itemArray[1].image}  />
+            <PortfolioItem name="search map" image={rangeSliderImg} href="/search-map" modal="searchMap" />
+            <PortfolioItem name="range slider" image={rangeSliderImg} href="/range-slider" modal="rangeSlider" />
+            <SwipeableGallery image={itemArray[1].image}  />
+            <PortfolioItem name="search map" image={rangeSliderImg} href="/search-map" modal="searchMap" />
 
             <PortfolioItem name="range slider" image={rangeSliderImg} href="/range-slider" modal="rangeSlider" />
-
+            <SwipeableGallery image={itemArray[1].image}  />
+            <PortfolioItem name="search map" image={rangeSliderImg} href="/search-map" modal="searchMap" />
+            <PortfolioItem name="range slider" image={rangeSliderImg} href="/range-slider" modal="rangeSlider" />
+            <SwipeableGallery image={itemArray[1].image}  />
+            <PortfolioItem name="search map" image={rangeSliderImg} href="/search-map" modal="searchMap" />
+            <PortfolioItem name="range slider" image={rangeSliderImg} href="/range-slider" modal="rangeSlider" />
+            <SwipeableGallery image={itemArray[1].image}  />
+            <PortfolioItem name="search map" image={rangeSliderImg} href="/search-map" modal="searchMap" />
+            <PortfolioItem name="range slider" image={rangeSliderImg} href="/range-slider" modal="rangeSlider" />
             <SwipeableGallery image={itemArray[1].image}  />
             <PortfolioItem name="search map" image={rangeSliderImg} href="/search-map" modal="searchMap" />
         </div>

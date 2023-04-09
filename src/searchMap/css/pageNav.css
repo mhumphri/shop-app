@@ -1,0 +1,28 @@
+.page-nav-nz3 {
+	margin: 32px 0;
+	align-items: center;
+display: flex;
+flex-direction: column;
+}
+
+.page-nav-nw4 {
+	display: flex;
+}
+
+.page-nav-zh2 {
+	all: unset;
+	margin: 0px 16px 0px 0px;
+	display: flex !important;
+align-items: center !important;
+justify-content: center !important;
+cursor: pointer;
+}
+
+.page-nav-pt3 {
+	all: unset;
+	margin: 0px 0px 0px 16px;
+	display: flex !important;
+align-items: center !important;
+justify-content: center !important;
+cursor: pointer;
+}
