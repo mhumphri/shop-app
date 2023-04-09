@@ -10,27 +10,27 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
 .search-map-cy5 {
 
   display: flex;
---search-list-width: 55%;
+--search-list-width: 58%;
 --navigation-bar-offset: 85px;
 }
 
 @media (min-width: 768px) {
   .search-map-cy5 {
 
---search-list-width: 63%;
+--search-list-width: 58%;
 --navigation-bar-offset: 85px;
   }
 }
 
-@media (min-width: 1240px) {
+@media (min-width: 1180px) {
   .search-map-cy5 {
---search-list-width: 63%;
+--search-list-width: 50%;
   }
 }
 
 @media (min-width: 1880px) {
   .search-map-cy5 {
---search-list-width: 1184px;
+--search-list-width: 50%;
   }
 }
 

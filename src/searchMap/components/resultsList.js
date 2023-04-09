@@ -7,19 +7,7 @@ import "../css/resultsList.css";
 
 function ResultsList(props) {
 
-  const [paginationRender, setPaginationRender] = useState(1);
-  const [nextChevron, setNextChevron] = useState(true);
-  const [prevChevron, setPrevChevron] = useState();
 
-  /* handles click of next chevron */
-  const nextPage = () => {
-    // dispatch(updateActivePage(activePage + 1));
-  };
-
-  /* handles click of prev chevron */
-  const prevPage = () => {
-  //  dispatch(updateActivePage(activePage - 1));
-  };
 
 return (
   <>
