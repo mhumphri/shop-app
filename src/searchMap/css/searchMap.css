@@ -3,15 +3,30 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
 	cursor: pointer;
 }
 
+/*
 body {
 	overscroll-behavior-y: none;
 }
+*/
 
+/*
 html,
 body {
     position: relative;
     height: 100%;
 }
+
+
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+
+}
+*/
+
+
+
 
 
 :root {
@@ -20,6 +35,15 @@ body {
 
 .search-map-nr6 {
 	--search-list-width: 58%;
+/*
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow: auto;
+*/
+
 }
 
 .search-map-cy5 {

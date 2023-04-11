@@ -4,6 +4,9 @@ import LargeMap from "./largeMap";
 import ResultsList from "./resultsList";
 import SearchMapNav from "./searchMapNav";
 import SearchMapFooter from "./searchMapFooter";
+import shuffleArray from "../functions/shuffleArray";
+import getActivePolygons from "../functions/getActivePolygons";
+import { hotelData } from "../data/hotelData";
 import "../css/searchMap.css";
 
 //
@@ -17,6 +20,12 @@ function SearchMap(props) {
   // boolean indicating if expanded map view is on
   const [expandMapView, setExpandMapView] = useState();
 
+  // bounds of the currently visible map
+  const [mapBounds, setMapBounds] = useState();
+
+
+
+
   // boolean controlling visibility of map button (if page scrolled right down beyond limit of listcontainer, the button is not rendered)
   const [mapButtonActive, setMapButtonActive] = useState();
 
@@ -26,6 +35,44 @@ function SearchMap(props) {
   const listContainerRef = useRef(null);
 
 
+  // randomly selects a given number of rooms from roomData array
+  function randomSelectHotels(number) {
+    let newHotelArray = [...hotelData];
+    let i = newHotelArray.length;
+    while (i > number) {
+      const random = Math.floor(Math.random() * newHotelArray.length);
+      newHotelArray.splice(random, 1);
+      i--;
+    }
+    shuffleArray(newHotelArray);
+    return newHotelArray;
+  }
+
+  // this sets data for rooms returned  after search and also generates coordinates for map markers taking accoutn of map bounds, map margins, land polygons, location choice, screen configuration (i.e. is drawer up or down)
+  const generateHotelArray = () => {
+    // random select 18 rooms
+    let newRoomArray = randomSelectHotels(18);
+    let finalRoomArray = [];
+
+    finalRoomArray = newRoomArray
+
+    let activePolygons;
+
+      if (mapBounds) {
+
+        activePolygons = getActivePolygons(mapBounds);
+        console.log("activePolygons: " + activePolygons)
+      }
+
+
+
+
+
+    return finalRoomArray;
+  };
+
+  // boolean controlling visibility of map button (if page scrolled right down beyond limit of listcontainer, the button is not rendered)
+  const [hotelArray, setHotelArray] = useState(generateHotelArray());
 
 
   useEffect(() => {
@@ -157,7 +204,7 @@ else {
     <ResultsList listContainerRef={listContainerRef} />
   </div>
   <div className={mapStyle}>
-<LargeMap expandMapView={expandMapView} toggleMapView={toggleMapView} />
+<LargeMap expandMapView={expandMapView} toggleMapView={toggleMapView} setMapBounds={setMapBounds} />
   </div>
 </main>
 {/* largeView ? <SearchMapFooter /> : null */}

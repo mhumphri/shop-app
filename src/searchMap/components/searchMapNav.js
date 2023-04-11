@@ -82,9 +82,6 @@ const searchbarRef = useRef(null);
       if (inputLowerCase===countryNameFragment) {
         activeCountries.push(fullCountryArray[i])
       }
-      if (activeCountries.length>50) {
-        break;
-      }
     }
     return activeCountries
   }

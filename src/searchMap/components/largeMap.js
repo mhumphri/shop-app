@@ -84,6 +84,7 @@ function LargeMap(props) {
           mapMarginPx: 50,
         }
       )
+      props.setMapBounds(map.getBounds())
     });
 
     /* event listener for mousedown uses a geter/setter to change drawerdown state */
@@ -191,7 +192,7 @@ function LargeMap(props) {
                 position: "relative",
                 overflow: "hidden",
               }}
-            ></div> 
+            ></div>
             </div>
 
           </div>
