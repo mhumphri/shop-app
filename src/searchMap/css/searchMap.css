@@ -7,6 +7,12 @@ body {
 	overscroll-behavior-y: none;
 }
 
+html,
+body {
+    position: relative;
+    height: 100%;
+}
+
 
 :root {
 
