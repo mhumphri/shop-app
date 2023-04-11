@@ -13,7 +13,7 @@ return (
   <>
   <div className="results-list-yt6">268 hotels</div>
   <div className="results-list-na8">
-  <div className="results-list-lq1">
+  <div ref={props.listContainerRef} className="results-list-lq1">
 {[1,2,3,4,5,6,7,8,9].map((x) => (
 <IndListItem />
 ))}
