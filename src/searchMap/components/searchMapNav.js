@@ -24,15 +24,17 @@ function SearchMapNav(props) {
 
 const searchbarRef = useRef(null);
 
+
   useEffect(() => {
-    const featuresArray = countryPolygons.features
-    let countryArray = []
-    for (let i=0; i<featuresArray.length; i++) {
-      countryArray.push(featuresArray[i].properties.NAME)
+    if (activeSearch && !largeView) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
     }
-    countryArray.sort()
-    setFullCountryArray(countryArray)
-  }, []);
+  }, [activeSearch, largeView]);
+
+
+
 
   useEffect(() => {
 
@@ -87,12 +89,25 @@ const searchbarRef = useRef(null);
     return activeCountries
   }
 
-  const [activeCountryArray, setActiveCountryArray] = React.useState(calcActiveCountryArray());
+  const [activeCountryArray, setActiveCountryArray] = React.useState();
 
 
   useEffect(() => {
     setActiveCountryArray(calcActiveCountryArray())
   }, [countryInput]);
+
+  useEffect(() => {
+    const featuresArray = countryPolygons.features
+    let countryArray = []
+    for (let i=0; i<featuresArray.length; i++) {
+      countryArray.push(featuresArray[i].properties.NAME)
+    }
+    countryArray.sort()
+    setFullCountryArray(countryArray)
+    // sets dropdown country list to all countries on load
+    setActiveCountryArray(countryArray)
+  }, []);
+
 
 
 if (largeView) {
@@ -102,7 +117,7 @@ if (largeView) {
     <div class="h1vnkd0i dir dir-ltr">
       <div class="c1yo0219 dir dir-ltr">
         <div>
-          <div>
+          <div className="search-map-nav-oe9">
 
 
             <div class="c1kn6kxw dir dir-ltr">
@@ -173,14 +188,18 @@ if (largeView) {
 
 {/* <div class={props.largeNav === "location" ? "_xhcgu32" : "_yu5dnq"}> */}
                 {activeSearch ?    <div class="_xhcgu32">
+
                       <div
                         class="c1nifi44 l16t0m55 dir dir-ltr"
                         data-testid="structured-search-input-field-query-panel"
                       >
+                      <div className="search-map-nav-ue3">
+
                         <section>
                           <div class=" dir dir-ltr">
-
+<div className="search-map-nav-wp0">
       <div class="k3s7ijn dir dir-ltr" role="listbox" aria-label="Search suggestions" id="bigsearch-query-location-listbox" tabindex="-1">
+
         <div class="kyy9mvs dir dir-ltr">
 
 {activeCountryArray.length > 0 ? activeCountryArray.map((x) => (
@@ -216,9 +235,12 @@ if (largeView) {
 
         </div>
       </div>
+
+      </div>
                           </div>
                         </section>
-                      </div>
+</div>
+                    </div>
                     </div> : null }
 
                   </div>

@@ -3,19 +3,27 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
 	cursor: pointer;
 }
 
+body {
+	overscroll-behavior-y: none;
+}
+
+
 :root {
 
+}
+
+.search-map-nr6 {
+	--search-list-width: 58%;
 }
 
 .search-map-cy5 {
 
   display: flex;
---search-list-width: 58%;
---navigation-bar-offset: 85px;
+
 }
 
 @media (min-width: 768px) {
-  .search-map-cy5 {
+  .search-map-nr6 {
 
 --search-list-width: 58%;
 --navigation-bar-offset: 85px;
@@ -23,13 +31,13 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
 }
 
 @media (min-width: 1180px) {
-  .search-map-cy5 {
+  .search-map-nr6 {
 --search-list-width: 50%;
   }
 }
 
 @media (min-width: 1880px) {
-  .search-map-cy5 {
+  .search-map-nr6 {
 --search-list-width: 50%;
   }
 }

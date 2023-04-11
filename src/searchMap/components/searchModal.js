@@ -9,7 +9,6 @@ function SearchModal(props) {
   const [vpHeight, setVpHeight] = useState(window.visualViewport.height);
 const [standardHeight, setStandardHeight] = useState(window.innerHeight);
 
-
 const updateScreenWidth = () => {
 setVpHeight(window.visualViewport.height)
 setStandardHeight(window.innerHeight);
