@@ -20,7 +20,7 @@ function SearchMapNav(props) {
   const [fullCountryArray, setFullCountryArray] = React.useState([]);
 
     const [countryInput, setCountryInput] = React.useState("");
-    const [countryInputStored, setCountryInputStored] = React.useState("");
+
 
 const searchbarRef = useRef(null);
 
@@ -39,10 +39,11 @@ const searchbarRef = useRef(null);
   useEffect(() => {
 
     const handleClickOutside = (event) => {
+      console.log("HANDLECLICKOUTSDIE")
         if (searchbarRef.current && !searchbarRef.current.contains(event.target)) {
             setActiveSearch(false);
-            if (countryInput!==countryInputStored) {
-              setCountryInput(countryInputStored)
+            if (countryInput!==props.searchLocation) {
+              setCountryInput(props.searchLocation)
             }
         }
     };
@@ -55,7 +56,7 @@ const searchbarRef = useRef(null);
 
   const selectCountry = (newCountry) => {
     setCountryInput(newCountry)
-    setCountryInputStored(newCountry)
+    props.updateSearchLocation(newCountry)
     setActiveSearch(false)
 
   }
@@ -314,7 +315,7 @@ else {
                               <div class="p1uhuw2g_v2 fw09vnz_v2 dir dir-ltr">
                                 <div class="i1hupcay_v2 dir dir-ltr">
                                   <span class="c120lmsc_v2 dir dir-ltr">
-                            {countryInputStored ? countryInputStored : "Where to?" }
+                            {props.searchLocation ? props.searchLocation : "Where to?" }
                                   </span>
                                 </div>
                               </div>

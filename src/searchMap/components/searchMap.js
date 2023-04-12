@@ -23,7 +23,12 @@ function SearchMap(props) {
   // bounds of the currently visible map
   const [mapBounds, setMapBounds] = useState();
 
+  // current stored search location (either country name or "map area")
+  const [searchLocation, setSearchLocation] = useState("");
 
+const updateSearchLocation = (newLocation) => {
+  setSearchLocation(newLocation)
+}
 
 
   // boolean controlling visibility of map button (if page scrolled right down beyond limit of listcontainer, the button is not rendered)
@@ -140,7 +145,7 @@ else {
 
   return (
 <div className="search-map-nr6">
-<SearchMapNav />
+<SearchMapNav searchLocation={searchLocation} updateSearchLocation={updateSearchLocation} />
 <main className="search-map-cy5">
 
   <div class="_1hytef3">
@@ -204,7 +209,7 @@ else {
     <ResultsList listContainerRef={listContainerRef} />
   </div>
   <div className={mapStyle}>
-<LargeMap expandMapView={expandMapView} toggleMapView={toggleMapView} setMapBounds={setMapBounds} />
+<LargeMap expandMapView={expandMapView} toggleMapView={toggleMapView} setMapBounds={setMapBounds} searchLocation={searchLocation} />
   </div>
 </main>
 {/* largeView ? <SearchMapFooter /> : null */}

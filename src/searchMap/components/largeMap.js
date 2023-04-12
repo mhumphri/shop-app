@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import getCountryPolygons from "../functions/getCountryPolygons";
+import bbox from "@turf/bbox";
 import "../css/searchMap.css";
 
 //
@@ -52,6 +54,28 @@ function LargeMap(props) {
   };
   let mapZoom = 5
 
+  useEffect(() => {
+  if (props.searchLocation) {
+  console.log("LOCATION UPDATE")
+  let countryBbox;
+  let countryPolygons = getCountryPolygons(props.searchLocation);
+  countryBbox = bbox(countryPolygons);
+
+  var countryBounds = new window.google.maps.LatLngBounds();
+  var bound1 = new window.google.maps.LatLng(
+    countryBbox[1],
+    countryBbox[0]
+  );
+  var bound2 = new window.google.maps.LatLng(
+    countryBbox[3],
+    countryBbox[2]
+  );
+  countryBounds.extend(bound1);
+  countryBounds.extend(bound2);
+  map.fitBounds(countryBounds);
+  }
+  }, [props.searchLocation]);
+
 
   /* creates new google map object */
   const renderMap = () => {
@@ -75,7 +99,7 @@ function LargeMap(props) {
     });
     // updates stored map bounds, center, zoom etc when map bounds change
     window.google.maps.event.addListener(map, "idle", function () {
-      setMapDimensions(
+      /* setMapDimensions(
         {
           mapBounds: map.getBounds(),
           mapCenter: map.getCenter(),
@@ -84,14 +108,16 @@ function LargeMap(props) {
           mapMarginPx: 50,
         }
       )
-      props.setMapBounds(map.getBounds())
+      props.setMapBounds(map.getBounds()) */
     });
 
     /* event listener for mousedown uses a geter/setter to change drawerdown state */
     map.addListener("click", (event) => {
+
       activeLargeMarker.marker.map = null;
       // getter/setter trigrers  of state (turning off) / style for active marker - can't be done inside event listener as can't access state here
       mapClickListener.current=true
+
 
     });
   };
