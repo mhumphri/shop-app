@@ -211,3 +211,32 @@ const setRoomArray = (currentState) => {
 
   return finalRoomArray;
 };
+
+////////////
+
+
+// updates markers using latest roomData array
+const updateMarkers = () => {
+setPrevPillMarker(false)
+setCurrentPillMarker(false)
+if (markersLoaded) {
+  markersLoaded = false
+deleteMarkers()
+}
+
+  for (let i = 0; i < roomData.length; i++) {
+    addPillMarker(roomData[i]);
+  }
+
+
+// timeout used to account for timeout delay in addPillMarker()
+  setTimeout(() => {
+ console.log("MARKERS LOADED");
+ markersLoading=false
+ markersLoaded = true;
+ if (firstRender) {
+ setFirstRender(false)
+ dispatch(updateNavigateAway(false))
+}
+  }, 1100);
+};

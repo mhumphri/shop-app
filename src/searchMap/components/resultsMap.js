@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import getCountryPolygons from "../functions/getCountryPolygons";
+import randomNumber from "../functions/randomNumber";
 import bbox from "@turf/bbox";
-import "../css/searchMap.css";
+import "../css/resultsMap.css";
 
 //
 
@@ -39,7 +40,7 @@ const mapClickListener = {
   },
 };
 
-function LargeMap(props) {
+function ResultsMap(props) {
 
 //ref for map container - used to calculate size of div
   const mapContainer = useRef(null);
@@ -53,6 +54,102 @@ function LargeMap(props) {
     lng: 0,
   };
   let mapZoom = 5
+
+  useEffect(() => {
+    if (props.hotelArray) {
+      console.log("HOTEL ARRAY UPDATE")
+      updateMarkers()
+    }
+
+
+
+}, [props.hotelArray]);
+
+// deletes current markers
+const deleteMarkers = () => {
+  for (let i = 0; i < markers.length; i++) {
+     markers[i].marker.map = null;
+  }
+  markers=[]
+  if (activeLargeMarker) {
+  activeLargeMarker.marker.map = null;
+  activeLargeMarker = false;
+}
+}
+
+// updates markers using latest roomData array
+const updateMarkers = () => {
+console.log("updateMarkers")
+/*
+if (markersLoaded) {
+  markersLoaded = false
+ deleteMarkers()
+}
+*/
+
+deleteMarkers()
+
+  for (let i = 0; i < props.hotelArray.length; i++) {
+    addPillMarker(props.hotelArray[i]);
+  }
+};
+
+// creates a pill marker (there is one for every property in roomArray)
+const addPillMarker = (markerData) => {
+  console.log("addPillMarker")
+
+  // random delay & timeout creates impression of loading from server
+    let randomDelay = randomNumber(200, 1000);
+
+    setTimeout(() => {
+
+      function pillMarkerContent(markerData) {
+        console.log("pillMarkerContent")
+
+        const content = document.createElement("div");
+
+        content.innerHTML = `
+        <div style="transform: translate(calc(-50% + 0px), calc(50% + 0px)); transition: transform 0.2s ease 0s; left: 50%; position: absolute; bottom: 0px; z-index: 0; pointer-events: auto; font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;">
+          <button
+            class="czgw0k9 dir dir-ltr"
+            style="color: inherit; border: medium none; margin: 0px; padding: 0px; background: transparent; width: auto; overflow: visible; font: inherit;"
+            data-veloute="map/markers/BasePillMarker"
+          >
+            <div
+              class=" dir dir-ltr"
+              style="--content-mini-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18), 0px 0px 0px 1px rgba(0, 0, 0, 0.08); align-items: center; cursor: pointer; display: flex; height: 28px; position: relative; transform: scale(1); transform-origin: 50% 50% 0px; transition: transform 150ms ease 0s;"
+            >
+              <div class="${markerData.key}" style="background-color: #FFFFFF; border-radius: 28px; box-shadow: rgba(255, 255, 255, 0.18) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.18) 0px 2px 4px; color: #222222; height: 28px; padding: 0px 8px; position: relative; transform: scale(1); transform-origin: 50% 50% 0px; transition: transform 300ms cubic-bezier(0, 0, 0.1, 1) 0s;">
+                <div style="align-items: center; display: flex; height: 100%; justify-content: center; opacity: 1; transition: opacity 300ms cubic-bezier(0, 0, 0.1, 1) 0s; white-space: nowrap;">
+                  <span
+                    class="t5u4927 dir dir-ltr"
+                    aria-label="Map marker of the listing: £695, "
+                  >
+                    £124
+                  </span>
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        `;
+
+        return content;
+      }
+
+      /* creates marker object */
+      const newMarker = new window.google.maps.marker.AdvancedMarkerView({
+        map,
+        content: pillMarkerContent(markerData),
+        position: markerData.coords,
+      });
+
+      markers.push({marker: newMarker, markerData: markerData});
+
+    }, randomDelay);
+  }
+
+
 
   useEffect(() => {
   if (props.searchLocation) {
@@ -99,6 +196,10 @@ function LargeMap(props) {
     });
     // updates stored map bounds, center, zoom etc when map bounds change
     window.google.maps.event.addListener(map, "idle", function () {
+      props.setMapParameters({bounds: map.getBounds(),
+        center: map.getCenter(),
+        zoom: map.getZoom(),
+        box: mapContainer.current.getBoundingClientRect()})
       /* setMapDimensions(
         {
           mapBounds: map.getBounds(),
@@ -109,6 +210,7 @@ function LargeMap(props) {
         }
       )
       props.setMapBounds(map.getBounds()) */
+
     });
 
     /* event listener for mousedown uses a geter/setter to change drawerdown state */
@@ -234,4 +336,4 @@ function LargeMap(props) {
 
 }
 
-export default LargeMap;
+export default ResultsMap;

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import LargeMap from "./largeMap";
+import ResultsMap from "./resultsMap";
 import ResultsList from "./resultsList";
 import SearchMapNav from "./searchMapNav";
 import SearchMapFooter from "./searchMapFooter";
 import shuffleArray from "../functions/shuffleArray";
 import getActivePolygons from "../functions/getActivePolygons";
+import getRandomCoords from "../functions/getRandomCoords";
 import { hotelData } from "../data/hotelData";
 import "../css/searchMap.css";
 
@@ -23,12 +24,45 @@ function SearchMap(props) {
   // bounds of the currently visible map
   const [mapBounds, setMapBounds] = useState();
 
+  // bounds of the currently visible map
+  const [mapParameters, setMapParameters] = useState();
+
+  // bounds of the currently visible map
+  const [mapState, setMapState] = useState();
+
   // current stored search location (either country name or "map area")
   const [searchLocation, setSearchLocation] = useState("");
+
+  // bounds of the currently visible map
+  const [hotelArray, setHotelArray] = useState([]);
 
 const updateSearchLocation = (newLocation) => {
   setSearchLocation(newLocation)
 }
+
+useEffect(() => {
+console.log("MAP PARAMS UPDATE")
+
+if (mapParameters) {
+
+if (!mapState) {
+  setHotelArray(generateHotelArray())
+}
+
+else {
+const newMapState = {
+  bounds: mapParameters.bounds,
+  center: mapParameters.center,
+  zoom: mapParameters.zoom,
+  box: mapParameters.box,
+}
+setMapState(newMapState)
+}
+}
+
+}, [mapParameters]);
+
+
 
 
   // boolean controlling visibility of map button (if page scrolled right down beyond limit of listcontainer, the button is not rendered)
@@ -55,29 +89,44 @@ const updateSearchLocation = (newLocation) => {
 
   // this sets data for rooms returned  after search and also generates coordinates for map markers taking accoutn of map bounds, map margins, land polygons, location choice, screen configuration (i.e. is drawer up or down)
   const generateHotelArray = () => {
+    console.log("generateHotelArray")
     // random select 18 rooms
-    let newRoomArray = randomSelectHotels(18);
+   let newRoomArray = randomSelectHotels(18);
     let finalRoomArray = [];
 
     finalRoomArray = newRoomArray
 
     let activePolygons;
 
-      if (mapBounds) {
 
-        activePolygons = getActivePolygons(mapBounds);
+
+        activePolygons = getActivePolygons(mapParameters.bounds);
         console.log("activePolygons: " + activePolygons)
-      }
+        if (activePolygons.length > 0) {
+          console.log("SOME ACTIVE POLYGONS")
+          let coordsArray = [];
+          for (let i = 0; i < newRoomArray.length; i++) {
+            console.log("newRoomArray: " + i)
+            const newCoords = getRandomCoords(
+              mapParameters.bounds,
+              mapParameters.box,
+              50,
+              activePolygons
+            );
+            newRoomArray[i].coords = newCoords
 
 
-
-
+          }
+          finalRoomArray = newRoomArray;
+        } else {
+          finalRoomArray = [];
+          console.log("NO ACTIVE POLYGONS")
+        }
 
     return finalRoomArray;
   };
 
-  // boolean controlling visibility of map button (if page scrolled right down beyond limit of listcontainer, the button is not rendered)
-  const [hotelArray, setHotelArray] = useState(generateHotelArray());
+
 
 
   useEffect(() => {
@@ -209,7 +258,7 @@ else {
     <ResultsList listContainerRef={listContainerRef} />
   </div>
   <div className={mapStyle}>
-<LargeMap expandMapView={expandMapView} toggleMapView={toggleMapView} setMapBounds={setMapBounds} searchLocation={searchLocation} />
+<ResultsMap expandMapView={expandMapView} toggleMapView={toggleMapView} setMapBounds={setMapBounds} searchLocation={searchLocation} setMapParameters={setMapParameters} hotelArray={hotelArray} />
   </div>
 </main>
 {/* largeView ? <SearchMapFooter /> : null */}
