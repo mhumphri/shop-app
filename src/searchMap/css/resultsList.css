@@ -17,6 +17,12 @@ font-weight: 600;
 color: black;
 }
 
+.results-list-kb8 {
+	background-color: #DDDDDD;
+	color: #DDDDDD;
+	border-radius: 6px;
+}
+
 .results-list-lq1 {
 margin-top: 0px;
 margin-bottom: 32px;

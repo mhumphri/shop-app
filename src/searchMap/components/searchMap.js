@@ -53,6 +53,11 @@ function SearchMap(props) {
   // total number of hotels returned by a search
   const [numberHotels, setNumberHotels] = useState(true);
 
+  // total number of hotels returned by a search
+  const [dataLoading, setDataLoading] = useState();
+
+
+
 
 
   /* listens for screen re-size and updates screen width variable */
@@ -75,6 +80,15 @@ const updateSearchLocation = (newLocation) => {
 
 useEffect(() => {
 
+  const triggerDataLoading = () => {
+    setDataLoading(true)
+      setTimeout(() => {
+        setDataLoading(false)
+      }, "1300");
+  }
+
+
+
 
 // FIRST STEP - GENERATE TOTAL NUMBER OF HOTELS!!!
 
@@ -86,7 +100,7 @@ const getHotelNumber = (activePolygons) => {
 
 
 if (searchLocationUpdate) {
-
+triggerDataLoading()
   console.log("location update: " + searchLocation)
 const activePolygons = [getCountryPolygons(searchLocation)];
 setHotelArray(generateHotelArray(18, activePolygons, true))
@@ -104,6 +118,7 @@ const msSinceResize = Date.now() - resize
 
 if (mapParameters &&  msSinceResize>1000) {
 
+triggerDataLoading()
 
 const activePolygons = getActivePolygons(mapParameters.bounds);
 const landArea = calcLandArea(activePolygons)
@@ -409,10 +424,10 @@ else {
   </div>
 
   <div className={searchListStyle}>
-    <ResultsList listContainerRef={listContainerRef} numberHotels={numberHotels} />
+    <ResultsList listContainerRef={listContainerRef} numberHotels={numberHotels} dataLoading={dataLoading} />
   </div>
   <div className={mapStyle}>
-<ResultsMap expandMapView={expandMapView} toggleMapView={toggleMapView} setMapBounds={setMapBounds} searchLocation={searchLocation} setMapParameters={setMapParameters} hotelArray={hotelArray} />
+<ResultsMap expandMapView={expandMapView} toggleMapView={toggleMapView} setMapBounds={setMapBounds} searchLocation={searchLocation} setMapParameters={setMapParameters} hotelArray={hotelArray} dataLoading={dataLoading} />
   </div>
 </main>
 {/* largeView ? <SearchMapFooter /> : null */}

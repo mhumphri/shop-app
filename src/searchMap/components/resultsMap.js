@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import getCountryPolygons from "../functions/getCountryPolygons";
 import randomNumber from "../functions/randomNumber";
 import bbox from "@turf/bbox";
+import Loader from "./loader";
 import "../css/resultsMap.css";
 
 //
@@ -56,25 +57,39 @@ function ResultsMap(props) {
   let mapZoom = 5
 
   useEffect(() => {
-    if (props.hotelArray) {
+    if (!props.dataLoading) {
       console.log("HOTEL ARRAY UPDATE")
       updateMarkers()
     }
 
 
 
-}, [props.hotelArray]);
+}, [props.dataLoading]);
 
 // deletes current markers
-const deleteMarkers = () => {
+const deleteMarkers = (keysObject) => {
+  /*
   for (let i = 0; i < markers.length; i++) {
+    if (!keysObject[markers[i].markerData.key]) {
      markers[i].marker.map = null;
+   }
   }
-  markers=[]
-  if (activeLargeMarker) {
+  */
+
+  var i = markers.length
+  while (i--) {
+      if (!keysObject[markers[i].markerData.key]) {
+        markers[i].marker.map = null;
+          markers.splice(i, 1);
+      }
+  }
+
+//  markers=[]
+/*  if (activeLargeMarker) {
   activeLargeMarker.marker.map = null;
   activeLargeMarker = false;
 }
+*/
 }
 
 // updates markers using latest roomData array
@@ -87,10 +102,25 @@ if (markersLoaded) {
 }
 */
 
-deleteMarkers()
+let keysObject = {}
+for (let i=0; i<props.hotelArray.length; i++) {
+  keysObject[props.hotelArray[i].key]=true
+}
+console.log("keysObject: " + JSON.stringify(keysObject))
+
+deleteMarkers(keysObject)
+
+
+let residualKeysObject = {}
+for (let i=0; i<markers.length; i++) {
+  residualKeysObject[markers[i].markerData.key]=true
+}
 
   for (let i = 0; i < props.hotelArray.length; i++) {
+    if (!residualKeysObject[props.hotelArray[i].key]) {
     addPillMarker(props.hotelArray[i]);
+  }
+
   }
 };
 
@@ -312,6 +342,7 @@ const addPillMarker = (markerData) => {
                 </div>
               </div>
             </div>
+            {props.dataLoading ? <Loader largeView={true} /> : null}
      <div
               ref={mapContainer}
               id="map"
