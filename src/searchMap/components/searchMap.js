@@ -8,7 +8,9 @@ import shuffleArray from "../functions/shuffleArray";
 import getActivePolygons from "../functions/getActivePolygons";
 import getCountryPolygons from "../functions/getCountryPolygons";
 import getRandomCoords from "../functions/getRandomCoords";
+import calcLandArea from "../functions/calcLandArea";
 import generateKey from "../functions/generateKey";
+import randomNumber from "../functions/randomNumber";
 import { hotelData } from "../data/hotelData";
 import "../css/searchMap.css";
 
@@ -48,6 +50,9 @@ function SearchMap(props) {
   // Boolean indicating if first load of app is taking place
   const [firstLoad, setFirstLoad] = useState(true);
 
+  // total number of hotels returned by a search
+  const [numberHotels, setNumberHotels] = useState(true);
+
 
 
   /* listens for screen re-size and updates screen width variable */
@@ -73,7 +78,10 @@ useEffect(() => {
 
 // FIRST STEP - GENERATE TOTAL NUMBER OF HOTELS!!!
 
-
+const getHotelNumber = (activePolygons) => {
+  const landArea = calcLandArea(activePolygons)
+  return Math.round(landArea /10000000 * randomNumber(5,30))
+}
 
 
 
@@ -83,6 +91,8 @@ if (searchLocationUpdate) {
 const activePolygons = [getCountryPolygons(searchLocation)];
 setHotelArray(generateHotelArray(18, activePolygons, true))
 setSearchLocationUpdate(false)
+setNumberHotels(getHotelNumber(activePolygons))
+
 }
 else {
   if (!firstLoad) {
@@ -96,22 +106,61 @@ if (mapParameters &&  msSinceResize>1000) {
 
 
 const activePolygons = getActivePolygons(mapParameters.bounds);
+const landArea = calcLandArea(activePolygons)
+console.log("landArea: " + landArea)
+
+let existingHotels = 0
+
+const boundsLatLo = mapParameters.bounds.eb.lo
+const boundsLatHi = mapParameters.bounds.eb.hi
+const boundsLngLo = mapParameters.bounds.La.lo
+const boundsLngHi = mapParameters.bounds.La.hi
+
+    for (let i=0; i<hotelArray.length; i++) {
+
+      const hotelLat = hotelArray[i].coords.lat
+      const hotelLng = hotelArray[i].coords.lng
+
+        if (hotelLat>boundsLatLo && hotelLat<boundsLatHi && hotelLng>boundsLngLo && hotelLng<boundsLngHi ) {
+          existingHotels++
+        }
+    }
+
+console.log("existingHotels: " + existingHotels )
+
+
+
+const additionalHotels = getHotelNumber(activePolygons)
+console.log("additionalHotels: " + additionalHotels)
+const newNumHotels = existingHotels + additionalHotels
+console.log("newNumHotels: " + newNumHotels)
+setNumberHotels(newNumHotels)
+
+
+console.log("numberHotels: " + numberHotels)
+let hotelsInArray = 18
+if (newNumHotels<18) {
+  hotelsInArray=newNumHotels
+}
+
+console.log("hotelsInArray: " + hotelsInArray)
 
 if (activePolygons.length > 0) {
 
 if (!mapState) {
-  setHotelArray(generateHotelArray(18, activePolygons))
+  setHotelArray(generateHotelArray(hotelsInArray, activePolygons))
 }
 
 else {
 
   let refresh = false
   if (mapParameters.zoom<mapState.zoom) {
+    console.log("REFRESH")
     refresh = true
   }
   if (expandMapView=== mapState.expandMapView)
 {
-  setHotelArray(generateHotelArray(18, activePolygons, refresh))
+  setHotelArray(generateHotelArray(hotelsInArray, activePolygons, refresh))
 }
 }
 }
@@ -299,7 +348,7 @@ else {
 
   return (
 <div className="search-map-nr6">
-<SearchMapNav searchLocation={searchLocation} updateSearchLocation={updateSearchLocation} />
+<SearchMapNav searchLocation={searchLocation} updateSearchLocation={updateSearchLocation}  />
 <main className="search-map-cy5">
 
   <div class="_1hytef3">
@@ -360,7 +409,7 @@ else {
   </div>
 
   <div className={searchListStyle}>
-    <ResultsList listContainerRef={listContainerRef} />
+    <ResultsList listContainerRef={listContainerRef} numberHotels={numberHotels} />
   </div>
   <div className={mapStyle}>
 <ResultsMap expandMapView={expandMapView} toggleMapView={toggleMapView} setMapBounds={setMapBounds} searchLocation={searchLocation} setMapParameters={setMapParameters} hotelArray={hotelArray} />
