@@ -81,10 +81,13 @@ const updateSearchLocation = (newLocation) => {
 useEffect(() => {
 
   const triggerDataLoading = () => {
+
     setDataLoading(true)
       setTimeout(() => {
         setDataLoading(false)
       }, "1300");
+
+
   }
 
 
@@ -116,9 +119,9 @@ else {
 
 const msSinceResize = Date.now() - resize
 
-if (mapParameters &&  msSinceResize>1000) {
+if (mapParameters &&  msSinceResize>500) {
 
-triggerDataLoading()
+
 
 const activePolygons = getActivePolygons(mapParameters.bounds);
 const landArea = calcLandArea(activePolygons)
@@ -163,6 +166,7 @@ console.log("hotelsInArray: " + hotelsInArray)
 if (activePolygons.length > 0) {
 
 if (!mapState) {
+  triggerDataLoading()
   setHotelArray(generateHotelArray(hotelsInArray, activePolygons))
 }
 
@@ -175,11 +179,13 @@ else {
   }
   if (expandMapView=== mapState.expandMapView)
 {
+  triggerDataLoading()
   setHotelArray(generateHotelArray(hotelsInArray, activePolygons, refresh))
 }
 }
 }
 else {
+  triggerDataLoading()
   setHotelArray([])
 
 }

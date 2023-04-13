@@ -342,7 +342,7 @@ const addPillMarker = (markerData) => {
                 </div>
               </div>
             </div>
-            {props.dataLoading ? <Loader largeView={true} /> : null}
+            {props.dataLoading ? <Loader /> : null}
      <div
               ref={mapContainer}
               id="map"
