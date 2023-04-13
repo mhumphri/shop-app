@@ -33,6 +33,10 @@ const searchbarRef = useRef(null);
     }
   }, [activeSearch, largeView]);
 
+  useEffect(() => {
+    setCountryInput(props.searchLocation)
+  }, [props.searchLocation]);
+
 
 
 

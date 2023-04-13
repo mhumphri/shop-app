@@ -6,7 +6,9 @@ import SearchMapNav from "./searchMapNav";
 import SearchMapFooter from "./searchMapFooter";
 import shuffleArray from "../functions/shuffleArray";
 import getActivePolygons from "../functions/getActivePolygons";
+import getCountryPolygons from "../functions/getCountryPolygons";
 import getRandomCoords from "../functions/getRandomCoords";
+import generateKey from "../functions/generateKey";
 import { hotelData } from "../data/hotelData";
 import "../css/searchMap.css";
 
@@ -17,6 +19,7 @@ function SearchMap(props) {
   // large view (boolean indicating if app currently in large view) and screen height (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
   const screenHeight = useSelector((state) => state.deviceData.screenHeight);
+  const screenWidth = useSelector((state) => state.deviceData.screenWidth);
 
   // boolean indicating if expanded map view is on
   const [expandMapView, setExpandMapView] = useState();
@@ -24,43 +27,122 @@ function SearchMap(props) {
   // bounds of the currently visible map
   const [mapBounds, setMapBounds] = useState();
 
-  // bounds of the currently visible map
+  // params of the currently visible map
   const [mapParameters, setMapParameters] = useState();
+
 
   // bounds of the currently visible map
   const [mapState, setMapState] = useState();
 
+  // bounds of the currently visible map
+  const [resize, setResize] = useState(0);
+
   // current stored search location (either country name or "map area")
   const [searchLocation, setSearchLocation] = useState("");
+  // current stored search location (either country name or "map area")
+  const [searchLocationUpdate, setSearchLocationUpdate] = useState();
 
   // bounds of the currently visible map
   const [hotelArray, setHotelArray] = useState([]);
 
+  // Boolean indicating if first load of app is taking place
+  const [firstLoad, setFirstLoad] = useState(true);
+
+
+
+  /* listens for screen re-size and updates screen width variable */
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setResize(Date.now())
+    });
+    return () => {
+      window.removeEventListener("resize", () => {
+          console.log("resize finish")
+      });
+    };
+  }, []);
+
+
 const updateSearchLocation = (newLocation) => {
   setSearchLocation(newLocation)
+  setSearchLocationUpdate(true)
 }
 
 useEffect(() => {
-console.log("MAP PARAMS UPDATE")
 
-if (mapParameters) {
+
+// FIRST STEP - GENERATE TOTAL NUMBER OF HOTELS!!!
+
+
+
+
+
+if (searchLocationUpdate) {
+
+  console.log("location update: " + searchLocation)
+const activePolygons = [getCountryPolygons(searchLocation)];
+setHotelArray(generateHotelArray(18, activePolygons, true))
+setSearchLocationUpdate(false)
+}
+else {
+  if (!firstLoad) {
+    setSearchLocation("map area")
+  }
+
+
+const msSinceResize = Date.now() - resize
+
+if (mapParameters &&  msSinceResize>1000) {
+
+
+const activePolygons = getActivePolygons(mapParameters.bounds);
+
+if (activePolygons.length > 0) {
 
 if (!mapState) {
-  setHotelArray(generateHotelArray())
+  setHotelArray(generateHotelArray(18, activePolygons))
 }
 
 else {
+
+  let refresh = false
+  if (mapParameters.zoom<mapState.zoom) {
+    refresh = true
+  }
+  if (expandMapView=== mapState.expandMapView)
+{
+  setHotelArray(generateHotelArray(18, activePolygons, refresh))
+}
+}
+}
+else {
+  setHotelArray([])
+
+}
+
 const newMapState = {
   bounds: mapParameters.bounds,
   center: mapParameters.center,
   zoom: mapParameters.zoom,
   box: mapParameters.box,
+  expandMapView: expandMapView,
 }
 setMapState(newMapState)
+
+
+
+
+
 }
 }
 
+
+
+
 }, [mapParameters]);
+
+
+
 
 
 
@@ -88,42 +170,71 @@ setMapState(newMapState)
   }
 
   // this sets data for rooms returned  after search and also generates coordinates for map markers taking accoutn of map bounds, map margins, land polygons, location choice, screen configuration (i.e. is drawer up or down)
-  const generateHotelArray = () => {
+
+  const generateHotelArray = (numHotels, activePolygons, refresh) => {
     console.log("generateHotelArray")
-    // random select 18 rooms
-   let newRoomArray = randomSelectHotels(18);
-    let finalRoomArray = [];
+    setFirstLoad(false)
 
-    finalRoomArray = newRoomArray
+    let newHotelArray = []
 
-    let activePolygons;
+if (!refresh) {
 
+    let prevHotelArray = [...hotelArray]
 
-
-        activePolygons = getActivePolygons(mapParameters.bounds);
-        console.log("activePolygons: " + activePolygons)
-        if (activePolygons.length > 0) {
-          console.log("SOME ACTIVE POLYGONS")
-          let coordsArray = [];
-          for (let i = 0; i < newRoomArray.length; i++) {
-            console.log("newRoomArray: " + i)
-            const newCoords = getRandomCoords(
-              mapParameters.bounds,
-              mapParameters.box,
-              50,
-              activePolygons
-            );
-            newRoomArray[i].coords = newCoords
+    const boundsLatLo = mapParameters.bounds.eb.lo
+    const boundsLatHi = mapParameters.bounds.eb.hi
+    const boundsLngLo = mapParameters.bounds.La.lo
+    const boundsLngHi = mapParameters.bounds.La.hi
 
 
-          }
-          finalRoomArray = newRoomArray;
-        } else {
-          finalRoomArray = [];
-          console.log("NO ACTIVE POLYGONS")
+
+        for (let i=0; i<prevHotelArray.length; i++) {
+
+          const hotelLat = prevHotelArray[i].coords.lat
+          const hotelLng = prevHotelArray[i].coords.lng
+
+
+            if (hotelLat>boundsLatLo && hotelLat<boundsLatHi && hotelLng>boundsLngLo && hotelLng<boundsLngHi ) {
+              newHotelArray.push(prevHotelArray[i])
+            }
+
+
+
+
+
         }
 
-    return finalRoomArray;
+      }
+
+
+
+const currentArrayLength = newHotelArray.length
+
+    for (let i=currentArrayLength; i<numHotels; i++) {
+      const newHotel = {
+        key: generateKey(12),
+        coords: getRandomCoords(
+          mapParameters.bounds,
+          mapParameters.box,
+          50,
+          activePolygons
+        ),
+      }
+      newHotelArray.push(newHotel)
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    return newHotelArray;
   };
 
 
@@ -133,15 +244,11 @@ setMapState(newMapState)
 
     const handleScroll = (event) => {
 
-      console.log("scroll: " + window.scrollY)
-      console.log("listContainerPos: " + listContainerRef.current.getBoundingClientRect().bottom)
       const listContainerBottom = listContainerRef.current.getBoundingClientRect().bottom
       if (listContainerBottom < screenHeight-70) {
-        console.log("MAP OFF")
         setMapButtonActive(false)
       }
       else {
-        console.log("MAP ON")
         setMapButtonActive(true)
       }
         /* if (searchbarRef.current && !searchbarRef.current.contains(event.target)) {
@@ -159,9 +266,8 @@ setMapState(newMapState)
   });
 
 const toggleMapView = () => {
-  console.log("toggleMap")
+
   if (expandMapView) {
-    console.log("toggleMap - close map")
     setExpandMapView(false)
     if (window.innerWidth>=950) {
 
@@ -182,7 +288,6 @@ else {
 
   }
   else {
-    console.log("toggleMap - open map")
     setExpandMapView(true)
   setSearchListStyle("fmdphkf fgnm67p f1lf7snk dir dir-ltr")
   setMapStyle("m1ict9kd m1k84ca2 dir dir-ltr")

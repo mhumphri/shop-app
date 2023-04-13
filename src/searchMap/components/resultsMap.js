@@ -152,7 +152,7 @@ const addPillMarker = (markerData) => {
 
 
   useEffect(() => {
-  if (props.searchLocation) {
+  if (props.searchLocation && props.searchLocation!=="map area" ) {
   console.log("LOCATION UPDATE")
   let countryBbox;
   let countryPolygons = getCountryPolygons(props.searchLocation);
@@ -193,6 +193,7 @@ const addPillMarker = (markerData) => {
     /* sets mapLoaded variable to true when first idle event occurs (which then enables adding of markers inside the react component) */
     window.google.maps.event.addListenerOnce(map, "idle", function () {
       setMapLoaded(true);
+
     });
     // updates stored map bounds, center, zoom etc when map bounds change
     window.google.maps.event.addListener(map, "idle", function () {
