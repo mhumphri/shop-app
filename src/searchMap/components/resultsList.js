@@ -32,7 +32,7 @@ return (
 
   </div>
 
-<PageNav />
+<PageNav activePage={props.activePage} maxPages={props.maxPages} goToPage={props.goToPage} numberHotels={props.numberHotels} />
 
   </div>
 

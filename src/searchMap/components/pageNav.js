@@ -12,49 +12,35 @@ function PageNav(props) {
   // screen width (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
 
-  const [totalRooms, setTotalRooms] = useState(473);
+
   const [paginationRender, setPaginationRender] = useState(1);
   const [nextChevron, setNextChevron] = useState(true);
   const [prevChevron, setPrevChevron] = useState();
-  const [activePage, setActivePage] = useState(1);
+
 
   /* refreshes search results and scrolls to top when active page changes */
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    let maxPages = Math.ceil(totalRooms / 18);
-    if (maxPages > 15) {
-      maxPages = 15;
-    }
+    if (props.activePage >= props.maxPages) {
 
-    if (activePage >= maxPages) {
       setNextChevron(false);
     } else {
       setNextChevron(true);
     }
-    if (activePage === 1) {
+    if (props.activePage === 1) {
       setPrevChevron(false);
     } else {
       setPrevChevron(true);
     }
-  }, [activePage]);
+  }, [props.activePage, props.maxPages]);
 
-  /* handles click of next chevron */
-  const nextPage = () => {
-    // dispatch(updateActivePage(activePage + 1));
-    setActivePage(activePage + 1)
-  };
 
-  /* handles click of prev chevron */
-  const prevPage = () => {
-  //  dispatch(updateActivePage(activePage - 1));
-  setActivePage(activePage - 1)
-  };
 
   /* render for the page selector input at the bottom of the search page */
   const updatePaginationRender = () => {
     let renderArray = [];
-    let maxPages = Math.ceil(totalRooms / 18);
+    let maxPages = Math.ceil(props.numberHotels / 18);
     if (maxPages > 15) {
       maxPages = 15;
     }
@@ -64,19 +50,19 @@ function PageNav(props) {
         renderArray.push(i + 1);
       }
     } else {
-      if (activePage < 4) {
+      if (props.activePage < 4) {
         renderArray = [1, 2, 3, 4, false, maxPages];
-      } else if (activePage > 3 && activePage < maxPages - 2) {
+      } else if (props.activePage > 3 && props.activePage < maxPages - 2) {
         renderArray = [
           1,
           false,
-          activePage - 1,
-          activePage,
-          activePage + 1,
+          props.activePage - 1,
+          props.activePage,
+          props.activePage + 1,
           false,
           maxPages,
         ];
-      } else if (activePage > maxPages - 3) {
+      } else if (props.activePage > maxPages - 3) {
         renderArray = [
           1,
           false,
@@ -91,7 +77,7 @@ function PageNav(props) {
     let newPaginationRender = [];
 
     for (let i = 0; i < renderArray.length; i++) {
-      if (renderArray[i] && renderArray[i] === activePage) {
+      if (renderArray[i] && renderArray[i] === props.activePage) {
         newPaginationRender.push(
           <button
             aria-current="page"
@@ -100,16 +86,16 @@ function PageNav(props) {
             role="link"
             type="button"
             class="_u60i7ub"
-            onClick={() => setActivePage(renderArray[i])}
+            onClick={() => props.goToPage(renderArray[i])}
           >
             {renderArray[i]}
           </button>
         );
-      } else if (renderArray[i] && renderArray[i] !== activePage) {
+      } else if (renderArray[i] && renderArray[i] !== props.activePage) {
         newPaginationRender.push(
           <button
             class="_833p2h"
-            onClick={() => setActivePage(renderArray[i])}
+            onClick={() => props.goToPage(renderArray[i])}
           >
             {renderArray[i]}
           </button>
@@ -124,7 +110,7 @@ function PageNav(props) {
   /* triggers update of the render for the page selector input */
   useEffect(() => {
     updatePaginationRender();
-  }, [activePage, totalRooms]);
+  }, [props.activePage, props.numberHotels]);
 
 if (largeView) {
 
@@ -142,7 +128,7 @@ return (
     type="button"
     class="page-nav-zh2"
     disabled={prevChevron ? false : true}
-    onClick={prevPage}
+    onClick={()=>props.goToPage(props.activePage-1)}
   >
     <svg
       viewBox="0 0 32 32"
@@ -171,7 +157,7 @@ return (
     aria-label="Next"
     class="page-nav-pt3"
     disabled={nextChevron ? false : true}
-    onClick={nextPage}
+    onClick={()=>props.goToPage(props.activePage+1)}
   >
     <svg
       viewBox="0 0 32 32"
@@ -218,7 +204,7 @@ else {
         type="button"
         class="_1kjng5b"
         disabled={prevChevron ? false : true}
-        onClick={prevPage}
+        onClick={()=>props.goToPage(props.activePage-1)}
       >
         <span class="_3hmsj">
           <svg
@@ -250,7 +236,7 @@ else {
         aria-label="Next page"
         class="_1kjng5b"
         disabled={nextChevron ? false : true}
-        onClick={nextPage}
+        onClick={()=>props.goToPage(props.activePage+1)}
       >
         <span class="_3hmsj">
           <svg
@@ -276,7 +262,7 @@ else {
         </span>
       </button>
     </div>
-  </div> 
+  </div>
   </div>
   </div>)
 }

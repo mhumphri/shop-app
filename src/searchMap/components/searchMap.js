@@ -51,10 +51,16 @@ function SearchMap(props) {
   const [firstLoad, setFirstLoad] = useState(true);
 
   // total number of hotels returned by a search
-  const [numberHotels, setNumberHotels] = useState(true);
+  const [numberHotels, setNumberHotels] = useState();
+
+  // max number of pages in ResultsList
+  const [maxPages, setMaxPages] = useState();
 
   // total number of hotels returned by a search
   const [dataLoading, setDataLoading] = useState();
+
+  // stores currently active page (which is shown / controlled by paginationNav)
+  const [activePage, setActivePage] = useState(1);
 
 
 
@@ -78,17 +84,20 @@ const updateSearchLocation = (newLocation) => {
   setSearchLocationUpdate(true)
 }
 
+//
+const triggerDataLoading = () => {
+
+  setDataLoading(true)
+    setTimeout(() => {
+      setDataLoading(false)
+    }, "1300");
+
+
+}
+
 useEffect(() => {
 
-  const triggerDataLoading = () => {
 
-    setDataLoading(true)
-      setTimeout(() => {
-        setDataLoading(false)
-      }, "1300");
-
-
-  }
 
 
 
@@ -100,6 +109,16 @@ const getHotelNumber = (activePolygons) => {
   return Math.round(landArea /10000000 * randomNumber(5,30))
 }
 
+const updateHotelAndPages = (newNumberHotels) => {
+  setNumberHotels(newNumberHotels)
+  let newMaxPages = Math.ceil(newNumberHotels / 18);
+  if (newMaxPages > 15) {
+    newMaxPages = 15;
+  }
+  setMaxPages(newMaxPages)
+  setActivePage(1)
+}
+
 
 
 if (searchLocationUpdate) {
@@ -108,7 +127,7 @@ triggerDataLoading()
 const activePolygons = [getCountryPolygons(searchLocation)];
 setHotelArray(generateHotelArray(18, activePolygons, true))
 setSearchLocationUpdate(false)
-setNumberHotels(getHotelNumber(activePolygons))
+updateHotelAndPages(getHotelNumber(activePolygons))
 
 }
 else {
@@ -152,7 +171,7 @@ const additionalHotels = getHotelNumber(activePolygons)
 console.log("additionalHotels: " + additionalHotels)
 const newNumHotels = existingHotels + additionalHotels
 console.log("newNumHotels: " + newNumHotels)
-setNumberHotels(newNumHotels)
+updateHotelAndPages(newNumHotels)
 
 
 console.log("numberHotels: " + numberHotels)
@@ -281,6 +300,7 @@ if (!refresh) {
 const currentArrayLength = newHotelArray.length
 
     for (let i=currentArrayLength; i<numHotels; i++) {
+      console.log("NEWHOTEL: " + i)
       const newHotel = {
         key: generateKey(12),
         coords: getRandomCoords(
@@ -366,6 +386,30 @@ else {
 }
 
 
+// PAGINATION CONTROLS
+
+
+const goToPage = (number) => {
+  console.log("GO TO PAGE: " + number)
+
+  let activePolygons = getActivePolygons(mapParameters.bounds);
+  if (searchLocation!=="map area" && searchLocation!=="") {
+    activePolygons = [getCountryPolygons(searchLocation)];
+  }
+
+  let hotelsInArray = 18
+  if (number===maxPages) {
+    hotelsInArray = numberHotels - (maxPages-1)*18
+    console.log("hotelsInArray: " + hotelsInArray)
+  }
+  triggerDataLoading()
+  setHotelArray(generateHotelArray(hotelsInArray, activePolygons, true))
+  if (number<=maxPages) {
+    setActivePage(number)
+  }
+}
+
+
 
   return (
 <div className="search-map-nr6">
@@ -430,7 +474,7 @@ else {
   </div>
 
   <div className={searchListStyle}>
-    <ResultsList listContainerRef={listContainerRef} numberHotels={numberHotels} dataLoading={dataLoading} />
+    <ResultsList listContainerRef={listContainerRef} numberHotels={numberHotels} dataLoading={dataLoading} activePage={activePage} maxPages={maxPages} goToPage={goToPage} />
   </div>
   <div className={mapStyle}>
 <ResultsMap expandMapView={expandMapView} toggleMapView={toggleMapView} setMapBounds={setMapBounds} searchLocation={searchLocation} setMapParameters={setMapParameters} hotelArray={hotelArray} dataLoading={dataLoading} />
