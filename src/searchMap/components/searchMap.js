@@ -487,7 +487,7 @@ const goToPage = (number) => {
   </div>
 
   <div className={searchListStyle}>
-    <ResultsList listContainerRef={listContainerRef} numberHotels={numberHotels} dataLoading={dataLoading} activePage={activePage} maxPages={maxPages} goToPage={goToPage} pageLoading={pageLoading} />
+    <ResultsList listContainerRef={listContainerRef} numberHotels={numberHotels} hotelArray={hotelArray} dataLoading={dataLoading} activePage={activePage} maxPages={maxPages} goToPage={goToPage} pageLoading={pageLoading} />
   </div>
   <div className={mapStyle}>
 <ResultsMap expandMapView={expandMapView} toggleMapView={toggleMapView} setMapBounds={setMapBounds} searchLocation={searchLocation} setMapParameters={setMapParameters} hotelArray={hotelArray} dataLoading={dataLoading} pageLoading={pageLoading} />

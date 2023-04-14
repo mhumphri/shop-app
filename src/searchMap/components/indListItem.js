@@ -4,22 +4,37 @@ import SwipeableGallery from "./swipeableGallery";
 import "../css/indListItem.css";
 
 function IndListItem(props) {
-  const [searchResultLoading, setSearchResultLoading] = useState(true);
+  const [indItemLoading, setIndItemLoading] = useState(true);
+
+  //
+  useEffect(() => {
+  if (!props.listItemLoading) {
+    const msDelay = props.itemId * 50
+
+    setTimeout(() => {
+setIndItemLoading(false)
+}, msDelay);
+
+  }
+  else {
+    setIndItemLoading(true)
+  }
+}, [props.listItemLoading]);
 
   return (
     <div className="ind-list-item-la6">
-      <SwipeableGallery />
+      <SwipeableGallery itemLoading={indItemLoading} />
       <div className="ind-list-item-gd5">
         <div className="ind-list-item-pq1">
           <div className="ind-list-item-lq2">
-            <span className={searchResultLoading ? "ind-list-item-oa3" : ""}>
+            <span className={indItemLoading ? "ind-list-item-oa3" : ""}>
               top row header
             </span>
           </div>
 
           <div
             className={
-              searchResultLoading
+              indItemLoading
                 ? "ind-list-item-hg3 text-loading "
                 : "ind-list-item-hg3"
             }
@@ -29,7 +44,7 @@ function IndListItem(props) {
               viewBox="0 0 32 32"
               xmlns="http://www.w3.org/2000/svg"
               style={
-                searchResultLoading
+                indItemLoading
                   ? {
                       display: "block",
                       height: "12px",
@@ -58,7 +73,7 @@ function IndListItem(props) {
         <div>
           <div
             className={
-              searchResultLoading
+              indItemLoading
                 ? "ind-list-item-te8 text-loading"
                 : "ind-list-item-te8"
             }
@@ -69,7 +84,7 @@ function IndListItem(props) {
         <div>
           <div
             className={
-              searchResultLoading
+              indItemLoading
                 ? "ind-list-item-te8 text-loading"
                 : "ind-list-item-te8"
             }

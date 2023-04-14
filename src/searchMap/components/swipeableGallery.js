@@ -219,11 +219,11 @@ const photoArray = [bird1,bird2,bird3,bird4,bird5,bird6]
 
 
 
-
+{ props.itemLoading ? null :
                 <div class="swipeable-gallery-o1q">
                   <div />
 
-    
+
 
                   <div class="swipeable-gallery-m1d">
                     <div class="swipeable-gallery-m1t">
@@ -280,12 +280,12 @@ const photoArray = [bird1,bird2,bird3,bird4,bird5,bird6]
                     <div class="swipeable-gallery-b18"></div>
                   </div>
                 </div>
+}
 
 
 
-
-                  <div class="swipeable-gallery-cw9">
-                    <div
+            <div class="swipeable-gallery-cw9">
+        { props.itemLoading ? null :       <div
                       class="swipeable-gallery-c14w"
                       onScroll={onGalleryScroll}
                       ref={galleryRef}
@@ -300,6 +300,8 @@ const photoArray = [bird1,bird2,bird3,bird4,bird5,bird6]
       </div>
                           ))}
                     </div>
+
+}
                   </div>
 
 
