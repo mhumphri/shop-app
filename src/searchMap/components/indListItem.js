@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import SwipeableGallery from "../../swipeableGallery/components/swipeableGallery";
+import SwipeableGallery from "./swipeableGallery";
 
 import "../css/indListItem.css";
 

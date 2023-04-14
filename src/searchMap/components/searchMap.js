@@ -56,8 +56,11 @@ function SearchMap(props) {
   // max number of pages in ResultsList
   const [maxPages, setMaxPages] = useState();
 
-  // total number of hotels returned by a search
+  // boolean set to true when new search data is loading
   const [dataLoading, setDataLoading] = useState();
+
+  // boolean set to true when data for a new search page is loading (different from dataLoading as number of search results / max pages doesn't update)
+  const [pageLoading, setPageLoading] = useState();
 
   // stores currently active page (which is shown / controlled by paginationNav)
   const [activePage, setActivePage] = useState(1);
@@ -86,13 +89,17 @@ const updateSearchLocation = (newLocation) => {
 
 //
 const triggerDataLoading = () => {
-
   setDataLoading(true)
     setTimeout(() => {
       setDataLoading(false)
     }, "1300");
+}
 
-
+const triggerPageLoading = () => {
+  setPageLoading(true)
+    setTimeout(() => {
+      setPageLoading(false)
+    }, "1300");
 }
 
 useEffect(() => {
@@ -397,13 +404,19 @@ const goToPage = (number) => {
     activePolygons = [getCountryPolygons(searchLocation)];
   }
 
+
+
   let hotelsInArray = 18
-  if (number===maxPages) {
+  if (number===maxPages && maxPages<15) {
     hotelsInArray = numberHotels - (maxPages-1)*18
     console.log("hotelsInArray: " + hotelsInArray)
   }
-  triggerDataLoading()
+
+    triggerPageLoading()
   setHotelArray(generateHotelArray(hotelsInArray, activePolygons, true))
+
+
+
   if (number<=maxPages) {
     setActivePage(number)
   }
@@ -474,10 +487,10 @@ const goToPage = (number) => {
   </div>
 
   <div className={searchListStyle}>
-    <ResultsList listContainerRef={listContainerRef} numberHotels={numberHotels} dataLoading={dataLoading} activePage={activePage} maxPages={maxPages} goToPage={goToPage} />
+    <ResultsList listContainerRef={listContainerRef} numberHotels={numberHotels} dataLoading={dataLoading} activePage={activePage} maxPages={maxPages} goToPage={goToPage} pageLoading={pageLoading} />
   </div>
   <div className={mapStyle}>
-<ResultsMap expandMapView={expandMapView} toggleMapView={toggleMapView} setMapBounds={setMapBounds} searchLocation={searchLocation} setMapParameters={setMapParameters} hotelArray={hotelArray} dataLoading={dataLoading} />
+<ResultsMap expandMapView={expandMapView} toggleMapView={toggleMapView} setMapBounds={setMapBounds} searchLocation={searchLocation} setMapParameters={setMapParameters} hotelArray={hotelArray} dataLoading={dataLoading} pageLoading={pageLoading} />
   </div>
 </main>
 {/* largeView ? <SearchMapFooter /> : null */}

@@ -57,14 +57,14 @@ function ResultsMap(props) {
   let mapZoom = 5
 
   useEffect(() => {
-    if (!props.dataLoading) {
+    if (!props.dataLoading && !props.pageLoading) {
       console.log("HOTEL ARRAY UPDATE")
       updateMarkers()
     }
 
 
 
-}, [props.dataLoading]);
+}, [props.dataLoading, props.pageLoading]);
 
 // deletes current markers
 const deleteMarkers = (keysObject) => {
@@ -342,7 +342,7 @@ const addPillMarker = (markerData) => {
                 </div>
               </div>
             </div>
-            {props.dataLoading ? <Loader /> : null}
+            {props.dataLoading || props.pageLoading ? <Loader /> : null}
      <div
               ref={mapContainer}
               id="map"
