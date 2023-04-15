@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import getCountryPolygons from "../functions/getCountryPolygons";
-import randomNumber from "../functions/randomNumber";
+import randomNumberInRange from "../functions/randomNumberInRange";
 import bbox from "@turf/bbox";
 import Loader from "./loader";
 import "../css/resultsMap.css";
@@ -129,7 +129,7 @@ const addPillMarker = (markerData) => {
   console.log("addPillMarker")
 
   // random delay & timeout creates impression of loading from server
-    let randomDelay = randomNumber(200, 1000);
+    let randomDelay = randomNumberInRange(200, 1000);
 
     setTimeout(() => {
 

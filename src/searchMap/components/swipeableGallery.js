@@ -290,7 +290,7 @@ const photoArray = [bird1,bird2,bird3,bird4,bird5,bird6]
                       onScroll={onGalleryScroll}
                       ref={galleryRef}
                     >
-                      {photoArray.map((x) => (
+                      {props.photos.map((x) => (
                         <div
                           class="swipeable-gallery-rfe"
                         >

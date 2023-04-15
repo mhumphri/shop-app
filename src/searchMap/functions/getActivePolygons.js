@@ -77,6 +77,8 @@ const getActivePolygons = (mapBounds) => {
     activePolygons = findPolygons(boundaryPoly);
   }
 
+  console.log("ACTIVEPOLY: " + JSON.stringify(activePolygons))
+
 return activePolygons
 
 };

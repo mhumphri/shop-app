@@ -7,10 +7,11 @@ import SearchMapFooter from "./searchMapFooter";
 import shuffleArray from "../functions/shuffleArray";
 import getActivePolygons from "../functions/getActivePolygons";
 import getCountryPolygons from "../functions/getCountryPolygons";
-import getRandomCoords from "../functions/getRandomCoords";
+import getRandomLocation from "../functions/getRandomLocation";
+import getPhotos from "../functions/getPhotos";
 import calcLandArea from "../functions/calcLandArea";
 import generateKey from "../functions/generateKey";
-import randomNumber from "../functions/randomNumber";
+import randomNumberInRange from "../functions/randomNumberInRange";
 import { hotelData } from "../data/hotelData";
 import "../css/searchMap.css";
 
@@ -113,7 +114,7 @@ useEffect(() => {
 
 const getHotelNumber = (activePolygons) => {
   const landArea = calcLandArea(activePolygons)
-  return Math.round(landArea /10000000 * randomNumber(5,30))
+  return Math.round(landArea /10000000 * randomNumberInRange(5,30))
 }
 
 const updateHotelAndPages = (newNumberHotels) => {
@@ -170,24 +171,15 @@ const boundsLngHi = mapParameters.bounds.La.hi
         }
     }
 
-console.log("existingHotels: " + existingHotels )
-
-
 
 const additionalHotels = getHotelNumber(activePolygons)
-console.log("additionalHotels: " + additionalHotels)
 const newNumHotels = existingHotels + additionalHotels
-console.log("newNumHotels: " + newNumHotels)
 updateHotelAndPages(newNumHotels)
 
-
-console.log("numberHotels: " + numberHotels)
 let hotelsInArray = 18
 if (newNumHotels<18) {
   hotelsInArray=newNumHotels
 }
-
-console.log("hotelsInArray: " + hotelsInArray)
 
 if (activePolygons.length > 0) {
 
@@ -306,16 +298,32 @@ if (!refresh) {
 
 const currentArrayLength = newHotelArray.length
 
+let indexArray = []
+for (let i=0; i<20; i++) {
+  indexArray.push(i)
+}
+
     for (let i=currentArrayLength; i<numHotels; i++) {
       console.log("NEWHOTEL: " + i)
+
+      const mainPicIndex = Math.floor(Math.random() * indexArray.length);
+      const mainPic = indexArray[mainPicIndex]
+      indexArray.splice(mainPicIndex, 1);
+
+      const location = getRandomLocation(
+        mapParameters.bounds,
+        mapParameters.box,
+        50,
+        activePolygons
+      )
+
       const newHotel = {
+        name: "accomodation name",
         key: generateKey(12),
-        coords: getRandomCoords(
-          mapParameters.bounds,
-          mapParameters.box,
-          50,
-          activePolygons
-        ),
+        coords: location.coords,
+        country: location.country,
+        price: randomNumberInRange(30,450),
+        photos: getPhotos(mainPic)
       }
       newHotelArray.push(newHotel)
 

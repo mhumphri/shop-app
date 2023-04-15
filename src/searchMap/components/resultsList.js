@@ -44,7 +44,7 @@ return (
   <div className="results-list-na8">
   <div ref={props.listContainerRef} className="results-list-lq1">
 {hotelArrayLocal.map((x, index) => (
-<IndListItem listItemLoading={listItemLoading} key={index} itemId={index} />
+<IndListItem listItemLoading={listItemLoading} key={index} itemId={index} hotelData={x} />
 ))}
 
   </div>

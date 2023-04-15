@@ -23,12 +23,12 @@ setIndItemLoading(false)
 
   return (
     <div className="ind-list-item-la6">
-      <SwipeableGallery itemLoading={indItemLoading} />
+      <SwipeableGallery itemLoading={indItemLoading} photos={props.hotelData.photos} />
       <div className="ind-list-item-gd5">
         <div className="ind-list-item-pq1">
           <div className="ind-list-item-lq2">
             <span className={indItemLoading ? "ind-list-item-oa3" : ""}>
-              top row header
+              {props.hotelData.name}
             </span>
           </div>
 
@@ -78,7 +78,7 @@ setIndItemLoading(false)
                 : "ind-list-item-te8"
             }
           >
-            location1, location2
+            somewhere in {props.hotelData.country}
           </div>
         </div>
         <div>
@@ -89,7 +89,7 @@ setIndItemLoading(false)
                 : "ind-list-item-te8"
             }
           >
-            <span className="ind-list-item-al5">£456</span> per night
+            <span className="ind-list-item-al5">£{props.hotelData.price}</span> per night
           </div>
         </div>
       </div>
