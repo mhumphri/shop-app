@@ -1,12 +1,21 @@
 import shuffleArray from "./shuffleArray";
 import randomNumberInRange from "./randomNumberInRange";
 
+/*
 import HouseS1 from "../images/houseS1.webp";
 import HouseS2 from "../images/houseS2.webp";
 import HouseS3 from "../images/houseS3.webp";
 import HouseS4 from "../images/houseS4.webp";
 import HouseS5 from "../images/houseS5.webp";
 import HouseS6 from "../images/houseS6.webp";
+import HouseS7 from "../images/houseS7.webp";
+*/
+import HouseS1 from "../../images/birds/bird1.jpg";
+import HouseS2 from "../../images/birds/bird2.jpg";
+import HouseS3 from "../../images/birds/bird3.jpg";
+import HouseS4 from "../../images/birds/bird4.jpg";
+import HouseS5 from "../../images/birds/bird5.jpg";
+import HouseS6 from "../../images/birds/bird6.jpg";
 import HouseS7 from "../images/houseS7.webp";
 import HouseS8 from "../images/houseS8.webp";
 import HouseS9 from "../images/houseS9.webp";
