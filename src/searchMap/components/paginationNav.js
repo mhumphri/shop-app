@@ -4,7 +4,7 @@ import "../css/pageNav.css";
 
 //
 
-function PageNav(props) {
+function PaginationNav(props) {
 
   // redux hook for dispatching data
   const dispatch = useDispatch();
@@ -269,4 +269,4 @@ else {
 
 }
 
-export default PageNav;
+export default PaginationNav;

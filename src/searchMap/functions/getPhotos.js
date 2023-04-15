@@ -9,13 +9,6 @@ import HouseS4 from "../images/houseS4.webp";
 import HouseS5 from "../images/houseS5.webp";
 import HouseS6 from "../images/houseS6.webp";
 import HouseS7 from "../images/houseS7.webp";
-*/
-import HouseS1 from "../../images/birds/bird1.jpg";
-import HouseS2 from "../../images/birds/bird2.jpg";
-import HouseS3 from "../../images/birds/bird3.jpg";
-import HouseS4 from "../../images/birds/bird4.jpg";
-import HouseS5 from "../../images/birds/bird5.jpg";
-import HouseS6 from "../../images/birds/bird6.jpg";
 import HouseS7 from "../images/houseS7.webp";
 import HouseS8 from "../images/houseS8.webp";
 import HouseS9 from "../images/houseS9.webp";
@@ -43,6 +36,42 @@ import RoomS9 from "../images/RoomS9.webp";
 import RoomS10 from "../images/RoomS10.webp";
 import RoomS11 from "../images/RoomS11.webp";
 import RoomS12 from "../images/RoomS12.webp";
+
+*/
+import HouseS1 from "../../images/birds/bird1.jpg";
+import HouseS2 from "../../images/birds/bird2.jpg";
+import HouseS3 from "../../images/birds/bird3.jpg";
+import HouseS4 from "../../images/birds/bird4.jpg";
+import HouseS5 from "../../images/birds/bird5.jpg";
+import HouseS6 from "../../images/birds/bird6.jpg";
+import HouseS7 from "../../images/birds/bird1.jpg";
+import HouseS8 from "../../images/birds/bird2.jpg";
+import HouseS9 from "../../images/birds/bird3.jpg";
+import HouseS10 from "../../images/birds/bird4.jpg";
+import HouseS11 from "../../images/birds/bird5.jpg";
+import HouseS12 from "../../images/birds/bird6.jpg";
+import HouseS13 from "../../images/birds/bird1.jpg";
+import HouseS14 from "../../images/birds/bird2.jpg";
+import HouseS15 from "../../images/birds/bird3.jpg";
+import HouseS16 from "../../images/birds/bird4.jpg";
+import HouseS17 from "../../images/birds/bird5.jpg";
+import HouseS18 from "../../images/birds/bird6.jpg";
+import HouseS19 from "../../images/birds/bird5.jpg";
+import HouseS20 from "../../images/birds/bird6.jpg";
+
+
+import RoomS1 from "../../images/birds/bird1.jpg";
+import RoomS2 from "../../images/birds/bird2.jpg";
+import RoomS3 from "../../images/birds/bird3.jpg";
+import RoomS4 from "../../images/birds/bird4.jpg";
+import RoomS5 from "../../images/birds/bird5.jpg";
+import RoomS6 from "../../images/birds/bird6.jpg";
+import RoomS7 from "../../images/birds/bird1.jpg";
+import RoomS8 from "../../images/birds/bird2.jpg";
+import RoomS9 from "../../images/birds/bird3.jpg";
+import RoomS10 from "../../images/birds/bird4.jpg";
+import RoomS11 from "../../images/birds/bird5.jpg";
+import RoomS12 from "../../images/birds/bird6.jpg";
 
 const getPhotos = (mainPic) => {
   const mainPicArray = [

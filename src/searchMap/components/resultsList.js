@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import IndListItem from "./indListItem";
-import PageNav from "./pageNav";
+import PaginationNav from "./paginationNav";
 import "../css/resultsList.css";
 
 //
@@ -49,7 +49,7 @@ return (
 
   </div>
 
-<PageNav activePage={props.activePage} maxPages={props.maxPages} goToPage={props.goToPage} numberHotels={props.numberHotels} />
+<PaginationNav activePage={props.activePage} maxPages={props.maxPages} goToPage={props.goToPage} numberHotels={props.numberHotels} />
 
   </div>
 
