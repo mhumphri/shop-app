@@ -4,6 +4,7 @@ import randomNumberInRange from "../functions/randomNumberInRange";
 import bbox from "@turf/bbox";
 import Loader from "./loader";
 import "../css/resultsMap.css";
+import HouseS1 from "../../images/birds/bird1.jpg";
 
 //
 
@@ -138,6 +139,7 @@ const addPillMarker = (markerData) => {
 
         const content = document.createElement("div");
 
+
         content.innerHTML = `
         <div style="transform: translate(calc(-50% + 0px), calc(50% + 0px)); transition: transform 0.2s ease 0s; left: 50%; position: absolute; bottom: 0px; z-index: 0; pointer-events: auto; font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;">
           <button
@@ -163,6 +165,8 @@ const addPillMarker = (markerData) => {
           </button>
         </div>
         `;
+
+
 
         return content;
       }
@@ -211,6 +215,7 @@ const addPillMarker = (markerData) => {
     const content = document.createElement("div");
 
     let containerWidth = 327;
+    let containerWidthSmall = 363;
 
     let verticalAdj = - 31.078
     let verticalPercentage = 0
@@ -218,59 +223,145 @@ const addPillMarker = (markerData) => {
 
     const largeMarkerPos = "translate(calc(-50% + " + horizontalAdj + "px), calc(" + verticalPercentage + "% + " + verticalAdj + "px))";
 
+if (props.largeView) {
       content.innerHTML = `
       <div
         style="transform: ${largeMarkerPos}; left: 50%; position: absolute; bottom: 0px; z-index: 1; pointer-events: auto; font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif; animation-duration: 100ms;"
       >
+
+
+
+
       <div
         class="results-map-hy6"
         style="width: ${containerWidth}px;"
       >
-      <div class="ind-list-item-la6">
-        <div class="ind-list-item-gd5">
-
-          <div class="ind-list-item-pq1">
-            <div class="ind-list-item-lq2">
-                [props.hotelData.name]
-            </div>
-
-            <div class="ind-list-item-hg3">
 
 
-              <svg
-                viewBox="0 0 32 32"
-                xmlns="http://www.w3.org/2000/svg"
-                style="display: block; height: 12px; width: 12px; fill: black"
-              >
-                <path
-                  d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z"
-                  fill-rule="evenodd"
-                ></path>
-              </svg>
-              <div class="ind-list-item-ma1">4.5</div>
-            </div>
+          <img class="results-map-uc3" alt="alt" src="${HouseS1}" />
+
+            <div class="results-map-la6">
+
+      <div class="results-map-ld3">
+        <div class="results-map-qq1">
+          <div class="results-map-lq2">
+              [props.hd.name] cccc ddddd rrrr
           </div>
 
-          <div>
-            <div
-              class="ind-list-item-te8"
-            >
-              somewhere in {props.hotelData.country}
-            </div>
-          </div>
-          <div>
-            <div
-              class="ind-list-item-te8"
 
-            >
-              <span class="ind-list-item-al5">£[props.hotelData.price]</span> per night
-            </div>
-          </div>
         </div>
+
+
+          <div class="results-map-jh4">
+            {props.hotelData.country}  cccc c
+          </div>
+      </div>
+
+      <div class="results-map-cx8">
+
+      <div class="results-map-pp1">
+        <div class="results-map-ll2">
+              <span class="results-map-al5">£[215]</span> per night
+        </div>
+
+        <div class="results-map-hh3">
+
+
+          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display: block; height: 12px; width: 12px; fill: black">
+            <path d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z" fill-rule="evenodd"></path>
+          </svg>
+          <div class="results-map-ma1">4.5</div>
+        </div>
+      </div>
+
+
+      </div>
+
+
+
       </div>
 </div>
             </div>
-          `;
+          `;}
+          else {
+            content.innerHTML = `
+            <div
+              style="transform: ${largeMarkerPos}; left: 50%; position: absolute; bottom: 0px; z-index: 1; pointer-events: auto; font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif; animation-duration: 100ms;"
+            >
+
+
+
+
+            <div
+              class="results-map-zt8"
+              style="width: ${containerWidthSmall}px;"
+            >
+            <div
+              class="results-map-ks9"
+
+            >
+            <div class="results-map-he6">
+            <img class="results-map-ja7" alt="alt" src="${HouseS1}" />
+            </div>
+<div class="results-map-fr3">
+
+<div class="results-map-ld3">
+  <div class="results-map-qq1">
+    <div class="results-map-lq2">
+        [props.hd.name] cccc ddddd rrrr
+    </div>
+
+
+  </div>
+
+
+    <div
+      class="results-map-jh4"
+    >
+      {props.hotelData.country}  cccc c
+    </div>
+</div>
+
+<div
+  class="results-map-cx8"
+
+>
+
+<div class="results-map-pp1">
+  <div class="results-map-ll2">
+        <span class="results-map-al5">£[215]</span> per night
+  </div>
+
+  <div class="results-map-hh3">
+
+
+    <svg
+      viewBox="0 0 32 32"
+      xmlns="http://www.w3.org/2000/svg"
+      style="display: block; height: 12px; width: 12px; fill: black"
+    >
+      <path
+        d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z"
+        fill-rule="evenodd"
+      ></path>
+    </svg>
+    <div class="results-map-ma1">4.5</div>
+  </div>
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+      </div>
+                  </div>
+                `;
+          }
 
       return content;
 

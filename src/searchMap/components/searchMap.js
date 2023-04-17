@@ -478,6 +478,7 @@ function SearchMap(props) {
             hotelArray={hotelArray}
             dataLoading={dataLoading}
             pageLoading={pageLoading}
+            largeView={largeView}
           />
         </div>
       </main>
