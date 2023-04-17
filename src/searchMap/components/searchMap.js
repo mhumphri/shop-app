@@ -22,6 +22,8 @@ function SearchMap(props) {
   const largeView = useSelector((state) => state.deviceData.largeView);
   // viewport height (stored in redux)
   const screenHeight = useSelector((state) => state.deviceData.screenHeight);
+  // viewport height (stored in redux)
+  const screenWidth = useSelector((state) => state.deviceData.screenWidth);
   // boolean indicating if expanded map view is active
   const [expandMapView, setExpandMapView] = useState();
   // bounds of the currently visible map
@@ -479,6 +481,8 @@ function SearchMap(props) {
             dataLoading={dataLoading}
             pageLoading={pageLoading}
             largeView={largeView}
+            screenWidth={screenWidth}
+            resize={resize}
           />
         </div>
       </main>
