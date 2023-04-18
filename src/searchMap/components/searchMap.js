@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ResultsMap from "./resultsMap";
 import ResultsList from "./resultsList";
 import SearchMapNav from "./searchMapNav";
+import LinkModal from "./linkModal";
 import SearchMapFooter from "./searchMapFooter";
 import shuffleArray from "../functions/shuffleArray";
 import getActivePolygons from "../functions/getActivePolygons";
@@ -52,6 +53,8 @@ function SearchMap(props) {
   const [pageLoading, setPageLoading] = useState();
   // stores currently active page (which is shown / controlled by paginationNav)
   const [activePage, setActivePage] = useState(1);
+  // stores currently active page (which is shown / controlled by paginationNav)
+  const [activeLink, setActiveLink] = useState();
 
   // listens for screen re-size event and updates resize variable with current time
   useEffect(() => {
@@ -467,6 +470,7 @@ function SearchMap(props) {
             maxPages={maxPages}
             goToPage={goToPage}
             pageLoading={pageLoading}
+            setActiveLink={setActiveLink}
           />
         </div>
         <div className={mapStyle}>
@@ -483,10 +487,12 @@ function SearchMap(props) {
             largeView={largeView}
             screenWidth={screenWidth}
             resize={resize}
+            setActiveLink={setActiveLink}
           />
         </div>
       </main>
       {/* largeView ? <SearchMapFooter /> : null */}
+      {activeLink ? <LinkModal activeLink={activeLink} setActiveLink={setActiveLink} /> : null}
     </div>
   );
 }

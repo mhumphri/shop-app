@@ -1,32 +1,26 @@
-// Creates large popout marker to the map (which gives more details on the currently selected pill marker + link)
-const addLargeMarker = (markerData) => {
-  if (activeLargeMarker) {
-    activeLargeMarker.marker.map = null;
-    activeLargeMarker = false;
-  }
+.popout-box-sm-pm1 {
+  height: 126px;
+  width: 24px;
+  min-width: calc((100vw - 400px)/2);
+}
 
-  const newMarker = new window.google.maps.marker.AdvancedMarkerView({
-    map,
-    content: largeMarkerContent(markerData),
-    position: markerData.coords,
-  });
 
-  // const element = newMarker.element;
-  newMarker.element.style.zIndex = 10
-/*
-  newMarker.addListener("click", (event) => {
-    largeMarkerClickListener.current=true
-  });
-  */
+const removeLargeMarker = () => {
+  activeLargeMarker.marker.map = null;
+  activeLargeMarker = false;
+  setLargeMarker(false);
+  setPillStylePrev(currentPillMarker)
+  setCurrentPillMarker(false)
+  setPrevPillMarker(false)
+}
 
-  activeLargeMarker = {marker: newMarker, markerData: markerData};
-};
+      <PopoutBoxSm markerData={largeMarker.markerData} removeLargeMarker={removeLargeMarker} />
 
 // calculates position and generates html content for large marker
 function largeMarkerContent(markerData) {
 
-  const neCoords = props.mapParameters.bounds.getNorthEast(); // Coords of the northeast corner
-  const swCoords = props.mapParameters.bounds.getSouthWest(); // Coords of the southwest corner
+  const neCoords = mapBounds.getNorthEast(); // Coords of the northeast corner
+  const swCoords = mapBounds.getSouthWest(); // Coords of the southwest corner
 
 const content = document.createElement("div");
 
@@ -34,20 +28,18 @@ let containerWidth = 327;
 let minMargin = 35;
 
 let adjustment = 0;
-let lhsLngDiff = 0
-/*
+let lhsLngDiff
+
 lhsLngDiff = calcLngDiff(swCoords.lng(), markerData.coords.lng)
 
 const lngWidth = calcLngDiff(swCoords.lng(),neCoords.lng())
 const lhsPxDiff = mapBox.width * (lhsLngDiff/lngWidth)
 const rhsPxDiff = mapBox.width - lhsPxDiff
-*/
 
-let verticalAdj = - 31.078
-let verticalPercentage = 0
+let verticalAdj
+let verticalPercentage
 let horizontalAdj = 0
 
-/*
   if (lhsPxDiff < containerWidth / 2 + minMargin) {
     horizontalAdj = containerWidth / 2 - (lhsPxDiff - minMargin);
   }
@@ -65,7 +57,6 @@ else {
   verticalAdj = 31.078
   verticalPercentage = 100
 }
-*/
 
 const largeMarkerPos = "translate(calc(-50% + " + horizontalAdj + "px), calc(" + verticalPercentage + "% + " + verticalAdj + "px))";
 

@@ -1,6 +1,6 @@
 const generateKey = (length) => {
   let result = '';
-const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 const charactersLength = characters.length;
 let counter = 0;
 while (counter < length) {

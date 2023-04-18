@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PopoutBoxSm from "./popoutBoxSm";
 import getCountryPolygons from "../functions/getCountryPolygons";
 import randomNumberInRange from "../functions/randomNumberInRange";
+import { calcLngDiff } from "../functions/calcLngDiff";
 import bbox from "@turf/bbox";
 import Loader from "./loader";
 import "../css/resultsMap.css";
@@ -21,7 +22,7 @@ let map;
 // holds currently active marker objects
 let markers = [];
 // boolean which indicates if have all been loaded
-let markersLoaded;
+// let markersLoaded;
 /* holds marker object of active large marker (which contains more details of saty in highlighted pill marker) */
 let activeLargeMarker;
 // boolean which indicates if markers are currently being loaded
@@ -29,6 +30,22 @@ let markersLoading;
 
 // sets up listener for mapClicks - state can't be used in the event listener directly, so this is a workaround
 const mapClickListener = {
+  currentInternal: 0,
+  currentListener: function (val) {},
+  set current(val) {
+    this.currentInternal = val;
+    this.currentListener(val);
+  },
+  get current() {
+    return this.currentInternal;
+  },
+  registerListener: function (listener) {
+    this.currentListener = listener;
+  },
+};
+
+// sets up listener for clicks on largeMarker - state can't be used in the event listener directly, so this is a workaround
+const largeMarkerClickListener = {
   currentInternal: 0,
   currentListener: function (val) {},
   set current(val) {
@@ -52,6 +69,14 @@ function ResultsMap(props) {
   const [mapDimensions, setMapDimensions] = useState();
   //
   const [largeMarker, setLargeMarker] = useState();
+  // keeps log of currently active pill marker
+  const [currentPillMarker, setCurrentPillMarker] = useState();
+  // keeps log of currently active pill marker
+  const [prevPillMarker, setPrevPillMarker] = useState();
+  // keeps log of currently active pill marker
+  const [markerState, setMarkerState] = useState({});
+  // keeps log of currently active pill marker
+  const [markersLoaded, setMarkersLoaded] = useState();
 
   let mapCenter = {
     lat: 48.6,
@@ -68,9 +93,12 @@ function ResultsMap(props) {
 
   // refreshes markers when largeView state changes (so that popout box render updates)
   useEffect(() => {
-          if (largeMarker) {
+          if (markersLoaded) {
       if (!props.largeView) {
-        largeMarker.marker.map = null;
+        if (largeMarker) {
+       largeMarker.marker.map = null;
+     }
+
         updateMarkers("refresh")
       }
       else {
@@ -78,6 +106,7 @@ function ResultsMap(props) {
         updateMarkers("refresh")
       }
     }
+
   }, [props.largeView]);
 
   // deletes current markers
@@ -90,10 +119,18 @@ function ResultsMap(props) {
   }
   */
 
+// let newMarkerState = {...markerState}
+
     // if refresh set to true, all markers are deleted (as the render for large marker is different)
     if (refresh) {
+
       var i = markers.length;
       while (i--) {
+      /*  if (newMarkerState[markers[i].markerData.key]) {
+          delete newMarkerState[markers[i].markerData.key]
+        } */
+        if (markers[i].markerData.key)
+
         markers[i].marker.map = null;
         markers.splice(i, 1);
       }
@@ -103,11 +140,19 @@ function ResultsMap(props) {
       var i = markers.length;
       while (i--) {
         if (!keysObject[markers[i].markerData.key]) {
+      /*    if (newMarkerState[markers[i].markerData.key]) {
+            delete newMarkerState[markers[i].markerData.key]
+          } */
           markers[i].marker.map = null;
           markers.splice(i, 1);
+
         }
       }
     }
+
+  //  setMarkerState(newMarkerState)
+
+
 
     //  markers=[]
     /*  if (activeLargeMarker) {
@@ -127,23 +172,81 @@ if (markersLoaded) {
 }
 */
 
+
+// initialise variables
+  let currentMarkerRetained
+  let prevMarkerRetained
+  let largeMarkerRetained
     let keysObject = {};
+     let newMarkerState = {}
+
+
+    // (1) loop through current hotel data array and create object with all keys
+    // (2) check if stored currentMarker and prevMarker keys appear in current hotelArray - if not reset currentMarker and prevMarker values
+    // (3) check if keys stored in markerState appear in current hotelArray - if so retain those object properties in updated markerState object
     for (let i = 0; i < props.hotelArray.length; i++) {
+      // add current element key to keys object
       keysObject[props.hotelArray[i].key] = true;
+      // if current element key matches currentPillMarker state, set currentMarkerRetained to true
+      if (currentPillMarker===props.hotelArray[i].key) {
+        currentMarkerRetained=true
+      }
+      // if current element key matches prevPillMarker state, set prevMarkerRetained to true
+      if (prevPillMarker===props.hotelArray[i].key) {
+        prevMarkerRetained=true
+      }
+      // check if keys stored in markerState appear in current hotelArray - if they do, copy them across to newMarkerState
+      if (markerState[props.hotelArray[i].key]) {
+        newMarkerState[props.hotelArray[i].key]=markerState[props.hotelArray[i].key]
+      }
+      if (largeMarker) {
+      if (largeMarker.markerData.key===props.hotelArray[i].key) {
+        console.log("LARGE_MARKER_KEY_MATCH")
+        largeMarkerRetained=true
+      }
+    }
     }
 
+    // prev pill marker is not contained in current hotel data array, set prevPillMarker state to false
+    if (!currentMarkerRetained) {
+      setCurrentPillMarker(false)
+    }
+
+    // current pill marker is not contained in current hotel data array, set currentPillMarker state to false
+        if (!prevMarkerRetained) {
+          setPrevPillMarker(false)
+        }
+
+        // if large marker is not contained in current hotel data array, set largeMarker state to false
+     if (!largeMarkerRetained && largeMarker) {
+              activeLargeMarker.marker.map = null;
+              activeLargeMarker = false;
+              setLargeMarker(false);
+
+            }
+
+    // update MarkerState state
+    setMarkerState(newMarkerState)
+
+
+    // delete markers which do not appear in the current hotelArray (or delete all in the case of refresh)
     deleteMarkers(keysObject, refresh);
 
+
+    // if refresh, add new pill map markers for all elements of hotelArray
     if (refresh) {
       for (let i = 0; i < props.hotelArray.length; i++) {
         addPillMarker(props.hotelArray[i], refresh);
       }
-    } else {
+    }
+// if refresh, add new pill map markers for all elements of hotelArray which are not in keyArray
+    else {
+      // residualKeysObject stores keys of map markers which have not been deleted
       let residualKeysObject = {};
       for (let i = 0; i < markers.length; i++) {
         residualKeysObject[markers[i].markerData.key] = true;
       }
-
+      // map amrkers added for elements of hotel array, with undeleted markers from previous hotel array filtered out
       for (let i = 0; i < props.hotelArray.length; i++) {
         if (!residualKeysObject[props.hotelArray[i].key]) {
           addPillMarker(props.hotelArray[i]);
@@ -155,6 +258,10 @@ if (markersLoaded) {
       console.log("activeLarge1")
       addLargeMarker(largeMarker.markerData);
     }
+
+    if (!markersLoaded) {
+      setMarkersLoaded(true)
+    }
   };
 
   // creates a pill marker (there is one for every property in roomArray)
@@ -165,10 +272,31 @@ if (markersLoaded) {
       function pillMarkerContent(markerData) {
 
 
+        let pillBackground = "#FFFFFF"
+        let pillColor = "#222222"
+        let pillzIndex = 0
+        let pillBoxShadow = "rgba(255, 255, 255, 0.18) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.18) 0px 2px 4px"
+
+        if (markerState[markerData.key]==="prev") {
+          pillBackground = "#EBEBEB"
+          pillColor = "#222222"
+          pillzIndex = 0
+          pillBoxShadow = "0 0 0 1px #B0B0B0 inset"
+        }
+
+        if (markerState[markerData.key]==="current") {
+          pillBackground = "black"
+          pillColor = "#FFFFFF"
+          pillzIndex = 1
+          pillBoxShadow = "rgba(255, 255, 255, 0.18) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.18) 0px 2px 4px"
+        }
+
+
+
         const content = document.createElement("div");
 
         content.innerHTML = `
-        <div style="transform: translate(calc(-50% + 0px), calc(50% + 0px)); transition: transform 0.2s ease 0s; left: 50%; position: absolute; bottom: 0px; z-index: 0; pointer-events: auto; font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;">
+        <div style="transform: translate(calc(-50% + 0px), calc(50% + 0px)); transition: transform 0.2s ease 0s; left: 50%; position: absolute; bottom: 0px; z-index: ${pillzIndex}; pointer-events: auto; font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;">
           <button
             class="czgw0k9 dir dir-ltr"
             style="color: inherit; border: medium none; margin: 0px; padding: 0px; background: transparent; width: auto; overflow: visible; font: inherit;"
@@ -178,7 +306,7 @@ if (markersLoaded) {
               class=" dir dir-ltr"
               style="--content-mini-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18), 0px 0px 0px 1px rgba(0, 0, 0, 0.08); align-items: center; cursor: pointer; display: flex; height: 28px; position: relative; transform: scale(1); transform-origin: 50% 50% 0px; transition: transform 150ms ease 0s;"
             >
-              <div class="${markerData.key}" style="background-color: #FFFFFF; border-radius: 28px; box-shadow: rgba(255, 255, 255, 0.18) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.18) 0px 2px 4px; color: #222222; height: 28px; padding: 0px 8px; position: relative; transform: scale(1); transform-origin: 50% 50% 0px; transition: transform 300ms cubic-bezier(0, 0, 0.1, 1) 0s;">
+              <div class="${markerData.key}" style="background-color: ${pillBackground}; border-radius: 28px; box-shadow: ${pillBoxShadow}; color: ${pillColor}; height: 28px; padding: 0px 8px; position: relative; transform: scale(1); transform-origin: 50% 50% 0px; transition: transform 300ms cubic-bezier(0, 0, 0.1, 1) 0s;">
                 <div style="align-items: center; display: flex; height: 100%; justify-content: center; opacity: 1; transition: opacity 300ms cubic-bezier(0, 0, 0.1, 1) 0s; white-space: nowrap;">
                   <span
                     class="t5u4927 dir dir-ltr"
@@ -205,7 +333,7 @@ if (markersLoaded) {
 
       /* adds large marker (which shows more detail for property) when pill marker is clicked */
       newMarker.addListener("click", (event) => {
-        // clickPill(markerData, newMarker);
+        clickPill(markerData, newMarker);
         addLargeMarker(markerData);
       });
 
@@ -224,6 +352,97 @@ if (markersLoaded) {
     }
   };
 
+  // creates css selector for a given property key
+  const getMarkerSelector = (markerKey) => {
+    const selectorName = "." + markerKey;
+    const newSelector = document.querySelector(
+      selectorName
+    );
+    return newSelector
+  }
+
+
+const setPillStyleCurrent = (markerKey, marker) => {
+  const activeResultSelector = getMarkerSelector(markerKey);
+  if (activeResultSelector) {
+  activeResultSelector.style.backgroundColor = "black";
+  activeResultSelector.style.color = "white";
+  marker.element.style.zIndex = 1;
+
+    }
+}
+
+const setPillStylePrev = (markerKey) => {
+  const prevResultSelector = getMarkerSelector(markerKey)
+  if (prevResultSelector) {
+  prevResultSelector.style.backgroundColor = "#EBEBEB";
+  prevResultSelector.style.color = "#222222";
+  prevResultSelector.style.boxShadow ="0 0 0 1px #B0B0B0 inset";
+}
+const prevMarkerObject = getMarkerObject(markerKey)
+if (prevMarkerObject) {
+prevMarkerObject.element.style.zIndex = 0
+}
+
+}
+
+  // handles user click on pill marker - changes newly selected maker style and also stores crrently selected marker in state (which triggers re-tyling of prev selected marker)
+  function clickPill(markerData, marker) {
+
+        setPillStyleCurrent(markerData.key, marker)
+        setCurrentPillMarker(markerData.key)
+
+  }
+
+  // updates styling of previously active pill marker and variable recording previous marker state - needs to be split out as state doesn't update in google map objects
+  useEffect(() => {
+    if (currentPillMarker) {
+    if (!prevPillMarker) {
+      setPrevPillMarker(currentPillMarker)
+
+      let newMarkerState = {...markerState}
+      newMarkerState[currentPillMarker] = "current"
+      setMarkerState(newMarkerState)
+    }
+    else {
+      setPillStylePrev(prevPillMarker)
+  /*    const prevResultSelector = getMarkerSelector(prevPillMarker)
+      if (prevResultSelector) {
+      prevResultSelector.style.backgroundColor = "#EBEBEB";
+      prevResultSelector.style.color = "#222222";
+      prevResultSelector.style.boxShadow ="0 0 0 1px #B0B0B0 inset";
+    } */
+
+    let newMarkerState = {...markerState}
+    newMarkerState[currentPillMarker] = "current"
+    newMarkerState[prevPillMarker] = "prev"
+    setMarkerState(newMarkerState)
+
+    /*
+      const prevMarkerObject = getMarkerObject(prevPillMarker)
+      if (prevMarkerObject) {
+      prevMarkerObject.element.style.zIndex = 0
+
+    }
+    */
+    setPrevPillMarker(currentPillMarker)
+    }
+  }
+  }, [currentPillMarker]);
+
+  // retrives marker object for a given property key
+  const getMarkerObject = (markerKey) => {
+    let matchingMarkerObject
+    for (let i=0; i<markers.length; i++) {
+      if (markerKey===markers[i].markerData.key) {
+        matchingMarkerObject = markers[i].marker
+      }
+    }
+    return matchingMarkerObject
+  }
+
+
+
   // Creates large popout marker to the map (which gives more details on the currently selected pill marker + link)
   const addLargeMarker = (markerData) => {
 
@@ -234,11 +453,16 @@ if (markersLoaded) {
       setLargeMarker(false);
     }
 
-
     const newMarker = new window.google.maps.marker.AdvancedMarkerView({
       map,
       content: largeMarkerContent(markerData),
       position: markerData.coords,
+    });
+
+    newMarker.element.style.zIndex = 10
+
+    newMarker.addListener("click", (event) => {
+      largeMarkerClickListener.current=true
     });
 
     activeLargeMarker = { marker: newMarker, markerData: markerData };
@@ -247,14 +471,48 @@ if (markersLoaded) {
 
   // calculates position and generates html content for large marker
   function largeMarkerContent(markerData) {
+
+    const mapBounds = map.getBounds();
+    const neCoords = mapBounds.getNorthEast(); // Coords of the northeast corner
+    const swCoords = mapBounds.getSouthWest(); // Coords of the southwest corner
+
     const content = document.createElement("div");
 
     let containerWidth = 327;
-    let containerWidthSmall = 363;
+    let minMargin = 35;
 
-    let verticalAdj = -31.078;
-    let verticalPercentage = 0;
-    let horizontalAdj = 0;
+    let adjustment = 0;
+    const mapBox = mapContainer.current.getBoundingClientRect();
+
+    const lhsLngDiff = calcLngDiff(swCoords.lng(), markerData.coords.lng)
+    const lngWidth = calcLngDiff(swCoords.lng(),neCoords.lng())
+    const lhsPxDiff = mapBox.width * (lhsLngDiff/lngWidth)
+    const rhsPxDiff = mapBox.width - lhsPxDiff
+
+    let horizontalAdj = 0
+
+    if (lhsPxDiff < containerWidth / 2 + minMargin) {
+      horizontalAdj = containerWidth / 2 - (lhsPxDiff - minMargin);
+    }
+    if (rhsPxDiff < containerWidth / 2 + minMargin) {
+      horizontalAdj = -(containerWidth / 2 - (rhsPxDiff - minMargin));
+    }
+
+
+    let verticalAdj
+    let verticalPercentage
+    const mapCenter = map.getCenter();
+
+    if (mapCenter.lat()>markerData.coords.lat) {
+      console.log("BELOW CENTER")
+      verticalAdj = - 31.078
+      verticalPercentage = 0
+    }
+    else {
+      console.log("ABOVE CENTER")
+      verticalAdj = 31.078
+      verticalPercentage = 100
+    }
 
     const largeMarkerPos =
       "translate(calc(-50% + " +
@@ -267,7 +525,7 @@ if (markersLoaded) {
 
     if (props.largeView) {
       content.innerHTML = `
-      <div style="transform: ${largeMarkerPos}; left: 50%; position: absolute; bottom: 0px; z-index: 1; pointer-events: auto; font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif; animation-duration: 100ms;">
+      <div style="transform: ${largeMarkerPos}; left: 50%; position: absolute; bottom: 0px; z-index: 2; pointer-events: auto; font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif; animation-duration: 100ms;">
   <div class="results-map-hy6" style="width: ${containerWidth}px;">
     <img class="results-map-uc3" alt="alt" src="${markerData.photos[0]}" />
 
@@ -373,8 +631,11 @@ if (markersLoaded) {
     /* event listener for mousedown uses a geter/setter to change drawerdown state */
     map.addListener("click", (event) => {
       console.log("activeLarge3")
+      /*
       activeLargeMarker.marker.map = null;
+      activeLargeMarker = false;
       setLargeMarker(false);
+      */
       // getter/setter trigrers  of state (turning off) / style for active marker - can't be done inside event listener as can't access state here
       mapClickListener.current = true;
     });
@@ -397,6 +658,28 @@ if (markersLoaded) {
   useEffect(() => {
     googleMapChecker();
   }, []);
+
+  const removeLargeMarker = () => {
+    activeLargeMarker.marker.map = null;
+    activeLargeMarker = false;
+    setLargeMarker(false);
+    setPillStylePrev(currentPillMarker)
+    setCurrentPillMarker(false)
+  }
+
+  // sets drawer down and closes popout box when map is clicked on - as can't read current state in event listener, so this listener is used as a work around
+  mapClickListener.registerListener(function (val) {
+    if (val) {
+      removeLargeMarker()
+  }
+  });
+
+  // generates url string and triggers navigation to roomPage when large marker is clicked
+  largeMarkerClickListener.registerListener(function (val) {
+    if (val) {
+      props.setActiveLink("/hotels/" + activeLargeMarker.markerData.key)
+  }
+  });
 
   return (
     <div class="m15dgkuj dir dir-ltr">
@@ -487,7 +770,7 @@ if (markersLoaded) {
         </div>
       </div>
       {largeMarker && !props.largeView ? (
-        <PopoutBoxSm markerData={largeMarker.markerData} />
+        <PopoutBoxSm markerData={largeMarker.markerData} removeLargeMarker={removeLargeMarker} setActiveLink={props.setActiveLink} />
       ) : null}
     </div>
   );

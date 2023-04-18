@@ -196,7 +196,6 @@ function SwipeableGallery(props) {
         class="swipeable-gallery-c14d"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onClick={() => dispatch(updateMainModal("swipableGallery"))}
       >
         {props.itemLoading ? null : (
           <div class="swipeable-gallery-o1q">

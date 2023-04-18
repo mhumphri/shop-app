@@ -22,9 +22,9 @@ setIndItemLoading(false)
 }, [props.listItemLoading]);
 
   return (
-    <div className="ind-list-item-la6">
+    <div className="ind-list-item-la6" onClick={()=>props.setActiveLink("/hotels/" + props.hotelData.key)}>
       <SwipeableGallery itemLoading={indItemLoading} photos={props.hotelData.photos} />
-      <div className="ind-list-item-gd5">
+      <div className="ind-list-item-gd5" >
         <div className="ind-list-item-pq1">
           <div className="ind-list-item-lq2">
             <span className={indItemLoading ? "ind-list-item-oa3" : ""}>

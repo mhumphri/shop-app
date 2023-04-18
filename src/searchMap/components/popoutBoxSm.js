@@ -4,7 +4,8 @@ import "../css/popoutBoxSm.css";
 function PopoutBoxSm(props) {
   return (
     <div className="popout-box-sm-yr3">
-      <div class="popout-box-sm-zt8">
+    <div class="popout-box-sm-pm1" onClick={props.removeLargeMarker}/>
+      <div class="popout-box-sm-zt8" onClick={()=>props.setActiveLink("/hotels/" + props.markerData.key)}>
         <div class="popout-box-sm-ks9">
           <div class="popout-box-sm-he6">
             <img
@@ -52,6 +53,7 @@ function PopoutBoxSm(props) {
           </div>
         </div>
       </div>
+      <div class="popout-box-sm-pm1" onClick={props.removeLargeMarker} />
     </div>
   );
 }

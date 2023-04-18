@@ -3,8 +3,13 @@
   top: 120px;
   z-index: 1;
   display: flex;
-  justify-content: center;
 width: 100%;
+}
+
+.popout-box-sm-pm1 {
+  height: 126px;
+  width: 24px;
+  min-width: calc((100vw - 400px)/2);
 }
 
 .popout-box-sm-zt8 {
