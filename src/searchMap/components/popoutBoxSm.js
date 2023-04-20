@@ -46,7 +46,7 @@ function PopoutBoxSm(props) {
                       fill-rule="evenodd"
                     ></path>
                   </svg>
-                  <div class="popout-box-sm-ma1">4.5</div>
+                  <div class="popout-box-sm-ma1">{props.markerData.rating} ({props.markerData.numReviews})</div>
                 </div>
               </div>
             </div>

@@ -26,13 +26,13 @@ function SearchMap(props) {
   // viewport height (stored in redux)
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
   // boolean indicating if expanded map view is active
-  const [expandMapView, setExpandMapView] = useState();
+  const [expandMapView, setExpandMapView] = useState(false);
   // bounds of the currently visible map
   const [mapBounds, setMapBounds] = useState();
   // params of the currently visible map (bounds, center, zoom and box (position on screen))
   const [mapParameters, setMapParameters] = useState();
   // mapParameters plus expand map view state - updated in lag so as to compare latest map parameters (and avoid updating in response to map bounds changes resulting from the map view being changed )
-  const [mapState, setMapState] = useState();
+  const [mapState, setMapState] = useState({expandMapView: false});
   // store time of last screen resize - used to prevent search being updated in response to changes in browser size
   const [resize, setResize] = useState(0);
   // current stored search location (either country name or "map area")
@@ -55,6 +55,9 @@ function SearchMap(props) {
   const [activePage, setActivePage] = useState(1);
   // stores currently active page (which is shown / controlled by paginationNav)
   const [activeLink, setActiveLink] = useState();
+  // stores hotel key if mouse currently hovering over in results list - used for highlighting pill marker on map
+  const [hoverHotel, setHoverHotel] = useState();
+
 
   // listens for screen re-size event and updates resize variable with current time
   useEffect(() => {
@@ -92,6 +95,7 @@ function SearchMap(props) {
 
   // useEffect triggered by mapBounds being updated - generates mock search results in place of server
   useEffect(() => {
+    console.log("MAP PARAMETERS UPDATE")
     // generates number of hotels based on land area implied by active map bounds (more land in scope = more hotels)
     const getHotelNumber = (activePolygons) => {
       const landArea = calcLandArea(activePolygons);
@@ -111,6 +115,7 @@ function SearchMap(props) {
 
     // if searchLocationUpdate boolean is true country specific search is triggered
     if (searchLocationUpdate) {
+      console.log("!!!searchLocationUpdate")
       // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
       triggerDataLoading();
       // get polygons for country specified in search
@@ -123,6 +128,7 @@ function SearchMap(props) {
     }
     // if searchLocationUpdate boolean is false search based on  current map bounds is triggered
     else {
+      console.log("!!!notsearchLocationUpdate")
       // if not first load and not a user specified country search, searchLocation state is set to "map area" (i.e the user has changed the map bounds triggering a new search)
       if (!firstLoad) {
         setSearchLocation("map area");
@@ -133,6 +139,7 @@ function SearchMap(props) {
 
       // if map parameters have already been declared and change in map bounds not result of screen resize a new search is triggered
       if (mapParameters && msSinceResize > 500) {
+        console.log("!!!mapParameters && msSinceResize > 500")
         // fetches polygons within current map bounds
         const activePolygons = getActivePolygons(mapParameters.bounds);
         // calc land area for polygons within current map bounds
@@ -174,21 +181,25 @@ function SearchMap(props) {
 
         // number of hotels returned >0 search results are generated an stored in hotelArray state
         if (activePolygons.length > 0) {
+          console.log("!!!activePolygons.length > 0")
           // mapState is yet to be declared this is the first search so a simple search without any checks is triggered
           if (!mapState) {
+            console.log("!!!activePolygons.length > 1")
             // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
             triggerDataLoading();
             // search results are generated an stored in hotelArray state
             setHotelArray(generateHotelArray(hotelsInArray, activePolygons));
           } else {
+            console.log("!!!activePolygons.length > 2")
             // initialises refresh boolean - if true prev search results are deleted even if they fall within current map bounds.
             let refresh = false;
             // refresh set to true when zooming out - all prev search reulsts are deleted
             if (mapParameters.zoom < mapState.zoom) {
               refresh = true;
             }
-            // if current expandMapView state does not equal state at time of last search, the new search is aborted (as the change in map bounds is assumed to result from the change in map view)
-            if (expandMapView === mapState.expandMapView) {
+            // if current expandMapView state does not equal state at time of last search, the new search is aborted (as the change in map bounds is assumed to result from the change in map view). Only for largeView as map bounds don't change when we move from list to map in small view.
+            if (expandMapView === mapState.expandMapView || !largeView) {
+              console.log("!!!activePolygons.length > 3")
               // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
               triggerDataLoading();
                 // search results are generated an stored in hotelArray state
@@ -218,7 +229,7 @@ function SearchMap(props) {
   }, [mapParameters]);
 
   // boolean controlling visibility of map button (if page scrolled right down beyond limit of listcontainer, the button is not rendered)
-  const [mapButtonActive, setMapButtonActive] = useState();
+  const [mapButtonActive, setMapButtonActive] = useState(true);
   // initialises css styles for search list outer container (needed for change of map view)
   const [searchListStyle, setSearchListStyle] = useState("fmdphkf dir dir-ltr");
     // initialises css styles for map outer container (needed for change of map view)
@@ -307,6 +318,8 @@ function SearchMap(props) {
         country: location.country,
         price: randomNumberInRange(30, 450),
         photos: getPhotos(mainPic),
+        rating: randomNumberInRange(30, 50)/10,
+        numReviews: randomNumberInRange(5, 200),
       };
       newHotelArray.push(newHotel);
     }
@@ -471,6 +484,8 @@ function SearchMap(props) {
             goToPage={goToPage}
             pageLoading={pageLoading}
             setActiveLink={setActiveLink}
+            hoverHotel={hoverHotel}
+            setHoverHotel={setHoverHotel}
           />
         </div>
         <div className={mapStyle}>
@@ -488,6 +503,7 @@ function SearchMap(props) {
             screenWidth={screenWidth}
             resize={resize}
             setActiveLink={setActiveLink}
+            hoverHotel={hoverHotel} 
           />
         </div>
       </main>

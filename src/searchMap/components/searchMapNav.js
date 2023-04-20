@@ -66,8 +66,10 @@ const searchbarRef = useRef(null);
   }
 
   const countrySearch = () => {
+    if (props.searchLocation==="map area") {
+      setCountryInput("")
+    }
     setActiveSearch("country")
-    setCountryInput("")
   }
 
 
@@ -77,6 +79,11 @@ const searchbarRef = useRef(null);
     const newInputValue = event.target.value
      setCountryInput(newInputValue);
 
+  };
+
+  const crossButtonHandler = () => {
+    console.log("crossButtonHandler")
+    setCountryInput("")
   };
 
   const calcActiveCountryArray = () => {
@@ -134,8 +141,9 @@ if (largeView) {
 
                 <div class="_dd55nf9">
                   <div class="_1rwlbyy">
+
                     <label
-                      class="_f6t7o5n"
+                      class="search-map-nav-f6t"
                       htmlFor="locationInput"
                       onClick={countrySearch}
                     >
@@ -152,8 +160,11 @@ if (largeView) {
                           value={countryInput}
                         />
                       </div>
-                    </label>
 
+                    </label>
+                    <div className={activeSearch && countryInput.length>0 ? "search-map-nav-gs1" : "search-map-nav-gs2"}>
+                    {crossButton(crossButtonHandler)}
+                    </div>
 
 
 
@@ -292,7 +303,7 @@ else {
                             aria-label="Search"
                             type="button"
                             class="_1et6785v"
-                            onClick={()=>setActiveSearch("country")}
+                            onClick={countrySearch}
                           >
                             <div class="l1762013 dir dir-ltr">
                               <svg
@@ -371,7 +382,7 @@ else {
       </div>
     </div>
   </div>
-  {activeSearch ? <SearchModal closeModal={()=>setActiveSearch(false)} activeCountryArray={activeCountryArray} onChangeHandler={onChangeHandler} selectCountry={selectCountry} countryInput={countryInput} /> : null }
+  {activeSearch ? <SearchModal closeModal={()=>setActiveSearch(false)} activeCountryArray={activeCountryArray} onChangeHandler={onChangeHandler} selectCountry={selectCountry} countryInput={countryInput} setCountryInput={setCountryInput} /> : null }
     </>
   )
 }

@@ -1,14 +1,15 @@
-const crossButton = (ref, nav, clickFunction) => {
+import "../css/crossButton.css";
+
+const crossButton = (clickFunction) => {
 
   return [
-    <div onClick={(e) => e.stopPropagation()} class={ref === nav ? "_19cf48li" : "_vp2pnby"}>
-      <div class="_19xvkor" onClick={clickFunction}>
-        <button aria-label="Clear Input" type="button" class="_10rqlrm" >
-          <span class="_e296pg">
+
+        <button aria-label="Clear Input" type="button" class="cross_button_10r" onClick={clickFunction} >
+
             <svg
               viewBox="0 0 32 32"
               xmlns="http://www.w3.org/2000/svg"
-              className="svg_cross"
+              className="cross_button_fa3"
               aria-hidden="true"
               role="presentation"
               focusable="false"
@@ -16,10 +17,9 @@ const crossButton = (ref, nav, clickFunction) => {
               <path d="m6 6 20 20"></path>
               <path d="m26 6-20 20"></path>
             </svg>
-          </span>
+
         </button>
-      </div>
-    </div>
+
   ]
 
 }

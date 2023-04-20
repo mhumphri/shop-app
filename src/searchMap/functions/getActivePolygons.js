@@ -21,8 +21,6 @@ const getActivePolygons = (mapBounds) => {
     ],
   ]);
 
-  console.log(JSON.stringify(boundaryPoly))
-
   /* need to split out map boundaries around longitude extremities under certain condition - see if statement below */
 
   const boundaryPolyA = polygon([
@@ -35,8 +33,6 @@ const getActivePolygons = (mapBounds) => {
     ],
   ]);
 
-  console.log(JSON.stringify(boundaryPolyA))
-
   const boundaryPolyB = polygon([
     [
       [neCoords.lng(), neCoords.lat()],
@@ -46,8 +42,6 @@ const getActivePolygons = (mapBounds) => {
       [neCoords.lng(), neCoords.lat()],
     ],
   ]);
-
-  console.log(JSON.stringify(boundaryPolyB))
 
   /* step 2 - identify land polygons which are within the map boundaries and add to array */
 
@@ -76,8 +70,6 @@ const getActivePolygons = (mapBounds) => {
   } else {
     activePolygons = findPolygons(boundaryPoly);
   }
-
-  console.log("ACTIVEPOLY: " + JSON.stringify(activePolygons))
 
 return activePolygons
 

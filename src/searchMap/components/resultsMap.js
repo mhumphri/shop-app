@@ -77,6 +77,37 @@ function ResultsMap(props) {
   const [markerState, setMarkerState] = useState({});
   // keeps log of currently active pill marker
   const [markersLoaded, setMarkersLoaded] = useState();
+  // keeps log of currently active pill marker
+  const [hoverHotelLocal, setHoverHotelLocal] = useState();
+
+  // COULD BE RATIONALISED? ?? highlights map marker when it is active (hover) in searchListLg.js and vice versa
+  useEffect(() => {
+    if (markersLoaded) {
+      if (hoverHotelLocal) {
+        const prevResultSelector = getMarkerSelector(hoverHotelLocal)
+        if (prevResultSelector) {
+        prevResultSelector.style.backgroundColor = "white";
+        prevResultSelector.style.color = "black";
+      }
+        const prevMarkerObject = getMarkerObject(hoverHotelLocal)
+      if (prevMarkerObject) {
+        prevMarkerObject.element.style.zIndex = 0
+      }
+      }
+  if (props.hoverHotel) {
+        const activeResultSelector = getMarkerSelector(props.hoverHotel);
+        if (activeResultSelector) {
+        activeResultSelector.style.backgroundColor = "black";
+        activeResultSelector.style.color = "white";
+      }
+        const markerObject = getMarkerObject(props.hoverHotel)
+        if (markerObject) {
+        markerObject.element.style.zIndex = 1;
+        setHoverHotelLocal(props.hoverHotel)
+      }
+      }
+    }
+  }, [props.hoverHotel]);
 
   let mapCenter = {
     lat: 48.6,
@@ -535,7 +566,7 @@ prevMarkerObject.element.style.zIndex = 0
           <div class="results-map-lq2">${markerData.name}</div>
         </div>
 
-        <div class="results-map-jh4">${markerData.country}</div>
+        <div class="results-map-jh4">somewhere in ${markerData.country}</div>
       </div>
       <div>
         <div class="results-map-pp1">
@@ -554,7 +585,7 @@ prevMarkerObject.element.style.zIndex = 0
                 fill-rule="evenodd"
               ></path>
             </svg>
-            <div class="results-map-ma1">4.5</div>
+            <div class="results-map-ma1">${markerData.rating} (${markerData.numReviews})</div>
           </div>
         </div>
       </div>
@@ -753,7 +784,7 @@ prevMarkerObject.element.style.zIndex = 0
                     </div>
                   </div>
                 </div>
-                {props.dataLoading || props.pageLoading ? <Loader /> : null}
+                {props.dataLoading || props.pageLoading ? <Loader largeView={props.largeView} largeMarker={largeMarker} /> : null}
                 <div
                   ref={mapContainer}
                   id="map"

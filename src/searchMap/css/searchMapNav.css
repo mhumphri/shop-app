@@ -6,6 +6,53 @@
 	box-shadow: rgb(0 0 0 / 8%) 0 1px 0;
 }
 
+.search-map-nav-gs1 {
+padding-right: 18px !important;
+}
+
+.search-map-nav-gs2 {
+	visibility: hidden;
+padding-right: 18px !important;
+}
+
+.search-map-nav-f6t {
+	cursor: pointer !important;
+	display: block !important;
+	background-clip: padding-box !important;
+	border: 1px solid transparent !important;
+	border-radius: 32px !important;
+	flex: 1 0 0% !important;
+	min-width: 0px !important;
+	padding: 14px 0px 14px 32px !important;
+}
+
+.search-map-nav-f6t::before {
+	border-width: 0px 1px 0px 0px !important;
+	border-style: solid solid solid none !important;
+	border-top-color:  !important;
+	border-right-color:  !important;
+	border-bottom-color:  !important;
+	content: "" !important;
+	display: none !important;
+	height: 32px !important;
+	margin-top: -16px !important;
+	position: absolute !important;
+	right: 0px !important;
+	top: 50% !important;
+	z-index: 0 !important;
+	border-left: 0px none !important;
+}
+
+.search-map-nav-f6t::after {
+	background-clip: padding-box !important;
+	border: 1px solid transparent !important;
+	border-radius: 32px !important;
+	inset: 0px !important;
+	content: "" !important;
+	position: absolute !important;
+	z-index: 0 !important;
+}
+
 .h1vnkd0i[class][class] {
 	position: -webkit-sticky;
 	position: fixed;
@@ -159,43 +206,7 @@ padding: 0px 24px;
 	min-width: 0px !important;
 }
 
-._f6t7o5n {
-	cursor: pointer !important;
-	display: block !important;
-	background-clip: padding-box !important;
-	border: 1px solid transparent !important;
-	border-radius: 32px !important;
-	flex: 1 0 0% !important;
-	min-width: 0px !important;
-	padding: 14px 32px !important;
-}
 
-._f6t7o5n::before {
-	border-width: 0px 1px 0px 0px !important;
-	border-style: solid solid solid none !important;
-	border-top-color:  !important;
-	border-right-color:  !important;
-	border-bottom-color:  !important;
-	content: "" !important;
-	display: none !important;
-	height: 32px !important;
-	margin-top: -16px !important;
-	position: absolute !important;
-	right: 0px !important;
-	top: 50% !important;
-	z-index: 0 !important;
-	border-left: 0px none !important;
-}
-
-._f6t7o5n::after {
-	background-clip: padding-box !important;
-	border: 1px solid transparent !important;
-	border-radius: 32px !important;
-	inset: 0px !important;
-	content: "" !important;
-	position: absolute !important;
-	z-index: 0 !important;
-}
 
 
 ._16fjzef {

@@ -42,6 +42,10 @@ dotAnimation()
 
   }, []);
 
+let topMargin = 24;
+if (!props.largeView && props.largeMarker) {
+  topMargin = 200
+}
 
 
 return (
@@ -50,7 +54,7 @@ return (
     style={{
       whiteSpace: "nowrap",
       position: "absolute",
-      marginTop: "24px",
+      marginTop: topMargin + "px",
       top: "0px",
       left: "50%",
       transform: "translateX(-50%)",

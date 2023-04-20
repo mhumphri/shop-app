@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import crossButton from "./crossButton";
 import "../css/searchModal.css";
 
 
@@ -34,6 +35,11 @@ useEffect(() => {
       setModalStyle("_ojerypf");
       props.closeModal()
     }, "400");
+  };
+
+  const crossButtonHandler = () => {
+    console.log("crossButtonHandler")
+    props.setCountryInput("")
   };
 
   return (
@@ -141,7 +147,7 @@ useEffect(() => {
                             data-testid="search_query_input"
                             autocomplete="off"
                             id="/homes-1-input"
-                            placeholder="Search countriesXX"
+                            placeholder="Search countries"
                             aria-autocomplete="none"
                             autocorrect="off"
 
@@ -153,7 +159,9 @@ useEffect(() => {
                               props.onChangeHandler
                             }
                           />
+                        { crossButton(crossButtonHandler) }
                         </label>
+
                       </div>
                     </div>
                   </form>

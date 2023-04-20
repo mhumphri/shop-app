@@ -21,8 +21,18 @@ setIndItemLoading(false)
   }
 }, [props.listItemLoading]);
 
+/* activates chevron styling and active item in reponse to mouse entering */
+const handleMouseEnter = () => {
+   props.setHoverHotel(props.hotelData.key)
+}
+
+/* de-activates chevron styling and active item in reponse to mouse entering */
+const handleMouseLeave = () => {
+    props.setHoverHotel(false)
+}
+
   return (
-    <div className="ind-list-item-la6" onClick={()=>props.setActiveLink("/hotels/" + props.hotelData.key)}>
+    <div className="ind-list-item-la6" onClick={()=>props.setActiveLink("/hotels/" + props.hotelData.key)} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <SwipeableGallery itemLoading={indItemLoading} photos={props.hotelData.photos} />
       <div className="ind-list-item-gd5" >
         <div className="ind-list-item-pq1">
@@ -67,7 +77,7 @@ setIndItemLoading(false)
                 fill-rule="evenodd"
               ></path>
             </svg>
-            <div className="ind-list-item-ma1">4.5</div>
+            <div className="ind-list-item-ma1">{props.hotelData.rating} ({props.hotelData.numReviews})</div>
           </div>
         </div>
         <div>
