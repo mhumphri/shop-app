@@ -216,6 +216,7 @@ if (markersLoaded) {
     // (2) check if stored currentMarker and prevMarker keys appear in current hotelArray - if not reset currentMarker and prevMarker values
     // (3) check if keys stored in markerState appear in current hotelArray - if so retain those object properties in updated markerState object
     for (let i = 0; i < props.hotelArray.length; i++) {
+
       // add current element key to keys object
       keysObject[props.hotelArray[i].key] = true;
       // if current element key matches currentPillMarker state, set currentMarkerRetained to true
@@ -362,12 +363,6 @@ if (markersLoaded) {
         position: markerData.coords,
       });
 
-      /* adds large marker (which shows more detail for property) when pill marker is clicked */
-      newMarker.addListener("click", (event) => {
-        clickPill(markerData, newMarker);
-        addLargeMarker(markerData);
-      });
-
       const element = newMarker.element;
 
       /* highlights pill marker when mouse is over */
@@ -382,6 +377,12 @@ if (markersLoaded) {
         element.addEventListener(event, () => {
           unhighlight(newMarker, markerData);
         });
+      });
+
+      /* adds large marker (which shows more detail for property) when pill marker is clicked */
+      newMarker.addListener("click", (event) => {
+        clickPill(markerData, newMarker);
+        addLargeMarker(markerData);
       });
 
       markers.push({ marker: newMarker, markerData: markerData });

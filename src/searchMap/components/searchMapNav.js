@@ -173,7 +173,7 @@ if (largeView) {
                               <button
                                 class="_q1ewc8l"
                                 type="button"
-                                onClick={props.handleSearchButton}
+                                onClick={()=>props.setSearchRefresh(!props.searchRefresh)}
                               >
                                 <div class="_186q534">
                                   <div>

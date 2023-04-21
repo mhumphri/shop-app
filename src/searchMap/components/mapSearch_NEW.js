@@ -13,8 +13,7 @@ import getPhotos from "../functions/getPhotos";
 import calcLandArea from "../functions/calcLandArea";
 import generateKey from "../functions/generateKey";
 import randomNumberInRange from "../functions/randomNumberInRange";
-import { hotelData } from "../data/hotelData";
-import "../css/searchMap.css";
+import "../css/mapSearch.css";
 
 // main component for earchPage app - contains homepage and all the logic for generating mock search results in place of server
 
@@ -305,7 +304,7 @@ function SearchMap(props) {
       // randomly selects an index value from indexArray
       const mainPicIndex = Math.floor(Math.random() * indexArray.length);
       // sets value (number between 0 and 19) to identify main photo
-      const mainPic = indexArray[mainPicIndex];
+      const hotelIndice = indexArray[mainPicIndex];
       // main pic value is deleted from index array, so it cannot be selected again
       indexArray.splice(mainPicIndex, 1);
       //!! NEED TO SEE WHAT'S GOING ON WITH BOX AND MARGIN!!
@@ -317,14 +316,16 @@ function SearchMap(props) {
         activePolygons
       );
 
+      const photoKeyObject = getPhotos(hotelIndice)
+
       // generates data from new hotel and adds to search results array
       const newHotel = {
         name: "accomodation name",
-        key: generateKey(12),
+        key: photoKeyObject.key,
         coords: location.coords,
         country: location.country,
         price: randomNumberInRange(30, 450),
-        photos: getPhotos(mainPic),
+        photos: photoKeyObject.photos,
         rating: randomNumberInRange(30, 50)/10,
         numReviews: randomNumberInRange(5, 200),
       };

@@ -107,3 +107,8 @@
 .results-map-qq1 {
   margin-bottom: 6px;
 }
+
+
+.highlight {
+	transform: scale(1.07);
+}
