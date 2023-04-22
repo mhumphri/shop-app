@@ -28,15 +28,15 @@ const searchbarRef = useRef(null);
   useEffect(() => {
 
     if (activeSearch && !largeView) {
-      /*  document.body.style.overflow = "hidden";
-      document.body.style.position = "relative"; */
-      document.body.classList.add("disable-scroll")
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "relative";
+    //  document.body.classList.add("disable-scroll")
 
     } else {
-      /*
+
       document.body.style.overflow = "auto";
-      document.body.style.position = "static";  */
-      document.body.classList.remove("disable-scroll")
+      document.body.style.position = "static";
+    //  document.body.classList.remove("disable-scroll")
 
     }
 
