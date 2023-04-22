@@ -3,6 +3,9 @@ import crossButton from "./crossButton";
 import "../css/searchModal.css";
 
 
+// soft ios keyboard scrolling issue - https://stackoverflow.com/questions/56351216/ios-safari-unwanted-scroll-when-keyboard-is-opened-and-body-scroll-is-disabled
+// soft ios keyboard scrolling issue - https://stackoverflow.com/questions/58997163/keyboard-and-scroll-problems-on-forms-in-ios
+
 function SearchModal(props) {
 
 
