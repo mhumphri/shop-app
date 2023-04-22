@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
 
@@ -7,6 +8,8 @@ import "../css/swipeableGallery.css";
 // renders individual portfolio item either as a swipable photo gallry with progress indicator
 
 function SwipeableGallery(props) {
+  // boolean indicating if device is touch screen (stored in redux)
+  const touchScreen = useSelector((state) => state.deviceData.touchScreen);
   /* index of photo currently visible */
   const [currentPhoto, setCurrentPhoto] = useState(0);
   /* total number of photos in array */
@@ -194,8 +197,8 @@ function SwipeableGallery(props) {
     <>
       <div
         class="swipeable-gallery-c14d"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onMouseEnter={touchScreen ? handleMouseEnter : null}
+        onMouseLeave={touchScreen ? handleMouseLeave : null}
       >
         {props.itemLoading ? null : (
           <div class="swipeable-gallery-o1q">

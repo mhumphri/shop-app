@@ -5,6 +5,7 @@ const initialState = {
   screenHeight: false,
   visualVpHeight: 50,
   largeView: false,
+  touchScreen: false,
 };
 
 const deviceDataSlice = createSlice({
@@ -21,9 +22,12 @@ const deviceDataSlice = createSlice({
         state.largeView = false;
       }
     },
+    updateTouchScreen(state, action) {
+      state.touchScreen = action.payload;
+    },
   },
 });
 
-export const { updateScreenDimensions } = deviceDataSlice.actions;
+export const { updateScreenDimensions, updateTouchScreen } = deviceDataSlice.actions;
 
 export default deviceDataSlice.reducer;

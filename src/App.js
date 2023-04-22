@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { updateScreenDimensions } from "./redux/deviceData/deviceDataSlice";
+import { updateScreenDimensions, updateTouchScreen } from "./redux/deviceData/deviceDataSlice";
 import TopNav from "./navs/components/topNav";
 import PortfolioList from "./homepage/components/portfolioList";
 import RangeSlider from "./rangeSlider/components/rangeSlider";
@@ -33,6 +33,8 @@ function App() {
 
   /* listens for screen re-size and updates screen width variable */
   useEffect(() => {
+      // detect if a "coarse pointer" - usually a touch screen - is the primary input device and stores touchScreen boolean in redux 
+      dispatch(updateTouchScreen(window.matchMedia("(pointer: coarse)").matches))
     window.addEventListener("resize", () => {
       updateScreenWidth();
     });

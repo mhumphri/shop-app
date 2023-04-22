@@ -12,6 +12,8 @@ const [hotelArrayLocal, setHotelArrayLocal] = useState(props.hotelArray);
 const [dataLoadingLocal, setDataLoadingLocal] = useState(true);
 const [listItemLoading, setListItemLoading] = useState(true);
 
+
+
 //
 useEffect(() => {
 if (!props.dataLoading) {
