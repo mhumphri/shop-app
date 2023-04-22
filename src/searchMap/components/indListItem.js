@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import SwipeableGallery from "./swipeableGallery";
-import SwipeableGalleryTouchScreen from "./swipeableGalleryTouchScreen";
 
 import "../css/indListItem.css";
 
@@ -34,7 +33,7 @@ const handleMouseLeave = () => {
 
   return (
     <div className="ind-list-item-la6" onClick={()=>props.setActiveLink("/hotels/" + props.hotelData.key)} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <SwipeableGalleryTouchScreen itemLoading={indItemLoading} photos={props.hotelData.photos} />
+      <SwipeableGallery itemLoading={indItemLoading} photos={props.hotelData.photos} />
       <div className="ind-list-item-gd5" >
         <div className="ind-list-item-pq1">
           <div className="ind-list-item-lq2">

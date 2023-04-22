@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
 
 import "../css/swipeableGallery.css";
@@ -8,7 +7,8 @@ import "../css/swipeableGallery.css";
 // renders individual portfolio item either as a swipable photo gallry with progress indicator
 
 function SwipeableGallery(props) {
-
+  // boolean indicating if device is touch screen (stored in redux)
+  const touchScreen = useSelector((state) => state.deviceData.touchScreen);
   /* index of photo currently visible */
   const [currentPhoto, setCurrentPhoto] = useState(0);
   /* total number of photos in array */
@@ -165,9 +165,13 @@ function SwipeableGallery(props) {
   };
 
   /* updates chevron styling in response to changes in currentPhoto and props.activeResult */
+
   useEffect(() => {
+  if (!touchScreen){
     updateChevrons();
+  }
   }, [currentPhoto, pointerHover, chevronsActive]);
+
 
   /* activates chevron styling and active item in reponse to mouse entering */
   const handleMouseEnter = () => {
@@ -189,11 +193,60 @@ function SwipeableGallery(props) {
     false
   );
 
-  // redux hook for dispatching data
-  const dispatch = useDispatch();
+
+  if (touchScreen) {
+    return (
+        <div
+          class="swipeable-gallery-c14d"
+        >
+          {props.itemLoading ? null : (
+            <div class="swipeable-gallery-o1q">
+              <div />
+
+
+
+              <div class="swipeable-gallery-b1t">
+                <div class="swipeable-gallery-byc"></div>
+                <div class="swipeable-gallery-bal">
+                  <div
+                    aria-label="Photo 1 of 13"
+                    role="img"
+                    class="swipeable-gallery-r75"
+                  >
+                    <div class="swipeable-gallery-szn">
+                      {dotsRender(currentPhoto)}
+                    </div>
+                  </div>
+                </div>
+                <div class="swipeable-gallery-b18"></div>
+              </div>
+            </div>
+          )}
+
+          <div class="swipeable-gallery-cw9">
+            {props.itemLoading ? null : (
+              <div
+                class="swipeable-gallery-c14w"
+                onScroll={onGalleryScroll}
+                ref={galleryRef}
+              >
+                {props.photos.map((x) => (
+                  <div class="swipeable-gallery-rfe">
+                    <div className="swipeable-gallery-tz4">
+                      <img className="swipeable-gallery-uc3" alt="alt" src={x} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+    )
+  }
+  else {
 
   return (
-    <>
+
       <div
         class="swipeable-gallery-c14d"
         onMouseEnter={handleMouseEnter}
@@ -272,8 +325,9 @@ function SwipeableGallery(props) {
           )}
         </div>
       </div>
-    </>
+
   );
+}
 }
 
 export default SwipeableGallery;

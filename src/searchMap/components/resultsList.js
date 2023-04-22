@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
 import IndListItem from "./indListItem";
 import PaginationNav from "./paginationNav";
 import "../css/resultsList.css";
@@ -8,8 +7,6 @@ import "../css/resultsList.css";
 
 function ResultsList(props) {
 
-  // boolean indicating if device is touch screen (stored in redux)
-  const touchScreen = useSelector((state) => state.deviceData.touchScreen);
 const [numberHotelsLocal, setNumberHotelsLocal] = useState(1000);
 const [hotelArrayLocal, setHotelArrayLocal] = useState(props.hotelArray);
 const [dataLoadingLocal, setDataLoadingLocal] = useState(true);
@@ -49,7 +46,7 @@ return (
   <div className="results-list-na8">
   <div ref={props.listContainerRef} className="results-list-lq1">
 {hotelArrayLocal.map((x, index) => (
-<IndListItem listItemLoading={listItemLoading} key={index} itemId={index} hotelData={x} setActiveLink={props.setActiveLink} hoverHotel={props.hoverHotel} setHoverHotel={props.setHoverHotel}  />
+<IndListItem listItemLoading={listItemLoading} key={index} itemId={index} hotelData={x} setActiveLink={props.setActiveLink} hoverHotel={props.hoverHotel} setHoverHotel={props.setHoverHotel} />
 ))}
 
   </div>
