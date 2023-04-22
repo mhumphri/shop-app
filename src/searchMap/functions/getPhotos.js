@@ -38,8 +38,8 @@ import RoomS11 from "../images/RoomS11.webp";
 import RoomS12 from "../images/RoomS12.webp";
 
 */
-import HouseS1 from "../images/main1.jpeg";
-import HouseS2 from "../images/main2.jpeg";
+import HouseS1 from "../images/main1.jpg";
+import HouseS2 from "../images/main2.jpg";
 import HouseS3 from "../images/main3.jpeg";
 import HouseS4 from "../images/main4.jpeg";
 import HouseS5 from "../images/main5.jpeg";
