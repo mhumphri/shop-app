@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import IndListItem from "./indListItem";
 import PaginationNav from "./paginationNav";
 import "../css/resultsList.css";
@@ -7,6 +8,8 @@ import "../css/resultsList.css";
 
 function ResultsList(props) {
 
+  // boolean indicating if device is touch screen (stored in redux)
+  const touchScreen = useSelector((state) => state.deviceData.touchScreen);
 const [numberHotelsLocal, setNumberHotelsLocal] = useState(1000);
 const [hotelArrayLocal, setHotelArrayLocal] = useState(props.hotelArray);
 const [dataLoadingLocal, setDataLoadingLocal] = useState(true);

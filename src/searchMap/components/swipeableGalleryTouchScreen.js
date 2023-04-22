@@ -7,7 +7,7 @@ import "../css/swipeableGallery.css";
 
 // renders individual portfolio item either as a swipable photo gallry with progress indicator
 
-function SwipeableGallery(props) {
+function SwipeableGalleryTouchScreen(props) {
 
   /* index of photo currently visible */
   const [currentPhoto, setCurrentPhoto] = useState(0);
@@ -19,10 +19,10 @@ function SwipeableGallery(props) {
   const [pointerHover, setPointerHover] = useState(false);
   /* css styles for LHS and RHS chevrons */
   const [lhsChevronStyle, setLhsChevronStyle] = useState(
-    "s134m7bb s1tdgjmu dir dir-ltr"
+    "s134m7bb dir dir-ltr"
   );
   const [rhsChevronStyle, setRhsChevronStyle] = useState(
-    "s134m7bb s1tdgjmu dir dir-ltr"
+    "s134m7bb dir dir-ltr"
   );
 
   /* ref for photo viewer div */
@@ -46,7 +46,7 @@ function SwipeableGallery(props) {
       left: currentScrollPos - imageWidth,
       behavior: "smooth",
     });
-    setChevronsActive(true);
+    // setChevronsActive(true);
   };
 
   /* moves to next image when RHS chevron is clicked  */
@@ -59,7 +59,7 @@ function SwipeableGallery(props) {
       left: currentScrollPos + imageWidth,
       behavior: "smooth",
     });
-    setChevronsActive(true);
+    // setChevronsActive(true);
   };
 
   /* render of progress dots at the bottom of the photo (which show as you scroll through the photo array) */
@@ -137,7 +137,10 @@ function SwipeableGallery(props) {
   };
 
   // sets styles for rhs and lhs chevrons - different depending on whether the trigger is hover or scroll. if scroll, the chevron button remains visible to prevent link from being clicked. If hover, triggers the chevron button is hidden so cant be clicked
+
+/*
   const updateChevrons = () => {
+
     if (pointerHover) {
       if (currentPhoto > 0) {
         setLhsChevronStyle("s134m7bb dir dir-ltr");
@@ -162,22 +165,27 @@ function SwipeableGallery(props) {
       setLhsChevronStyle("s134m7bb s1tdgjmu  dir dir-ltr");
       setRhsChevronStyle("s134m7bb s1tdgjmu dir dir-ltr");
     }
-  };
 
-  /* updates chevron styling in response to changes in currentPhoto and props.activeResult */
+  };
+  */
+
+  /* updates chevron styling in response to changes in currentPhoto and props.activeResult
   useEffect(() => {
     updateChevrons();
   }, [currentPhoto, pointerHover, chevronsActive]);
+  */
 
-  /* activates chevron styling and active item in reponse to mouse entering */
+  /* activates chevron styling and active item in reponse to mouse entering
   const handleMouseEnter = () => {
     setPointerHover(true);
   };
+  */
 
-  /* de-activates chevron styling and active item in reponse to mouse entering */
+  /* de-activates chevron styling and active item in reponse to mouse entering
   const handleMouseLeave = () => {
     setPointerHover(false);
   };
+  */
 
   document.body.addEventListener(
     "touchstart",
@@ -196,8 +204,6 @@ function SwipeableGallery(props) {
     <>
       <div
         class="swipeable-gallery-c14d"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
       >
         {props.itemLoading ? null : (
           <div class="swipeable-gallery-o1q">
@@ -276,4 +282,4 @@ function SwipeableGallery(props) {
   );
 }
 
-export default SwipeableGallery;
+export default SwipeableGalleryTouchScreen;

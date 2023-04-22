@@ -3,3 +3,5 @@ https://stackoverflow.com/questions/23257419/strange-chrome-image-resizing-behav
 
 chrome links not working
 https://stackoverflow.com/questions/20012821/buttons-not-working-in-chrome-app
+
+git push origin swipable-gallery
