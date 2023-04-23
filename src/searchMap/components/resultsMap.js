@@ -19,16 +19,12 @@ document.head.appendChild(script);
 
 // holds google map object
 let map;
-// holds currently active marker objects
+// holds data and marker objects for current pill markers
 let markers = [];
-// boolean which indicates if have all been loaded
-// let markersLoaded;
 /* holds marker object of active large marker (which contains more details of saty in highlighted pill marker) */
 let activeLargeMarker;
-// boolean which indicates if markers are currently being loaded
-let markersLoading;
 
-// sets up listener for mapClicks - state can't be used in the event listener directly, so this is a workaround
+// sets up listener for mapClicks - state can't be accessed inside google map objects directly, so this is a workaround
 const mapClickListener = {
   currentInternal: 0,
   currentListener: function (val) {},
@@ -44,7 +40,7 @@ const mapClickListener = {
   },
 };
 
-// sets up listener for clicks on largeMarker - state can't be used in the event listener directly, so this is a workaround
+// sets up listener for clicks on largeMarker - state can't be accessed inside google map objects directly, so this is a workaround
 const largeMarkerClickListener = {
   currentInternal: 0,
   currentListener: function (val) {},
@@ -61,28 +57,27 @@ const largeMarkerClickListener = {
 };
 
 function ResultsMap(props) {
-  //ref for map container - used to calculate size of div
+  //ref for map container - used to access position / dimensions of map containers
   const mapContainer = useRef(null);
   // boolean which indicates if the google map has been loaded
   const [mapLoaded, setMapLoaded] = useState();
-  // object which holds map bounds, map center, map zoom, map box rectangle and map margin
-  const [mapDimensions, setMapDimensions] = useState();
-  //
+  // holds data and google map object for largeMarker
   const [largeMarker, setLargeMarker] = useState();
-  // keeps log of currently active pill marker
+  // keeps log of currently active pill marker - used for styling
   const [currentPillMarker, setCurrentPillMarker] = useState();
-  // keeps log of currently active pill marker
+  // keeps log of currently active pill marker - used for styling
   const [prevPillMarker, setPrevPillMarker] = useState();
-  // keeps log of currently active pill marker
+  // keeps log of state of pill markers (e.g. "current", "prev") - used for styling
   const [markerState, setMarkerState] = useState({});
-  // keeps log of currently active pill marker
+  // boolean indicating if markers have loaded
   const [markersLoaded, setMarkersLoaded] = useState();
-  // keeps log of currently active pill marker
+  // keeps log of most recent hotel which has been hovered over in the results list - used to disable styling when props.hoverHotel state changes
   const [hoverHotelLocal, setHoverHotelLocal] = useState();
 
   // COULD BE RATIONALISED? ?? highlights map marker when it is active (hover) in searchListLg.js and vice versa
   useEffect(() => {
     if (markersLoaded) {
+      // resets styling (to white background and black text) of previously hovered over hotel
       if (hoverHotelLocal) {
         const prevResultSelector = getMarkerSelector(hoverHotelLocal)
         if (prevResultSelector) {
@@ -94,6 +89,7 @@ function ResultsMap(props) {
         prevMarkerObject.element.style.zIndex = 0
       }
       }
+      // sets style of pill marker (to black background and white text) corresponding to currently hovered over hotel in results list
   if (props.hoverHotel) {
         const activeResultSelector = getMarkerSelector(props.hoverHotel);
         if (activeResultSelector) {
@@ -109,12 +105,14 @@ function ResultsMap(props) {
     }
   }, [props.hoverHotel]);
 
+  // parameters for initial map center and zoom
   let mapCenter = {
     lat: 48.6,
     lng: 0,
   };
   let mapZoom = 5;
 
+  // triggers update of markers when either pageLoading or dataLoading props set to false (i.e. after simulated loading has finished)
   useEffect(() => {
     if (!props.dataLoading && !props.pageLoading) {
       console.log("HOTEL ARRAY UPDATE");
@@ -122,9 +120,10 @@ function ResultsMap(props) {
     }
   }, [props.dataLoading, props.pageLoading]);
 
-  // refreshes markers when largeView state changes (so that popout box render updates)
+  // refreshes markers when largeView state changes so that (1) popout box render updates; and (2) largeMarker is switched off if we are moving into small view (where html render is used instead of google maps marker object)
   useEffect(() => {
           if (markersLoaded) {
+      // deleted largeMarker when view changes from large view to small view (as html render is used instaed of google maps marker in small view)
       if (!props.largeView) {
         if (largeMarker) {
        largeMarker.marker.map = null;
@@ -141,27 +140,15 @@ function ResultsMap(props) {
   }, [props.largeView]);
 
   // deletes current markers
+  // keysObject argument is an object containing keys of markers which are not to be deleted
+  // refresh argument overrides keysObject - if true, all markers are to be deleted
   const deleteMarkers = (keysObject, refresh) => {
-    /*
-  for (let i = 0; i < markers.length; i++) {
-    if (!keysObject[markers[i].markerData.key]) {
-     markers[i].marker.map = null;
-   }
-  }
-  */
-
-// let newMarkerState = {...markerState}
 
     // if refresh set to true, all markers are deleted (as the render for large marker is different)
     if (refresh) {
-
       var i = markers.length;
       while (i--) {
-      /*  if (newMarkerState[markers[i].markerData.key]) {
-          delete newMarkerState[markers[i].markerData.key]
-        } */
         if (markers[i].markerData.key)
-
         markers[i].marker.map = null;
         markers.splice(i, 1);
       }
@@ -171,38 +158,15 @@ function ResultsMap(props) {
       var i = markers.length;
       while (i--) {
         if (!keysObject[markers[i].markerData.key]) {
-      /*    if (newMarkerState[markers[i].markerData.key]) {
-            delete newMarkerState[markers[i].markerData.key]
-          } */
           markers[i].marker.map = null;
           markers.splice(i, 1);
-
         }
       }
     }
-
-  //  setMarkerState(newMarkerState)
-
-
-
-    //  markers=[]
-    /*  if (activeLargeMarker) {
-  activeLargeMarker.marker.map = null;
-  activeLargeMarker = false;
-}
-*/
   };
 
-  // updates markers using latest roomData array
+  // updates pill markers using latest roomData array
   const updateMarkers = (refresh) => {
-
-    /*
-if (markersLoaded) {
-  markersLoaded = false
- deleteMarkers()
-}
-*/
-
 
 // initialise variables
   let currentMarkerRetained
@@ -212,17 +176,17 @@ if (markersLoaded) {
      let newMarkerState = {}
 
 
-    // (1) loop through current hotel data array and create object with all keys
+    // (1) loop through current hotel data array and create object containing all hotel keys
     // (2) check if stored currentMarker and prevMarker keys appear in current hotelArray - if not reset currentMarker and prevMarker values
     // (3) check if keys stored in markerState appear in current hotelArray - if so retain those object properties in updated markerState object
     for (let i = 0; i < props.hotelArray.length; i++) {
-      // add current element key to keys object
+      // add key current hotelArray element to keys object
       keysObject[props.hotelArray[i].key] = true;
-      // if current element key matches currentPillMarker state, set currentMarkerRetained to true
+      // if current hotelArray element key matches currentPillMarker state, set currentMarkerRetained to true
       if (currentPillMarker===props.hotelArray[i].key) {
         currentMarkerRetained=true
       }
-      // if current element key matches prevPillMarker state, set prevMarkerRetained to true
+      // if current hotelArray element key matches prevPillMarker state, set prevMarkerRetained to true
       if (prevPillMarker===props.hotelArray[i].key) {
         prevMarkerRetained=true
       }
@@ -230,54 +194,52 @@ if (markersLoaded) {
       if (markerState[props.hotelArray[i].key]) {
         newMarkerState[props.hotelArray[i].key]=markerState[props.hotelArray[i].key]
       }
+      // check if the key for currently active large marker matches current hotelArray element key - if so set largeMarkerRetained to true
       if (largeMarker) {
       if (largeMarker.markerData.key===props.hotelArray[i].key) {
-        console.log("LARGE_MARKER_KEY_MATCH")
         largeMarkerRetained=true
       }
     }
     }
 
-    // prev pill marker is not contained in current hotel data array, set prevPillMarker state to false
+    // current pill marker is not contained in current hotel data array, set currentPillMarker state to false
     if (!currentMarkerRetained) {
       setCurrentPillMarker(false)
     }
 
-    // current pill marker is not contained in current hotel data array, set currentPillMarker state to false
+    // if prev pill marker is not contained in current hotel data array, set prevPillMarker state to false
         if (!prevMarkerRetained) {
           setPrevPillMarker(false)
         }
 
-        // if large marker is not contained in current hotel data array, set largeMarker state to false
+        // if largeMarker is not contained in current hotel data array, set largeMarker state to false
      if (!largeMarkerRetained && largeMarker) {
               activeLargeMarker.marker.map = null;
               activeLargeMarker = false;
               setLargeMarker(false);
-
             }
 
     // update MarkerState state
     setMarkerState(newMarkerState)
 
-
-    // delete markers which do not appear in the current hotelArray (or delete all in the case of refresh)
+    // delete markers which do not appear in the current hotelArray (or delete all if refresh argument is true)
     deleteMarkers(keysObject, refresh);
 
 
-    // if refresh, add new pill map markers for all elements of hotelArray
+    // if refresh argument is true, create new pill marker objects for all elements of hotelArray
     if (refresh) {
       for (let i = 0; i < props.hotelArray.length; i++) {
         addPillMarker(props.hotelArray[i], refresh);
       }
     }
-// if refresh, add new pill map markers for all elements of hotelArray which are not in keyArray
+// if refresh is false, add new pill marker objects for all elements of hotelArray which are not in keysObject
     else {
       // residualKeysObject stores keys of map markers which have not been deleted
       let residualKeysObject = {};
       for (let i = 0; i < markers.length; i++) {
         residualKeysObject[markers[i].markerData.key] = true;
       }
-      // map amrkers added for elements of hotel array, with undeleted markers from previous hotel array filtered out
+      // pill markers added for elements of hotel array, with undeleted markers from previous hotel array filtered out
       for (let i = 0; i < props.hotelArray.length; i++) {
         if (!residualKeysObject[props.hotelArray[i].key]) {
           addPillMarker(props.hotelArray[i]);
@@ -285,29 +247,34 @@ if (markersLoaded) {
       }
     }
 
+    // largeMarker is true, refresh argument is true (i.e. all markers are being deleted and updated) and large screen view, a new largeMarker (large maker displaying photo and hotel summary data) map objects is added
     if (largeMarker && refresh && props.largeView) {
       console.log("activeLarge1")
       addLargeMarker(largeMarker.markerData);
     }
 
+    // set markersLoaded state to true
     if (!markersLoaded) {
       setMarkersLoaded(true)
     }
   };
 
-  // creates a pill marker (there is one for every property in roomArray)
+  // creates new pill marker
+  // markerData argument contains the hotel data (element from hotelArray)
+  // ADD MORE! refresh indicates if marker is already on map and should be generated with no delay (the delay is used to simulate data loading from a server).
   const addPillMarker = (markerData, refresh) => {
 
 
     const createNewMarker = () => {
       function pillMarkerContent(markerData) {
 
-
+        // initialise variables for pill marker inline styling (white background, dark text)
         let pillBackground = "#FFFFFF"
         let pillColor = "#222222"
         let pillzIndex = 0
         let pillBoxShadow = "rgba(255, 255, 255, 0.18) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.18) 0px 2px 4px"
 
+        // inline styles if marker is has previously been active (shaded grey)
         if (markerState[markerData.key]==="prev") {
           pillBackground = "#EBEBEB"
           pillColor = "#222222"
@@ -315,17 +282,19 @@ if (markersLoaded) {
           pillBoxShadow = "0 0 0 1px #B0B0B0 inset"
         }
 
+        // styles if marker is currently active (dark background, white text)
         if (markerState[markerData.key]==="current") {
-          pillBackground = "black"
+          pillBackground = "222222"
           pillColor = "#FFFFFF"
           pillzIndex = 1
           pillBoxShadow = "rgba(255, 255, 255, 0.18) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.18) 0px 2px 4px"
         }
 
 
-
+        // initialises pill marker html render
         const content = document.createElement("div");
 
+        // sets pill marker html render
         content.innerHTML = `
         <div style="transform: translate(calc(-50% + 0px), calc(50% + 0px)); transition: transform 0.2s ease 0s; left: 50%; position: absolute; bottom: 0px; z-index: ${pillzIndex}; pointer-events: auto; font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;">
           <button
@@ -355,14 +324,14 @@ if (markersLoaded) {
         return content;
       }
 
-      /* creates marker object */
+      // creates new google maps advanced marker object
       const newMarker = new window.google.maps.marker.AdvancedMarkerView({
         map,
         content: pillMarkerContent(markerData),
         position: markerData.coords,
       });
 
-      /* adds large marker (which shows more detail for property) when pill marker is clicked */
+      // creates large marker (which shows photo and more detail for hotel) when pill marker is clicked
       newMarker.addListener("click", (event) => {
         clickPill(markerData, newMarker);
         addLargeMarker(markerData);
@@ -370,26 +339,31 @@ if (markersLoaded) {
 
       const element = newMarker.element;
 
-      /* highlights pill marker when mouse is over */
+      // pointer enter listener which highlights pill marker when mouse hovers over
       ["focus", "pointerenter"].forEach((event) => {
         element.addEventListener(event, () => {
           highlight(newMarker, markerData);
         });
       });
 
-      /* unhighlights pill marker when mouse is over */
+      // pointer leave listener which highlights pill marker when mouse hovers over
       ["blur", "pointerleave"].forEach((event) => {
         element.addEventListener(event, () => {
           unhighlight(newMarker, markerData);
         });
       });
 
+      // pushes object containing markerData and google maps marker object to markers array
       markers.push({ marker: newMarker, markerData: markerData });
     };
 
+    // if refresh argument is true, create new marker is called with no delay (delay mimics data loading from server)
     if (refresh) {
       createNewMarker();
-    } else {
+    }
+
+    // if refresh argument is false, create new marker is called with a delay (delay mimics data loading from server)
+    else {
       // random delay & timeout creates impression of loading from server
       let randomDelay = randomNumberInRange(200, 1000);
 
@@ -399,11 +373,13 @@ if (markersLoaded) {
     }
   };
 
+  // changes style to highlight pill marker (uses scale property to make pill slightly larger and z-index to bring forward)
   function highlight(markerView, property) {
     markerView.content.classList.add("highlight");
     markerView.element.style.zIndex = 0;
   }
 
+  // changes style to highlight pill marker (returns scale and z-index properties to initial values)
   function unhighlight(markerView, property) {
     markerView.content.classList.remove("highlight");
     markerView.element.style.zIndex = "";
@@ -418,81 +394,78 @@ if (markersLoaded) {
     return newSelector
   }
 
-
+// sets pill marker styles to "currently active" (i.e dark background and white text)
+// takes marker key and google map marker object as arguments
 const setPillStyleCurrent = (markerKey, marker) => {
+  // creates css selector for a pill marker idenitifed by key
   const activeResultSelector = getMarkerSelector(markerKey);
+  // sets styles
   if (activeResultSelector) {
   activeResultSelector.style.backgroundColor = "black";
   activeResultSelector.style.color = "white";
   marker.element.style.zIndex = 1;
-
     }
 }
 
+// sets pill marker styles to "previously active" (i.e shaded grey)
+// takes marker key and google map marker object as arguments
 const setPillStylePrev = (markerKey) => {
+  // creates css selector for a pill marker idenitifed by key
   const prevResultSelector = getMarkerSelector(markerKey)
+  // sets styles
   if (prevResultSelector) {
   prevResultSelector.style.backgroundColor = "#EBEBEB";
   prevResultSelector.style.color = "#222222";
   prevResultSelector.style.boxShadow ="0 0 0 1px #B0B0B0 inset";
 }
+// fetches marker object for previously active marker
 const prevMarkerObject = getMarkerObject(markerKey)
+// sets z-index css property for previously active marker
 if (prevMarkerObject) {
 prevMarkerObject.element.style.zIndex = 0
 }
-
 }
 
   // handles user click on pill marker - changes newly selected maker style and also stores crrently selected marker in state (which triggers re-tyling of prev selected marker)
   function clickPill(markerData, marker) {
-
         setPillStyleCurrent(markerData.key, marker)
         setCurrentPillMarker(markerData.key)
-
   }
 
   // updates styling of previously active pill marker and variable recording previous marker state - needs to be split out as state doesn't update in google map objects
   useEffect(() => {
     if (currentPillMarker) {
     if (!prevPillMarker) {
-      setPrevPillMarker(currentPillMarker)
-
+      // updates marker state object for currently active pill marker
       let newMarkerState = {...markerState}
       newMarkerState[currentPillMarker] = "current"
       setMarkerState(newMarkerState)
+      // sets current marker as prev pill marker (so there is a record when current pill marker updates)
+      setPrevPillMarker(currentPillMarker)
     }
     else {
+      // sets styles for previously active pill marker
       setPillStylePrev(prevPillMarker)
-  /*    const prevResultSelector = getMarkerSelector(prevPillMarker)
-      if (prevResultSelector) {
-      prevResultSelector.style.backgroundColor = "#EBEBEB";
-      prevResultSelector.style.color = "#222222";
-      prevResultSelector.style.boxShadow ="0 0 0 1px #B0B0B0 inset";
-    } */
-
+      // updates marker state object for currently active and previously active pill markers
     let newMarkerState = {...markerState}
     newMarkerState[currentPillMarker] = "current"
     newMarkerState[prevPillMarker] = "prev"
     setMarkerState(newMarkerState)
-
-    /*
-      const prevMarkerObject = getMarkerObject(prevPillMarker)
-      if (prevMarkerObject) {
-      prevMarkerObject.element.style.zIndex = 0
-
-    }
-    */
+    //  sets current marker as prev pill marker (so there is a record when current pill marker updates)
     setPrevPillMarker(currentPillMarker)
     }
   }
   }, [currentPillMarker]);
 
-  // retrives marker object for a given property key
+  // returns marker object for a given property key
   const getMarkerObject = (markerKey) => {
     let matchingMarkerObject
+    // compares marker key of interest against all keys stored in markers array
     for (let i=0; i<markers.length; i++) {
+      // if there is a match, matchingMarkerObject is is set to marker object from markers array
       if (markerKey===markers[i].markerData.key) {
         matchingMarkerObject = markers[i].marker
+        break;
       }
     }
     return matchingMarkerObject
@@ -500,77 +473,89 @@ prevMarkerObject.element.style.zIndex = 0
 
 
 
-  // Creates large popout marker to the map (which gives more details on the currently selected pill marker + link)
+  // Creates large popout marker (which gives more details on the currently selected pill marker + link)
   const addLargeMarker = (markerData) => {
 
+    // deletes large marker (google map object and staored marker data) if one is currently active
     if (activeLargeMarker) {
-      console.log("activeLarge2")
       activeLargeMarker.marker.map = null;
       activeLargeMarker = false;
       setLargeMarker(false);
     }
 
+    // creates new google maps advanced marker object
     const newMarker = new window.google.maps.marker.AdvancedMarkerView({
       map,
       content: largeMarkerContent(markerData),
       position: markerData.coords,
     });
 
+    // sets new marker z-index property to 10 (so it appears in from of everything else)
     newMarker.element.style.zIndex = 10
 
+    // click listener which calls largeMarkerClickListener (which activates modal with link details) setter when large marker is clicked
     newMarker.addListener("click", (event) => {
       largeMarkerClickListener.current=true
     });
 
+    // updates activeLargeMarker variable and state variable with google maps marker object and marker data (element from hotelArray)
     activeLargeMarker = { marker: newMarker, markerData: markerData };
     setLargeMarker({ marker: newMarker, markerData: markerData });
   };
 
   // calculates position and generates html content for large marker
   function largeMarkerContent(markerData) {
-
+    // gets current map bounds and ne and sw limit coords
     const mapBounds = map.getBounds();
     const neCoords = mapBounds.getNorthEast(); // Coords of the northeast corner
     const swCoords = mapBounds.getSouthWest(); // Coords of the southwest corner
 
-    const content = document.createElement("div");
-
+    // initialises largeMarker width, min margin (buffer from edge of map where large marker cannot be rendered)
     let containerWidth = 327;
-    let minMargin = 35;
+    // sets min margin (buffer from edge of map where large marker cannot be rendered)
+    const minMargin = 35;
 
-    let adjustment = 0;
+    // get dimensions/position of map container html element
     const mapBox = mapContainer.current.getBoundingClientRect();
 
+    // calculates coordinate distance between lhs of map and marker
     const lhsLngDiff = calcLngDiff(swCoords.lng(), markerData.coords.lng)
+    // calculates coordinate width of map
     const lngWidth = calcLngDiff(swCoords.lng(),neCoords.lng())
+    // calculates pixel distance between map lhs and marker
     const lhsPxDiff = mapBox.width * (lhsLngDiff/lngWidth)
+    // calculates pixel distance between map rhs and marker
     const rhsPxDiff = mapBox.width - lhsPxDiff
-
+    // initialises horizontal adjustement. This adjusts position of large marker horizontally if default position of marker flows into buffer margin around map or outside the map
     let horizontalAdj = 0
-
+    // if default position of marker flows into buffer margin around map or outside the map horizontal position is adjusted so that the large marker stays within the map (outside margin buffers) but is no longer aligned with the center of the pill marker
+    // if px distance between map lhs and pill marker is less than half the widht of the container (plus buffer margin) large marker position is adjusted
     if (lhsPxDiff < containerWidth / 2 + minMargin) {
       horizontalAdj = containerWidth / 2 - (lhsPxDiff - minMargin);
     }
+    // if px distance between map rhs and pill marker is less than half the widht of the container (plus buffer margin) large marker position is adjusted
     if (rhsPxDiff < containerWidth / 2 + minMargin) {
       horizontalAdj = -(containerWidth / 2 - (rhsPxDiff - minMargin));
     }
 
-
+    // initialises vertical adjustments which determine whether large marker appears above or below the pill marker
     let verticalAdj
     let verticalPercentage
+    // gets coordinates of current map center point
     const mapCenter = map.getCenter();
 
+    // if map center latitude is above pill marker, set large marker position above the pill marker
     if (mapCenter.lat()>markerData.coords.lat) {
-      console.log("BELOW CENTER")
       verticalAdj = - 31.078
       verticalPercentage = 0
     }
+    // if map center latitude is below pill marker, set large marker position below the pill marker
     else {
-      console.log("ABOVE CENTER")
       verticalAdj = 31.078
       verticalPercentage = 100
     }
 
+    // creates inline style setting position of large marker
     const largeMarkerPos =
       "translate(calc(-50% + " +
       horizontalAdj +
@@ -580,6 +565,10 @@ prevMarkerObject.element.style.zIndex = 0
       verticalAdj +
       "px))";
 
+      // initialises html content for largeMarker render
+      const content = document.createElement("div");
+
+      // html render for large popout marker (only renders if screen in large view)
     if (props.largeView) {
       content.innerHTML = `
       <div style="transform: ${largeMarkerPos}; left: 50%; position: absolute; bottom: 0px; z-index: 2; pointer-events: auto; font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif; animation-duration: 100ms;">
@@ -624,35 +613,39 @@ prevMarkerObject.element.style.zIndex = 0
     return content;
   }
 
+  // adjusts map bounds if new country is inputted by user
   useEffect(() => {
+    // map bound update is triggered if props.searchLocation has a non-false value and the value is not "map area" (which would be triggered by the user moving the map)
     if (props.searchLocation && props.searchLocation !== "map area") {
-      console.log("LOCATION UPDATE");
-      let countryBbox;
-      let countryPolygons = getCountryPolygons(props.searchLocation);
-      countryBbox = bbox(countryPolygons);
 
-      var countryBounds = new window.google.maps.LatLngBounds();
-      var bound1 = new window.google.maps.LatLng(
+      // gets polygons for seleted country
+      const countryPolygons = getCountryPolygons(props.searchLocation);
+      // gets boundary box (smallest rectangle which contains country polygons) for country polygons (using turf bbox function)
+      const countryBbox = bbox(countryPolygons);
+      // creates google map LatLng object for NE of country bbox
+      const bound1 = new window.google.maps.LatLng(
         countryBbox[1],
         countryBbox[0]
       );
-      var bound2 = new window.google.maps.LatLng(
+      // creates google map LatLng object for SW of country bbox
+      const bound2 = new window.google.maps.LatLng(
         countryBbox[3],
         countryBbox[2]
       );
+      // initialises new LatLngBounds() google map object
+      let countryBounds = new window.google.maps.LatLngBounds();
+      // adds NE coords to countryBounds
       countryBounds.extend(bound1);
+      // adds SW coords to countryBounds
       countryBounds.extend(bound2);
+      // fits map to countryBounds
       map.fitBounds(countryBounds);
     }
   }, [props.searchLocation]);
 
-  /* creates new google map object */
+  // creates new google map object and event listeners etc
   const renderMap = () => {
-    console.log("RENDER MAP!");
-    const center = {
-      lat: 48.6,
-      lng: 0,
-    };
+    // creates new google map object
     map = new window.google.maps.Map(document.getElementById("map"), {
       zoom: mapZoom,
       center: mapCenter,
@@ -661,11 +654,11 @@ prevMarkerObject.element.style.zIndex = 0
       gestureHandling: "greedy",
       mapTypeId: "terrain",
     });
-    /* sets mapLoaded variable to true when first idle event occurs (which then enables adding of markers inside the react component) */
+    // sets mapLoaded state to true when first idle event occurs (which then enables adding of markers inside the react component)
     window.google.maps.event.addListenerOnce(map, "idle", function () {
       setMapLoaded(true);
     });
-    // updates stored map bounds, center, zoom etc when map bounds change
+    // updates stored map parameters (bounds, center, zoom etc) when map bounds change
     window.google.maps.event.addListener(map, "idle", function () {
       props.setMapParameters({
         bounds: map.getBounds(),
@@ -673,49 +666,33 @@ prevMarkerObject.element.style.zIndex = 0
         zoom: map.getZoom(),
         box: mapContainer.current.getBoundingClientRect(),
       });
-      /* setMapDimensions(
-        {
-          mapBounds: map.getBounds(),
-          mapCenter: map.getCenter(),
-          mapZoom: map.getZoom(),
-          mapBox: mapContainer.current.getBoundingClientRect(),
-          mapMarginPx: 50,
-        }
-      )
-      props.setMapBounds(map.getBounds()) */
     });
 
-    /* event listener for mousedown uses a geter/setter to change drawerdown state */
+    // event listener for mousedown uses a getter/setter to change drawerdown state
     map.addListener("click", (event) => {
-      console.log("activeLarge3")
-      /*
-      activeLargeMarker.marker.map = null;
-      activeLargeMarker = false;
-      setLargeMarker(false);
-      */
       // getter/setter trigrers  of state (turning off) / style for active marker - can't be done inside event listener as can't access state here
       mapClickListener.current = true;
     });
   };
 
-  /* checks google API has loaded before rendering map */
+  // checks google API has loaded before rendering map
   const googleMapChecker = () => {
-    // check for maps in case you're using other google api
+    // check for maps in case using other google api are being used
     if (!window.google) {
+      // loops back round if api hasn't loaded
       setTimeout(googleMapChecker, 100);
-      console.log("not there yet");
     } else {
-      console.log("we're good to go!!");
       // the google maps api is ready to use, render the map
       renderMap();
     }
   };
 
-  /* calls googleMapChecker when component loads for the first time */
+  // calls googleMapChecker when component loads for the first time
   useEffect(() => {
     googleMapChecker();
   }, []);
 
+  // function which removes large marker
   const removeLargeMarker = () => {
     activeLargeMarker.marker.map = null;
     activeLargeMarker = false;
@@ -724,14 +701,14 @@ prevMarkerObject.element.style.zIndex = 0
     setCurrentPillMarker(false)
   }
 
-  // sets drawer down and closes popout box when map is clicked on - as can't read current state in event listener, so this listener is used as a work around
+  // closes  large marker popout box when map is clicked on - as can't read current state in event listener, so this listener is used as a work around
   mapClickListener.registerListener(function (val) {
     if (val) {
       removeLargeMarker()
   }
   });
 
-  // generates url string and triggers navigation to roomPage when large marker is clicked
+  // generates url string and triggers modal showing navigation to roomPage when large marker is clicked
   largeMarkerClickListener.registerListener(function (val) {
     if (val) {
       props.setActiveLink("/hotels/" + activeLargeMarker.markerData.key)
