@@ -203,8 +203,8 @@ function SearchMap(props) {
             if (mapParameters.zoom < mapState.zoom || searchRefresh!==mapState.searchRefresh) {
               refresh = true;
             }
-            // if current expandMapView state does not equal state at time of last search, the new search is aborted (as the change in map bounds is assumed to result from the change in map view). Only for largeView as map bounds don't change when we move from list to map in small view.
-            if (expandMapView === mapState.expandMapView || !largeView) {
+            // if current expandMapView state does not equal state at time of last search, the new search is aborted (as the change in map bounds is assumed to result from the change in map view). Only for above 949px (because the render changes at this point so that map isn't show on the rhs but button needs to be clicked) as map bounds don't change when we move from list to map in small (<950px screen width) view.
+            if (expandMapView === mapState.expandMapView || screenWidth<950 ) {
               console.log("!!!activePolygons.length > 3")
               // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
               triggerDataLoading();

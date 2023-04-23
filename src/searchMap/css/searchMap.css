@@ -25,14 +25,6 @@ html, body {
 }
 */
 
-
-body.disable-scroll {
-	position: fixed;
-height: 100%;
-overflow: hidden;
-}
-
-
 :root {
 
 }

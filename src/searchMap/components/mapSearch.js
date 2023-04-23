@@ -96,7 +96,8 @@ function SearchMap(props) {
 
   // useEffect triggered by mapBounds being updated or searchRefresh being toggled (when search button on nav is clicked) - generates mock search results in place of server
   useEffect(() => {
-    console.log("MAP PARAMETERS UPDATE")
+    console.log("MAP PARAMETERS UPDATExyz")
+    console.log("MPU_1")
     // generates number of hotels based on land area implied by active map bounds (more land in scope = more hotels)
     const getHotelNumber = (activePolygons) => {
       const landArea = calcLandArea(activePolygons);
@@ -105,6 +106,7 @@ function SearchMap(props) {
 
     // updates numberHotels state, calcs and updates MaxPages state and resets active page state to 1
     const updateHotelAndPages = (newNumberHotels) => {
+      console.log("MPU_2")
       setNumberHotels(newNumberHotels);
       let newMaxPages = Math.ceil(newNumberHotels / 18);
       if (newMaxPages > 15) {
@@ -116,7 +118,7 @@ function SearchMap(props) {
 
     // if searchLocationUpdate boolean is true country specific search is triggered
     if (searchLocationUpdate) {
-      console.log("!!!searchLocationUpdate")
+      console.log("MPU_3")
       // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
       triggerDataLoading();
       // get polygons for country specified in search
@@ -129,8 +131,7 @@ function SearchMap(props) {
     }
     // if searchLocationUpdate boolean is false search based on  current map bounds is triggered
     else {
-      console.log("!!!notsearchLocationUpdate")
-
+      console.log("MPU_4")
 
       // calcs time interval since last screen resize (if below 500ms it is assumed that change in map bounds results from screen resize and new search is aborted)
       const msSinceResize = Date.now() - resize;
@@ -144,7 +145,7 @@ function SearchMap(props) {
 
       // if map parameters have already been declared and change in map bounds not result of screen resize a new search is triggered
       if (mapParameters && msSinceResize > 500) {
-        console.log("!!!mapParameters && msSinceResize > 500")
+        console.log("MPU_5")
         // fetches polygons within current map bounds
         const activePolygons = getActivePolygons(mapParameters.bounds);
         // calc land area for polygons within current map bounds
@@ -186,25 +187,26 @@ function SearchMap(props) {
 
         // number of hotels returned >0 search results are generated an stored in hotelArray state
         if (activePolygons.length > 0) {
-          console.log("!!!activePolygons.length > 0")
+          console.log("MPU_6")
           // mapState is yet to be declared this is the first search so a simple search without any checks is triggered
           if (!mapState) {
-            console.log("!!!activePolygons.length > 1")
+            console.log("MPU_7")
             // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
             triggerDataLoading();
             // search results are generated an stored in hotelArray state
             setHotelArray(generateHotelArray(hotelsInArray, activePolygons));
           } else {
-            console.log("!!!activePolygons.length > 2")
+            console.log("MPU_8")
             // initialises refresh boolean - if true prev search results are deleted even if they fall within current map bounds.
             let refresh = false;
             // refresh set to true when zooming out or if searchFresh has been toggled (i.e. search button on nav has been clicked) - all prev search reulsts are deleted
             if (mapParameters.zoom < mapState.zoom || searchRefresh!==mapState.searchRefresh) {
+                        console.log("MPU_9")
               refresh = true;
             }
             // if current expandMapView state does not equal state at time of last search, the new search is aborted (as the change in map bounds is assumed to result from the change in map view). Only for largeView as map bounds don't change when we move from list to map in small view.
-            if (expandMapView === mapState.expandMapView || !largeView) {
-              console.log("!!!activePolygons.length > 3")
+             if (expandMapView === mapState.expandMapView || !largeView) {
+                        console.log("MPU_10")
               // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
               triggerDataLoading();
                 // search results are generated an stored in hotelArray state
@@ -216,6 +218,7 @@ function SearchMap(props) {
         }
         // number of hotels returned = 0 generates an empty array as search result
         else {
+                    console.log("MPU_11")
           triggerDataLoading();
           setHotelArray([]);
         }

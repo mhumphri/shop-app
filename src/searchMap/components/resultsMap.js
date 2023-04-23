@@ -376,7 +376,7 @@ function ResultsMap(props) {
   // changes style to highlight pill marker (uses scale property to make pill slightly larger and z-index to bring forward)
   function highlight(markerView, property) {
     markerView.content.classList.add("highlight");
-    markerView.element.style.zIndex = 0;
+    markerView.element.style.zIndex = 2;
   }
 
   // changes style to highlight pill marker (returns scale and z-index properties to initial values)
