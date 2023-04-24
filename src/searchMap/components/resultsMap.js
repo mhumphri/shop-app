@@ -24,6 +24,7 @@ let markers = [];
 /* holds marker object of active large marker (which contains more details of saty in highlighted pill marker) */
 let activeLargeMarker;
 
+
 // sets up listener for mapClicks - state can't be accessed inside google map objects directly, so this is a workaround
 const mapClickListener = {
   currentInternal: 0,
@@ -57,6 +58,8 @@ const largeMarkerClickListener = {
 };
 
 function ResultsMap(props) {
+  // !!!RATIONALISE!!! alternative for currentPillMarker state (which can be accessed "live" inside google map objects)
+  let altCurrentPillMarker
   //ref for map container - used to access position / dimensions of map containers
   const mapContainer = useRef(null);
   // boolean which indicates if the google map has been loaded
@@ -374,15 +377,22 @@ function ResultsMap(props) {
   };
 
   // changes style to highlight pill marker (uses scale property to make pill slightly larger and z-index to bring forward)
-  function highlight(markerView, property) {
+  function highlight(markerView, markerData) {
     markerView.content.classList.add("highlight");
     markerView.element.style.zIndex = 2;
   }
 
   // changes style to highlight pill marker (returns scale and z-index properties to initial values)
-  function unhighlight(markerView, property) {
+  function unhighlight(markerView, markerData) {
+
     markerView.content.classList.remove("highlight");
-    markerView.element.style.zIndex = "";
+    if (altCurrentPillMarker!==markerData.key) {
+      markerView.element.style.zIndex = "";
+  }
+  else {
+    markerView.element.style.zIndex = 1;
+  }
+
   }
 
   // creates css selector for a given property key
@@ -430,6 +440,7 @@ prevMarkerObject.element.style.zIndex = 0
   function clickPill(markerData, marker) {
         setPillStyleCurrent(markerData.key, marker)
         setCurrentPillMarker(markerData.key)
+        altCurrentPillMarker=markerData.key
   }
 
   // updates styling of previously active pill marker and variable recording previous marker state - needs to be split out as state doesn't update in google map objects
