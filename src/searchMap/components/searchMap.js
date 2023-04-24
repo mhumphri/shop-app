@@ -395,7 +395,9 @@ function SearchMap(props) {
   };
 
   return (
+
     <div className="search-map-nr6">
+
       <SearchMapNav
         searchLocation={searchLocation}
         updateSearchLocation={updateSearchLocation}
