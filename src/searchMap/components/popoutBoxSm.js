@@ -3,12 +3,13 @@ import {useSelector } from "react-redux";
 import "../css/popoutBoxSm.css";
 
 function PopoutBoxSm(props) {
-  // viewport height (stored in redux)
+  // viewport width & height (stored in redux)
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
+  const screenHeight = useSelector((state) => state.deviceData.screenHeight);
 
 
   return (
-    <div className="popout-box-sm-yr3">
+    <div className={screenHeight<500 ? "popout-box-sm-yr3 low-screen-height" : "popout-box-sm-yr3"}>
     <div class="popout-box-sm-pm1" onClick={props.removeLargeMarker}/>
       <div class="popout-box-sm-zt8" onClick={()=>props.setActiveLink("/hotels/" + props.markerData.key)}>
         <div class="popout-box-sm-ks9">

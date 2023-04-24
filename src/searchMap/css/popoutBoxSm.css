@@ -6,6 +6,10 @@
 width: 100%;
 }
 
+.popout-box-sm-yr3.low-screen-height {
+  top: 100px;
+}
+
 .popout-box-sm-pm1 {
   height: 126px;
   width: 24px;

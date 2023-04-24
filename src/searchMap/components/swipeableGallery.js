@@ -12,7 +12,7 @@ function SwipeableGallery(props) {
   /* index of photo currently visible */
   const [currentPhoto, setCurrentPhoto] = useState(0);
   /* total number of photos in array */
-  const [maxPhoto] = useState(props.photos.length - 1);
+  // const [maxPhoto] = useState(props.photos.length - 1);
   /* boolean value indicating if chevrons currently active - used to deterin appropriate styling */
   const [chevronsActive, setChevronsActive] = useState(false);
   // boolean value indicating if pointer is currently hovering over gallery
@@ -64,6 +64,8 @@ function SwipeableGallery(props) {
 
   /* render of progress dots at the bottom of the photo (which show as you scroll through the photo array) */
   const dotsRender = (livePhoto) => {
+    // total number of photos in array
+    const maxPhoto = props.photos.length - 1;
     let newDots = [];
     for (let i = 0; i < props.photos.length; i++) {
       let style = "swipeable-gallery-1k9";
@@ -138,27 +140,40 @@ function SwipeableGallery(props) {
 
   // sets styles for rhs and lhs chevrons - different depending on whether the trigger is hover or scroll. if scroll, the chevron button remains visible to prevent link from being clicked. If hover, triggers the chevron button is hidden so cant be clicked
   const updateChevrons = () => {
+    // total number of photos in array
+    const maxPhoto = props.photos.length - 1;
+    console.log("update chevrons1")
     if (pointerHover) {
+      console.log("update chevrons2")
       if (currentPhoto > 0) {
+        console.log("update chevrons3")
         setLhsChevronStyle("s134m7bb dir dir-ltr");
       } else {
+        console.log("update chevrons4")
         if (chevronsActive) {
+          console.log("update chevrons5")
           setLhsChevronStyle("s134m7bb  sqd06yw  dir dir-ltr");
         } else {
+          console.log("update chevrons6")
           setLhsChevronStyle("s134m7bb s1tdgjmu  dir dir-ltr");
         }
       }
 
       if (currentPhoto < maxPhoto) {
+        console.log("update chevrons7")
         setRhsChevronStyle("s134m7bb dir dir-ltr");
       } else {
+        console.log("update chevrons8")
         if (chevronsActive) {
+          console.log("update chevrons9")
           setRhsChevronStyle("s134m7bb sqd06yw dir dir-ltr");
         } else {
+          console.log("update chevrons10")
           setRhsChevronStyle("s134m7bb s1tdgjmu dir dir-ltr");
         }
       }
     } else {
+      console.log("update chevrons11")
       setLhsChevronStyle("s134m7bb s1tdgjmu  dir dir-ltr");
       setRhsChevronStyle("s134m7bb s1tdgjmu dir dir-ltr");
     }
@@ -167,7 +182,8 @@ function SwipeableGallery(props) {
   /* updates chevron styling in response to changes in currentPhoto and props.activeResult */
 
   useEffect(() => {
-  if (!touchScreen){
+    console.log("update chevrons")
+if (!touchScreen){
     updateChevrons();
   }
   }, [currentPhoto, pointerHover, chevronsActive]);
@@ -175,11 +191,13 @@ function SwipeableGallery(props) {
 
   /* activates chevron styling and active item in reponse to mouse entering */
   const handleMouseEnter = () => {
+    console.log("mouse Enter!!")
     setPointerHover(true);
   };
 
   /* de-activates chevron styling and active item in reponse to mouse entering */
   const handleMouseLeave = () => {
+    console.log("mouse leave!!")
     setPointerHover(false);
   };
 
@@ -194,7 +212,7 @@ function SwipeableGallery(props) {
   );
 
 
-  if (touchScreen) {
+ if (touchScreen) {
     return (
         <div
           class="swipeable-gallery-c14d"
@@ -244,6 +262,7 @@ function SwipeableGallery(props) {
     )
   }
   else {
+
 
   return (
 
