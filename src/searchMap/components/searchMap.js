@@ -4,7 +4,6 @@ import ResultsMap from "./resultsMap";
 import ResultsList from "./resultsList";
 import SearchMapNav from "./searchMapNav";
 import LinkModal from "./linkModal";
-import SearchMapFooter from "./searchMapFooter";
 import shuffleArray from "../functions/shuffleArray";
 import getActivePolygons from "../functions/getActivePolygons";
 import getCountryPolygons from "../functions/getCountryPolygons";
@@ -13,7 +12,6 @@ import getPhotos from "../functions/getPhotos";
 import calcLandArea from "../functions/calcLandArea";
 import generateKey from "../functions/generateKey";
 import randomNumberInRange from "../functions/randomNumberInRange";
-import { hotelData } from "../data/hotelData";
 import "../css/searchMap.css";
 
 // main component for earchPage app - contains homepage and all the logic for generating mock search results in place of server
@@ -243,19 +241,6 @@ function SearchMap(props) {
   const [mapStyle, setMapStyle] = useState("m1ict9kd dir dir-ltr");
   // ref for outer container of results list (used for controlling visibility of "show list" / "show map" button)
   const listContainerRef = useRef(null);
-
-/* randomly selects a given number of rooms from roomData array
-  function randomSelectHotels(number) {
-    let newHotelArray = [...hotelData];
-    let i = newHotelArray.length;
-    while (i > number) {
-      const random = Math.floor(Math.random() * newHotelArray.length);
-      newHotelArray.splice(random, 1);
-      i--;
-    }
-    shuffleArray(newHotelArray);
-    return newHotelArray;
-  } */
 
   // generates data for hotels returned by search. Takes numbers of hotels, active land polygons and refresh (deleted all prev results if true) as arguments
   const generateHotelArray = (numHotels, activePolygons, refresh) => {
