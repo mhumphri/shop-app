@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
+import {useSelector } from "react-redux";
 import "../css/popoutBoxSm.css";
 
 function PopoutBoxSm(props) {
+  // viewport height (stored in redux)
+  const screenWidth = useSelector((state) => state.deviceData.screenWidth);
+
+
   return (
     <div className="popout-box-sm-yr3">
     <div class="popout-box-sm-pm1" onClick={props.removeLargeMarker}/>
@@ -27,7 +32,7 @@ function PopoutBoxSm(props) {
                   <span class="popout-box-sm-al5">
                     £{props.markerData.price}
                   </span>{" "}
-                  per night
+                  {screenWidth < 400 ? "night" : "per night"}
                 </div>
 
                 <div class="popout-box-sm-hh3">
@@ -46,7 +51,7 @@ function PopoutBoxSm(props) {
                       fill-rule="evenodd"
                     ></path>
                   </svg>
-                  <div class="popout-box-sm-ma1">{props.markerData.rating} ({props.markerData.numReviews})</div>
+                  <div class="popout-box-sm-ma1">{props.markerData.rating} {screenWidth < 400 ? null : " (" + props.markerData.numReviews + ")"}</div>
                 </div>
               </div>
             </div>

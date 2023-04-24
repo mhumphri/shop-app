@@ -257,7 +257,7 @@ margin-top: 24px;
 
 
 
-._fo8j1u0 {
+.search-map-fo8 {
 	z-index: 8 !important;
 	white-space: nowrap !important;
 	pointer-events: auto !important;
@@ -268,9 +268,13 @@ margin-top: 24px;
 	transition: -ms-transform 0.2s ease-in-out 0s, transform 0.2s ease-in-out 0s, transform 0.2s ease-in-out 0s !important;
 }
 
-._fo8j1u0 {
-	margin-bottom: env(safe-area-inset-bottom) !important;
+.search-map-fo8.small-screen-height {
+	bottom: 15px !important;
 }
+
+/* ._fo8j1u0 {
+	margin-bottom: env(safe-area-inset-bottom) !important;
+} */
 
 ._174uh40 {
 	-moz-box-pack: center !important;

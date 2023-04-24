@@ -17,6 +17,7 @@ import "../css/searchMap.css";
 // main component for earchPage app - contains homepage and all the logic for generating mock search results in place of server
 
 function SearchMap(props) {
+
   // large view (boolean indicating if app currently in large view) and screen height (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
   // viewport height (stored in redux)
@@ -42,7 +43,7 @@ function SearchMap(props) {
   // Boolean indicating if first load of app is taking place - used to prevent searchLocation variable being set to "map area" when map bounds are first declared
   const [firstLoad, setFirstLoad] = useState(true);
   // total number of hotels returned by search
-  const [numberHotels, setNumberHotels] = useState();
+  const [numberHotels, setNumberHotels] = useState(1000);
   // max number of search pages returned by search (capped at 15)
   const [maxPages, setMaxPages] = useState();
   // boolean set to true when new search data is loading
@@ -316,6 +317,8 @@ function SearchMap(props) {
       newHotelArray.push(newHotel);
     }
 
+
+
     return newHotelArray;
   };
 
@@ -401,7 +404,8 @@ function SearchMap(props) {
       />
       <main className="search-map-cy5">
         <div class="_1hytef3">
-          <div class="_fo8j1u0">
+          {/* lowers position of button when screen height is low */}
+          <div className={screenHeight>500 ? "search-map-fo8" : "search-map-fo8 small-screen-height"}>
             {expandMapView ? (
               <button
                 type="button"
@@ -480,6 +484,7 @@ function SearchMap(props) {
             setActiveLink={setActiveLink}
             hoverHotel={hoverHotel}
             setHoverHotel={setHoverHotel}
+            firstLoad={firstLoad}
           />
         </div>
         <div className={mapStyle}>

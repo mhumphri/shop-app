@@ -90,6 +90,13 @@ width: 100%;
   align-items: center;
 }
 
+.popout-box-sm-ll2 {
+  line-height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .popout-box-sm-al5 {
   font-weight: 600;
 }
@@ -102,4 +109,8 @@ width: 100%;
 
 .popout-box-sm-ma1 {
   margin-left: 6px;
+  line-height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

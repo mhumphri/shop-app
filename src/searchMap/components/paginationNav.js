@@ -18,9 +18,8 @@ function PaginationNav(props) {
   const [prevChevron, setPrevChevron] = useState();
 
 
-  /* refreshes search results and scrolls to top when active page changes */
+  /* refreshes search results when active page changes */
   useEffect(() => {
-    window.scrollTo(0, 0);
 
     if (props.activePage >= props.maxPages) {
 
