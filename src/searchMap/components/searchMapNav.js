@@ -116,7 +116,7 @@ function SearchMapNav(props) {
 
         <header class="search-map-nav-h1v">
 
-        
+
               <div class="search-map-nav-c1x">
                 <a href="/" className="search-map-nav-jk9">
                   mic's portfolio
@@ -284,7 +284,7 @@ function SearchMapNav(props) {
   } else {
     return (
       <>
-        <div class="search-map-nav-h1v">
+        <div class="h1vnkd0i dir dir-ltr">
           <div class="_y0r5kt">
             <div class="_1lvtkaw">
               <div class="_1x0jb4k">

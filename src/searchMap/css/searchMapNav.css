@@ -58,6 +58,15 @@ display: flex;
 }
 
 
+.h1vnkd0i[class][class] {
+	background-color: #fff;
+	height: 85px;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 10;
+}
+
 .search-map-nav-gs1 {
 padding-right: 18px !important;
 }
