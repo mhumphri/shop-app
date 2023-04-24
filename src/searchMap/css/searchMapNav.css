@@ -2,9 +2,61 @@
 	box-sizing: border-box;
 }
 
-.search-map-nav-oe9 {
-	box-shadow: rgb(0 0 0 / 8%) 0 1px 0;
+/* header outer container */
+.search-map-nav-h1v {
+	position: fixed;
+	top: 0px;
+	background-color: #FFFFFF;
+	width: 100%;
+	z-index: 10;
+	height: var(--navigation-bar-offset);
+	padding: 0px 24px;
+		box-shadow: rgb(0 0 0 / 8%) 0 1px 0;
+		align-items: center;
+display: flex;
+
 }
+
+/* lhs content container */
+.search-map-nav-c1x {
+	flex: 1 0 140px;
+}
+
+/* site name link wrapper */
+.search-map-nav-jk9 {
+	all: unset;
+	cursor: pointer;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+/* middle content (search nav) container */
+.search-map-nav-c7e {
+	flex: 0 1 auto;
+	padding: 0 24px;
+}
+
+/* lhs content container */
+.search-map-nav-c1kb {
+	flex: 1 0 140px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+/* "item info" button */
+.search-map-nav-ly8 {
+	all: unset;
+	cursor: pointer;
+	margin-left: 20px;
+	font-size: 16px;
+	font-weight: bold;
+	background-color: #FF385C;
+	color: white;
+	border: 1px solid #FF385C;
+	padding: 5px 8px;
+	border-radius: 12px;
+}
+
 
 .search-map-nav-gs1 {
 padding-right: 18px !important;
@@ -53,26 +105,7 @@ padding-right: 18px !important;
 	z-index: 0 !important;
 }
 
-.h1vnkd0i[class][class] {
 
-	position: fixed;
-	top: 0px;
-	background-color: #FFFFFF;
-	/* mic adj - top: 0; */
-	width: 100%;
-	z-index: 10;
-		/* mic adj - height: var(--navigation-bar-offset); */
-	height: 85px;
-}
-
-.c1yo0219[class][class]::before, .c1yo0219[class][class]::after {
-	display: flex;
-	content: "";
-}
-
-.c1kn6kxw[class][class] {
-padding: 0px 24px;
-}
 
 .c1kffd0v[class][class] {
 	height: 85px;
@@ -139,33 +172,13 @@ padding: 0px 24px;
 	transform: initial;
 }
 
-.cdfwt5b[class][class] {
-	justify-content: space-between;
-	align-items: center;
-	display: flex;
-	height: 100%;
-	position: relative;
-	width: 100%;
-	z-index: 1;
-}
-
 .c1xntsbd[class][class] {
 	flex: 1 0 140px;
 }
 
-.c7eo6tu[class][class] {
-	flex: 0 1 auto;
-}
 
-.dir.c7eo6tu[class][class] {
-	padding: 0 24px;
-}
 
-.c1kbjhzw[class][class] {
-	flex: 1 0 140px;
-	display: flex;
-	justify-content: flex-end;
-}
+
 
 
 

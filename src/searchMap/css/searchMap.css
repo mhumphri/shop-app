@@ -1,27 +1,17 @@
-button, html input[type="button"], input[type="reset"], input[type="submit"] {
+/* default styling for button */
+button, html input[type="button"] {
 	-webkit-appearance: button;
 	cursor: pointer;
 }
 
 
-html, body {
-/*	height: 100%;
-	overflow: hidden;
-	*/
-}
-
+/* prevents scroll bound behaviour in chrome and firefox */
 body {
-/* background-color: white;
-		overscroll-behavior-y: none; */
-
-
-		    overflow: hidden;
 overscroll-behavior-y: none;
-
 }
 
 body:after {
-    content: '';
+content: '';
     position: fixed;
     top: -50%;
     right: -50%;
@@ -33,53 +23,17 @@ body:after {
 
 
 
-/*
-body {
-overscroll-behavior-y: none;
-}
-*/
-
-
-/*
-html,
-body {
-    position: relative;
-    height: 100%;
-}
-
-
-
-html, body {
-    height: 100%;
-    overflow: hidden;
-
-}
-*/
-
-:root {
-
-}
-
+/* setting varibales which control nav offset and search list width */
 .search-map-nr6 {
 	 --search-list-width: 58%;
-
-
-
-
-
-
 }
 
 .search-map-cy5 {
 	 display: flex;
-
-
-
 }
 
 @media (min-width: 768px) {
   .search-map-nr6 {
-
 --search-list-width: 58%;
 --navigation-bar-offset: 85px;
   }
