@@ -11,8 +11,6 @@ function SwipeableGallery(props) {
   const touchScreen = useSelector((state) => state.deviceData.touchScreen);
   /* index of photo currently visible */
   const [currentPhoto, setCurrentPhoto] = useState(0);
-  /* total number of photos in array */
-  // const [maxPhoto] = useState(props.photos.length - 1);
   /* boolean value indicating if chevrons currently active - used to deterin appropriate styling */
   const [chevronsActive, setChevronsActive] = useState(false);
   // boolean value indicating if pointer is currently hovering over gallery

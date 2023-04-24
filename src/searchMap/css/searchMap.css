@@ -3,11 +3,11 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
 	cursor: pointer;
 }
 
-/*
+
 body {
 	overscroll-behavior-y: none;
 }
-*/
+
 
 /*
 html,
@@ -30,7 +30,8 @@ html, body {
 }
 
 .search-map-nr6 {
-	--search-list-width: 58%;
+	 --search-list-width: 58%;
+
 /*
 	position: absolute;
 	top: 0;
@@ -38,13 +39,16 @@ html, body {
 	left: 0;
 	right: 0;
 	overflow: auto;
-*/
+	*/
+
+
 
 }
 
 .search-map-cy5 {
 
   display: flex;
+
 
 }
 
