@@ -182,7 +182,7 @@ function SearchMapNav(props) {
 
                   </div>
 
-          
+
                     <button
                       class="search-map-nav-q1e"
                       type="button"
@@ -208,17 +208,13 @@ function SearchMapNav(props) {
 
 
                   {activeSearch ? (
-                    <div class="_xhcgu32">
-                      <div
-                        class="c1nifi44 l16t0m55 dir dir-ltr"
-                        data-testid="structured-search-input-field-query-panel"
-                      >
+                    <div class="search-map-nav-xhc">
+
                         <div className="search-map-nav-ue3">
-                          <section>
-                            <div class=" dir dir-ltr">
-                              <div className="search-map-nav-wp0">
+
+
                                 <div
-                                  class="k3s7ijn dir dir-ltr"
+                                  class="search-map-nav-k3s"
                                   role="listbox"
                                   aria-label="Search suggestions"
                                   id="bigsearch-query-location-listbox"
@@ -276,11 +272,10 @@ function SearchMapNav(props) {
                                     )}
                                   </div>
                                 </div>
-                              </div>
-                            </div>
-                          </section>
+
+
                         </div>
-                      </div>
+
                     </div>
                   ) : null}
 
