@@ -1,5 +1,5 @@
 .cross_button_10r {
-  background-color: #9f9f9f;
+  background-color: #797979;
   display: inline-block !important;
   position: relative !important;
   padding: 5px !important;
@@ -15,7 +15,7 @@
 }
 
 .cross_button_10r:hover {
-  background-color: #797979;
+  background-color: #9f9f9f;
 }
 
 .cross_button_fa3 {

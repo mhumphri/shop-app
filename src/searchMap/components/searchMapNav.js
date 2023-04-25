@@ -182,10 +182,7 @@ function SearchMapNav(props) {
 
                   </div>
 
-                  <div
-                    class="search-map-nav-18z"
-                    onClick={(e) => e.stopPropagation()}
-                  >
+          
                     <button
                       class="search-map-nav-q1e"
                       type="button"
@@ -193,8 +190,7 @@ function SearchMapNav(props) {
                         props.setSearchRefresh(!props.searchRefresh)
                       }
                     >
-                      <div class="_186q534">
-                        <div>
+
                           <svg
                             viewBox="0 0 32 32"
                             xmlns="http://www.w3.org/2000/svg"
@@ -207,10 +203,9 @@ function SearchMapNav(props) {
                               <path d="m13 24c6.0751322 0 11-4.9248678 11-11 0-6.07513225-4.9248678-11-11-11-6.07513225 0-11 4.92486775-11 11 0 6.0751322 4.92486775 11 11 11zm8-3 9 9"></path>
                             </g>
                           </svg>
-                        </div>
-                      </div>
+
                     </button>
-                  </div>
+
 
                   {activeSearch ? (
                     <div class="_xhcgu32">
