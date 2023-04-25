@@ -49,7 +49,7 @@ useEffect(() => {
   };
 
   return (
-    <>
+    <div dir="ltr">
       <section>
         <div class="_j292vx" data-testid="modal-container">
           <div class="_z4lmgp">
@@ -166,7 +166,7 @@ useEffect(() => {
                             }
                             ref={textInputRef}
                           />
-                        {props.countryInput.length>0 ? crossButton(crossButtonHandler) : null }
+                        { crossButton(crossButtonHandler) }
                         </label>
 
                       </div>
@@ -243,7 +243,7 @@ useEffect(() => {
         <div aria-live="polite" aria-atomic="true"></div>
         <div aria-live="assertive" aria-atomic="true"></div>
       </div>
-    </>
+    </div>
   );
 }
 

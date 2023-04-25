@@ -26,6 +26,7 @@ content: '';
 /* setting varibales which control nav offset and search list width */
 .search-map-nr6 {
 	 --search-list-width: 58%;
+	 --navigation-bar-offset: 85px;
 }
 
 .search-map-cy5 {
