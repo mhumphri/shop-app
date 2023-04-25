@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import crossButton from "./crossButton";
 import "../css/searchModal.css";
 
@@ -12,6 +12,8 @@ function SearchModal(props) {
   const [modalStyle, setModalStyle] = useState("_ojerypf");
   const [vpHeight, setVpHeight] = useState(window.visualViewport.height);
 const [standardHeight, setStandardHeight] = useState(window.innerHeight);
+
+const textInputRef = useRef(null);
 
 const updateScreenWidth = () => {
 setVpHeight(window.visualViewport.height)
@@ -43,6 +45,7 @@ useEffect(() => {
   const crossButtonHandler = () => {
     console.log("crossButtonHandler")
     props.setCountryInput("")
+    textInputRef.current.focus();
   };
 
   return (
@@ -161,6 +164,7 @@ useEffect(() => {
                             onChange={
                               props.onChangeHandler
                             }
+                            ref={textInputRef}
                           />
                         { crossButton(crossButtonHandler) }
                         </label>

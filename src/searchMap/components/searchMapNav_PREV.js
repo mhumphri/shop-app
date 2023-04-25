@@ -21,7 +21,6 @@ function SearchMapNav(props) {
   const [countryInput, setCountryInput] = React.useState("");
 
   const searchbarRef = useRef(null);
-  const textInputRef = useRef(null);
 
   useEffect(() => {
     if (activeSearch && !largeView) {
@@ -75,11 +74,9 @@ function SearchMapNav(props) {
     setCountryInput(newInputValue);
   };
 
-  const crossButtonHandler = (e) => {
-    e.stopPropagation();
+  const crossButtonHandler = () => {
     console.log("crossButtonHandler");
     setCountryInput("");
-    textInputRef.current.focus();
   };
 
   const calcActiveCountryArray = () => {
@@ -120,181 +117,155 @@ function SearchMapNav(props) {
         <header class="search-map-nav-h1v">
 
 
-
-
-
               <div class="search-map-nav-c1x">
                 <a href="/" className="search-map-nav-jk9">
                   mic's portfolio
                 </a>
               </div>
               <div class="search-map-nav-c7e" ref={searchbarRef}>
-                <div class="search-map-nav-1bu">
-
-
-                  <div className="search-map-nav-hd6">
-
-                    <label
-                      class="search-map-nav-f6t"
-                      htmlFor="locationInput"
-                      onClick={countrySearch}
-                    >
-                      <div>
-                        <div class="search-map-nav-snp">Country</div>
-                        <input
-                          class="search-map-nav-1yi"
-                          id="locationInput"
-                          placeholder="Search countries"
-                          type="text"
-                          name="name"
-                          autocomplete="off"
-                          onChange={onChangeHandler}
-                          value={countryInput}
-                          ref={textInputRef}
-                        />
-                      </div>
-                    </label>
-
-                    <div
-                      className={
-                        activeSearch && countryInput.length > 0
-                          ? "search-map-nav-gs1"
-                          : "search-map-nav-gs2"
-                      }
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                    <button aria-label="Clear Input" type="button" class="cross_button_10r" onClick={(e) => crossButtonHandler(e)} >
-
-                        <svg
-                          viewBox="0 0 32 32"
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="cross_button_fa3"
-                          aria-hidden="true"
-                          role="presentation"
-                          focusable="false"
+                <div class="_1bu35ic3">
+                  <div class="_13rvbe2">
+                    <div class="_dd55nf9">
+                      <div class="_1rwlbyy">
+                        <label
+                          class="search-map-nav-f6t"
+                          htmlFor="locationInput"
+                          onClick={countrySearch}
                         >
-                          <path d="m6 6 20 20"></path>
-                          <path d="m26 6-20 20"></path>
-                        </svg>
-
-                    </button>
-                    </div>
-
-                  </div>
-
-                  <div
-                    class="search-map-nav-18z"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <button
-                      class="search-map-nav-q1e"
-                      type="button"
-                      onClick={() =>
-                        props.setSearchRefresh(!props.searchRefresh)
-                      }
-                    >
-                      <div class="_186q534">
-                        <div>
-                          <svg
-                            viewBox="0 0 32 32"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="svg_search_lg"
-                            aria-hidden="true"
-                            role="presentation"
-                            focusable="false"
-                          >
-                            <g fill="none">
-                              <path d="m13 24c6.0751322 0 11-4.9248678 11-11 0-6.07513225-4.9248678-11-11-11-6.07513225 0-11 4.92486775-11 11 0 6.0751322 4.92486775 11 11 11zm8-3 9 9"></path>
-                            </g>
-                          </svg>
+                          <div class="_16fjzef">
+                            <div class="_snpd7k">Country</div>
+                            <input
+                              class="_1yibeas"
+                              id="locationInput"
+                              placeholder="Search countries"
+                              type="text"
+                              name="name"
+                              autocomplete="off"
+                              onChange={onChangeHandler}
+                              value={countryInput}
+                            />
+                          </div>
+                        </label>
+                        <div
+                          className={
+                            activeSearch && countryInput.length > 0
+                              ? "search-map-nav-gs1"
+                              : "search-map-nav-gs2"
+                          }
+                        >
+                          {crossButton(crossButtonHandler)}
                         </div>
-                      </div>
-                    </button>
-                  </div>
 
-                  {activeSearch ? (
-                    <div class="_xhcgu32">
-                      <div
-                        class="c1nifi44 l16t0m55 dir dir-ltr"
-                        data-testid="structured-search-input-field-query-panel"
-                      >
-                        <div className="search-map-nav-ue3">
-                          <section>
-                            <div class=" dir dir-ltr">
-                              <div className="search-map-nav-wp0">
-                                <div
-                                  class="k3s7ijn dir dir-ltr"
-                                  role="listbox"
-                                  aria-label="Search suggestions"
-                                  id="bigsearch-query-location-listbox"
-                                  tabindex="-1"
+                        <div
+                          class="_18zylmz"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <button
+                            class="_q1ewc8l"
+                            type="button"
+                            onClick={() =>
+                              props.setSearchRefresh(!props.searchRefresh)
+                            }
+                          >
+                            <div class="_186q534">
+                              <div>
+                                <svg
+                                  viewBox="0 0 32 32"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="svg_search_lg"
+                                  aria-hidden="true"
+                                  role="presentation"
+                                  focusable="false"
                                 >
-                                  <div class="kyy9mvs dir dir-ltr">
-                                    {activeCountryArray.length > 0 ? (
-                                      activeCountryArray.map((x) => (
-                                        <div
-                                          role="option"
-                                          tabindex="-1"
-                                          id="bigsearch-query-location-suggestion-0"
-                                          data-index="0"
-                                          data-testid="option-0"
-                                          class="_uzocf2"
-                                          onClick={() => selectCountry(x)}
-                                        >
-                                          <div class="_bi8puq">
-                                            <svg
-                                              viewBox="0 0 32 32"
-                                              xmlns="http://www.w3.org/2000/svg"
-                                              style={{
-                                                display: "block",
-                                                height: "22px",
-                                                width: "22px",
-                                                fill: "currentcolor",
-                                              }}
-                                              aria-hidden="true"
-                                              role="presentation"
-                                              focusable="false"
-                                            >
-                                              <path d="m15.9999.33325c6.4433664 0 11.6667 5.22332687 11.6667 11.66665 0 .395185-.0196984.7942624-.0585936 1.1970109-.3656031 3.7857147-2.3760434 7.7525726-5.487905 11.7201691-1.1932825 1.5214248-2.4696691 2.9382012-3.7464266 4.2149447l-.264609.2625401-.2565836.2505683-.4871024.4643445-.3377669.3126669-.2592315.2338445-.7684829.6644749-.6531219-.5633124-.7123549-.6476755-.4871002-.4643445c-.1682693-.1630063-.3422204-.3341398-.5211901-.5131084-1.2767516-1.2767436-2.5531323-2.69352-3.74640918-4.2149449-3.11184685-3.9675963-5.12227757-7.9344539-5.48787896-11.7201677-.03889501-.4027484-.05859326-.8018256-.05859326-1.1970105 0-6.44329813 5.22335863-11.66665 11.66665-11.66665zm0 2c-5.3387224 0-9.66665 4.32792195-9.66665 9.66665 0 .3301812.01653349.665142.04933146 1.004757.32161647 3.3302606 2.17313947 6.9835713 5.07084634 10.6781398.9771881 1.2459122 2.0157692 2.4217661 3.0628871 3.5026159l.5240256.5323924.4974749.4897834.4621846.4404115.2257179-.2133444.4810251-.4660964.252726-.2507558c1.2232503-1.2232369 2.4468714-2.5814442 3.5869296-4.0350084 2.8977203-3.6945683 4.7492518-7.3478787 5.0708697-10.6781384.0327981-.3396149.0493317-.6745755.0493317-1.0047566 0-5.33875305-4.3279026-9.66665-9.6667-9.66665zm.0001 4.66675c2.7614237 0 5 2.23857625 5 5 0 2.7614237-2.2385763 5-5 5s-5-2.2385763-5-5c0-2.76142375 2.2385763-5 5-5zm0 2c-1.6568542 0-3 1.3431458-3 3s1.3431458 3 3 3 3-1.3431458 3-3-1.3431458-3-3-3z"></path>
-                                            </svg>
-                                          </div>
-                                          <div class="_1825a1k">
-                                            <div class="_r1t6ga">{x}</div>
-                                          </div>
-                                        </div>
-                                      ))
-                                    ) : (
-                                      <div
-                                        role="option"
-                                        tabindex="-1"
-                                        id="bigsearch-query-location-suggestion-0"
-                                        data-index="0"
-                                        data-testid="option-0"
-                                        class="_uzocf2"
-                                      >
-                                        <div class="_1825a1k">
-                                          <div class="_r1t6ga">
-                                            no matches
-                                          </div>
-                                        </div>
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
+                                  <g fill="none">
+                                    <path d="m13 24c6.0751322 0 11-4.9248678 11-11 0-6.07513225-4.9248678-11-11-11-6.07513225 0-11 4.92486775-11 11 0 6.0751322 4.92486775 11 11 11zm8-3 9 9"></path>
+                                  </g>
+                                </svg>
                               </div>
                             </div>
-                          </section>
+                          </button>
                         </div>
+
+                        {/* <div class={props.largeNav === "location" ? "_xhcgu32" : "_yu5dnq"}> */}
+                        {activeSearch ? (
+                          <div class="_xhcgu32">
+                            <div
+                              class="c1nifi44 l16t0m55 dir dir-ltr"
+                              data-testid="structured-search-input-field-query-panel"
+                            >
+                              <div className="search-map-nav-ue3">
+                                <section>
+                                  <div class=" dir dir-ltr">
+                                    <div className="search-map-nav-wp0">
+                                      <div
+                                        class="k3s7ijn dir dir-ltr"
+                                        role="listbox"
+                                        aria-label="Search suggestions"
+                                        id="bigsearch-query-location-listbox"
+                                        tabindex="-1"
+                                      >
+                                        <div class="kyy9mvs dir dir-ltr">
+                                          {activeCountryArray.length > 0 ? (
+                                            activeCountryArray.map((x) => (
+                                              <div
+                                                role="option"
+                                                tabindex="-1"
+                                                id="bigsearch-query-location-suggestion-0"
+                                                data-index="0"
+                                                data-testid="option-0"
+                                                class="_uzocf2"
+                                                onClick={() => selectCountry(x)}
+                                              >
+                                                <div class="_bi8puq">
+                                                  <svg
+                                                    viewBox="0 0 32 32"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    style={{
+                                                      display: "block",
+                                                      height: "22px",
+                                                      width: "22px",
+                                                      fill: "currentcolor",
+                                                    }}
+                                                    aria-hidden="true"
+                                                    role="presentation"
+                                                    focusable="false"
+                                                  >
+                                                    <path d="m15.9999.33325c6.4433664 0 11.6667 5.22332687 11.6667 11.66665 0 .395185-.0196984.7942624-.0585936 1.1970109-.3656031 3.7857147-2.3760434 7.7525726-5.487905 11.7201691-1.1932825 1.5214248-2.4696691 2.9382012-3.7464266 4.2149447l-.264609.2625401-.2565836.2505683-.4871024.4643445-.3377669.3126669-.2592315.2338445-.7684829.6644749-.6531219-.5633124-.7123549-.6476755-.4871002-.4643445c-.1682693-.1630063-.3422204-.3341398-.5211901-.5131084-1.2767516-1.2767436-2.5531323-2.69352-3.74640918-4.2149449-3.11184685-3.9675963-5.12227757-7.9344539-5.48787896-11.7201677-.03889501-.4027484-.05859326-.8018256-.05859326-1.1970105 0-6.44329813 5.22335863-11.66665 11.66665-11.66665zm0 2c-5.3387224 0-9.66665 4.32792195-9.66665 9.66665 0 .3301812.01653349.665142.04933146 1.004757.32161647 3.3302606 2.17313947 6.9835713 5.07084634 10.6781398.9771881 1.2459122 2.0157692 2.4217661 3.0628871 3.5026159l.5240256.5323924.4974749.4897834.4621846.4404115.2257179-.2133444.4810251-.4660964.252726-.2507558c1.2232503-1.2232369 2.4468714-2.5814442 3.5869296-4.0350084 2.8977203-3.6945683 4.7492518-7.3478787 5.0708697-10.6781384.0327981-.3396149.0493317-.6745755.0493317-1.0047566 0-5.33875305-4.3279026-9.66665-9.6667-9.66665zm.0001 4.66675c2.7614237 0 5 2.23857625 5 5 0 2.7614237-2.2385763 5-5 5s-5-2.2385763-5-5c0-2.76142375 2.2385763-5 5-5zm0 2c-1.6568542 0-3 1.3431458-3 3s1.3431458 3 3 3 3-1.3431458 3-3-1.3431458-3-3-3z"></path>
+                                                  </svg>
+                                                </div>
+                                                <div class="_1825a1k">
+                                                  <div class="_r1t6ga">{x}</div>
+                                                </div>
+                                              </div>
+                                            ))
+                                          ) : (
+                                            <div
+                                              role="option"
+                                              tabindex="-1"
+                                              id="bigsearch-query-location-suggestion-0"
+                                              data-index="0"
+                                              data-testid="option-0"
+                                              class="_uzocf2"
+                                            >
+                                              <div class="_1825a1k">
+                                                <div class="_r1t6ga">
+                                                  no matches
+                                                </div>
+                                              </div>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </section>
+                              </div>
+                            </div>
+                          </div>
+                        ) : null}
                       </div>
                     </div>
-                  ) : null}
-
-
-
-
-
-
-
+                  </div>
                 </div>
               </div>
               <div class="search-map-nav-c1kb">
@@ -420,7 +391,6 @@ function SearchMapNav(props) {
             selectCountry={selectCountry}
             countryInput={countryInput}
             setCountryInput={setCountryInput}
-            textInputRef={textInputRef}
           />
         ) : null}
       </>
