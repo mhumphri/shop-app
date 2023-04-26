@@ -1,11 +1,14 @@
-/* nav outer container */
 .page-nav-nz3 {
 	margin: 48px 0;
-	justify-content: center;
+	align-items: center;
 display: flex;
+flex-direction: column;
 }
 
-/* LHS chevron button */
+.page-nav-nw4 {
+	display: flex;
+}
+
 .page-nav-zh2 {
 	all: unset;
 	margin: 0px 16px 0px 0px;
@@ -20,7 +23,7 @@ cursor: pointer;
 	cursor: not-allowed !important;
 }
 
-/* RHS chevron button */
+
 .page-nav-pt3 {
 	all: unset;
 	margin: 0px 0px 0px 16px;
@@ -100,21 +103,8 @@ cursor: pointer;
 	padding-top: 4px !important;
 }
 
-/* chevron svg (large view) */
-
-.page-nav-ow2 {
-	display: block;
-	fill: none;
-	height: 16px;
-	width: 16px;
-	stroke: currentcolor;
-	stroke-width: 3px;
-	overflow: visible;
-}
-
 /* SMALL VIEW PAGE NAV */
 
-/* nav outer container */
 .page-nav-sj2 {
 	margin-top: 35px;
 		margin-bottom: 80px;
@@ -126,7 +116,6 @@ cursor: pointer;
 
 }
 
-/* nav outer container 2 */
 .page-nav-al1 {
 	margin-left: auto;
 margin-right: auto;
@@ -134,15 +123,13 @@ height: 100%;
 width: 100%;
 }
 
-/* nav outer container 3 */
-.page-nav-j4d {
+._j4dv73 {
 	display: flex !important;
 	margin-left: 24px !important;
 	margin-right: 24px !important;
 }
 
-/* individual chevron container */
-.page-nav-1wg {
+._1wg991r {
 	margin-left: 8px !important;
 	margin-right: 8px !important;
 	margin-bottom: 48px !important;
@@ -151,8 +138,7 @@ width: 100%;
 	text-align: center !important;
 }
 
-/* chevron button (small view) */
-.page-nav-1kj {
+._1kjng5b {
 	-moz-box-pack: center !important;
 	-moz-box-align: center !important;
 	appearance: none !important;
@@ -175,7 +161,7 @@ width: 100%;
 	height: 48px !important;
 }
 
-.page-nav-1kj:disabled {
+._1kjng5b:disabled {
 	opacity: 0.5 !important;
 	cursor: not-allowed !important;
 	color: rgb(221, 221, 221) !important;
@@ -183,16 +169,4 @@ width: 100%;
 	background-color: rgb(255, 255, 255) !important;
 	box-shadow: none !important;
 	transform: scale(1) !important;
-}
-
-/* chevron svg (small view) */
-
-.page-nav-lx7 {
-	display: block;
-	fill: none;
-	height: 16px;
-	width: 16px;
-	stroke: currentcolor;
-	stroke-width: 4px;
-	overflow: visible;
 }

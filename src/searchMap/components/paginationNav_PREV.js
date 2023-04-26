@@ -114,8 +114,12 @@ function PaginationNav(props) {
 if (largeView) {
 
 return (
-<nav className="page-nav-nz3">
+  <>
 
+
+<div className="page-nav-nz3">
+<nav>
+<div className="page-nav-nw4">
   <button
     aria-label="Previous"
     aria-disabled="true"
@@ -126,9 +130,17 @@ return (
     onClick={()=>props.goToPage(props.activePage-1)}
   >
     <svg
-      class="page-nav-ow2"
       viewBox="0 0 32 32"
       xmlns="http://www.w3.org/2000/svg"
+      style={{
+        display: "block",
+        fill: "none",
+        height: "16px",
+        width: "16px",
+        stroke: "currentcolor",
+        strokeWidth: "3px",
+        overflow: "visible",
+      }}
       aria-hidden="true"
       role="presentation"
       focusable="false"
@@ -147,9 +159,17 @@ return (
     onClick={()=>props.goToPage(props.activePage+1)}
   >
     <svg
-      class="page-nav-ow2"
       viewBox="0 0 32 32"
       xmlns="http://www.w3.org/2000/svg"
+      style={{
+        display: "block",
+        fill: "none",
+        height: "16px",
+        width: "16px",
+        stroke: "currentcolor",
+        strokeWidth: "3px",
+        overflow: "visible",
+      }}
       aria-hidden="true"
       role="presentation"
       focusable="false"
@@ -159,31 +179,45 @@ return (
       </g>
     </svg>
   </button>
-
+</div>
 </nav>
+
+</div>
+
+
+  </>
 )
 }
 else {
   return (<div className="page-nav-sj2">
   <div className="page-nav-al1">
   <div
-    class="page-nav-j4d"
+    class="_j4dv73"
     role="navigation"
     aria-label="pagination"
   >
-    <div class="page-nav-1wg">
+    <div class="_1wg991r">
       <button
         aria-disabled="true"
         aria-label="Previous page"
         type="button"
-        class="page-nav-1kj"
+        class="_1kjng5b"
         disabled={prevChevron ? false : true}
         onClick={()=>props.goToPage(props.activePage-1)}
       >
+        <span class="_3hmsj">
           <svg
-            class="page-nav-lx7"
             viewBox="0 0 32 32"
             xmlns="http://www.w3.org/2000/svg"
+            style={{
+              display: "block",
+              fill: "none",
+              height: "16px",
+              width: "16px",
+              stroke: "currentcolor",
+              strokeWidth: "4px",
+              overflow: "visible",
+            }}
             aria-hidden="true"
             role="presentation"
             focusable="false"
@@ -192,20 +226,30 @@ else {
               <path d="m20 28-11.29289322-11.2928932c-.39052429-.3905243-.39052429-1.0236893 0-1.4142136l11.29289322-11.2928932"></path>
             </g>
           </svg>
+        </span>
       </button>
     </div>
-    <div class="page-nav-1wg">
+    <div class="_1wg991r">
       <button
         aria-disabled="false"
         aria-label="Next page"
-        class="page-nav-1kj"
+        class="_1kjng5b"
         disabled={nextChevron ? false : true}
         onClick={()=>props.goToPage(props.activePage+1)}
       >
+        <span class="_3hmsj">
           <svg
-            class="page-nav-lx7"
             viewBox="0 0 32 32"
             xmlns="http://www.w3.org/2000/svg"
+            style={{
+              display: "block",
+              fill: "none",
+              height: "16px",
+              width: "16px",
+              stroke: "currentcolor",
+              strokeWidth: "4px",
+              overflow: "visible",
+            }}
             aria-hidden="true"
             role="presentation"
             focusable="false"
@@ -214,6 +258,7 @@ else {
               <path d="m12 4 11.2928932 11.2928932c.3905243.3905243.3905243 1.0236893 0 1.4142136l-11.2928932 11.2928932"></path>
             </g>
           </svg>
+        </span>
       </button>
     </div>
   </div>

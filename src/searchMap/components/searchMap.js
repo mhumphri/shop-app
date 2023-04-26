@@ -103,6 +103,8 @@ function SearchMap(props) {
       return Math.round((landArea / 10000000) * randomNumberInRange(5, 30));
     };
 
+
+
     // updates numberHotels state, calcs and updates MaxPages state and resets active page state to 1
     const updateHotelAndPages = (newNumberHotels) => {
       setNumberHotels(newNumberHotels);
@@ -146,16 +148,24 @@ function SearchMap(props) {
       if (mapParameters && msSinceResize > 500) {
         console.log("!!!mapParameters && msSinceResize > 500")
         // fetches polygons within current map bounds
+
+
         const activePolygons = getActivePolygons(mapParameters.bounds);
+
         // calc land area for polygons within current map bounds
         const landArea = calcLandArea(activePolygons);
+
         // initialises count variable for number of hotels returned by previous search which fall within bounds of current map (i.e. those of the new search)
         let existingHotelsCount = 0;
+        console.log("mapParameters.bounds: " + mapParameters.bounds.getSouthWest())
+
         // range of lng and lat for current map
-        const boundsLatLo = mapParameters.bounds.eb.lo;
-        const boundsLatHi = mapParameters.bounds.eb.hi;
-        const boundsLngLo = mapParameters.bounds.La.lo;
-        const boundsLngHi = mapParameters.bounds.La.hi;
+        const boundsLatLo = mapParameters.bounds.fb.lo;
+
+        const boundsLatHi = mapParameters.bounds.fb.hi;
+        const boundsLngLo = mapParameters.bounds.Ka.lo;
+        const boundsLngHi = mapParameters.bounds.Ka.hi;
+
         // counts number of hotels returned by prev search which remain within the map bounds of current search (these will remain as search results)
         for (let i = 0; i < hotelArray.length; i++) {
           const hotelLat = hotelArray[i].coords.lat;
@@ -171,6 +181,9 @@ function SearchMap(props) {
           }
         }
 
+
+
+
         // calcs number of hotels based on land area implied by active map bounds
         const additionalHotels = getHotelNumber(activePolygons);
         // adds on exisitng hotels from prev search (this is to make sure that the hotel number is >= to hotels currently on map for the search area. This is a fail safe as getHotelNumber() may return a v low number when we zoom down to very small search areas )
@@ -184,9 +197,12 @@ function SearchMap(props) {
           hotelsInArray = newNumHotels;
         }
 
+
+
         // number of hotels returned >0 search results are generated an stored in hotelArray state
         if (activePolygons.length > 0) {
           console.log("!!!activePolygons.length > 0")
+
           // mapState is yet to be declared this is the first search so a simple search without any checks is triggered
           if (!mapState) {
             console.log("!!!activePolygons.length > 1")
@@ -213,12 +229,15 @@ function SearchMap(props) {
               );
             }
           }
+
         }
         // number of hotels returned = 0 generates an empty array as search result
         else {
           triggerDataLoading();
           setHotelArray([]);
         }
+
+
 
         // mapState is updated (updated in lag so as to compare latest map parameters (and avoid updating in response to map bounds changes resulting from the map view being changed )
         const newMapState = {
@@ -230,7 +249,9 @@ function SearchMap(props) {
           searchRefresh: searchRefresh,
         };
         setMapState(newMapState);
+    
       }
+
     }
   }, [mapParameters, searchRefresh]);
 
@@ -257,10 +278,10 @@ function SearchMap(props) {
       // makes copy of previous search results
       let prevHotelArray = [...hotelArray];
       // range of lng and lat for current map
-      const boundsLatLo = mapParameters.bounds.eb.lo;
-      const boundsLatHi = mapParameters.bounds.eb.hi;
-      const boundsLngLo = mapParameters.bounds.La.lo;
-      const boundsLngHi = mapParameters.bounds.La.hi;
+      const boundsLatLo = mapParameters.bounds.fb.lo;
+      const boundsLatHi = mapParameters.bounds.fb.hi;
+      const boundsLngLo = mapParameters.bounds.Ka.lo;
+      const boundsLngHi = mapParameters.bounds.Ka.hi;
       // counts number of hotels returned by prev search which remain within the map bounds of current search (these will remain as search results)
       for (let i = 0; i < prevHotelArray.length; i++) {
         const hotelLat = prevHotelArray[i].coords.lat;
@@ -490,7 +511,7 @@ function SearchMap(props) {
           />
         </div>
         <div className={mapStyle}>
-          <ResultsMap
+       <ResultsMap
             expandMapView={expandMapView}
             toggleMapView={toggleMapView}
             setMapBounds={setMapBounds}
