@@ -131,11 +131,10 @@ function SearchMapNav(props) {
         </div>
         <div class="search-map-nav-c7e" ref={searchbarRef}>
           <nav className="search-map-nav-pl4">
-            <div className="search-map-nav-ie1">
+            <div className="search-map-nav-ga1" onClick={countrySearch}>
               <label
                 class="search-map-nav-f6t"
                 htmlFor="locationInput"
-                onClick={countrySearch}
               >
                 <div>
                   <div class="search-map-nav-snp">Country</div>

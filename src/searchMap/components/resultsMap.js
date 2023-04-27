@@ -287,7 +287,7 @@ function ResultsMap(props) {
 
         // styles if marker is currently active (dark background, white text)
         if (markerState[markerData.key]==="current") {
-          pillBackground = "222222"
+          pillBackground = "#222222"
           pillColor = "#FFFFFF"
           pillzIndex = 1
           pillBoxShadow = "rgba(255, 255, 255, 0.18) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.18) 0px 2px 4px"

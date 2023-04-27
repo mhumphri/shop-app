@@ -34,6 +34,8 @@ function SearchMap(props) {
   const [mapState, setMapState] = useState({expandMapView: false});
   // store time of last screen resize - used to prevent search being updated in response to changes in browser size
   const [resize, setResize] = useState(0);
+  // store time of last view toggle (i.e. from last expanded map view to reduced map view) - used to prevent search being updated in response to changes in browser size
+  const [lastViewToggle, setLastViewToggle] = useState();
   // current stored search location (either country name or "map area")
   const [searchLocation, setSearchLocation] = useState("");
   // boolean which is true if user has updated search location input - used to prevent search being updated in response to map bounds changing from location search
@@ -137,8 +139,15 @@ function SearchMap(props) {
       // calcs time interval since last screen resize (if below 500ms it is assumed that change in map bounds results from screen resize and new search is aborted)
       const msSinceResize = Date.now() - resize;
 
+      let msSinceLastViewToggle = 0;
+      if (lastViewToggle) {
+        msSinceLastViewToggle = Date.now() - lastViewToggle;
+      }
+
             // if not first load and not a user specified country search, searchLocation state is set to "map area" (i.e the user has changed the map bounds triggering a new search)
-      if (!firstLoad && msSinceResize > 500) {
+      if (!firstLoad && msSinceResize > 500 && msSinceLastViewToggle > 1300) {
+        console.log("msSinceLastViewToggle: " +msSinceLastViewToggle)
+        console.log("msSinceResize: " + msSinceResize)
         setSearchLocation("map area");
       }
 
@@ -160,8 +169,8 @@ function SearchMap(props) {
         console.log("mapParameters.bounds: " + mapParameters.bounds.getSouthWest())
 
         // range of lng and lat for current map
+        // !!!!! CRASH RISK - NEED TO FIND A BETTER WAY TO DO THIS
         const boundsLatLo = mapParameters.bounds.fb.lo;
-
         const boundsLatHi = mapParameters.bounds.fb.hi;
         const boundsLngLo = mapParameters.bounds.Ka.lo;
         const boundsLngHi = mapParameters.bounds.Ka.hi;
@@ -249,7 +258,7 @@ function SearchMap(props) {
           searchRefresh: searchRefresh,
         };
         setMapState(newMapState);
-    
+
       }
 
     }
@@ -278,6 +287,7 @@ function SearchMap(props) {
       // makes copy of previous search results
       let prevHotelArray = [...hotelArray];
       // range of lng and lat for current map
+      // !!!!! CRASH RISK - NEED TO FIND A BETTER WAY TO DO THIS
       const boundsLatLo = mapParameters.bounds.fb.lo;
       const boundsLatHi = mapParameters.bounds.fb.hi;
       const boundsLngLo = mapParameters.bounds.Ka.lo;
@@ -365,6 +375,8 @@ function SearchMap(props) {
 
 // controls toggling of map view by changing css styles - between partial screen and full screen if screenwidth >= 950px, and between full screen and not visible if screen width < 950px
   const toggleMapView = () => {
+    // log time of last view toggle to the change in map bounds triggering a new search
+    setLastViewToggle(Date.now())
     // if currently in expanded view set expandMapview to false and css updated
     if (expandMapView) {
       setExpandMapView(false);
@@ -380,6 +392,7 @@ function SearchMap(props) {
         setSearchListStyle("fmdphkf dir dir-ltr");
         setMapStyle("m1ict9kd m12odydq dir dir-ltr");
       }
+
     }
     // if not currently in expanded view set expandMapview to true and css updated
     else {

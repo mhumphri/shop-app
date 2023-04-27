@@ -109,6 +109,7 @@ position: relative;
 	font-weight: 600 !important;
 	color: #222222 !important;
 	text-overflow: ellipsis !important;
+	cursor: pointer;
 }
 
 .search-map-nav-1yi:focus {
@@ -178,7 +179,7 @@ position: relative;
 
 }
 
-/* SMALL VIEW - START */
+
 
 .search-map-nav-sd3 {
 
@@ -191,12 +192,24 @@ position: relative;
 	cursor: pointer !important;
 }
 
+
+/* nav LHS container - small view */
 .search-map-nav-ie1 {
 	flex: 1 0;
 	padding-left: 24px;
 	position: relative;
 	display: flex;
 	align-items: center;
+}
+
+/* nav LHS container - large view */
+.search-map-nav-ga1 {
+	flex: 1 0;
+	padding: 10px 38px 10px 24px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
 }
 
 .search-map-nav-ll9 {
