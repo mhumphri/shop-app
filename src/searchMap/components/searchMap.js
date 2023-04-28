@@ -9,6 +9,7 @@ import getActivePolygons from "../functions/getActivePolygons";
 import getCountryPolygons from "../functions/getCountryPolygons";
 import getRandomLocation from "../functions/getRandomLocation";
 import getPhotos from "../functions/getPhotos";
+import getHotelData from "../functions/getHotelData";
 import calcLandArea from "../functions/calcLandArea";
 import generateKey from "../functions/generateKey";
 import randomNumberInRange from "../functions/randomNumberInRange";
@@ -18,6 +19,12 @@ import "../css/searchMap.css";
 
 function SearchMap(props) {
 
+const hotelData = getHotelData()
+
+// array containing the keys of all stored hotels
+const [hotelKeyArray, setHotelKeyArray] = useState(hotelData.hotelKeyArray);
+// object containing data for all stored hotels
+const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
   // large view (boolean indicating if app currently in large view) and screen height (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
   // viewport height (stored in redux)

@@ -70,7 +70,7 @@ import MainPic29 from "../../images/birds/bird5.jpg";
 
 const mainPicArray = [MainPic0, MainPic1, MainPic2, MainPic3, MainPic4, MainPic5, MainPic6, MainPic7, MainPic8, MainPic9, MainPic10, MainPic11, MainPic12, MainPic13, MainPic14, MainPic15, MainPic16, MainPic17, MainPic18, MainPic19, MainPic20, MainPic21, MainPic22, MainPic23, MainPic24, MainPic25, MainPic26, MainPic27, MainPic28, MainPic29]
 
-const getPhotos = (mainPic) => {
+const getHotelData = () => {
   const mainPicArray = [
     HouseS1,
     HouseS2,
@@ -108,8 +108,7 @@ const getPhotos = (mainPic) => {
     RoomS12,
   ];
 
-  let newPicArray = [];
-  newPicArray.push(mainPicArray[mainPic]);
+
 
   let otherPhotosArray = [
     RoomS1,
@@ -127,7 +126,7 @@ const getPhotos = (mainPic) => {
   ];
 
   let hotelKeyArray = [];
-  let hotelDataObject = {}
+  let hotelObject = {}
 
   const getOtherPhotos = () => {
     const numPhotos = randomNumberInRange(4,12)
@@ -149,37 +148,15 @@ const getPhotos = (mainPic) => {
     const newKey = generateKey()
     hotelKeyArray.push(newKey)
     let photoArray = [mainPicArray[i]];
-    let otherPhotoArray = getOtherPhotos()
-    photoArray.concat(otherPhotoArray)
-    let mergedPhotoArray = [];
-    // const mergedPhotoArray = photoArray.concat(otherPhotosArray);
-
-    hotelDataObject[newKey] = {photoArray: photoArray};
+    const otherPhotoArray = getOtherPhotos()
+    const mergedPhotoArray = photoArray.concat(otherPhotoArray);
+    hotelObject[newKey] = {photoArray: mergedPhotoArray};
   }
 
 
+return {hotelObject: hotelObject, hotelKeyArray: hotelKeyArray};
 
 
-
-
-
-
-
-
-  const numPhotos = randomNumberInRange(4,12)
-
-  let i = otherPhotosArray.length;
-  while (i >= numPhotos) {
-    const random = Math.floor(Math.random() * otherPhotosArray.length);
-    otherPhotosArray.splice(random, 1);
-
-    i--;
-  }
-
-  shuffleArray(otherPhotosArray);
-
-  const mergedPhotoArray = newPicArray.concat(otherPhotosArray);
-  return mergedPhotoArray;
 };
 
-export default getPhotos;
+export default getHotelData;
