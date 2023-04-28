@@ -14,28 +14,38 @@ import HouseS9 from "../images/main9.jpg";
 import HouseS10 from "../images/main10.jpg";
 import HouseS11 from "../images/main11.jpg";
 import HouseS12 from "../images/main12.jpg";
-import HouseS13 from "../../images/birds/bird1.jpg";
-import HouseS14 from "../../images/birds/bird2.jpg";
-import HouseS15 from "../../images/birds/bird3.jpg";
-import HouseS16 from "../../images/birds/bird4.jpg";
-import HouseS17 from "../../images/birds/bird5.jpg";
-import HouseS18 from "../../images/birds/bird6.jpg";
-import HouseS19 from "../../images/birds/bird5.jpg";
-import HouseS20 from "../../images/birds/bird6.jpg";
+import HouseS13 from "../images/main13.jpg";
+import HouseS14 from "../images/main14.jpg";
+import HouseS15 from "../images/main15.jpg";
+import HouseS16 from "../images/main16.jpg";
+import HouseS17 from "../images/main17.jpg";
+import HouseS18 from "../images/main18.jpg";
+import HouseS19 from "../images/main1.jpg";
+import HouseS20 from "../images/main2.jpg";
 
 
-import RoomS1 from "../../images/birds/bird1.jpg";
-import RoomS2 from "../../images/birds/bird2.jpg";
-import RoomS3 from "../../images/birds/bird3.jpg";
-import RoomS4 from "../../images/birds/bird4.jpg";
-import RoomS5 from "../../images/birds/bird5.jpg";
-import RoomS6 from "../../images/birds/bird6.jpg";
-import RoomS7 from "../../images/birds/bird1.jpg";
-import RoomS8 from "../../images/birds/bird2.jpg";
-import RoomS9 from "../../images/birds/bird3.jpg";
-import RoomS10 from "../../images/birds/bird4.jpg";
-import RoomS11 from "../../images/birds/bird5.jpg";
-import RoomS12 from "../../images/birds/bird6.jpg";
+import RoomS1 from "../images/other1.jpg";
+import RoomS2 from "../images/other2.jpg";
+import RoomS3 from "../images/other3.jpg";
+import RoomS4 from "../images/other4.jpg";
+import RoomS5 from "../images/other5.jpg";
+import RoomS6 from "../images/other6.jpg";
+import RoomS7 from "../images/other7.jpg";
+import RoomS8 from "../images/other8.jpg";
+import RoomS9 from "../images/other9.jpg";
+import RoomS10 from "../images/other10.jpg";
+import RoomS11 from "../images/other11.jpg";
+import RoomS12 from "../images/other12.jpg";
+import RoomS13 from "../images/other13.jpg";
+import RoomS14 from "../images/other14.jpg";
+import RoomS15 from "../images/other15.jpg";
+import RoomS16 from "../images/other16.jpg";
+import RoomS17 from "../images/other17.jpg";
+import RoomS18 from "../images/other18.jpg";
+import RoomS19 from "../images/other19.jpg";
+import RoomS20 from "../images/other20.jpg";
+import RoomS21 from "../images/other21.jpg";
+import RoomS22 from "../images/other22.jpg";
 
 import MainPic0 from "../images/main11.jpg";
 import MainPic1 from "../images/main11.jpg";
@@ -50,12 +60,12 @@ import MainPic9 from "../../images/birds/bird5.jpg";
 import MainPic10 from "../images/main11.jpg";
 import MainPic11 from "../images/main11.jpg";
 import MainPic12 from "../images/main12.jpg";
-import MainPic13 from "../../images/birds/bird1.jpg";
-import MainPic14 from "../../images/birds/bird2.jpg";
-import MainPic15 from "../../images/birds/bird3.jpg";
-import MainPic16 from "../../images/birds/bird4.jpg";
-import MainPic17 from "../../images/birds/bird5.jpg";
-import MainPic18 from "../../images/birds/bird6.jpg";
+import MainPic13 from "../images/main13.jpg";
+import MainPic14 from "../images/main14.jpg";
+import MainPic15 from "../images/main15.jpg";
+import MainPic16 from "../images/main16.jpg";
+import MainPic17 from "../images/main17.jpg";
+import MainPic18 from "../images/main18.jpg";
 import MainPic19 from "../../images/birds/bird5.jpg";
 import MainPic20 from "../images/main11.jpg";
 import MainPic21 from "../images/main11.jpg";
@@ -68,7 +78,7 @@ import MainPic27 from "../../images/birds/bird5.jpg";
 import MainPic28 from "../../images/birds/bird6.jpg";
 import MainPic29 from "../../images/birds/bird5.jpg";
 
-const mainPicArray = [MainPic0, MainPic1, MainPic2, MainPic3, MainPic4, MainPic5, MainPic6, MainPic7, MainPic8, MainPic9, MainPic10, MainPic11, MainPic12, MainPic13, MainPic14, MainPic15, MainPic16, MainPic17, MainPic18, MainPic19, MainPic20, MainPic21, MainPic22, MainPic23, MainPic24, MainPic25, MainPic26, MainPic27, MainPic28, MainPic29]
+// const mainPicArray = [MainPic0, MainPic1, MainPic2, MainPic3, MainPic4, MainPic5, MainPic6, MainPic7, MainPic8, MainPic9, MainPic10, MainPic11, MainPic12, MainPic13, MainPic14, MainPic15, MainPic16, MainPic17, MainPic18, MainPic19, MainPic20, MainPic21, MainPic22, MainPic23, MainPic24, MainPic25, MainPic26, MainPic27, MainPic28, MainPic29]
 
 const getPhotos = (mainPic) => {
   const mainPicArray = [
@@ -106,6 +116,16 @@ const getPhotos = (mainPic) => {
     RoomS10,
     RoomS11,
     RoomS12,
+    RoomS13,
+    RoomS14,
+    RoomS15,
+    RoomS16,
+    RoomS17,
+    RoomS18,
+    RoomS19,
+    RoomS20,
+    RoomS21,
+    RoomS22,
   ];
 
   let newPicArray = [];
@@ -124,38 +144,19 @@ const getPhotos = (mainPic) => {
     RoomS10,
     RoomS11,
     RoomS12,
+    RoomS12,
+    RoomS13,
+    RoomS14,
+    RoomS15,
+    RoomS16,
+    RoomS17,
+    RoomS18,
+    RoomS19,
+    RoomS20,
+    RoomS21,
+    RoomS22,
   ];
 
-  let hotelKeyArray = [];
-  let hotelDataObject = {}
-
-  const getOtherPhotos = () => {
-    const numPhotos = randomNumberInRange(4,12)
-
-    let i = otherPhotosArray.length;
-    while (i >= numPhotos) {
-      const random = Math.floor(Math.random() * otherPhotosArray.length);
-      otherPhotosArray.splice(random, 1);
-
-      i--;
-    }
-
-    shuffleArray(otherPhotosArray);
-
-    return otherPhotosArray;
-  }
-
-  for (let i=0; i<mainPicArray.length; i++) {
-    const newKey = generateKey()
-    hotelKeyArray.push(newKey)
-    let photoArray = [mainPicArray[i]];
-    let otherPhotoArray = getOtherPhotos()
-    photoArray.concat(otherPhotoArray)
-    let mergedPhotoArray = [];
-    // const mergedPhotoArray = photoArray.concat(otherPhotosArray);
-
-    hotelDataObject[newKey] = {photoArray: photoArray};
-  }
 
 
 
@@ -166,7 +167,8 @@ const getPhotos = (mainPic) => {
 
 
 
-  const numPhotos = randomNumberInRange(4,12)
+
+  const numPhotos = randomNumberInRange(8,15)
 
   let i = otherPhotosArray.length;
   while (i >= numPhotos) {
