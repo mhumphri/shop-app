@@ -320,7 +320,7 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
 // !!!NEED AN EXTRA STEP HERE TO ACCOUNT FOR PHTOS RETAINED FROM PREV SEARCH!!!!
     // generates array with numbers 0 to 19 - used to select unique photo from list of stock photos
     let indexArray = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 26; i++) {
       indexArray.push(i);
     }
 

@@ -20,8 +20,14 @@ import HouseS15 from "../images/main15.jpg";
 import HouseS16 from "../images/main16.jpg";
 import HouseS17 from "../images/main17.jpg";
 import HouseS18 from "../images/main18.jpg";
-import HouseS19 from "../images/main1.jpg";
-import HouseS20 from "../images/main2.jpg";
+import HouseS19 from "../images/main19.jpg";
+import HouseS20 from "../images/main20.jpg";
+import HouseS21 from "../images/main21.jpg";
+import HouseS22 from "../images/main22.jpg";
+import HouseS23 from "../images/main23.jpg";
+import HouseS24 from "../images/main24.jpg";
+import HouseS25 from "../images/main25.jpg";
+import HouseS26 from "../images/main26.jpg";
 
 
 import RoomS1 from "../images/other1.jpg";
@@ -102,6 +108,12 @@ const getPhotos = (mainPic) => {
     HouseS18,
     HouseS19,
     HouseS20,
+    HouseS21,
+    HouseS22,
+    HouseS23,
+    HouseS24,
+    HouseS25,
+    HouseS26,
   ];
   const roomArray = [
     RoomS1,
