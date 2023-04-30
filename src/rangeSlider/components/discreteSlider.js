@@ -3,7 +3,7 @@ import SliderButton from "./sliderButton";
 import "../css/rangeSlider.css";
 import "../css/discreteSlider.css";
 
-// range slider portfolio item
+// range slider with resticted units (e.g. only 10,20, 30... can be selected by the user)
 
 function DiscreetSlider(props) {
   // stores screen position of slider track
@@ -15,51 +15,47 @@ function DiscreetSlider(props) {
   // ref for slider track
   const sliderTrack = useRef(null);
 
-  // initialses sliderTrack on load and updates at screen resize events
+  // initialses trackPosition on load and updates at screen resize events
   useEffect(() => {
-    // initialises sliderTrack on load
     setTrackPosition(sliderTrack.current.getBoundingClientRect());
-    // screen resize event listener
     window.addEventListener("resize", () => {
       setTrackPosition(sliderTrack.current.getBoundingClientRect());
     });
     return () => {
-      // removes event listener
       window.removeEventListener("resize", () => {
         setTrackPosition(sliderTrack.current.getBoundingClientRect());
       });
     };
   }, []);
 
-  // sets & removes pointermove event listener when slider button is dragged
+  // drag event listener (sets button position on load)
   const handleButton = (e) => {
-    console.log("E: " + e)
     let newButtonPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
-      setButtonPos(Math.round(newButtonPos/10)*10);
+    setButtonPos(Math.round(newButtonPos / 10) * 10);
     window.addEventListener("pointermove", handleDrag);
-    props.setDiscreteDrag(true)
+    props.setDiscreteDrag(true);
     window.addEventListener("pointerup", () => {
-      props.setDiscreteDrag(false)
+      props.setDiscreteDrag(false);
       window.removeEventListener("pointermove", handleDrag);
     });
   };
 
-  // updates buttonPos in response to drag of left slider button
+  // updates buttonPos in response to drag of slider button
   const handleDrag = (e) => {
+    // calcs new button position (resulting from drag) on track as % (0%=LHS bound and 100%=RHS bound)
     let newButtonPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
-
-      if (newButtonPos < 0) {
-        setButtonPos(0)
-      }
-      else if (newButtonPos > 100) {
-        setButtonPos(100)
-      }
-      else {
-        setButtonPos(Math.round(newButtonPos/10)*10)
-      }
-
+    // if new button position is less than 0% (i.e. off the LHS of the track), button position state is set to 0
+    if (newButtonPos < 0) {
+      setButtonPos(0);
+      // if new button position is greater than than 100% (i.e. off the RHS of the track), button position state is set to 100
+    } else if (newButtonPos > 100) {
+      setButtonPos(100);
+      // otherwise button position state is set to nearest multiple of 10 (permitted unit for discrete steps)
+    } else {
+      setButtonPos(Math.round(newButtonPos / 10) * 10);
+    }
   };
 
   return (
@@ -67,20 +63,27 @@ function DiscreetSlider(props) {
       <div>
         <div class="rangeslider-jn7">
           <div class="rangeslider-ty3 wide" ref={sliderTrack} />
-            <div
-              class="rangeslider-vs7 wide"
-              style={{ left: "0%", width: buttonPos + "%" }}
-            ></div>
+          <div
+            class="rangeslider-vs7 wide"
+            style={{ left: "0%", width: buttonPos + "%" }}
+          ></div>
 
-          {[0,10,20,30,40,50,60,70,80,90,100].map(x => <div style={{ left: x + "%"  }}className={buttonPos < x ? "rangeslider-hn2" : "rangeslider-hn2 on"} />)}
+          {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((x) => (
+            <div
+              style={{ left: x + "%" }}
+              className={
+                buttonPos < x ? "rangeslider-hn2" : "rangeslider-hn2 on"
+              }
+            />
+          ))}
 
           <div class="rangeslider-af3" onPointerDown={handleButton}>
-
-            <SliderButton buttonPos={buttonPos} handleDrag={handleDrag} buttonDrag={props.discreteDrag} />
-
+            <SliderButton
+              buttonPos={buttonPos}
+              handleDrag={handleDrag}
+              buttonDrag={props.discreteDrag}
+            />
           </div>
-
-
         </div>
       </div>
     </div>

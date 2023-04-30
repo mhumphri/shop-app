@@ -13,22 +13,21 @@ function TwoHandleSlider(props) {
   const [rightButtonPos, setRightButtonPos] = useState(100);
 
   // strores position of active section of slider track
-  const [activeRangeLeft, setActiveRangeLeft] = useState(leftButtonPos)
-  const [activeRangeWidth, setActiveRangeWidth] = useState(rightButtonPos - leftButtonPos)
+  const [activeRangeLeft, setActiveRangeLeft] = useState(leftButtonPos);
+  const [activeRangeWidth, setActiveRangeWidth] = useState(
+    rightButtonPos - leftButtonPos
+  );
 
   // ref for slider track
   const sliderTrack = useRef(null);
 
-  // initialses sliderTrack on load and updates at screen resize events
+  // initialses initialses trackPosition on load and updates at screen resize events
   useEffect(() => {
-    // initialises sliderTrack on load
     setTrackPosition(sliderTrack.current.getBoundingClientRect());
-    // screen resize event listener
     window.addEventListener("resize", () => {
       setTrackPosition(sliderTrack.current.getBoundingClientRect());
     });
     return () => {
-      // removes event listener
       window.removeEventListener("resize", () => {
         setTrackPosition(sliderTrack.current.getBoundingClientRect());
       });
@@ -37,63 +36,67 @@ function TwoHandleSlider(props) {
 
   // sets & removes pointermove event listener when slider button is dragged
   const handlePointerDown = (e) => {
-    console.log("E: " + e)
+    console.log("E: " + e);
     let newButtonPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
-      const leftDistance = Math.abs(newButtonPos - leftButtonPos)
-      const rightDistance = Math.abs(newButtonPos - rightButtonPos)
+    const leftDistance = Math.abs(newButtonPos - leftButtonPos);
+    const rightDistance = Math.abs(newButtonPos - rightButtonPos);
 
-      if (leftDistance > rightDistance ) {
-         setRightButtonPos(newButtonPos);
+    if (leftDistance > rightDistance) {
+      setRightButtonPos(newButtonPos);
       window.addEventListener("pointermove", handleRightDrag);
-         props.setTwoHandleRightDrag(true)
-        window.addEventListener("pointerup", () => {
-        props.setTwoHandleRightDrag(false)
+      props.setTwoHandleRightDrag(true);
+      window.addEventListener("pointerup", () => {
+        props.setTwoHandleRightDrag(false);
         window.removeEventListener("pointermove", handleRightDrag);
-        });
-      }
-      else {
-        setLeftButtonPos(newButtonPos);
-     window.addEventListener("pointermove", handleLeftDrag);
-        props.setTwoHandleLeftDrag(true)
-       window.addEventListener("pointerup", () => {
-       props.setTwoHandleLeftDrag(false)
-       window.removeEventListener("pointermove", handleLeftDrag);
-       });
-      }
+      });
+    } else {
+      setLeftButtonPos(newButtonPos);
+      window.addEventListener("pointermove", handleLeftDrag);
+      props.setTwoHandleLeftDrag(true);
+      window.addEventListener("pointerup", () => {
+        props.setTwoHandleLeftDrag(false);
+        window.removeEventListener("pointermove", handleLeftDrag);
+      });
+    }
   };
 
-  /* updates leftButtonPos and priceLowTextInput in response to drag of left slider button */
+  // updates leftButtonPos in response to drag of left slider button
   const handleLeftDrag = (e) => {
+    // calcs new button position (resulting from drag) on track as % (0%=LHS bound and 100%=RHS bound)
     let newLeftPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
-    const buttonBuffer = 21/(trackPosition.width/100);
+    // button buffer sets minimum distance between buttons (so they can't collide)
+    const buttonBuffer = 21 / (trackPosition.width / 100);
 
+    // if new left button position is less than 0% (i.e. off the LHS of the track), button position state is set to 0
     if (newLeftPos < 0) {
       newLeftPos = 0;
-    } else if (newLeftPos > rightButtonPos - buttonBuffer) {
+    }
+    // if new left button position is higher than right button position - the buffer (the upper bound), leftButtonPos is set at upper bound
+    else if (newLeftPos > rightButtonPos - buttonBuffer) {
       newLeftPos = rightButtonPos - buttonBuffer;
     }
-    console.log("newLeftPos: " + newLeftPos)
-    setLeftButtonPos(newLeftPos)
+    // otherwise left button position is set to state unchanged
+    setLeftButtonPos(newLeftPos);
   };
 
-/* updates rightButtonPos and priceHighTextInput in response to drag of right slider button */
+  // updates rightButtonPos in response to drag of right slider button
   const handleRightDrag = (e) => {
+    // calcs new right button position (resulting from drag) on track as % (0%=LHS bound and rightButtonPos=RHS bound)
     let newRightPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
-
-
-    const buttonBuffer = 21/(trackPosition.width/100);
-
+    // button buffer sets minimum distance between buttons (so they can't collide)
+    const buttonBuffer = 21 / (trackPosition.width / 100);
+    // if new right button position is greater than 100% (i.e. off the RHS of the track), button position is set to 100
     if (newRightPos > 100) {
       newRightPos = 100;
-    } else if (newRightPos < leftButtonPos + buttonBuffer) {
+    }
+    // if new right button position is less than left button position + buffer (the lower bound), rightButtonPos is set at lower bound
+    else if (newRightPos < leftButtonPos + buttonBuffer) {
       newRightPos = leftButtonPos + buttonBuffer;
     }
-
-    console.log("newRightPos: " + newRightPos)
-      setRightButtonPos(newRightPos)
+    setRightButtonPos(newRightPos);
   };
 
   return (
@@ -103,11 +106,22 @@ function TwoHandleSlider(props) {
           <div class="rangeslider-ty3" ref={sliderTrack}></div>
           <div
             class="rangeslider-vs7"
-            style={{ left: leftButtonPos + "%", width: rightButtonPos - leftButtonPos + "%" }}
+            style={{
+              left: leftButtonPos + "%",
+              width: rightButtonPos - leftButtonPos + "%",
+            }}
           ></div>
           <div class="rangeslider-af3" onPointerDown={handlePointerDown}>
-            <SliderButton buttonPos={leftButtonPos} handleDrag={handleLeftDrag} buttonDrag={props.twoHandleLeftDrag} />
-            <SliderButton buttonPos={rightButtonPos} handleDrag={handleRightDrag} buttonDrag={props.twoHandleRightDrag} />
+            <SliderButton
+              buttonPos={leftButtonPos}
+              handleDrag={handleLeftDrag}
+              buttonDrag={props.twoHandleLeftDrag}
+            />
+            <SliderButton
+              buttonPos={rightButtonPos}
+              handleDrag={handleRightDrag}
+              buttonDrag={props.twoHandleRightDrag}
+            />
           </div>
         </div>
       </div>

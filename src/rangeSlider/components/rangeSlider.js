@@ -9,7 +9,7 @@ import "../css/rangeSlider.css";
 
 function RangeSlider() {
 
-  // boolean showing true if the relevant slider is currently dragginh
+  // boolean showing true if the relevant slider is currently dragging
   const [simpleDrag, setSimpleDrag] = useState();
   const [discreteDrag, setDiscreteDrag] = useState();
   const [twoHandleLeftDrag, setTwoHandleLeftDrag] = useState();
@@ -18,7 +18,7 @@ function RangeSlider() {
   const [distributionRightDrag, setDistributionRightDrag] = useState();
 
 
-  // initialses sliderTrack on load and updates at screen resize events
+/*
   useEffect(() => {
 if (simpleDrag || discreteDrag || twoHandleLeftDrag || twoHandleRightDrag || distributionLeftDrag || distributionRightDrag) {
   // document.body.style.overflow = "hidden";
@@ -29,7 +29,7 @@ else {
   console.log("SCROLLING")
 }
 }, [simpleDrag, discreteDrag, twoHandleLeftDrag, twoHandleRightDrag, distributionLeftDrag, distributionRightDrag]);
-
+*/
 
   return (
     <>
