@@ -27,7 +27,7 @@ function SliderButton(props) {
     <>
     <button
       type="button"
-      className="rangeslider-pu5"
+      className={props.narrowTrack ? "rangeslider-pu5 narrow-track" : "rangeslider-pu5" }
       role="slider"
       style={{
         left: props.buttonPos + "%",

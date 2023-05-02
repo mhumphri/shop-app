@@ -55,7 +55,7 @@ body {
   opacity: 0.3;
   position: relative;
   border-radius: 2px;
-  height: 3px;
+  height: 5px;
   top: 0px;
   width: 100%;
 }
@@ -74,7 +74,7 @@ body {
 .rangeslider-vs7 {
   background-color: #3880FF;
   position: absolute;
-  height: 3px;
+  height: 5px;
   top: 0px;
 }
 
@@ -169,7 +169,11 @@ background-color: white;
   outline: currentcolor none medium ;
   z-index: 2 ;
   margin-left: calc(21px / -2) ;
-  top: 10px;
+  top: 11px;
+}
+
+.rangeslider-pu5.narrow-track {
+  top: 9px;
 }
 
 

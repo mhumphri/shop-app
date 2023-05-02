@@ -191,6 +191,7 @@ function DistributionSlider(props) {
               handleDrag={handleRightDrag}
               buttonDrag={props.distributionLeftDrag}
               labelDisabled={true}
+              narrowTrack={true}
             />
           </div>
         </div>

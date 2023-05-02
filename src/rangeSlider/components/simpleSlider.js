@@ -9,7 +9,7 @@ function SimpleSlider(props) {
   const [trackPosition, setTrackPosition] = useState();
 
   // stores position of slider button (scale 0  to 100)
-  const [buttonPos, setButtonPos] = useState(0);
+  const [buttonPos, setButtonPos] = useState(50);
 
   // ref for slider track
   const sliderTrack = useRef(null);
