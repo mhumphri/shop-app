@@ -185,6 +185,7 @@ function DistributionSlider(props) {
               handleDrag={handleLeftDrag}
               buttonDrag={props.distributionLeftDrag}
               labelDisabled={true}
+              narrowTrack={true}
             />
             <SliderButton
               buttonPos={rightButtonPos}

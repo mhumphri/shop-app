@@ -173,8 +173,9 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
 
         // initialises count variable for number of hotels returned by previous search which fall within bounds of current map (i.e. those of the new search)
         let existingHotelsCount = 0;
-        console.log("mapParameters.bounds: " + mapParameters.bounds.getSouthWest())
-
+        console.log("mapParameters.bounds.getSouthWest(): " + mapParameters.bounds.getSouthWest())
+                console.log("mapParameters.bounds: " + JSON.stringify(mapParameters.bounds.toJSON().east))
+/*
         // range of lng and lat for current map
         // !!!!! CRASH RISK - NEED TO FIND A BETTER WAY TO DO THIS
         const boundsLatLo = mapParameters.bounds.fb.lo;
@@ -197,7 +198,7 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
           }
         }
 
-
+*/
 
 
         // calcs number of hotels based on land area implied by active map bounds
@@ -295,6 +296,7 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
       let prevHotelArray = [...hotelArray];
       // range of lng and lat for current map
       // !!!!! CRASH RISK - NEED TO FIND A BETTER WAY TO DO THIS
+      /*
       const boundsLatLo = mapParameters.bounds.fb.lo;
       const boundsLatHi = mapParameters.bounds.fb.hi;
       const boundsLngLo = mapParameters.bounds.Ka.lo;
@@ -313,6 +315,7 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
           newHotelArray.push(prevHotelArray[i]);
         }
       }
+      */
     }
     // number of hotels from previous search which have been retained for current search (as they fall within current search map bounds)
     const currentArrayLength = newHotelArray.length;
@@ -531,7 +534,7 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
           />
         </div>
         <div className={mapStyle}>
-       <ResultsMap
+   <ResultsMap
             expandMapView={expandMapView}
             toggleMapView={toggleMapView}
             setMapBounds={setMapBounds}

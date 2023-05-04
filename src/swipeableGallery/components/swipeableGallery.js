@@ -14,7 +14,8 @@ import "../css/swipeableGallery.css";
 
 function SwipeableGallery(props) {
 
-const photoArray = [bird1,bird2,bird3,bird4,bird5,bird6]
+const photoArray = []
+// const photoArray = [bird1,bird2,bird3,bird4,bird5,bird6]
 
 
   /* index of photo currently visible */

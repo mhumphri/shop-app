@@ -210,7 +210,6 @@ if (!touchScreen){
                 <div class="swipeable-gallery-byc"></div>
                 <div class="swipeable-gallery-bal">
                   <div
-                    aria-label="Photo 1 of 13"
                     role="img"
                     class="swipeable-gallery-r75"
                   >
@@ -225,7 +224,6 @@ if (!touchScreen){
           )}
 
           <div class="swipeable-gallery-cw9">
-            {props.itemLoading ? null : (
               <div
                 class="swipeable-gallery-c14w"
                 onScroll={onGalleryScroll}
@@ -239,7 +237,6 @@ if (!touchScreen){
                   </div>
                 ))}
               </div>
-            )}
           </div>
         </div>
     )
@@ -254,7 +251,8 @@ if (!touchScreen){
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {props.itemLoading ? null : (
+
+
           <div class="swipeable-gallery-o1q">
             <div />
 
@@ -295,7 +293,6 @@ if (!touchScreen){
               <div class="swipeable-gallery-byc"></div>
               <div class="swipeable-gallery-bal">
                 <div
-                  aria-label="Photo 1 of 13"
                   role="img"
                   class="swipeable-gallery-r75"
                 >
@@ -307,10 +304,10 @@ if (!touchScreen){
               <div class="swipeable-gallery-b18"></div>
             </div>
           </div>
-        )}
+
 
         <div class="swipeable-gallery-cw9">
-          {props.itemLoading ? null : (
+
             <div
               class="swipeable-gallery-c14w"
               onScroll={onGalleryScroll}
@@ -324,7 +321,7 @@ if (!touchScreen){
                 </div>
               ))}
             </div>
-          )}
+
         </div>
       </div>
 
