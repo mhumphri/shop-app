@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
-import bird1 from "../../images/birds/bird1.jpg";
-import bird2 from "../../images/birds/bird2.jpg";
+import main1 from "../../images/hubble1.jpg";
+import main2 from "../../images/hubble2.jpg";
+import main3 from "../../images/hubble3.jpg";
+import main4 from "../../images/hubble4.jpg";
+import main5 from "../../images/hubble5.jpg";
+import main6 from "../../images/hubble6.jpg";
+import bird2 from "../../images/hubble1.jpg";
 import bird3 from "../../images/birds/bird3.jpg";
 import bird4 from "../../images/birds/bird4.jpg";
 import bird5 from "../../images/birds/bird5.jpg";
@@ -14,7 +19,7 @@ import "../css/swipeableGallery.css";
 
 function SwipeableGallery(props) {
 
-const photoArray = []
+const photoArray = [main1, main2, main3, main4, main5, main6]
 // const photoArray = [bird1,bird2,bird3,bird4,bird5,bird6]
 
 

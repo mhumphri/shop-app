@@ -6,6 +6,7 @@
   background-color: white;
   border-radius: 10px;
   cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);
 }
 
 /* outer container - standard pointer if render is for div (not button or link) */
@@ -30,10 +31,19 @@
 /* item label (floats in top LHS) */
 .portfolioitem-ja2 {
   position: absolute;
+  font-size: 18px;
+  font-weight: 500;
   top: 15px;
   left: 15px;
   background-color: white;
   padding: 4px 8px;
-  border-radius: 3px;
+  border-radius: 5px;
   overflow: clip;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);
+  /* border: 1px solid #DDDDDD; */
+}
+
+.portfolioitem-ja2.highlight {
+
+   border: 1px solid #DDDDDD;
 }

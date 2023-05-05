@@ -18,13 +18,12 @@ import "../css/searchMap.css";
 // main component for earchPage app - contains homepage and all the logic for generating mock search results in place of server
 
 function SearchMap(props) {
+  const hotelData = getHotelData();
 
-const hotelData = getHotelData()
-
-// array containing the keys of all stored hotels
-const [hotelKeyArray, setHotelKeyArray] = useState(hotelData.hotelKeyArray);
-// object containing data for all stored hotels
-const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
+  // array containing the keys of all stored hotels
+  const [hotelKeyArray, setHotelKeyArray] = useState(hotelData.hotelKeyArray);
+  // object containing data for all stored hotels
+  const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
   // large view (boolean indicating if app currently in large view) and screen height (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
   // viewport height (stored in redux)
@@ -38,7 +37,7 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
   // params of the currently visible map (bounds, center, zoom and box (position on screen))
   const [mapParameters, setMapParameters] = useState();
   // mapParameters plus expand map view state - updated in lag so as to compare latest map parameters (and avoid updating in response to map bounds changes resulting from the map view being changed )
-  const [mapState, setMapState] = useState({expandMapView: false});
+  const [mapState, setMapState] = useState({ expandMapView: false });
   // store time of last screen resize - used to prevent search being updated in response to changes in browser size
   const [resize, setResize] = useState(0);
   // store time of last view toggle (i.e. from last expanded map view to reduced map view) - used to prevent search being updated in response to changes in browser size
@@ -68,16 +67,13 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
   // boolean which is toggled by search button on nav to refresh search
   const [searchRefresh, setSearchRefresh] = useState();
 
-
   // listens for screen re-size event and updates resize variable with current time
   useEffect(() => {
     window.addEventListener("resize", () => {
       setResize(Date.now());
     });
     return () => {
-      window.removeEventListener("resize", () => {
-        console.log("resize finish");
-      });
+      window.removeEventListener("resize", () => {});
     };
   }, []);
 
@@ -105,14 +101,11 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
 
   // useEffect triggered by mapBounds being updated or searchRefresh being toggled (when search button on nav is clicked) - generates mock search results in place of server
   useEffect(() => {
-    console.log("MAP PARAMETERS UPDATE")
     // generates number of hotels based on land area implied by active map bounds (more land in scope = more hotels)
     const getHotelNumber = (activePolygons) => {
       const landArea = calcLandArea(activePolygons);
       return Math.round((landArea / 10000000) * randomNumberInRange(5, 30));
     };
-
-
 
     // updates numberHotels state, calcs and updates MaxPages state and resets active page state to 1
     const updateHotelAndPages = (newNumberHotels) => {
@@ -127,7 +120,6 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
 
     // if searchLocationUpdate boolean is true country specific search is triggered
     if (searchLocationUpdate) {
-      console.log("!!!searchLocationUpdate")
       // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
       triggerDataLoading();
       // get polygons for country specified in search
@@ -140,9 +132,6 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
     }
     // if searchLocationUpdate boolean is false search based on  current map bounds is triggered
     else {
-      console.log("!!!notsearchLocationUpdate")
-
-
       // calcs time interval since last screen resize (if below 500ms it is assumed that change in map bounds results from screen resize and new search is aborted)
       const msSinceResize = Date.now() - resize;
 
@@ -151,21 +140,14 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
         msSinceLastViewToggle = Date.now() - lastViewToggle;
       }
 
-            // if not first load and not a user specified country search, searchLocation state is set to "map area" (i.e the user has changed the map bounds triggering a new search)
+      // if not first load and not a user specified country search, searchLocation state is set to "map area" (i.e the user has changed the map bounds triggering a new search)
       if (!firstLoad && msSinceResize > 500 && msSinceLastViewToggle > 1300) {
-        console.log("msSinceLastViewToggle: " +msSinceLastViewToggle)
-        console.log("msSinceResize: " + msSinceResize)
         setSearchLocation("map area");
       }
 
-
-
       // if map parameters have already been declared and change in map bounds not result of screen resize a new search is triggered
       if (mapParameters && msSinceResize > 500) {
-        console.log("!!!mapParameters && msSinceResize > 500")
         // fetches polygons within current map bounds
-
-
         const activePolygons = getActivePolygons(mapParameters.bounds);
 
         // calc land area for polygons within current map bounds
@@ -173,15 +155,12 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
 
         // initialises count variable for number of hotels returned by previous search which fall within bounds of current map (i.e. those of the new search)
         let existingHotelsCount = 0;
-        console.log("mapParameters.bounds.getSouthWest(): " + mapParameters.bounds.getSouthWest())
-                console.log("mapParameters.bounds: " + JSON.stringify(mapParameters.bounds.toJSON().east))
-/*
+
         // range of lng and lat for current map
-        // !!!!! CRASH RISK - NEED TO FIND A BETTER WAY TO DO THIS
-        const boundsLatLo = mapParameters.bounds.fb.lo;
-        const boundsLatHi = mapParameters.bounds.fb.hi;
-        const boundsLngLo = mapParameters.bounds.Ka.lo;
-        const boundsLngHi = mapParameters.bounds.Ka.hi;
+        const boundsLatLo = JSON.stringify(mapParameters.bounds.toJSON().south);
+        const boundsLatHi = JSON.stringify(mapParameters.bounds.toJSON().north);
+        const boundsLngLo = JSON.stringify(mapParameters.bounds.toJSON().west);
+        const boundsLngHi = JSON.stringify(mapParameters.bounds.toJSON().east);
 
         // counts number of hotels returned by prev search which remain within the map bounds of current search (these will remain as search results)
         for (let i = 0; i < hotelArray.length; i++) {
@@ -198,14 +177,11 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
           }
         }
 
-*/
-
-
         // calcs number of hotels based on land area implied by active map bounds
         const additionalHotels = getHotelNumber(activePolygons);
         // adds on exisitng hotels from prev search (this is to make sure that the hotel number is >= to hotels currently on map for the search area. This is a fail safe as getHotelNumber() may return a v low number when we zoom down to very small search areas )
         const newNumHotels = existingHotelsCount + additionalHotels;
-          // updates numberHotels state, calcs and updates MaxPages state and resets active page state to 1
+        // updates numberHotels state, calcs and updates MaxPages state and resets active page state to 1
         updateHotelAndPages(newNumHotels);
 
         // sets number of hotels returned by search - default is 18 per page but can be lower if total numer returned by search is less than 18 (i.e. the search area is very small)
@@ -214,47 +190,40 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
           hotelsInArray = newNumHotels;
         }
 
-
-
         // number of hotels returned >0 search results are generated an stored in hotelArray state
         if (activePolygons.length > 0) {
-          console.log("!!!activePolygons.length > 0")
-
           // mapState is yet to be declared this is the first search so a simple search without any checks is triggered
           if (!mapState) {
-            console.log("!!!activePolygons.length > 1")
             // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
             triggerDataLoading();
             // search results are generated an stored in hotelArray state
             setHotelArray(generateHotelArray(hotelsInArray, activePolygons));
           } else {
-            console.log("!!!activePolygons.length > 2")
             // initialises refresh boolean - if true prev search results are deleted even if they fall within current map bounds.
             let refresh = false;
             // refresh set to true when zooming out or if searchFresh has been toggled (i.e. search button on nav has been clicked) - all prev search reulsts are deleted
-            if (mapParameters.zoom < mapState.zoom || searchRefresh!==mapState.searchRefresh) {
+            if (
+              mapParameters.zoom < mapState.zoom ||
+              searchRefresh !== mapState.searchRefresh
+            ) {
               refresh = true;
             }
             // if current expandMapView state does not equal state at time of last search, the new search is aborted (as the change in map bounds is assumed to result from the change in map view). Only for above 949px (because the render changes at this point so that map isn't show on the rhs but button needs to be clicked) as map bounds don't change when we move from list to map in small (<950px screen width) view.
-            if (expandMapView === mapState.expandMapView || screenWidth<950 ) {
-              console.log("!!!activePolygons.length > 3")
+            if (expandMapView === mapState.expandMapView || screenWidth < 950) {
               // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
               triggerDataLoading();
-                // search results are generated an stored in hotelArray state
+              // search results are generated an stored in hotelArray state
               setHotelArray(
                 generateHotelArray(hotelsInArray, activePolygons, refresh)
               );
             }
           }
-
         }
         // number of hotels returned = 0 generates an empty array as search result
         else {
           triggerDataLoading();
           setHotelArray([]);
         }
-
-
 
         // mapState is updated (updated in lag so as to compare latest map parameters (and avoid updating in response to map bounds changes resulting from the map view being changed )
         const newMapState = {
@@ -266,9 +235,7 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
           searchRefresh: searchRefresh,
         };
         setMapState(newMapState);
-
       }
-
     }
   }, [mapParameters, searchRefresh]);
 
@@ -276,7 +243,7 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
   const [mapButtonActive, setMapButtonActive] = useState(true);
   // initialises css styles for search list outer container (needed for change of map view)
   const [searchListStyle, setSearchListStyle] = useState("fmdphkf dir dir-ltr");
-    // initialises css styles for map outer container (needed for change of map view)
+  // initialises css styles for map outer container (needed for change of map view)
   const [mapStyle, setMapStyle] = useState("m1ict9kd dir dir-ltr");
   // ref for outer container of results list (used for controlling visibility of "show list" / "show map" button)
   const listContainerRef = useRef(null);
@@ -285,9 +252,9 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
   const generateHotelArray = (numHotels, activePolygons, refresh) => {
     // sets firstLoad variable on first load
     if (firstLoad) {
-    setFirstLoad(false);
-  }
-  // initialises search result array
+      setFirstLoad(false);
+    }
+    // initialises search result array
     let newHotelArray = [];
 
     // if refresh set to false this code identifies hotels from the previous search which fall within current search map bounds and adds them to new search results
@@ -295,12 +262,10 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
       // makes copy of previous search results
       let prevHotelArray = [...hotelArray];
       // range of lng and lat for current map
-      // !!!!! CRASH RISK - NEED TO FIND A BETTER WAY TO DO THIS
-      /*
-      const boundsLatLo = mapParameters.bounds.fb.lo;
-      const boundsLatHi = mapParameters.bounds.fb.hi;
-      const boundsLngLo = mapParameters.bounds.Ka.lo;
-      const boundsLngHi = mapParameters.bounds.Ka.hi;
+      const boundsLatLo = JSON.stringify(mapParameters.bounds.toJSON().south);
+      const boundsLatHi = JSON.stringify(mapParameters.bounds.toJSON().north);
+      const boundsLngLo = JSON.stringify(mapParameters.bounds.toJSON().west);
+      const boundsLngHi = JSON.stringify(mapParameters.bounds.toJSON().east);
       // counts number of hotels returned by prev search which remain within the map bounds of current search (these will remain as search results)
       for (let i = 0; i < prevHotelArray.length; i++) {
         const hotelLat = prevHotelArray[i].coords.lat;
@@ -315,12 +280,11 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
           newHotelArray.push(prevHotelArray[i]);
         }
       }
-      */
     }
     // number of hotels from previous search which have been retained for current search (as they fall within current search map bounds)
     const currentArrayLength = newHotelArray.length;
 
-// !!!NEED AN EXTRA STEP HERE TO ACCOUNT FOR PHTOS RETAINED FROM PREV SEARCH!!!!
+    // !!!NEED AN EXTRA STEP HERE TO ACCOUNT FOR PHTOS RETAINED FROM PREV SEARCH!!!!
     // generates array with numbers 0 to 19 - used to select unique photo from list of stock photos
     let indexArray = [];
     for (let i = 0; i < 26; i++) {
@@ -352,13 +316,11 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
         country: location.country,
         price: randomNumberInRange(30, 450),
         photos: getPhotos(mainPic),
-        rating: randomNumberInRange(30, 50)/10,
+        rating: randomNumberInRange(30, 50) / 10,
         numReviews: randomNumberInRange(5, 200),
       };
       newHotelArray.push(newHotel);
     }
-
-
 
     return newHotelArray;
   };
@@ -367,7 +329,8 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
   useEffect(() => {
     const handleScroll = (event) => {
       // get position of bottom of results list container
-      const listContainerBottom = listContainerRef.current.getBoundingClientRect().bottom;
+      const listContainerBottom = listContainerRef.current.getBoundingClientRect()
+        .bottom;
       // if bototm of results list container is less than 70px from bottom of viewport map button render is disabled
       if (listContainerBottom < screenHeight - 70) {
         setMapButtonActive(false);
@@ -383,10 +346,10 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
     };
   });
 
-// controls toggling of map view by changing css styles - between partial screen and full screen if screenwidth >= 950px, and between full screen and not visible if screen width < 950px
+  // controls toggling of map view by changing css styles - between partial screen and full screen if screenwidth >= 950px, and between full screen and not visible if screen width < 950px
   const toggleMapView = () => {
     // log time of last view toggle to the change in map bounds triggering a new search
-    setLastViewToggle(Date.now())
+    setLastViewToggle(Date.now());
     // if currently in expanded view set expandMapview to false and css updated
     if (expandMapView) {
       setExpandMapView(false);
@@ -402,7 +365,6 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
         setSearchListStyle("fmdphkf dir dir-ltr");
         setMapStyle("m1ict9kd m12odydq dir dir-ltr");
       }
-
     }
     // if not currently in expanded view set expandMapview to true and css updated
     else {
@@ -426,7 +388,6 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
     // if search page is the last page, the number of results is calculated as it may be less than the defualt value of 18
     if (number === maxPages && maxPages < 15) {
       hotelsInArray = numberHotels - (maxPages - 1) * 18;
-      console.log("hotelsInArray: " + hotelsInArray);
     }
     // sets pageLoading boolean to true for 1300ms in order to mimic data loading from server
     triggerPageLoading();
@@ -439,9 +400,7 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
   };
 
   return (
-
     <div className="search-map-nr6">
-
       <SearchMapNav
         searchLocation={searchLocation}
         updateSearchLocation={updateSearchLocation}
@@ -451,7 +410,13 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
       <main className="search-map-cy5">
         <div class="_1hytef3">
           {/* lowers position of button when screen height is low */}
-          <div className={screenHeight>500 ? "search-map-fo8" : "search-map-fo8 small-screen-height"}>
+          <div
+            className={
+              screenHeight > 500
+                ? "search-map-fo8"
+                : "search-map-fo8 small-screen-height"
+            }
+          >
             {expandMapView ? (
               <button
                 type="button"
@@ -534,7 +499,7 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
           />
         </div>
         <div className={mapStyle}>
-   <ResultsMap
+          <ResultsMap
             expandMapView={expandMapView}
             toggleMapView={toggleMapView}
             setMapBounds={setMapBounds}
@@ -553,7 +518,9 @@ const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
         </div>
       </main>
       {/* largeView ? <SearchMapFooter /> : null */}
-      {activeLink ? <LinkModal activeLink={activeLink} setActiveLink={setActiveLink} /> : null}
+      {activeLink ? (
+        <LinkModal activeLink={activeLink} setActiveLink={setActiveLink} />
+      ) : null}
     </div>
   );
 }

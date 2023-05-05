@@ -16,7 +16,7 @@ function PortfolioItem(props) {
   const innerContent = [
     <div className="portfolioitem-tz4">
       {props.name ? (
-        <div className="portfolioitem-ja2">{props.name}</div>
+        <div className={props.lightBackground ? "portfolioitem-ja2 highlight" : "portfolioitem-ja2"}>{props.name}</div>
       ) : null}
       <img className="portfolioitem-uc3" alt="alt" src={props.image} />
     </div>,
