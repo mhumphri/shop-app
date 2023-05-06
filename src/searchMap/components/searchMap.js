@@ -66,6 +66,8 @@ function SearchMap(props) {
   const [hoverHotel, setHoverHotel] = useState();
   // boolean which is toggled by search button on nav to refresh search
   const [searchRefresh, setSearchRefresh] = useState();
+  // boolean which indicates if the small search modal is open - if true, hotelArrayLocal in resulsList is temporarily set to an empty array (to prevent overscroll behaviour when text input is active)
+  const [smallSearchModalOpen, setSmallSearchModalOpen] = useState();
 
   // listens for screen re-size event and updates resize variable with current time
   useEffect(() => {
@@ -406,6 +408,7 @@ function SearchMap(props) {
         updateSearchLocation={updateSearchLocation}
         searchRefresh={searchRefresh}
         setSearchRefresh={setSearchRefresh}
+        setSmallSearchModalOpen={setSmallSearchModalOpen}
       />
       <main className="search-map-cy5">
         <div class="_1hytef3">
@@ -496,6 +499,7 @@ function SearchMap(props) {
             hoverHotel={hoverHotel}
             setHoverHotel={setHoverHotel}
             firstLoad={firstLoad}
+            smallSearchModalOpen={smallSearchModalOpen}
           />
         </div>
         <div className={mapStyle}>
