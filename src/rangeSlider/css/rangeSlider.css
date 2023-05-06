@@ -49,6 +49,16 @@ body {
   margin: 50px 0px 80px 0px;
 }
 
+.rangeslider-lx4 {
+  margin: auto;
+  width: 100%;
+  margin: 50px 0px 80px 0px;
+}
+
+.rangeslider-ds2 {
+  bottom: 0px;
+}
+
 /* slider track */
 .rangeslider-ty3 {
   background-color: #3880FF;

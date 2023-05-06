@@ -10,9 +10,6 @@ function TopNav(props) {
   // redux hook for dispatching data
   const dispatch = useDispatch();
 
-  // set itemName url parameter as variable
-  let params = useParams();
-  let itemName = params.itemName;
 
   return (
     <header className="topnav-df5">
@@ -20,18 +17,18 @@ function TopNav(props) {
         <div className={props.narrow ?  "topnav-po9 narrow" : "topnav-po9"}>
           <a href="/"className="topnav-jk9">mic's portfolio</a>
           {/* display "item info" button if item-name url parameter is set */}
-          {itemName ? (
+          {props.itemName ? (
             <button
               className="topnav-ly8"
-              onClick={() => dispatch(updateMainModal(itemName))}
+              onClick={() => dispatch(updateMainModal(props.itemName))}
             >
               item info
             </button>
           ) : null}
         </div>
         {/* display github image and link if no item-name url parameter is set */}
-        {itemName ? null : (
-          <a className="topnav-lb9">
+        {props.itemName ? null : (
+          <a href="https://github.com/mhumphri/micsportfolio" className="topnav-lb9">
             <img
               alt="GitHub Logomark"
               class="topnav-ek4"

@@ -7,7 +7,7 @@
 
 /* outer container 2 - sets content width */
 .portfoliolist-ap7 {
-  width: 1440px;
+  width: 1880px;
   padding: 20px 20px;
 }
 
@@ -31,7 +31,7 @@
   }
 }
 
-@media only screen and (min-width : 1024px) {
+@media only screen and (min-width : 1280px) {
 
   /* grid container - large view  */
   .portfoliolist-pp6 {

@@ -167,8 +167,8 @@ function DistributionSlider(props) {
   };
 
   return (
-    <div class="rangeslider-hc7">
-      <div>
+    <div class="rangeslider-lx4">
+      <div class="rangeslider-ds2">
         <div class="rangeslider-1da">{distributionRender}</div>
         <div class="rangeslider-jn7">
           <div class="rangeslider-ty3 narrow" ref={sliderTrack}></div>

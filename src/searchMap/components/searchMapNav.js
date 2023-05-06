@@ -257,7 +257,7 @@ function SearchMapNav(props) {
           {" "}
           <button
             className="search-map-nav-ly8"
-            onClick={() => dispatch(updateMainModal("rangeSlider"))}
+            onClick={() => dispatch(updateMainModal("hotelApp"))}
           >
             item info
           </button>

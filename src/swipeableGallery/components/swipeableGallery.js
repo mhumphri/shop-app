@@ -20,7 +20,7 @@ import "../css/swipeableGallery.css";
 function SwipeableGallery(props) {
 
 const photoArray = [main1, main2, main3, main4, main5, main6]
-// const photoArray = [bird1,bird2,bird3,bird4,bird5,bird6]
+// const photoArray = [main1, main2, main3, main4, main5, main6]
 
 
   /* index of photo currently visible */
@@ -217,10 +217,10 @@ const photoArray = [main1, main2, main3, main4, main5, main6]
 
 
   return      <>
-  <div class="swipeable-gallery-c14d"
+  <button class="swipeable-gallery-c14d2"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          onClick={() => dispatch(updateMainModal("swipableGallery"))}
+          onClick={() => dispatch(updateMainModal("swipeableGallery"))}
           >
 
 
@@ -312,7 +312,7 @@ const photoArray = [main1, main2, main3, main4, main5, main6]
 
 
 
-        </div>
+        </button>
         </>
 
 

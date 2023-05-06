@@ -2,19 +2,23 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
 import itemArray from "../../data/itemArray";
+import modalContent from "./modalContent.js";
 import "../css/modal.css";
 
 function Modal() {
 
   const mainModal = useSelector((state) => state.modals.mainModal);
-
+  const modalData = modalContent[mainModal]
   const [backdropStyle, setBackdropStyle] = useState("modal-jr6");
   const [modalStyle, setModalStyle] = useState("modal-pq2");
 
+
+/*
   let getModalData = (modalRef, itemArray) => {
 
 console.log("modalRef: " + modalRef)
 console.log("itemArray: " + itemArray)
+
     let modalData
 
     for (let i=0; i<itemArray.length; i++) {
@@ -31,8 +35,10 @@ console.log("itemArray: " + itemArray)
 
   }
 
+
   const [modalData, setModalData] = useState(getModalData(mainModal, itemArray));
 
+  */
   const dispatch = useDispatch();
 
   const closeModal = () => {
@@ -93,64 +99,23 @@ console.log("itemArray: " + itemArray)
               </header>
               <div class="micsmodal-bz3">
                 <h2 className="micsmodal-ns5">Description</h2>
-                <p className="micsmodal-gt0">
-                  kjhfkjsdhfkjh sdkjfhdskfjhds kjfhdskfjhds kfjhdsfkjhds
-                  lsdfijhidsjfods sdfhsdkfjo lsdkhjgsdghjfdsk ksdjghksdjgh
-                  lsdfijhidsjfods sdfhsdkfjo lsdkhjgsdghjfdsk ksdjghksdjgh
-                  lsdfijhidsjfods sdfhsdkfjo lsdkhjgsdghjfdsk ksdjghksdjgh
-                </p>
-                <p className="micsmodal-gt0">
-                  kjhfkjsd hfkjhsdkjfh dskfjhdsk jfhdskfjhds kfjhds fkjhds
-                  lsdfijhidsjfods sdfhsdkfjo lsdkhjgsdghjfdsk ksdjghksdjgh
-                  lsdfijhidsjfods sdfhsdkfjo lsdkhjgsdghjfdsk ksdjghksdjgh
-                  lsdfijhidsjfods sdfhsdkfjo lsdkhjgsdghjfdsk ksdjghksdjgh
-                </p>
-                <h2 className="micsmodal-ns5">Approach</h2>
-                <p className="micsmodal-gt0">
-                  kjhfkjsdhfk jhsdkjfh dskfjhdsk jfhdskfj hdskfjhdsfkjhds
-                  lsdfijhidsjfods sdfhsdkfjo lsdkhjgsdghjfdsk ksdjghksdjgh
-                  lsdfijhidsjfods sdfhsdkfjo lsdkhjgsdghjfdsk ksdjghksdjgh
-                  lsdfijhidsjfods sdfhsdkfjo lsdkhjgsdghjfdsk ksdjghksdjgh
-                </p>
+
+                  {modalData.description.map((x) => (
+                    <p className="micsmodal-gt0">{x}</p>
+                  ))}
+                  {modalData.libraries ?
+                    <>
                 <h2 className="micsmodal-ns5">Libraries/Frameworks</h2>
                 <ul className="micsmodal-bw7">
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
-                  <li>xyz</li>
+                  {modalData.libraries.map((x) => (
+                    <li>{x}</li>
+                  ))}
                 </ul>
+                </> : null}
               </div>
               <footer>
                 <footer class="modal-zgc">
-                  <button className="micsmodal-lb9">
+                  <a href={modalData.githubHref} className="micsmodal-lb9">
                     <img
                       alt="GitHub Logomark"
                       class="micsmodal-ek4"
@@ -159,7 +124,7 @@ console.log("itemArray: " + itemArray)
                       height="40"
                     />
                     <div className="micsmodal-nw7">view code</div>
-                  </button>
+                  </a>
 
                 </footer>
               </footer>

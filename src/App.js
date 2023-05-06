@@ -33,7 +33,7 @@ function App() {
 
   /* listens for screen re-size and updates screen width variable */
   useEffect(() => {
-      // detect if a "coarse pointer" - usually a touch screen - is the primary input device and stores touchScreen boolean in redux 
+      // detect if a "coarse pointer" - usually a touch screen - is the primary input device and stores touchScreen boolean in redux
       dispatch(updateTouchScreen(window.matchMedia("(pointer: coarse)").matches))
     window.addEventListener("resize", () => {
       updateScreenWidth();
@@ -63,7 +63,7 @@ function App() {
           path="/range-slider"
           element={
             <>
-              <TopNav narrow={true} />
+              <TopNav narrow={true} itemName="rangeSlider" />
               <RangeSlider />
             </>
           }

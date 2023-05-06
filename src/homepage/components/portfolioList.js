@@ -10,7 +10,7 @@ import "../css/portfolioList.css";
 
 function PortfoiloList() {
   return (
-    <div className="portfoliolist-yu1">
+    <main className="portfoliolist-yu1">
       <div className="portfoliolist-ap7">
         <div className="portfoliolist-pp6">
         <PortfolioItem name="hotel app" lightBackground={true} image={hotelAppImg} href="/search-map" modal="searchMap" />
@@ -19,7 +19,7 @@ function PortfoiloList() {
 
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
