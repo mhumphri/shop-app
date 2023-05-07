@@ -27,11 +27,9 @@ function SearchMapNav(props) {
     if (activeSearch && !largeView) {
       document.body.style.overflow = "hidden";
       document.body.style.position = "relative";
-      props.setSmallSearchModalOpen(true)
     } else {
       document.body.style.overflow = "auto";
       document.body.style.position = "static";
-      props.setSmallSearchModalOpen(false)
     }
   }, [activeSearch, largeView]);
 

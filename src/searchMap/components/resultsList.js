@@ -65,17 +65,6 @@ function ResultsList(props) {
   }, [props.pageLoading]);
 
 
-  // controls local store of hotelArray but not numberhotels. This reflects hotelArray update reulting from paginationNav (which doesn't refresh overall search). Numbers are updated when props.pageLoading boolean updates to false
-  useEffect(() => {
-    if (props.smallSearchModalOpen) {
-      setHotelArrayLocal([]);
-    }
-    else {
-      setHotelArrayLocal(props.hotelArray);
-    }
-  }, [props.smallSearchModalOpen]);
-
-
   return (
     <>
       <div className="results-list-yt6">
