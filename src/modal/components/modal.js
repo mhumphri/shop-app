@@ -115,7 +115,7 @@ console.log("itemArray: " + itemArray)
               </div>
               <footer>
                 <footer class="modal-zgc">
-                  <a href={modalData.githubHref} className="micsmodal-lb9">
+                  <a className="micsmodal-lb9" href={modalData.githubHref} target="_blank" >
                     <img
                       alt="GitHub Logomark"
                       class="micsmodal-ek4"

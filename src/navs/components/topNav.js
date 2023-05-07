@@ -28,7 +28,7 @@ function TopNav(props) {
         </div>
         {/* display github image and link if no item-name url parameter is set */}
         {props.itemName ? null : (
-          <a href="https://github.com/mhumphri/micsportfolio" className="topnav-lb9">
+          <a className="topnav-lb9" href="https://github.com/mhumphri/micsportfolio" target="_blank" >
             <img
               alt="GitHub Logomark"
               class="topnav-ek4"

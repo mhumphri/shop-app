@@ -76,7 +76,7 @@ function SearchModal(props) {
             <div class="search-modal-z4l">
               <header className="search-modal-sj7" />
               <section className="search-modal-po4">
-                <h2 class="search-modal-we5">Select a country</h2>
+<h2 class="search-modal-we5">Select a country</h2>
 
                 <form className="search-modal-f1w">
                   <label for="country-input-small" class="search-modal-1dr">
@@ -107,7 +107,7 @@ function SearchModal(props) {
               </section>
 
               <div class="search-modal-bz3">
-                {props.activeCountryArray.map((x) => (
+                {props.activeCountryArray.length > 0 ? (props.activeCountryArray.map((x) => (
                   <div
                     class="search-modal-uzo"
                     onClick={() => props.selectCountry(x)}
@@ -125,7 +125,20 @@ function SearchModal(props) {
                     </div>
                     <div class="search-modal-182">{x}</div>
                   </div>
-                ))}
+                ))
+              ) : (
+                <div
+                  role="option"
+                  tabindex="-1"
+                  id="bigsearch-query-location-suggestion-0"
+                  data-index="0"
+                  data-testid="option-0"
+                  class="search-map-nav-jp4"
+                >
+                  <div class="search-modal-ha1">no matches</div>
+                </div>
+              )
+            }
               </div>
             </div>
           </div>
