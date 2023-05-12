@@ -356,6 +356,12 @@ padding-right: 14px !important;
 
 }
 
+.search-map-nav-uzo.highlighted {
+	background-color: #f7f7f7;
+	border-color: #f7f7f7;
+}
+
+
 .search-map-nav-uzo:hover {
 	background-color: #f7f7f7;
 	border-color: #f7f7f7;

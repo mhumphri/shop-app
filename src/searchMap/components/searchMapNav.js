@@ -6,23 +6,34 @@ import crossButton from "./crossButton";
 import countryPolygons from "../data/countryPolygons.json";
 import "../css/searchMapNav.css";
 
-//
-
+// header, nav and controls for hotel app - both large and small view
 function SearchMapNav(props) {
   // redux hook for dispatching data
   const dispatch = useDispatch();
 
   // screen width (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
-
+  // boolean which indicates if text input / dropdown(large view) / search modal(small view) are open
   const [activeSearch, setActiveSearch] = React.useState();
+  // stores array of all country names
   const [fullCountryArray, setFullCountryArray] = React.useState([]);
-
+  // stores array of country names which currently appear as dropdown/search modal options (i.e. have not need filteredt out by text input search)
+  const [activeCountryArray, setActiveCountryArray] = React.useState();
+  // stores local text input (distinct from props.searchLocation which is the final inputted and validated value (taken from country array) used for the search)
   const [countryInput, setCountryInput] = React.useState("");
+  // logs keydown (for tab, enter, up arrow and down arrow) when activeSearch is true. Used to control dropdown menu
+  const [activeKey, setActiveKey] = React.useState();
+  // stores highlighted dropdown option (highlighted as a reult of keyboard controls being used). large view only
+  const [highlightedDdOption, setHighlightedDdOption] = React.useState();
 
   const searchbarRef = useRef(null);
   const textInputRef = useRef(null);
+  const dropdownRef = useRef(null);
+  // array of refs for active dropdown / search modal option list
+  const activeCountryArrayRef = useRef([]);
 
+
+  // prevents scrolling when search modal is open
   useEffect(() => {
     if (activeSearch && !largeView) {
       document.body.style.overflow = "hidden";
@@ -33,18 +44,22 @@ function SearchMapNav(props) {
     }
   }, [activeSearch, largeView]);
 
+  // updates text input value when an input value is selected from the dropdown (large view) / seach modal (small view) list
   useEffect(() => {
     setCountryInput(props.searchLocation);
   }, [props.searchLocation]);
 
+  // click event listener which closes dropdown menu if user clicks outside searchnav / dropdown list (large view only)
   useEffect(() => {
     const handleClickOutside = (event) => {
-      console.log("HANDLECLICKOUTSDIE");
       if (
         searchbarRef.current &&
         !searchbarRef.current.contains(event.target)
       ) {
         setActiveSearch(false);
+        setHighlightedDdOption(false);
+        textInputRef.current.blur();
+
         if (countryInput !== props.searchLocation) {
           setCountryInput(props.searchLocation);
         }
@@ -57,12 +72,15 @@ function SearchMapNav(props) {
     };
   });
 
+  // updates searchLocation (stored country variable), countryInput (text input variable), closes dropdown (large view) / seachModal (small view) and deactivates text input when user selects a country from option list
   const selectCountry = (newCountry) => {
     setCountryInput(newCountry);
     props.updateSearchLocation(newCountry);
     setActiveSearch(false);
+    textInputRef.current.blur();
   };
 
+  // opens dropdown (large view) / searchModal (small view) and clears text input value if stored search value is set to "map area"
   const countrySearch = () => {
     if (props.searchLocation === "map area") {
       setCountryInput("");
@@ -70,18 +88,20 @@ function SearchMapNav(props) {
     setActiveSearch("country");
   };
 
+  // updates text input value when user inputs text
   const onChangeHandler = (event) => {
     const newInputValue = event.target.value;
     setCountryInput(newInputValue);
   };
 
+  // deletes text input value when user inputs clicks on cross button
   const crossButtonHandler = (e) => {
     e.stopPropagation();
-    console.log("crossButtonHandler");
     setCountryInput("");
     textInputRef.current.focus();
   };
 
+  // filters out countries (from fullCountryArray) which don't match user inputted text string and returns array of remaining countries
   const calcActiveCountryArray = () => {
     let activeCountries = [];
     for (let i = 0; i < fullCountryArray.length; i++) {
@@ -96,30 +116,211 @@ function SearchMapNav(props) {
     return activeCountries;
   };
 
-  const [activeCountryArray, setActiveCountryArray] = React.useState();
-
+  // triggers setActiveCountryArray() when country input is updated
   useEffect(() => {
     setActiveCountryArray(calcActiveCountryArray());
   }, [countryInput]);
 
+  // populates fullCountryArray (full list) and activeCountryArray (currently active list of dropdown/search modal options) when page loads. Takes list of country names from larger geoJSON dataset
   useEffect(() => {
     const featuresArray = countryPolygons.features;
     let countryArray = [];
     for (let i = 0; i < featuresArray.length; i++) {
       countryArray.push(featuresArray[i].properties.NAME);
     }
+    // sorts list alphabetically
     countryArray.sort();
     setFullCountryArray(countryArray);
-    // sets dropdown country list to all countries on load
     setActiveCountryArray(countryArray);
   }, []);
 
+  // closes search modal (small view) / dropdown menu (large view) and resets text input value if it doesn't match stored seearch value
   const closeSearchModal = () => {
     if (countryInput !== props.searchLocation) {
       setCountryInput(props.searchLocation);
     }
     setActiveSearch(false);
   };
+
+  // keyDown event listener (controls dropdown menu for keyboard inputs) - added and removed when component loads/closes and when activeSearch updates
+  useEffect(() => {
+    // highlighted dropdown option (highlighted as a reult of keyboard controls being used) is reset every time the dropdown menu is opened or closed
+    setHighlightedDdOption(false);
+
+    // handles key down event
+    function handleKeyDown(e) {
+      if (activeSearch) {
+        // 9=tab, 13=return, 14=enter, 27=escape, 38=up, 40=down
+        // if key is tab, return, enter, up arrow or down arrow - activeKey is updated which triggers code inside useEffect below (useEffect is used rather than directly including a fucntion as current state can't be accessed inside the event listener)
+        if (
+          e.keyCode === 9 ||
+          e.keyCode === 13 ||
+          e.keyCode === 14 ||
+          e.keyCode === 38 ||
+          e.keyCode === 40
+        ) {
+          e.preventDefault();
+          const newKeyObject = {
+            keyCode: e.keyCode,
+            timeStamp: Date.now(),
+          };
+          setActiveKey(newKeyObject);
+        }
+        // if key is  escape is pressed while dd is open, dd is closed (activeSearch is set to false) and text input is made inactive
+        else if (e.keyCode === 27) {
+          e.preventDefault();
+          setActiveSearch(false);
+          textInputRef.current.blur();
+        }
+      } else {
+        // if key is tab (and dd is closed), dd is opened (activesearch is set to true) and text input is made active
+        if (e.keyCode === 9) {
+          e.preventDefault();
+          setActiveSearch(true);
+          textInputRef.current.focus();
+        }
+      }
+    }
+
+    // add key down event listener when activeSearch loads or component closes
+    document.addEventListener("keydown", handleKeyDown);
+
+    return function cleanup() {
+      // add key down event listener when activeSearch updates or component closes
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeSearch]);
+
+  // useEffect which is trggered when activeKey updates (controls dropdown menu for keyboard inputs)
+  useEffect(() => {
+    // if activeKey has a value and dropdown options are greater than 0, code is triggered
+    if (activeKey && activeCountryArray.length > 0) {
+      // checks if currently highlighted option is visible on the dropdown menu (i.e. user may have used mouse to scroll through options rather than keyboard, which would mean that the highlighted option would be out of view)
+      const checkScrollPosition = () => {
+        const ddHeight = dropdownRef.current.getBoundingClientRect().height;
+        const visibleOptions = ddHeight / 64;
+        const scrollMin = (highlightedDdOption - (visibleOptions - 1)) * 64;
+        const scrollMax = scrollMin + ddHeight;
+        const scrollPosition = dropdownRef.current.scrollTop;
+        if (scrollPosition > scrollMin && scrollPosition < scrollMax) {
+          return true;
+        } else {
+          return false;
+        }
+      };
+
+      // adjusts scroll position so that highlighted option is visible (if it is currently out of view - see checkScrollPosition() for test)
+      const fixScrollPosition = () => {
+        const ddHeight = dropdownRef.current.getBoundingClientRect().height;
+        const visibleOptions = ddHeight / 64;
+        const scrollMin = (highlightedDdOption + 1 - visibleOptions) * 64;
+        const scrollMax = scrollMin + ddHeight;
+        const scrollPosition = dropdownRef.current.scrollTop;
+        if (scrollPosition < scrollMin) {
+          dropdownRef.current.scrollTop = scrollMin + ddHeight / 2;
+        } else if (scrollPosition > scrollMax) {
+          dropdownRef.current.scrollTop = scrollMin + ddHeight / 2;
+        }
+      };
+
+      // calculates scroll value for midpoint of currently visible dropdown menu (used to update scroll when user navigates up and down through dropdown options using keyboard controls)
+      const getScrollMidpoint = () => {
+        const ddHeight = dropdownRef.current.getBoundingClientRect().height;
+        const scrollMin = dropdownRef.current.scrollTop;
+        const scrollMax = scrollMin + ddHeight;
+        const scrollMidPoint = (scrollMin + scrollMax) / 2;
+        return scrollMidPoint;
+      };
+
+      // if key is tab or down arrow highlight the next option (below) and remove highlight from prev highlighted option
+      if (activeKey.keyCode === 9 || activeKey.keyCode === 40) {
+        // if highlightedDdOption set to false, the first item in dropdown option list is highlighted
+        if (typeof highlightedDdOption !== "number") {
+          setHighlightedDdOption(0);
+          activeCountryArrayRef.current[0].classList.add("highlighted");
+        }
+        // if highlightedDdOption already set to a number (and the next option does not excedd the length of the array), the highlighted option is increment by one and previous option highlighting removed
+        else {
+          const nextOption = highlightedDdOption + 1;
+          if (nextOption < activeCountryArray.length) {
+            activeCountryArrayRef.current[highlightedDdOption].classList.remove(
+              "highlighted"
+            );
+            activeCountryArrayRef.current[nextOption].classList.add(
+              "highlighted"
+            );
+            setHighlightedDdOption(nextOption);
+            // updates scroll position, checking first to ensure that user hasn't scrolled away from previously highlighted option
+            if (checkScrollPosition()) {
+              // scrolls down by 64px if the position of the next highlighted option is more than halfway down the visible section of the  dropdown list
+              const scrollMidPoint = getScrollMidpoint();
+              const nextDdOptionPos = (highlightedDdOption + 1) * 64;
+              if (nextDdOptionPos > scrollMidPoint) {
+                dropdownRef.current.scrollTop =
+                  dropdownRef.current.scrollTop + 64;
+              }
+            }
+            // if prev highlighted option is not in the visible section of the dropdown list (as a result of the user scrolling with the mouse), scroll position is updated to bring it back into visible space
+            else {
+              fixScrollPosition();
+            }
+          }
+        }
+      }
+      // if key is up arrow highlight the next option (above) and remove highlight from prev highlighted option
+      else if (activeKey.keyCode === 38) {
+        // if highlighted option array position is greater than 0 (i.e. at least second on the list), code for moving up the list is triggered
+        if (highlightedDdOption > 0) {
+          // new option highlighted, prev option unhighlighted and new option stored in state
+          const nextOption = highlightedDdOption - 1;
+          activeCountryArrayRef.current[highlightedDdOption].classList.remove(
+            "highlighted"
+          );
+          activeCountryArrayRef.current[nextOption].classList.add(
+            "highlighted"
+          );
+          setHighlightedDdOption(nextOption);
+          // updates scroll position, checking first to ensure that user hasn't scrolled away from previously highlighted option
+          if (checkScrollPosition()) {
+            // scrolls up by 64px if the position of the next highlighted option is more than halfway up the visible section of the  dropdown list
+            const scrollMidPoint = getScrollMidpoint();
+            const nextDdOptionPos = highlightedDdOption * 64;
+            if (nextDdOptionPos < scrollMidPoint) {
+              dropdownRef.current.scrollTop =
+                dropdownRef.current.scrollTop - 64;
+            }
+          } else {
+            fixScrollPosition();
+          }
+        }
+      }
+      // if key is enter or return. currently highlighted option is selected and highlighted option, active key and text input are reset
+      else if (activeKey.keyCode === 13 || activeKey.keyCode === 14) {
+        if (typeof highlightedDdOption === "number") {
+          selectCountry(activeCountryArray[highlightedDdOption]);
+          setHighlightedDdOption(false);
+          setActiveKey(false);
+          textInputRef.current.blur();
+        }
+      }
+    }
+  }, [activeKey]);
+
+
+  // when activeCountryArray (active list of dropdown/seachmodal options) updates, refs for options list are updated, highlighted option and activeKey are reset and scroll back to top of options list
+  useEffect(() => {
+    if (activeCountryArray) {
+      activeCountryArrayRef.current = activeCountryArrayRef.current.slice(
+        0,
+        activeCountryArray.length
+      );
+      setHighlightedDdOption(false);
+      setActiveKey(false);
+      if (dropdownRef.current) {
+        dropdownRef.current.scrollTop = 0;
+      }
+    }
+  }, [activeCountryArray]);
 
   if (largeView) {
     return (
@@ -132,10 +333,7 @@ function SearchMapNav(props) {
         <div class="search-map-nav-c7e" ref={searchbarRef}>
           <nav className="search-map-nav-pl4">
             <div className="search-map-nav-ga1" onClick={countrySearch}>
-              <label
-                class="search-map-nav-f6t"
-                htmlFor="locationInput"
-              >
+              <label class="search-map-nav-f6t" htmlFor="locationInput">
                 <div>
                   <div class="search-map-nav-snp">Country</div>
                   <input
@@ -201,22 +399,20 @@ function SearchMapNav(props) {
             </div>
             {activeSearch ? (
               <div class="search-map-nav-xhc">
-                <div className="search-map-nav-ue3">
+                <div className="search-map-nav-ue3" ref={dropdownRef}>
                   <div
                     class="search-map-nav-k3s"
                     role="listbox"
                     aria-label="Search suggestions"
-                    id="bigsearch-query-location-listbox"
                     tabindex="-1"
                   >
                     {activeCountryArray.length > 0 ? (
-                      activeCountryArray.map((x) => (
+                      activeCountryArray.map((x, i) => (
                         <div
+                          key={x + i + activeCountryArray.length}
+                          ref={(el) => (activeCountryArrayRef.current[i] = el)}
                           role="option"
                           tabindex="-1"
-                          id="bigsearch-query-location-suggestion-0"
-                          data-index="0"
-                          data-testid="option-0"
                           class="search-map-nav-uzo"
                           onClick={() => selectCountry(x)}
                         >
