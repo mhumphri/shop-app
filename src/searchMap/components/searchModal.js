@@ -11,7 +11,14 @@ function SearchModal(props) {
   const [vpHeight, setVpHeight] = useState(window.visualViewport.height);
   const [standardHeight, setStandardHeight] = useState(window.innerHeight);
 
+  const [activeCountryArrayLocal, setActiveCountryArrayLocal] = useState([]);
+  const [reducedOptionsActive, setReducedOptionsActive] = useState();
+  const [firstLoad, setFirstLoad] = useState(true);
+
+  const [textInputFocus, setTextInputFocus] = useState();
+
   const textInputRef = useRef(null);
+  const scrollContainerRef = useRef(null);
 
   const updateScreenWidth = () => {
     setVpHeight(window.visualViewport.height);
@@ -28,6 +35,65 @@ function SearchModal(props) {
       });
     };
   }, []);
+
+  const initReducedOptionsSet = () => {
+    const scrollBoxTop = scrollContainerRef.current.getBoundingClientRect().top;
+    console.log("scrollBoxTop: " + scrollBoxTop)
+    const screenHeight = window.innerHeight;
+    console.log("screenHeight: " + screenHeight)
+    const scrollHeight = screenHeight - scrollBoxTop;
+    console.log("scrollHeight: " + scrollHeight)
+    const maxVisibleOptions = Math.floor(scrollHeight/64);
+    const reducedOptionSet = maxVisibleOptions - 1;
+    console.log("maxVisibleOptions: " + maxVisibleOptions)
+    let reducedCountryArray = []
+    if (props.activeCountryArray.length < reducedOptionSet) {
+      reducedCountryArray = props.activeCountryArray
+      setReducedOptionsActive(false)
+    }
+    else {
+      for (let i=0; i<reducedOptionSet; i++) {
+        console.log("new options: " + i)
+        reducedCountryArray.push(props.activeCountryArray[i])
+      }
+      setReducedOptionsActive(true)
+    }
+    setActiveCountryArrayLocal(reducedCountryArray)
+  }
+
+  // when props.activeCountryArray  updates, ...
+  useEffect(() => {
+    if (firstLoad) {
+      setTimeout(() => {
+  initReducedOptionsSet();
+  setFirstLoad(false)
+}, "400");
+
+    initReducedOptionsSet()
+  }
+  else {
+      initReducedOptionsSet()
+  }
+
+  }, [props.activeCountryArray]);
+
+  // when props.activeCountryArray  updates, ...
+  useEffect(() => {
+if (textInputFocus) {
+  console.log("textInputFocus on")
+  initReducedOptionsSet()
+}
+else {
+  console.log("textInputFocus off")
+}
+
+  }, [textInputFocus]);
+
+  const showAllOptions = () => {
+    console.log("showAllOptions")
+    setActiveCountryArrayLocal(props.activeCountryArray)
+    setReducedOptionsActive(false)
+  }
 
   const closeModal = () => {
     // close modal
@@ -98,6 +164,8 @@ function SearchModal(props) {
                       value={props.countryInput}
                       onChange={props.onChangeHandler}
                       ref={textInputRef}
+                      onFocus={()=>setTextInputFocus(true)}
+                      onBlur={()=>setTextInputFocus(false)}
                     />
                     {props.countryInput.length > 0
                       ? crossButton(crossButtonHandler)
@@ -106,8 +174,10 @@ function SearchModal(props) {
                 </form>
               </section>
 
-              <div class="search-modal-bz3">
-                {props.activeCountryArray.length > 0 ? (props.activeCountryArray.map((x) => (
+              <div class="search-modal-bz3" ref={scrollContainerRef}>
+                { !firstLoad ?
+                  <>
+                {activeCountryArrayLocal.length > 0 ? (activeCountryArrayLocal.map((x) => (
                   <div
                     class="search-modal-uzo"
                     onClick={() => props.selectCountry(x)}
@@ -126,19 +196,22 @@ function SearchModal(props) {
                     <div class="search-modal-182">{x}</div>
                   </div>
                 ))
+
               ) : (
                 <div
-                  role="option"
-                  tabindex="-1"
-                  id="bigsearch-query-location-suggestion-0"
-                  data-index="0"
-                  data-testid="option-0"
-                  class="search-map-nav-jp4"
+                  class="search-modal-jp4"
                 >
                   <div class="search-modal-ha1">no matches</div>
                 </div>
               )
             }
+        {reducedOptionsActive ?     <div
+              class="search-modal-mv4"
+            >
+              <button onClick={showAllOptions} class="search-modal-tt5">more results</button>
+            </div> : null }
+            </>
+            : null}
               </div>
             </div>
           </div>
