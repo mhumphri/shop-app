@@ -43,7 +43,7 @@ function SearchMap(props) {
   // store time of last view toggle (i.e. from last expanded map view to reduced map view) - used to prevent search being updated in response to changes in browser size
   const [lastViewToggle, setLastViewToggle] = useState();
   // store time of search modal close - used to prevent search being updated in response to changes in map bounds (which can come from scroll bar appearing in windows browsers)
-  const [lastSearchModalClose, setLastSearchModalClose] = useState();
+  const [lastSearchModalEvent, setLastSearchModalEvent] = useState();
   // current stored search location (either country name or "map area")
   const [searchLocation, setSearchLocation] = useState("");
   // boolean which is true if user has updated search location input - used to prevent search being updated in response to map bounds changing from location search
@@ -144,9 +144,9 @@ function SearchMap(props) {
       }
 
       // calcs time (ms) since search modal was last closed
-      let msSinceLastSearchModalClose;
-      if (lastSearchModalClose) {
-        msSinceLastSearchModalClose = Date.now() - lastSearchModalClose;
+      let msSinceLastSearchModalEvent;
+      if (lastSearchModalEvent) {
+        msSinceLastSearchModalEvent = Date.now() - lastSearchModalEvent;
       }
 
       // if not first load and not a user specified country search, searchLocation state is set to "map area" (i.e the user has changed the map bounds triggering a new search)
@@ -154,10 +154,10 @@ function SearchMap(props) {
         setSearchLocation("map area");
       }
 
-console.log("msSinceLastSearchModalClose: " + msSinceLastSearchModalClose)
+console.log("msSinceLastSearchModalEvent: " + msSinceLastSearchModalEvent)
 // if firstLoad OR greater than 1500ms from last map view toggle search OR more than 600ms since the search modal was last closed THEN results are updated
 if (firstLoad || !msSinceLastViewToggle || msSinceLastViewToggle > 1500) {
-if (firstLoad || !msSinceLastSearchModalClose || msSinceLastSearchModalClose>1500) {
+if (firstLoad || !msSinceLastSearchModalEvent || msSinceLastSearchModalEvent>1500) {
       // if map parameters have already been declared and change in map bounds not result of screen resize a new search is triggered
       if (mapParameters && msSinceResize > 500) {
         // fetches polygons within current map bounds
@@ -428,7 +428,7 @@ if (firstLoad || !msSinceLastSearchModalClose || msSinceLastSearchModalClose>150
         searchRefresh={searchRefresh}
         setSearchRefresh={setSearchRefresh}
         expandMapView={expandMapView}
-        setLastSearchModalClose={setLastSearchModalClose}
+        setLastSearchModalEvent={setLastSearchModalEvent}
       />
       <main className="search-map-cy5">
         <div class="_1hytef3">

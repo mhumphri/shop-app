@@ -89,6 +89,8 @@ function SearchMapNav(props) {
     if (props.searchLocation === "map area") {
       setCountryInput("");
     }
+    // sets time of opening search modal - used to prevent search updates being caused by related map bound changes
+    props.setLastSearchModalEvent(Date.now())
     setActiveSearch("country");
   };
 
@@ -515,7 +517,7 @@ function SearchMapNav(props) {
             countryInput={countryInput}
             setCountryInput={setCountryInput}
             textInputRef={textInputRef}
-            setLastSearchModalClose={props.setLastSearchModalClose}
+            setLastSearchModalEvent={props.setLastSearchModalEvent}
           />
         ) : null}
       </>
