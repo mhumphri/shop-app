@@ -156,7 +156,8 @@ function SearchMap(props) {
 
 console.log("msSinceLastSearchModalClose: " + msSinceLastSearchModalClose)
 // if firstLoad OR greater than 1500ms from last map view toggle search OR more than 600ms since the search modal was last closed THEN results are updated
-if (firstLoad || !msSinceLastViewToggle || msSinceLastViewToggle > 1500 || !msSinceLastSearchModalClose || msSinceLastSearchModalClose>1500) {
+if (firstLoad || !msSinceLastViewToggle || msSinceLastViewToggle > 1500) {
+if (firstLoad || !msSinceLastSearchModalClose || msSinceLastSearchModalClose>1500) {
       // if map parameters have already been declared and change in map bounds not result of screen resize a new search is triggered
       if (mapParameters && msSinceResize > 500) {
         // fetches polygons within current map bounds
@@ -249,6 +250,7 @@ if (firstLoad || !msSinceLastViewToggle || msSinceLastViewToggle > 1500 || !msSi
         setMapState(newMapState);
       }
     }
+  }
     }
   }, [mapParameters, searchRefresh]);
 
