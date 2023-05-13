@@ -149,6 +149,7 @@ function SearchMapNav(props) {
 
     // handles key down event
     function handleKeyDown(e) {
+      if (largeView) {
       if (activeSearch) {
         // 9=tab, 13=return, 14=enter, 27=escape, 38=up, 40=down
         // if key is tab, return, enter, up arrow or down arrow - activeKey is updated which triggers code inside useEffect below (useEffect is used rather than directly including a fucntion as current state can't be accessed inside the event listener)
@@ -181,6 +182,7 @@ function SearchMapNav(props) {
         }
       }
     }
+    }
 
     // add key down event listener when activeSearch loads or component closes
     document.addEventListener("keydown", handleKeyDown);
@@ -189,6 +191,7 @@ function SearchMapNav(props) {
       // add key down event listener when activeSearch updates or component closes
       document.removeEventListener("keydown", handleKeyDown);
     };
+
   }, [activeSearch]);
 
   // useEffect which is trggered when activeKey updates (controls dropdown menu for keyboard inputs)
