@@ -5,9 +5,27 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --site-color: #FF385C;
 }
+
+input,
+textarea,
+button,
+select,
+div,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/* potential site colors: #00C0BB, #12ACAB (1), #FF385C (old pink) */
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.search-map-nr6 {
+	 --search-list-width: 58%;
+	 --navigation-bar-offset: 85px;
 }
