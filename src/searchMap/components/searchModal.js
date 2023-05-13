@@ -82,6 +82,8 @@ function SearchModal(props) {
   };
 
   const closeModal = () => {
+    // stores time of search modal close - used to prevent search being updated in response to changes in map bounds (which can come from scroll bar appearing in windows browsers)
+    props.setLastSearchModalClose(Date.now())
     // close modal
     setModalStyle("search-modal-1iw");
     // reset initial modal styles (after animation completes)

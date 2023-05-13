@@ -515,6 +515,7 @@ function SearchMapNav(props) {
             countryInput={countryInput}
             setCountryInput={setCountryInput}
             textInputRef={textInputRef}
+            setLastSearchModalClose={props.setLastSearchModalClose}
           />
         ) : null}
       </>
