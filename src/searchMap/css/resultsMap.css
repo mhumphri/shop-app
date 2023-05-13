@@ -5,7 +5,9 @@
   line-height: 18px;
 }
 
+/* removes blue border from active map markers on chrome ios
 .gm-style iframe + div { border:none!important; }
+*/
 
 .results-map-hy6 {
   border-radius: 12px;
