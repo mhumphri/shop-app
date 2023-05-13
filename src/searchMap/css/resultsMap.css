@@ -7,6 +7,10 @@
 
 /* removes blue border from active map markers on chrome ios */
 .gm-style iframe + div { border:none!important; }
+:focus {
+  outline: 0 !important;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
+}
 
 
 .results-map-hy6 {
