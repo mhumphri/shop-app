@@ -141,12 +141,12 @@ function SearchMap(props) {
       }
 
       // if not first load and not a user specified country search, searchLocation state is set to "map area" (i.e the user has changed the map bounds triggering a new search)
-      if (!firstLoad && msSinceResize > 500 && msSinceLastViewToggle > 3000) {
+      if (!firstLoad && msSinceResize > 500 && msSinceLastViewToggle > 1500) {
         setSearchLocation("map area");
       }
 
       // if map parameters have already been declared and change in map bounds not result of screen resize a new search is triggered
-      if (mapParameters && msSinceResize > 500) {
+      if (mapParameters && msSinceResize > 500 && msSinceLastViewToggle > 1500) {
         // fetches polygons within current map bounds
         const activePolygons = getActivePolygons(mapParameters.bounds);
 
