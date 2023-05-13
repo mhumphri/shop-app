@@ -5,6 +5,8 @@
   line-height: 18px;
 }
 
+.gm-style iframe + div { border:none!important; }
+
 .results-map-hy6 {
   border-radius: 12px;
   background-color: #FFFFFF;
