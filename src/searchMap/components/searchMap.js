@@ -141,7 +141,7 @@ function SearchMap(props) {
       }
 
       // if not first load and not a user specified country search, searchLocation state is set to "map area" (i.e the user has changed the map bounds triggering a new search)
-      if (!firstLoad && msSinceResize > 500 && msSinceLastViewToggle > 1300) {
+      if (!firstLoad && msSinceResize > 500 && msSinceLastViewToggle > 3000) {
         setSearchLocation("map area");
       }
 
