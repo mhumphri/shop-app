@@ -35,13 +35,17 @@ function SearchMapNav(props) {
 
   // prevents scrolling when search modal is open
   useEffect(() => {
+    // if activeSearch is true and in small view (i.e. search modal is open) scrolling of search result list is disabled
     if (activeSearch && !largeView) {
       document.body.style.overflow = "hidden";
       document.body.style.position = "relative";
-    } else {
+    }
+    // else if not in expanded map view scrolling of search result list is enabled
+    else if (!props.expandMapView) {
       document.body.style.overflow = "auto";
       document.body.style.position = "static";
     }
+
   }, [activeSearch, largeView]);
 
   // updates text input value when an input value is selected from the dropdown (large view) / seach modal (small view) list

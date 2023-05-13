@@ -353,6 +353,7 @@ function SearchMap(props) {
     // if currently in expanded view set expandMapview to false and css updated
     if (expandMapView) {
       setExpandMapView(false);
+      // enables scrolling when full map is not enabled (needed for windows chrome/edge browsers where scrollbar changes size of map)
       document.body.style.overflow = "auto";
       document.body.style.position = "static";
       // if screen width is >=950px intermediate step (controlled by timeout) is aded for smooth animation
@@ -371,6 +372,7 @@ function SearchMap(props) {
     // if not currently in expanded view set expandMapview to true and css updated
     else {
       setExpandMapView(true);
+      // disables scrolling when full map is enabled (needed for windows chrome/edge browsers where scrollbar changes size of map)
       document.body.style.overflow = "hidden";
       document.body.style.position = "relative";
       setSearchListStyle("fmdphkf fgnm67p f1lf7snk dir dir-ltr");
@@ -410,6 +412,7 @@ function SearchMap(props) {
         updateSearchLocation={updateSearchLocation}
         searchRefresh={searchRefresh}
         setSearchRefresh={setSearchRefresh}
+        expandMapView={expandMapView}
       />
       <main className="search-map-cy5">
         <div class="_1hytef3">
