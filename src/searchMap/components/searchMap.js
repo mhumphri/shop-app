@@ -145,8 +145,10 @@ function SearchMap(props) {
         setSearchLocation("map area");
       }
 
+// if firstLoad or greater than 1500ms from last map view toggle search results are updated
+if (firstLoad || msSinceLastViewToggle > 1500) {
       // if map parameters have already been declared and change in map bounds not result of screen resize a new search is triggered
-      if (mapParameters && msSinceResize > 500 && msSinceLastViewToggle > 1500) {
+      if (mapParameters && msSinceResize > 500) {
         // fetches polygons within current map bounds
         const activePolygons = getActivePolygons(mapParameters.bounds);
 
@@ -236,6 +238,7 @@ function SearchMap(props) {
         };
         setMapState(newMapState);
       }
+    }
     }
   }, [mapParameters, searchRefresh]);
 
