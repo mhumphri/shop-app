@@ -1,6 +1,10 @@
 # Mic's Portfolio
 
-Hi. My name is Michael and this is my web development portfolio. The live version of the site can be found at micsportfolio.com. If you'd like to contact me, please email micsportfolio@outlook.com  
+Hi. My name is Michael and this is my web development portfolio. 
+
+The live version of the site can be found at micsportfolio.com 
+
+If you'd like to contact me, please email micsportfolio@outlook.com  
 
 ## Portfolio items
 
