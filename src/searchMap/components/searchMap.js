@@ -120,6 +120,19 @@ function SearchMap(props) {
       setActivePage(1);
     };
 
+    // mapState is updated (updated in lag so as to compare latest map parameters (and avoid updating in response to map bounds changes resulting from the map view being changed )
+    const updateMapState = () => {
+      const newMapState = {
+        bounds: mapParameters.bounds,
+        center: mapParameters.center,
+        zoom: mapParameters.zoom,
+        box: mapParameters.box,
+        expandMapView: expandMapView,
+        searchRefresh: searchRefresh,
+      };
+      setMapState(newMapState);
+    }
+
     // if searchLocationUpdate boolean is true country specific search is triggered
     if (searchLocationUpdate) {
       // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
@@ -149,17 +162,58 @@ function SearchMap(props) {
         msSinceLastSearchModalEvent = Date.now() - lastSearchModalEvent;
       }
 
-      // if not first load and not a user specified country search, searchLocation state is set to "map area" (i.e the user has changed the map bounds triggering a new search)
-      if (!firstLoad && msSinceResize > 500 && msSinceLastViewToggle > 1500) {
-        setSearchLocation("map area");
+
+      const allowUpdate = () => {
+        let allowUpdate = true
+        // calcs time interval since last screen resize (if below 500ms it is assumed that change in map bounds results from screen resize and new search is aborted)
+        const msSinceResize = Date.now() - resize;
+
+        if (msSinceResize < 500) {
+          allowUpdate = false
+        }
+
+        if (lastViewToggle) {
+          const msSinceLastViewToggle = Date.now() - lastViewToggle;
+          console.log("msSinceLastViewToggleX: " + msSinceLastViewToggle)
+          console.log("expandMapView: " + expandMapView)
+          if (largeView && !expandMapView && msSinceLastViewToggle < 1500) {
+            allowUpdate = false
+          }
+          if (largeView && expandMapView && msSinceLastViewToggle < 500) {
+            allowUpdate = false
+          }
+          if (!largeView && msSinceLastViewToggle < 500) {
+            allowUpdate = false
+          }
+        }
+
+        if (lastSearchModalEvent) {
+          const msSinceLastSearchModalEvent = Date.now() - lastSearchModalEvent;
+          console.log("msSinceLastSearchModalEvent: " + msSinceLastSearchModalEvent)
+          if (msSinceLastSearchModalEvent<500) {
+            allowUpdate = false
+          }
+        }
+        return allowUpdate
       }
 
-console.log("msSinceLastSearchModalEvent: " + msSinceLastSearchModalEvent)
+      console.log("allowUpdate(): " + allowUpdate())
+
+
+
+      // if not first load and not a user specified country search, searchLocation state is set to "map area" (i.e the user has changed the map bounds triggering a new search)
+      if (!firstLoad && allowUpdate()) {
+        setSearchLocation("map area");
+      }
+console.log("msSinceLastViewToggle: " + msSinceLastViewToggle)
+
+
+
+
 // if firstLoad OR greater than 1500ms from last map view toggle search OR more than 600ms since the search modal was last closed THEN results are updated
-if (firstLoad || !msSinceLastViewToggle || msSinceLastViewToggle > 1500) {
-if (firstLoad || !msSinceLastSearchModalEvent || msSinceLastSearchModalEvent>1500) {
+if (firstLoad || allowUpdate()) {
       // if map parameters have already been declared and change in map bounds not result of screen resize a new search is triggered
-      if (mapParameters && msSinceResize > 500) {
+      if (mapParameters) {
         // fetches polygons within current map bounds
         const activePolygons = getActivePolygons(mapParameters.bounds);
 
@@ -239,17 +293,12 @@ if (firstLoad || !msSinceLastSearchModalEvent || msSinceLastSearchModalEvent>150
         }
 
         // mapState is updated (updated in lag so as to compare latest map parameters (and avoid updating in response to map bounds changes resulting from the map view being changed )
-        const newMapState = {
-          bounds: mapParameters.bounds,
-          center: mapParameters.center,
-          zoom: mapParameters.zoom,
-          box: mapParameters.box,
-          expandMapView: expandMapView,
-          searchRefresh: searchRefresh,
-        };
-        setMapState(newMapState);
+        updateMapState()
       }
-    }
+  }
+   else {
+    // mapState is updated (updated in lag so as to compare latest map parameters (and avoid updating in response to map bounds changes resulting from the map view being changed )
+    updateMapState()
   }
     }
   }, [mapParameters, searchRefresh]);
