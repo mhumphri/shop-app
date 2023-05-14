@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ResultsMap from "./resultsMap";
 import ResultsList from "./resultsList";
 import SearchMapNav from "./searchMapNav";
 import LinkModal from "./linkModal";
-import shuffleArray from "../functions/shuffleArray";
 import getActivePolygons from "../functions/getActivePolygons";
 import getCountryPolygons from "../functions/getCountryPolygons";
 import getRandomLocation from "../functions/getRandomLocation";
 import getPhotos from "../functions/getPhotos";
-import getHotelData from "../functions/getHotelData";
 import calcLandArea from "../functions/calcLandArea";
 import generateKey from "../functions/generateKey";
 import randomNumberInRange from "../functions/randomNumberInRange";
@@ -18,12 +16,7 @@ import "../css/searchMap.css";
 // main component for earchPage app - contains homepage and all the logic for generating mock search results in place of server
 
 function SearchMap(props) {
-  const hotelData = getHotelData();
 
-  // array containing the keys of all stored hotels
-  const [hotelKeyArray, setHotelKeyArray] = useState(hotelData.hotelKeyArray);
-  // object containing data for all stored hotels
-  const [hotelObject, setHotelObject] = useState(hotelData.hotelObject);
   // large view (boolean indicating if app currently in large view) and screen height (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
   // viewport height (stored in redux)
@@ -32,8 +25,6 @@ function SearchMap(props) {
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
   // boolean indicating if expanded map view is active
   const [expandMapView, setExpandMapView] = useState(false);
-  // bounds of the currently visible map
-  const [mapBounds, setMapBounds] = useState();
   // params of the currently visible map (bounds, center, zoom and box (position on screen))
   const [mapParameters, setMapParameters] = useState();
   // mapParameters plus expand map view state - updated in lag so as to compare latest map parameters (and avoid updating in response to map bounds changes resulting from the map view being changed )
@@ -147,22 +138,8 @@ function SearchMap(props) {
     }
     // if searchLocationUpdate boolean is false search based on  current map bounds is triggered
     else {
-      // calcs time interval since last screen resize (if below 500ms it is assumed that change in map bounds results from screen resize and new search is aborted)
-      const msSinceResize = Date.now() - resize;
 
-      // calcs time (ms) since map view was last toggled
-      let msSinceLastViewToggle;
-      if (lastViewToggle) {
-        msSinceLastViewToggle = Date.now() - lastViewToggle;
-      }
-
-      // calcs time (ms) since search modal was last closed
-      let msSinceLastSearchModalEvent;
-      if (lastSearchModalEvent) {
-        msSinceLastSearchModalEvent = Date.now() - lastSearchModalEvent;
-      }
-
-
+      // checks that sufficient time has lapsed since events which cauase map bounds to change but shouldn't trigger an update of search results
       const allowUpdate = () => {
         let allowUpdate = true
         // calcs time interval since last screen resize (if below 500ms it is assumed that change in map bounds results from screen resize and new search is aborted)
@@ -205,7 +182,6 @@ function SearchMap(props) {
       if (!firstLoad && allowUpdate()) {
         setSearchLocation("map area");
       }
-console.log("msSinceLastViewToggle: " + msSinceLastViewToggle)
 
 
 
@@ -216,9 +192,6 @@ if (firstLoad || allowUpdate()) {
       if (mapParameters) {
         // fetches polygons within current map bounds
         const activePolygons = getActivePolygons(mapParameters.bounds);
-
-        // calc land area for polygons within current map bounds
-        const landArea = calcLandArea(activePolygons);
 
         // initialises count variable for number of hotels returned by previous search which fall within bounds of current map (i.e. those of the new search)
         let existingHotelsCount = 0;
@@ -574,7 +547,6 @@ if (firstLoad || allowUpdate()) {
           <ResultsMap
             expandMapView={expandMapView}
             toggleMapView={toggleMapView}
-            setMapBounds={setMapBounds}
             searchLocation={searchLocation}
             setMapParameters={setMapParameters}
             mapParameters={mapParameters}

@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
 import SearchModal from "./searchModal";
-import crossButton from "./crossButton";
 import countryPolygons from "../data/countryPolygons.json";
 import "../css/searchMapNav.css";
 
@@ -420,8 +419,6 @@ function SearchMapNav(props) {
                         <div
                           key={x + i + activeCountryArray.length}
                           ref={(el) => (activeCountryArrayRef.current[i] = el)}
-                          role="option"
-                          tabindex="-1"
                           class="search-map-nav-uzo"
                           onClick={() => selectCountry(x)}
                         >
@@ -442,11 +439,6 @@ function SearchMapNav(props) {
                       ))
                     ) : (
                       <div
-                        role="option"
-                        tabindex="-1"
-                        id="bigsearch-query-location-suggestion-0"
-                        data-index="0"
-                        data-testid="option-0"
                         class="search-map-nav-jp4"
                       >
                         <div class="search-map-nav-182">no matches</div>
