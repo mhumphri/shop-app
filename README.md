@@ -2,24 +2,29 @@
 
 Hi. My name is Michael and this is my web development portfolio. If you'd like to contact me, please email micsportfolio@outlook.com  
 
-## Available Scripts
+## Portfolio items
 
-In the project directory, you can run:
+In the project directory, you can find the following portfolio items:
 
-### `npm start`
+### `Hotel app`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This item is a mock up of a search page and server for a hotel booking app. The search page displays a list of hotels and a map with corresponding markers. Users can search for hotels by selecting a country or by navigating the map. The "server" component of the app returns an array of hotels with randomly generated coordinates based on either the selected country or current map bounds.\
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The following libraries/fameworks have been used:\
 
-### `npm test`
+* React
+* Redux
+* Google Maps Javascript API
+* Turf
+* land polygon geoJSON data
+* country polygon geoJSON data
+
+### `Range sliders`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+### `Swipeable gallery`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -39,8 +44,6 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+## Contact me
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+If you'd like to contact me, please email micsportfolio@outlook.com 
