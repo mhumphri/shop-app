@@ -1,6 +1,6 @@
 # Mic's Portfolio
 
-Hi. My name is Michael and this is my web development portfolio. If you'd like to contact me, please email micsportfolio@outlook.com  
+Hi. My name is Michael and this is my web development portfolio. The live version of the site can be found at micsportfolio.com. If you'd like to contact me, please email micsportfolio@outlook.com  
 
 ## Portfolio items
 
@@ -8,42 +8,48 @@ In the project directory, you can find the following portfolio items:
 
 ### `Hotel app`
 
-This item is a mock up of a search page and server for a hotel booking app. The search page displays a list of hotels and a map with corresponding markers. Users can search for hotels by selecting a country or by navigating the map. The "server" component of the app returns an array of hotels with randomly generated coordinates based on either the selected country or current map bounds.\
+This item is a mock up of a search page and server for a hotel booking app. The search page displays a list of hotels and a map with corresponding markers. Users can search for hotels by selecting a country or by navigating the map. The "server" component of the app returns an array of hotels with randomly generated coordinates based on either the selected country or current map bounds.
 
-The following libraries/fameworks have been used:\
+The following libraries/fameworks have been used:
 
 * React
-* Redux
+* Redux (react-redux and redux toolkit)
 * Google Maps Javascript API
-* Turf
+* Turf (library for performing geospatial operations)
 * land polygon geoJSON data
 * country polygon geoJSON data
 
 ### `Range sliders`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This item contains a set of rangeslider number inputs. In the simple case, a single handle is moved along a track to select a number from the range. Further functionality has been added by restricting the number selection to discrete intervals, adding a second handle which allows the user to select both ends of the range and adding a bar chart which can be used to show the underlying data distribution.
+
+The following libraries/fameworks have been used:
+
+* React
 
 ### `Swipeable gallery`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This item is a carrousel-style image gallery which can be viewed either by swiping a touchscreen/trackpad or clicking chevron buttons which appear when the user hovers over the gallery. Current position and movement through the gallery are shown by a group of animated dost which are highlighted and scale up and down as the user moves from one image to the next.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The following libraries/fameworks have been used:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* React
 
-### `npm run eject`
+### `Portfolio site`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The portfolio site itself consists of a list of tiles which either link to or directly contain portfolio items. Modals are used to present information on the portfolio items.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The following libraries/fameworks have been used:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+* React
+* Redux (react-redux and redux toolkit)
+* Create React App
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Testing
 
-## Contact me
+The site has been tested on recent versions of: 
 
-If you'd like to contact me, please email micsportfolio@outlook.com 
+* Firefox, Chrome & Safari (mac desktop)
+* Firefox, Chrome & Safari (iOS)
+* Chrome & Edge (windows desktop)
+* Firefox & Chrome (android) 
