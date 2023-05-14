@@ -200,7 +200,7 @@ if (!touchScreen){
         <div
           class="swipeable-gallery-c14d"
         >
-          {props.itemLoading ? null : (
+
             <div class="swipeable-gallery-o1q">
               <div />
 
@@ -221,7 +221,7 @@ if (!touchScreen){
                 <div class="swipeable-gallery-b18"></div>
               </div>
             </div>
-          )}
+
 
           <div class="swipeable-gallery-cw9">
               <div
