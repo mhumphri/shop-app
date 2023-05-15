@@ -11,6 +11,7 @@ import getPhotos from "../functions/getPhotos";
 import calcLandArea from "../functions/calcLandArea";
 import generateKey from "../functions/generateKey";
 import randomNumberInRange from "../functions/randomNumberInRange";
+import hotelData from "../data/hotelData";
 import "../css/searchMap.css";
 
 // main component for earchPage app - contains homepage and all the logic for generating mock search results in place of server
@@ -321,22 +322,33 @@ if (firstLoad || allowUpdate()) {
     // number of hotels from previous search which have been retained for current search (as they fall within current search map bounds)
     const currentArrayLength = newHotelArray.length;
 
-    // !!!NEED AN EXTRA STEP HERE TO ACCOUNT FOR PHTOS RETAINED FROM PREV SEARCH!!!!
-    // generates array with numbers 0 to 19 - used to select unique photo from list of stock photos
-    let indexArray = [];
-    for (let i = 0; i < 26; i++) {
-      indexArray.push(i);
+    let newHotelData = {... hotelData}
+
+
+    for (let i=0; i<newHotelArray.length; i++) {
+      if (newHotelData[newHotelArray[i].hotelDataKey]) {
+        delete newHotelData[newHotelArray[i].hotelDataKey]
+      }
     }
+
+
+
+    const getRandomHotel = (obj) => {
+  var keys = Object.keys(obj);
+  return obj[keys[ keys.length * Math.random() << 0]];
+};
 
     // adds new hotels to make up difference between the number of hotels retained frok previous search and number required for this search
     for (let i = currentArrayLength; i < numHotels; i++) {
-      // randomly selects an index value from indexArray
-      const mainPicIndex = Math.floor(Math.random() * indexArray.length);
-      // sets value (number between 0 and 19) to identify main photo
-      const mainPic = indexArray[mainPicIndex];
-      // main pic value is deleted from index array, so it cannot be selected again
-      indexArray.splice(mainPicIndex, 1);
-      //!! NEED TO SEE WHAT'S GOING ON WITH BOX AND MARGIN!!
+
+
+
+const randomHotel = getRandomHotel(newHotelData)
+delete newHotelData[randomHotel.key]
+
+
+
+
       // generates location coords and country using mapboounds, mapbox, margin and active polygons as arguments
       const location = getRandomLocation(
         mapParameters.bounds,
@@ -347,12 +359,13 @@ if (firstLoad || allowUpdate()) {
 
       // generates data from new hotel and adds to search results array
       const newHotel = {
-        name: "accomodation name",
+        name: randomHotel.name,
         key: generateKey(12),
+        hotelDataKey: randomHotel.key,
         coords: location.coords,
         country: location.country,
         price: randomNumberInRange(30, 450),
-        photos: getPhotos(mainPic),
+        photos: [randomHotel.pic],
         rating: randomNumberInRange(30, 50) / 10,
         numReviews: randomNumberInRange(5, 200),
       };
