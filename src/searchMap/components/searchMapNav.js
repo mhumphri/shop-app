@@ -332,6 +332,7 @@ function SearchMapNav(props) {
 
   if (largeView) {
     return (
+
       <header class="search-map-nav-h1v">
         <div class="search-map-nav-c1x">
           <a href="/" className="search-map-nav-jk9">
@@ -464,6 +465,7 @@ function SearchMapNav(props) {
   } else {
     return (
       <>
+        <div className="search-map-nav-cc7" />
         <header class="search-map-nav-h1v">
           <nav className="search-map-nav-sd3" onClick={countrySearch}>
             <div className="search-map-nav-ie1">
