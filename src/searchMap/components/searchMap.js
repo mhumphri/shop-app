@@ -7,7 +7,7 @@ import LinkModal from "./linkModal";
 import getActivePolygons from "../functions/getActivePolygons";
 import getCountryPolygons from "../functions/getCountryPolygons";
 import getRandomLocation from "../functions/getRandomLocation";
-import getPhotos from "../functions/getPhotos";
+import getOtherPhotos from "../functions/getOtherPhotos";
 import calcLandArea from "../functions/calcLandArea";
 import generateKey from "../functions/generateKey";
 import randomNumberInRange from "../functions/randomNumberInRange";
@@ -17,7 +17,6 @@ import "../css/searchMap.css";
 // main component for earchPage app - contains homepage and all the logic for generating mock search results in place of server
 
 function SearchMap(props) {
-
   // large view (boolean indicating if app currently in large view) and screen height (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
   // viewport height (stored in redux)
@@ -123,7 +122,7 @@ function SearchMap(props) {
         searchRefresh: searchRefresh,
       };
       setMapState(newMapState);
-    }
+    };
 
     // if searchLocationUpdate boolean is true country specific search is triggered
     if (searchLocationUpdate) {
@@ -139,141 +138,147 @@ function SearchMap(props) {
     }
     // if searchLocationUpdate boolean is false search based on  current map bounds is triggered
     else {
-
       // checks that sufficient time has lapsed since events which cauase map bounds to change but shouldn't trigger an update of search results
       const allowUpdate = () => {
-        let allowUpdate = true
+        let allowUpdate = true;
         // calcs time interval since last screen resize (if below 500ms it is assumed that change in map bounds results from screen resize and new search is aborted)
         const msSinceResize = Date.now() - resize;
 
         if (msSinceResize < 500) {
-          allowUpdate = false
+          allowUpdate = false;
         }
 
         if (lastViewToggle) {
           const msSinceLastViewToggle = Date.now() - lastViewToggle;
-          console.log("msSinceLastViewToggleX: " + msSinceLastViewToggle)
-          console.log("expandMapView: " + expandMapView)
+          console.log("msSinceLastViewToggleX: " + msSinceLastViewToggle);
+          console.log("expandMapView: " + expandMapView);
           if (largeView && !expandMapView && msSinceLastViewToggle < 1500) {
-            allowUpdate = false
+            allowUpdate = false;
           }
           if (largeView && expandMapView && msSinceLastViewToggle < 500) {
-            allowUpdate = false
+            allowUpdate = false;
           }
           if (!largeView && msSinceLastViewToggle < 500) {
-            allowUpdate = false
+            allowUpdate = false;
           }
         }
 
         if (lastSearchModalEvent) {
           const msSinceLastSearchModalEvent = Date.now() - lastSearchModalEvent;
-          console.log("msSinceLastSearchModalEvent: " + msSinceLastSearchModalEvent)
-          if (msSinceLastSearchModalEvent<500) {
-            allowUpdate = false
+          console.log(
+            "msSinceLastSearchModalEvent: " + msSinceLastSearchModalEvent
+          );
+          if (msSinceLastSearchModalEvent < 500) {
+            allowUpdate = false;
           }
         }
-        return allowUpdate
-      }
+        return allowUpdate;
+      };
 
-      console.log("allowUpdate(): " + allowUpdate())
-
-
+      console.log("allowUpdate(): " + allowUpdate());
 
       // if not first load and not a user specified country search, searchLocation state is set to "map area" (i.e the user has changed the map bounds triggering a new search)
       if (!firstLoad && allowUpdate()) {
         setSearchLocation("map area");
       }
 
+      // if firstLoad OR greater than 1500ms from last map view toggle search OR more than 600ms since the search modal was last closed THEN results are updated
+      if (firstLoad || allowUpdate()) {
+        // if map parameters have already been declared and change in map bounds not result of screen resize a new search is triggered
+        if (mapParameters) {
+          // fetches polygons within current map bounds
+          const activePolygons = getActivePolygons(mapParameters.bounds);
 
+          // initialises count variable for number of hotels returned by previous search which fall within bounds of current map (i.e. those of the new search)
+          let existingHotelsCount = 0;
 
+          // range of lng and lat for current map
+          const boundsLatLo = JSON.stringify(
+            mapParameters.bounds.toJSON().south
+          );
+          const boundsLatHi = JSON.stringify(
+            mapParameters.bounds.toJSON().north
+          );
+          const boundsLngLo = JSON.stringify(
+            mapParameters.bounds.toJSON().west
+          );
+          const boundsLngHi = JSON.stringify(
+            mapParameters.bounds.toJSON().east
+          );
 
-// if firstLoad OR greater than 1500ms from last map view toggle search OR more than 600ms since the search modal was last closed THEN results are updated
-if (firstLoad || allowUpdate()) {
-      // if map parameters have already been declared and change in map bounds not result of screen resize a new search is triggered
-      if (mapParameters) {
-        // fetches polygons within current map bounds
-        const activePolygons = getActivePolygons(mapParameters.bounds);
-
-        // initialises count variable for number of hotels returned by previous search which fall within bounds of current map (i.e. those of the new search)
-        let existingHotelsCount = 0;
-
-        // range of lng and lat for current map
-        const boundsLatLo = JSON.stringify(mapParameters.bounds.toJSON().south);
-        const boundsLatHi = JSON.stringify(mapParameters.bounds.toJSON().north);
-        const boundsLngLo = JSON.stringify(mapParameters.bounds.toJSON().west);
-        const boundsLngHi = JSON.stringify(mapParameters.bounds.toJSON().east);
-
-        // counts number of hotels returned by prev search which remain within the map bounds of current search (these will remain as search results)
-        for (let i = 0; i < hotelArray.length; i++) {
-          const hotelLat = hotelArray[i].coords.lat;
-          const hotelLng = hotelArray[i].coords.lng;
-          //if hotel coordinates fall within current map bounds exisitngHotels count is incremented
-          if (
-            hotelLat > boundsLatLo &&
-            hotelLat < boundsLatHi &&
-            hotelLng > boundsLngLo &&
-            hotelLng < boundsLngHi
-          ) {
-            existingHotelsCount++;
-          }
-        }
-
-        // calcs number of hotels based on land area implied by active map bounds
-        const additionalHotels = getHotelNumber(activePolygons);
-        // adds on exisitng hotels from prev search (this is to make sure that the hotel number is >= to hotels currently on map for the search area. This is a fail safe as getHotelNumber() may return a v low number when we zoom down to very small search areas )
-        const newNumHotels = existingHotelsCount + additionalHotels;
-        // updates numberHotels state, calcs and updates MaxPages state and resets active page state to 1
-        updateHotelAndPages(newNumHotels);
-
-        // sets number of hotels returned by search - default is 18 per page but can be lower if total numer returned by search is less than 18 (i.e. the search area is very small)
-        let hotelsInArray = 18;
-        if (newNumHotels < 18) {
-          hotelsInArray = newNumHotels;
-        }
-
-        // number of hotels returned >0 search results are generated an stored in hotelArray state
-        if (activePolygons.length > 0) {
-          // mapState is yet to be declared this is the first search so a simple search without any checks is triggered
-          if (!mapState) {
-            // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
-            triggerDataLoading();
-            // search results are generated an stored in hotelArray state
-            setHotelArray(generateHotelArray(hotelsInArray, activePolygons));
-          } else {
-            // initialises refresh boolean - if true prev search results are deleted even if they fall within current map bounds.
-            let refresh = false;
-            // refresh set to true when zooming out or if searchFresh has been toggled (i.e. search button on nav has been clicked) - all prev search reulsts are deleted
+          // counts number of hotels returned by prev search which remain within the map bounds of current search (these will remain as search results)
+          for (let i = 0; i < hotelArray.length; i++) {
+            const hotelLat = hotelArray[i].coords.lat;
+            const hotelLng = hotelArray[i].coords.lng;
+            //if hotel coordinates fall within current map bounds exisitngHotels count is incremented
             if (
-              mapParameters.zoom < mapState.zoom ||
-              searchRefresh !== mapState.searchRefresh
+              hotelLat > boundsLatLo &&
+              hotelLat < boundsLatHi &&
+              hotelLng > boundsLngLo &&
+              hotelLng < boundsLngHi
             ) {
-              refresh = true;
+              existingHotelsCount++;
             }
-            // if current expandMapView state does not equal state at time of last search, the new search is aborted (as the change in map bounds is assumed to result from the change in map view). Only for above 949px (because the render changes at this point so that map isn't show on the rhs but button needs to be clicked) as map bounds don't change when we move from list to map in small (<950px screen width) view.
-            if (expandMapView === mapState.expandMapView || screenWidth < 950) {
+          }
+
+          // calcs number of hotels based on land area implied by active map bounds
+          const additionalHotels = getHotelNumber(activePolygons);
+          // adds on exisitng hotels from prev search (this is to make sure that the hotel number is >= to hotels currently on map for the search area. This is a fail safe as getHotelNumber() may return a v low number when we zoom down to very small search areas )
+          const newNumHotels = existingHotelsCount + additionalHotels;
+          // updates numberHotels state, calcs and updates MaxPages state and resets active page state to 1
+          updateHotelAndPages(newNumHotels);
+
+          // sets number of hotels returned by search - default is 18 per page but can be lower if total numer returned by search is less than 18 (i.e. the search area is very small)
+          let hotelsInArray = 18;
+          if (newNumHotels < 18) {
+            hotelsInArray = newNumHotels;
+          }
+
+          // number of hotels returned >0 search results are generated an stored in hotelArray state
+          if (activePolygons.length > 0) {
+            // mapState is yet to be declared this is the first search so a simple search without any checks is triggered
+            if (!mapState) {
               // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
               triggerDataLoading();
               // search results are generated an stored in hotelArray state
-              setHotelArray(
-                generateHotelArray(hotelsInArray, activePolygons, refresh)
-              );
+              setHotelArray(generateHotelArray(hotelsInArray, activePolygons));
+            } else {
+              // initialises refresh boolean - if true prev search results are deleted even if they fall within current map bounds.
+              let refresh = false;
+              // refresh set to true when zooming out or if searchFresh has been toggled (i.e. search button on nav has been clicked) - all prev search reulsts are deleted
+              if (
+                mapParameters.zoom < mapState.zoom ||
+                searchRefresh !== mapState.searchRefresh
+              ) {
+                refresh = true;
+              }
+              // if current expandMapView state does not equal state at time of last search, the new search is aborted (as the change in map bounds is assumed to result from the change in map view). Only for above 949px (because the render changes at this point so that map isn't show on the rhs but button needs to be clicked) as map bounds don't change when we move from list to map in small (<950px screen width) view.
+              if (
+                expandMapView === mapState.expandMapView ||
+                screenWidth < 950
+              ) {
+                // sets dataLoading boolean to true for 1300 ms in order to mimic data loading from server
+                triggerDataLoading();
+                // search results are generated an stored in hotelArray state
+                setHotelArray(
+                  generateHotelArray(hotelsInArray, activePolygons, refresh)
+                );
+              }
             }
           }
-        }
-        // number of hotels returned = 0 generates an empty array as search result
-        else {
-          triggerDataLoading();
-          setHotelArray([]);
-        }
+          // number of hotels returned = 0 generates an empty array as search result
+          else {
+            triggerDataLoading();
+            setHotelArray([]);
+          }
 
+          // mapState is updated (updated in lag so as to compare latest map parameters (and avoid updating in response to map bounds changes resulting from the map view being changed )
+          updateMapState();
+        }
+      } else {
         // mapState is updated (updated in lag so as to compare latest map parameters (and avoid updating in response to map bounds changes resulting from the map view being changed )
-        updateMapState()
+        updateMapState();
       }
-  }
-   else {
-    // mapState is updated (updated in lag so as to compare latest map parameters (and avoid updating in response to map bounds changes resulting from the map view being changed )
-    updateMapState()
-  }
     }
   }, [mapParameters, searchRefresh]);
 
@@ -322,33 +327,33 @@ if (firstLoad || allowUpdate()) {
     // number of hotels from previous search which have been retained for current search (as they fall within current search map bounds)
     const currentArrayLength = newHotelArray.length;
 
-    let newHotelData = {... hotelData}
+    let newHotelData = { ...hotelData };
 
-
-    for (let i=0; i<newHotelArray.length; i++) {
+    // deletes properties from newHotelData, if those hotels are present in newHotelArray (so that hotels do not appear more than once in the search results)
+    for (let i = 0; i < newHotelArray.length; i++) {
       if (newHotelData[newHotelArray[i].hotelDataKey]) {
-        delete newHotelData[newHotelArray[i].hotelDataKey]
+        delete newHotelData[newHotelArray[i].hotelDataKey];
       }
     }
 
-
-
+    // function for randomly selecting hotel from object
     const getRandomHotel = (obj) => {
-  var keys = Object.keys(obj);
-  return obj[keys[ keys.length * Math.random() << 0]];
-};
+      var keys = Object.keys(obj);
+      return obj[keys[(keys.length * Math.random()) << 0]];
+    };
 
     // adds new hotels to make up difference between the number of hotels retained frok previous search and number required for this search
     for (let i = currentArrayLength; i < numHotels; i++) {
-
-
-
-const randomHotel = getRandomHotel(newHotelData)
-delete newHotelData[randomHotel.key]
-
-
-
-
+      // randomly selects hotel from newHotelData object
+      const randomHotel = getRandomHotel(newHotelData);
+      // deletes selected hotel from newHotelData object (so that it cannot appear twice in the search results)
+      delete newHotelData[randomHotel.key];
+      // takes main hotel photo from randomHotel object
+      let photoArray = [randomHotel.pic];
+      // gets a random selection of other photos for the hotel
+      const otherPhotoArray = getOtherPhotos();
+      // merges both arrays so that there is a unique, hotel-specific photo as the fist array element, followed by a random selection of other photos
+      const mergedPhotoArray = photoArray.concat(otherPhotoArray);
       // generates location coords and country using mapboounds, mapbox, margin and active polygons as arguments
       const location = getRandomLocation(
         mapParameters.bounds,
@@ -365,7 +370,7 @@ delete newHotelData[randomHotel.key]
         coords: location.coords,
         country: location.country,
         price: randomNumberInRange(30, 450),
-        photos: [randomHotel.pic],
+        photos: mergedPhotoArray,
         rating: randomNumberInRange(30, 50) / 10,
         numReviews: randomNumberInRange(5, 200),
       };
