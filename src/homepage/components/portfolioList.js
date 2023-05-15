@@ -13,22 +13,20 @@ function PortfoiloList() {
     <main className="portfoliolist-yu1">
       <div className="portfoliolist-ap7">
         <div className="portfoliolist-pp6">
-        <PortfolioItem name="hotel app" lightBackground={true} image={hotelAppImg} href="/search-map" modal="searchMap" />
-            <PortfolioItem name="range sliders" image={rangeSliderImg} href="/range-slider" modal="rangeSlider" />
-            <SwipeableGallery />
-
-            <PortfolioItem name="hotel app" lightBackground={true} image={hotelAppImg} href="/search-map" modal="searchMap" />
-                <PortfolioItem name="range sliders" image={rangeSliderImg} href="/range-slider" modal="rangeSlider" />
-                <SwipeableGallery />
-                <PortfolioItem name="hotel app" lightBackground={true} image={hotelAppImg} href="/search-map" modal="searchMap" />
-                    <PortfolioItem name="range sliders" image={rangeSliderImg} href="/range-slider" modal="rangeSlider" />
-                    <SwipeableGallery />
-                    <PortfolioItem name="hotel app" lightBackground={true} image={hotelAppImg} href="/search-map" modal="searchMap" />
-                        <PortfolioItem name="range sliders" image={rangeSliderImg} href="/range-slider" modal="rangeSlider" />
-                        <SwipeableGallery />
-                        <PortfolioItem name="hotel app" lightBackground={true} image={hotelAppImg} href="/search-map" modal="searchMap" />
-                            <PortfolioItem name="range sliders" image={rangeSliderImg} href="/range-slider" modal="rangeSlider" />
-                            <SwipeableGallery />
+          <PortfolioItem
+            name="hotel app"
+            lightBackground={true}
+            image={hotelAppImg}
+            href="/search-map"
+            modal="searchMap"
+          />
+          <PortfolioItem
+            name="range sliders"
+            image={rangeSliderImg}
+            href="/range-slider"
+            modal="rangeSlider"
+          />
+          <SwipeableGallery />
         </div>
       </div>
     </main>
