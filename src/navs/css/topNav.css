@@ -1,3 +1,14 @@
+
+/* fix for scroll bounce on firefox iOS -  white block added at top of page to prevent overscroll showing overflow content underneath  */
+.topnav-cc7 {
+	position: fixed;
+	top: -100px;
+	width: 100%;
+	height: 100px;
+	background-color: #FFFFFF;
+	z-index: 10;
+}
+
 /* header container */
 .topnav-df5 {
   height: 50px;

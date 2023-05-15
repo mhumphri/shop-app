@@ -12,6 +12,10 @@ function TopNav(props) {
 
 
   return (
+
+    <>
+    {/* fix for scroll bounce on firefox iOS -  white block added at top of page to prevent overscroll showing overflow content underneath  */}
+      <div className="topnav-cc7" />
     <header className="topnav-df5">
       <nav className={props.narrow ? "topnav-pn1 narrow" : "topnav-pn1"}>
         <div className={props.narrow ?  "topnav-po9 narrow" : "topnav-po9"}>
@@ -38,6 +42,7 @@ function TopNav(props) {
         )}
       </nav>
     </header>
+  </>
   );
 }
 

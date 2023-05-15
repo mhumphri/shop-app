@@ -465,6 +465,7 @@ function SearchMapNav(props) {
   } else {
     return (
       <>
+      {/* fix for scroll bounce on firefox iOS -  white block added at top of page to prevent overscroll showing overflow content underneath  */}
         <div className="search-map-nav-cc7" />
         <header class="search-map-nav-h1v">
           <nav className="search-map-nav-sd3" onClick={countrySearch}>
