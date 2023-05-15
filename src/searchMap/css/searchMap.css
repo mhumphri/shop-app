@@ -27,7 +27,7 @@ content: '';
 .search-map-nr6 {
 	 --search-list-width: 58%;
 	 --navigation-bar-offset: 85px;
-
+overscroll-behavior: none;
 }
 
 .search-map-cy5 {

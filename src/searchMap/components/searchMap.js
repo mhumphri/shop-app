@@ -461,15 +461,17 @@ function SearchMap(props) {
   };
 
   return (
-    <div className="search-map-nr6">
-      <SearchMapNav
-        searchLocation={searchLocation}
-        updateSearchLocation={updateSearchLocation}
-        searchRefresh={searchRefresh}
-        setSearchRefresh={setSearchRefresh}
-        expandMapView={expandMapView}
-        setLastSearchModalEvent={setLastSearchModalEvent}
-      />
+      <div className="search-map-nr6">
+    <SearchMapNav
+      searchLocation={searchLocation}
+      updateSearchLocation={updateSearchLocation}
+      searchRefresh={searchRefresh}
+      setSearchRefresh={setSearchRefresh}
+      expandMapView={expandMapView}
+      setLastSearchModalEvent={setLastSearchModalEvent}
+    />
+
+
       <main className="search-map-cy5">
         <div class="_1hytef3">
           {/* lowers position of button when screen height is low */}
