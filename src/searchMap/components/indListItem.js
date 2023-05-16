@@ -1,40 +1,50 @@
 import React, { useState, useEffect, useRef } from "react";
 import SwipeableGallery from "./swipeableGallery";
-
 import "../css/indListItem.css";
 
+// render for individual hotel search result (appearing in resultsList.js)
+
 function IndListItem(props) {
+  // boolean indicating if item is currently loading (used to imitate server loading delay)
   const [indItemLoading, setIndItemLoading] = useState(true);
 
-  //
+  //  controls delay for individual search result (adding on small random additonal delay) when props.listItemLoading in the parent component (resultsList.js) updates
   useEffect(() => {
-  if (!props.listItemLoading) {
-    const msDelay = props.itemId * 50
+    if (!props.listItemLoading) {
+      // random delay added
+      const msDelay = props.itemId * 50;
 
-    setTimeout(() => {
-setIndItemLoading(false)
-}, msDelay);
+      // loading state changed to false after random delay timeout
+      setTimeout(() => {
+        setIndItemLoading(false);
+      }, msDelay);
+    } else {
+      setIndItemLoading(true);
+    }
+  }, [props.listItemLoading]);
 
-  }
-  else {
-    setIndItemLoading(true)
-  }
-}, [props.listItemLoading]);
+  // activates chevron styling and active item in reponse to mouse entering
+  const handleMouseEnter = () => {
+    props.setHoverHotel(props.hotelData.key);
+  };
 
-/* activates chevron styling and active item in reponse to mouse entering */
-const handleMouseEnter = () => {
-   props.setHoverHotel(props.hotelData.key)
-}
-
-/* de-activates chevron styling and active item in reponse to mouse entering */
-const handleMouseLeave = () => {
-    props.setHoverHotel(false)
-}
+  // de-activates chevron styling and active item in reponse to mouse entering
+  const handleMouseLeave = () => {
+    props.setHoverHotel(false);
+  };
 
   return (
-    <div className="ind-list-item-la6" onClick={()=>props.setActiveLink("/hotels/" + props.hotelData.key)} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <SwipeableGallery itemLoading={indItemLoading} photos={indItemLoading ? [] : props.hotelData.photos} />
-      <div className="ind-list-item-gd5" >
+    <div
+      className="ind-list-item-la6"
+      onClick={() => props.setActiveLink("/hotels/" + props.hotelData.key)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <SwipeableGallery
+        itemLoading={indItemLoading}
+        photos={indItemLoading ? [] : props.hotelData.photos}
+      />
+      <div className="ind-list-item-gd5">
         <div className="ind-list-item-pq1">
           <div className="ind-list-item-lq2">
             <span className={indItemLoading ? "ind-list-item-oa3" : ""}>
@@ -77,7 +87,9 @@ const handleMouseLeave = () => {
                 fill-rule="evenodd"
               ></path>
             </svg>
-            <div className="ind-list-item-ma1">{props.hotelData.rating} ({props.hotelData.numReviews})</div>
+            <div className="ind-list-item-ma1">
+              {props.hotelData.rating} ({props.hotelData.numReviews})
+            </div>
           </div>
         </div>
         <div>
@@ -99,7 +111,8 @@ const handleMouseLeave = () => {
                 : "ind-list-item-te8"
             }
           >
-            <span className="ind-list-item-al5">£{props.hotelData.price}</span> per night
+            <span className="ind-list-item-al5">£{props.hotelData.price}</span>{" "}
+            per night
           </div>
         </div>
       </div>

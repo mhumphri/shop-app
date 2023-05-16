@@ -1,50 +1,29 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
-import itemArray from "../../data/itemArray";
 import modalContent from "./modalContent.js";
 import "../css/modal.css";
 
+// modal which is used to display portfolio item info
+
 function Modal() {
-
+  // current state for mainModal - either false or the name of the portfolio item (e.g. renge-slider). Stored in redux.
   const mainModal = useSelector((state) => state.modals.mainModal);
-  const modalData = modalContent[mainModal]
+  // content data object for current modal state (All data stored in modal content object)
+  const modalData = modalContent[mainModal];
+  // modal backdrop CSS style - changes for animation
   const [backdropStyle, setBackdropStyle] = useState("modal-jr6");
+  // modal outer container CSS setMapStyle - changes for animation
   const [modalStyle, setModalStyle] = useState("modal-pq2");
-
-
-/*
-  let getModalData = (modalRef, itemArray) => {
-
-console.log("modalRef: " + modalRef)
-console.log("itemArray: " + itemArray)
-
-    let modalData
-
-    for (let i=0; i<itemArray.length; i++) {
-        console.log("itemArray[i].modal: " + itemArray[i].modal)
-      if (modalRef===itemArray[i].modal) {
-
-        modalData = itemArray[i]
-        break;
-            }
-    }
-
-    return modalData
-
-
-  }
-
-
-  const [modalData, setModalData] = useState(getModalData(mainModal, itemArray));
-
-  */
+  //
   const dispatch = useDispatch();
 
   const closeModal = () => {
+    // close modal
     setBackdropStyle("modal-bm0");
     setModalStyle("modal-lf8");
 
+    // reset initial modal styles (after animation completes)
     setTimeout(() => {
       setBackdropStyle("modal-jr6");
       setModalStyle("modal-pq2");
@@ -100,22 +79,27 @@ console.log("itemArray: " + itemArray)
               <div class="micsmodal-bz3">
                 <h2 className="micsmodal-ns5">Description</h2>
 
-                  {modalData.description.map((x) => (
-                    <p className="micsmodal-gt0">{x}</p>
-                  ))}
-                  {modalData.libraries ?
-                    <>
-                <h2 className="micsmodal-ns5">Libraries/Frameworks</h2>
-                <ul className="micsmodal-bw7">
-                  {modalData.libraries.map((x) => (
-                    <li>{x}</li>
-                  ))}
-                </ul>
-                </> : null}
+                {modalData.description.map((x) => (
+                  <p className="micsmodal-gt0">{x}</p>
+                ))}
+                {modalData.libraries ? (
+                  <>
+                    <h2 className="micsmodal-ns5">Libraries/Frameworks</h2>
+                    <ul className="micsmodal-bw7">
+                      {modalData.libraries.map((x) => (
+                        <li>{x}</li>
+                      ))}
+                    </ul>
+                  </>
+                ) : null}
               </div>
               <footer>
                 <footer class="modal-zgc">
-                  <a className="micsmodal-lb9" href={modalData.githubHref} target="_blank" >
+                  <a
+                    className="micsmodal-lb9"
+                    href={modalData.githubHref}
+                    target="_blank"
+                  >
                     <img
                       alt="GitHub Logomark"
                       class="micsmodal-ek4"
@@ -125,7 +109,6 @@ console.log("itemArray: " + itemArray)
                     />
                     <div className="micsmodal-nw7">view code</div>
                   </a>
-
                 </footer>
               </footer>
             </div>

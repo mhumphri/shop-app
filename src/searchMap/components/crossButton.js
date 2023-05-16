@@ -1,5 +1,7 @@
 import "../css/crossButton.css";
 
+// delete button with cross svg
+
 const crossButton = (clickFunction) => {
 
   return [

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import SliderButton from "./sliderButton";
 import "../css/rangeSlider.css";
-import "../css/distributionSlider.css";
 
 // two handled slider with integrated data distribution bar chart
 

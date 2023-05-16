@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "../css/popoutBoxSm.css";
 
 function PopoutBoxSm(props) {
@@ -7,11 +7,19 @@ function PopoutBoxSm(props) {
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
   const screenHeight = useSelector((state) => state.deviceData.screenHeight);
 
-
   return (
-    <div className={screenHeight<500 ? "popout-box-sm-yr3 low-screen-height" : "popout-box-sm-yr3"}>
-    <div class="popout-box-sm-pm1" onClick={props.removeLargeMarker}/>
-      <div class="popout-box-sm-zt8" onClick={()=>props.setActiveLink("/hotels/" + props.markerData.key)}>
+    <div
+      className={
+        screenHeight < 500
+          ? "popout-box-sm-yr3 low-screen-height"
+          : "popout-box-sm-yr3"
+      }
+    >
+      <div class="popout-box-sm-pm1" onClick={props.removeLargeMarker} />
+      <div
+        class="popout-box-sm-zt8"
+        onClick={() => props.setActiveLink("/hotels/" + props.markerData.key)}
+      >
         <div class="popout-box-sm-ks9">
           <div class="popout-box-sm-he6">
             <img
@@ -52,7 +60,12 @@ function PopoutBoxSm(props) {
                       fill-rule="evenodd"
                     ></path>
                   </svg>
-                  <div class="popout-box-sm-ma1">{props.markerData.rating} {screenWidth < 400 ? null : " (" + props.markerData.numReviews + ")"}</div>
+                  <div class="popout-box-sm-ma1">
+                    {props.markerData.rating}{" "}
+                    {screenWidth < 400
+                      ? null
+                      : " (" + props.markerData.numReviews + ")"}
+                  </div>
                 </div>
               </div>
             </div>

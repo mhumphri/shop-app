@@ -9,13 +9,13 @@ import "../css/swipeableGallery.css";
 function SwipeableGallery(props) {
   // boolean indicating if device is touch screen (stored in redux)
   const touchScreen = useSelector((state) => state.deviceData.touchScreen);
-  /* index of photo currently visible */
+  // index of photo currently visible
   const [currentPhoto, setCurrentPhoto] = useState(0);
-  /* boolean value indicating if chevrons currently active - used to deterin appropriate styling */
+  // boolean value indicating if chevrons currently active - used for styling
   const [chevronsActive, setChevronsActive] = useState(false);
   // boolean value indicating if pointer is currently hovering over gallery
   const [pointerHover, setPointerHover] = useState(false);
-  /* css styles for LHS and RHS chevrons */
+  // css styles for LHS and RHS chevrons
   const [lhsChevronStyle, setLhsChevronStyle] = useState(
     "s134m7bb s1tdgjmu dir dir-ltr"
   );
@@ -23,7 +23,7 @@ function SwipeableGallery(props) {
     "s134m7bb s1tdgjmu dir dir-ltr"
   );
 
-  /* ref for photo viewer div */
+  // ref for photo viewer div
   const galleryRef = useRef(null);
 
   /* updates chevron styling in reponse to photo gallery being scrolled */
@@ -35,7 +35,7 @@ function SwipeableGallery(props) {
     }
   };
 
-  /* moves to next image when LHS chevron is clicked  */
+  // moves to next image when LHS chevron is clicked
   const scrollLeft = (e) => {
     e.stopPropagation();
     const currentScrollPos = galleryRef.current.scrollLeft;
@@ -47,7 +47,7 @@ function SwipeableGallery(props) {
     setChevronsActive(true);
   };
 
-  /* moves to next image when RHS chevron is clicked  */
+  // moves to next image when RHS chevron is clicked
   const scrollRight = (e) => {
     e.stopPropagation();
     const currentScrollPos = galleryRef.current.scrollLeft;
@@ -59,7 +59,7 @@ function SwipeableGallery(props) {
     setChevronsActive(true);
   };
 
-  /* render of progress dots at the bottom of the photo (which show as you scroll through the photo array) */
+  // render of progress dots at the bottom of the photo (which show as you scroll through the photo array)
   const dotsRender = (livePhoto) => {
     // total number of photos in array
     const maxPhoto = props.photos.length - 1;
@@ -165,7 +165,7 @@ function SwipeableGallery(props) {
     }
   };
 
-  /* updates chevron styling in response to changes in currentPhoto and props.activeResult */
+  // updates chevron styling in response to changes in currentPhoto and props.activeResult
 
   useEffect(() => {
 if (!touchScreen){
@@ -174,12 +174,12 @@ if (!touchScreen){
   }, [currentPhoto, pointerHover, chevronsActive]);
 
 
-  /* activates chevron styling and active item in reponse to mouse entering */
+  // activates chevron styling and active item in reponse to mouse entering
   const handleMouseEnter = () => {
     setPointerHover(true);
   };
 
-  /* de-activates chevron styling and active item in reponse to mouse entering */
+  // de-activates chevron styling and active item in reponse to mouse entering
   const handleMouseLeave = () => {
     setPointerHover(false);
   };
@@ -187,8 +187,6 @@ if (!touchScreen){
   document.body.addEventListener(
     "touchstart",
     function (event) {
-      console.log(event.source);
-      //if (event.source == document.body)
       event.preventDefault();
     },
     false
@@ -251,11 +249,8 @@ if (!touchScreen){
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-
-
           <div class="swipeable-gallery-o1q">
             <div />
-
             <div class="swipeable-gallery-m1d">
               <div class="swipeable-gallery-m1t">
                 <div class={lhsChevronStyle}>
@@ -288,7 +283,6 @@ if (!touchScreen){
                 </div>
               </div>
             </div>
-
             <div class="swipeable-gallery-b1t">
               <div class="swipeable-gallery-byc"></div>
               <div class="swipeable-gallery-bal">
@@ -304,10 +298,7 @@ if (!touchScreen){
               <div class="swipeable-gallery-b18"></div>
             </div>
           </div>
-
-
         <div class="swipeable-gallery-cw9">
-
             <div
               class="swipeable-gallery-c14w"
               onScroll={onGalleryScroll}
@@ -324,7 +315,6 @@ if (!touchScreen){
 
         </div>
       </div>
-
   );
 }
 }

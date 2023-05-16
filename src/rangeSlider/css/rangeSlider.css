@@ -1,7 +1,6 @@
 /* COMPONENT - rangeSlider.js */
-
 body {
-    background-color: white;
+  background-color: white;
 }
 
 /* outer container */
@@ -28,7 +27,7 @@ body {
 /* narrow sliders container */
 .rangeslider-wr4 {
   max-width: 500px;
-  margin:auto;
+  margin: auto;
 }
 
 /* slider header */
@@ -41,7 +40,6 @@ body {
 }
 
 /* COMPONENT - simpleSlider.js */
-
 /* slider track container */
 .rangeslider-hc7 {
   margin: auto;
@@ -116,26 +114,24 @@ body {
 }
 
 /* COMPONENT - discreteSlider.js */
-
 /* dot marker for discrete slider position on track (set off by default) */
 .rangeslider-hn2 {
   position: absolute;
-background-color: black;
-left: 10%;
-width: 3px;
-height: 3px;
-border-radius: 3px;
-z-index: 2;
-bottom: 1px;
+  background-color: black;
+  left: 10%;
+  width: 3px;
+  height: 3px;
+  border-radius: 3px;
+  z-index: 2;
+  bottom: 1px;
 }
 
 /* dot marker for discrete slider position on track turned on (black) */
 .rangeslider-hn2.on {
-background-color: white;
+  background-color: white;
 }
 
 /* COMPONENT - distributionSlider.js */
-
 /* distribution bar chart container */
 .rangeslider-1da {
   -moz-box-align: end;
@@ -155,8 +151,8 @@ background-color: white;
   border-top-right-radius: 1px;
   flex: 1 1 0%;
   margin-right: 1px;
-    background-color: #3880FF;
-      opacity: 1;
+  background-color: #3880FF;
+  opacity: 1;
 }
 
 /* single bar (for chart) - inactive bar */
@@ -165,27 +161,25 @@ background-color: white;
 }
 
 /* COMPONENT - sliderButton.js */
-
 /* rangreslider handle button */
 .rangeslider-pu5 {
-  width: 21px ;
-  height: 21px ;
-  padding: 1px 7px ;
-  border-width: 2px ;
-  border-style: solid ;
-  border-color: #3880FF ;
-  background-color: white ;
-  border-radius: 21px ;
-  outline: currentcolor none medium ;
-  z-index: 2 ;
-  margin-left: calc(21px / -2) ;
+  width: 21px;
+  height: 21px;
+  padding: 1px 7px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #3880FF;
+  background-color: white;
+  border-radius: 21px;
+  outline: currentcolor none medium;
+  z-index: 2;
+  margin-left: calc(21px / -2);
   top: 11px;
 }
 
 .rangeslider-pu5.narrow-track {
   top: 9px;
 }
-
 
 /* rangreslider handle label - switched on */
 .rangeslider-ja5 {
@@ -209,17 +203,18 @@ background-color: white;
   transition: opacity 0.2s;
 }
 
-
 @media only screen and (min-width : 768px) {
 
   /* outer container - increased top margin to accomodate nav */
   .rangeslider-dx3 {
     margin-top: 70px;
   }
+
   /* narrow sliders container */
   .rangeslider-wr4 {
     margin-bottom: 80px;
   }
+
   /* slider header */
   .rangeSlider-kz1 {
     font-size: 22px;

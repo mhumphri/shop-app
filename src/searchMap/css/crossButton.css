@@ -1,16 +1,16 @@
 .cross_button_10r {
   background-color: #797979;
-  display: inline-block !important;
-  position: relative !important;
-  padding: 5px !important;
-  border: 0px none !important;
-  color: #FFFFFF !important;
-  transition: -ms-transform 0.25s ease 0s, transform 0.25s ease 0s, transform 0.25s ease 0s !important;
-  outline: currentcolor none 0px !important;
-  appearance: none !important;
-  border-radius: 50% !important;
-  cursor: pointer !important;
-  touch-action: manipulation !important;
+  display: inline-block;
+  position: relative;
+  padding: 5px;
+  border: 0px none;
+  color: #FFFFFF;
+  transition: -ms-transform 0.25s ease 0s, transform 0.25s ease 0s, transform 0.25s ease 0s;
+  outline: currentcolor none 0px;
+  appearance: none;
+  border-radius: 50%;
+  cursor: pointer;
+  touch-action: manipulation;
   border-radius: 50%;
 }
 

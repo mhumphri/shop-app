@@ -1,198 +1,194 @@
 /* nav outer container */
 .page-nav-nz3 {
-	margin: 48px 0;
-	justify-content: center;
-display: flex;
+  margin: 48px 0;
+  justify-content: center;
+  display: flex;
 }
 
 /* LHS chevron button */
 .page-nav-zh2 {
-	all: unset;
-	margin: 0px 16px 0px 0px;
-	display: flex !important;
-align-items: center !important;
-justify-content: center !important;
-cursor: pointer;
+  all: unset;
+  margin: 0px 16px 0px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .page-nav-zh2:disabled {
-	color: rgb(221, 221, 221) !important;
-	cursor: not-allowed !important;
+  color: rgb(221, 221, 221);
+  cursor: not-allowed;
 }
 
 /* RHS chevron button */
 .page-nav-pt3 {
-	all: unset;
-	margin: 0px 0px 0px 16px;
-	display: flex !important;
-align-items: center !important;
-justify-content: center !important;
-cursor: pointer;
+  all: unset;
+  margin: 0px 0px 0px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .page-nav-pt3:disabled {
-	color: rgb(221, 221, 221) !important;
-	cursor: not-allowed !important;
+  color: rgb(221, 221, 221);
+  cursor: not-allowed;
 }
 
 ._u60i7ub {
-	-moz-box-pack: center !important;
-	-moz-box-align: center !important;
-	font-size: 14px !important;
-	line-height: 18px !important;
-	font-weight: 600 !important;
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	flex-shrink: 0 !important;
-	border: medium none !important;
-	border-radius: 50% !important;
-	width: 32px !important;
-	height: 32px !important;
-	margin: 0px 8px !important;
-	padding: 0px !important;
-	transition: -ms-transform 0.25s ease 0s, transform 0.25s ease 0s, transform 0.25s ease 0s !important;
-	outline: currentcolor none medium !important;
-	background: rgb(34, 34, 34) none repeat scroll 0% 0% !important;
-	color: rgb(255, 255, 255) !important;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: medium none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  margin: 0px 8px;
+  padding: 0px;
+  transition: -ms-transform 0.25s ease 0s, transform 0.25s ease 0s, transform 0.25s ease 0s;
+  outline: currentcolor none medium;
+  background: rgb(34, 34, 34) none repeat scroll 0% 0%;
+  color: rgb(255, 255, 255);
 }
 
 ._u60i7ub:disabled {
-	cursor: default !important;
+  cursor: default;
 }
 
 ._833p2h {
-	-moz-box-pack: center !important;
-	-moz-box-align: center !important;
-	font-size: 14px !important;
-	line-height: 18px !important;
-	font-weight: 600 !important;
-	display: flex !important;
-	align-items: center !important;
-	justify-content: center !important;
-	flex-shrink: 0 !important;
-	border: medium none !important;
-	border-radius: 50% !important;
-	background: transparent none repeat scroll 0% 0% !important;
-	color: rgb(34, 34, 34) !important;
-	width: 32px !important;
-	height: 32px !important;
-	margin: 0px 8px !important;
-	padding: 0px !important;
-	transition: -ms-transform 0.25s ease 0s, transform 0.25s ease 0s, transform 0.25s ease 0s !important;
-	outline: currentcolor none medium !important;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: medium none;
+  border-radius: 50%;
+  background: transparent none repeat scroll 0% 0%;
+  color: rgb(34, 34, 34);
+  width: 32px;
+  height: 32px;
+  margin: 0px 8px;
+  padding: 0px;
+  transition: -ms-transform 0.25s ease 0s, transform 0.25s ease 0s, transform 0.25s ease 0s;
+  outline: currentcolor none medium;
 }
 
 ._833p2h:hover {
-	background: rgb(247, 247, 247) none repeat scroll 0% 0% !important;
+  background: rgb(247, 247, 247) none repeat scroll 0% 0%;
 }
 
 ._3bjjf5 {
-	font-size: 14px !important;
-	line-height: 18px !important;
-	font-weight: 600 !important;
-	text-align: center !important;
-	display: block !important;
-	flex-shrink: 0 !important;
-	width: 32px !important;
-	margin-left: 8px !important;
-	margin-right: 8px !important;
-	padding-top: 4px !important;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+  text-align: center;
+  display: block;
+  flex-shrink: 0;
+  width: 32px;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding-top: 4px;
 }
 
 /* chevron svg (large view) */
-
 .page-nav-ow2 {
-	display: block;
-	fill: none;
-	height: 16px;
-	width: 16px;
-	stroke: currentcolor;
-	stroke-width: 3px;
-	overflow: visible;
+  display: block;
+  fill: none;
+  height: 16px;
+  width: 16px;
+  stroke: currentcolor;
+  stroke-width: 3px;
+  overflow: visible;
 }
 
 /* SMALL VIEW PAGE NAV */
-
 /* nav outer container */
 .page-nav-sj2 {
-	margin-top: 35px;
-		margin-bottom: 80px;
-	display: flex !important;
-	align-items: stretch !important;
-	justify-content: flex-start !important;
-	flex-wrap: wrap !important;
-	width: 100% !important;
-
+  margin-top: 35px;
+  margin-bottom: 80px;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 /* nav outer container 2 */
 .page-nav-al1 {
-	margin-left: auto;
-margin-right: auto;
-height: 100%;
-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  width: 100%;
 }
 
 /* nav outer container 3 */
 .page-nav-j4d {
-	display: flex !important;
-	margin-left: 24px !important;
-	margin-right: 24px !important;
+  display: flex;
+  margin-left: 24px;
+  margin-right: 24px;
 }
 
 /* individual chevron container */
 .page-nav-1wg {
-	margin-left: 8px !important;
-	margin-right: 8px !important;
-	margin-bottom: 48px !important;
-	display: inline !important;
-	flex: 1 1 0% !important;
-	text-align: center !important;
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 48px;
+  display: inline;
+  flex: 1 1 0%;
+  text-align: center;
 }
 
 /* chevron button (small view) */
 .page-nav-1kj {
-	-moz-box-pack: center !important;
-	-moz-box-align: center !important;
-	appearance: none !important;
-	display: inline-flex !important;
-	border-radius: 50% !important;
-	border: 1px solid rgba(0, 0, 0, 0.08) !important;
-	outline: currentcolor none medium !important;
-	margin: 0px !important;
-	padding: 0px !important;
-	color: rgb(34, 34, 34) !important;
-	background-color: rgba(255, 255, 255, 0.9) !important;
-	cursor: pointer !important;
-	touch-action: manipulation !important;
-	align-items: center !important;
-	justify-content: center !important;
-	background-clip: padding-box !important;
-	box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgba(0, 0, 0, 0.18) 0px 2px 4px !important;
-	transition: -ms-transform 0.25s ease 0s, transform 0.25s ease 0s, transform 0.25s ease 0s !important;
-	width: 48px !important;
-	height: 48px !important;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+  appearance: none;
+  display: inline-flex;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  outline: currentcolor none medium;
+  margin: 0px;
+  padding: 0px;
+  color: rgb(34, 34, 34);
+  background-color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  touch-action: manipulation;
+  align-items: center;
+  justify-content: center;
+  background-clip: padding-box;
+  box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  transition: -ms-transform 0.25s ease 0s, transform 0.25s ease 0s, transform 0.25s ease 0s;
+  width: 48px;
+  height: 48px;
 }
 
 .page-nav-1kj:disabled {
-	opacity: 0.5 !important;
-	cursor: not-allowed !important;
-	color: rgb(221, 221, 221) !important;
-	border-color: rgb(221, 221, 221) !important;
-	background-color: rgb(255, 255, 255) !important;
-	box-shadow: none !important;
-	transform: scale(1) !important;
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: rgb(221, 221, 221);
+  border-color: rgb(221, 221, 221);
+  background-color: rgb(255, 255, 255);
+  box-shadow: none;
+  transform: scale(1);
 }
 
 /* chevron svg (small view) */
-
 .page-nav-lx7 {
-	display: block;
-	fill: none;
-	height: 16px;
-	width: 16px;
-	stroke: currentcolor;
-	stroke-width: 4px;
-	overflow: visible;
+  display: block;
+  fill: none;
+  height: 16px;
+  width: 16px;
+  stroke: currentcolor;
+  stroke-width: 4px;
+  overflow: visible;
 }

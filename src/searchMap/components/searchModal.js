@@ -2,9 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import crossButton from "./crossButton";
 import "../css/searchModal.css";
 
-// soft ios keyboard scrolling issue - https://stackoverflow.com/questions/56351216/ios-safari-unwanted-scroll-when-keyboard-is-opened-and-body-scroll-is-disabled
-// soft ios keyboard scrolling issue - https://stackoverflow.com/questions/58997163/keyboard-and-scroll-problems-on-forms-in-ios
-
 // modal which displays country options and also text input for filtering. Used in samll view only. Performs same function as dropdown in large view. In contrast to dropdown the number of options can be limited to prevent scrolling and avoid a conflict with the soft keyboard when text input is active.
 
 function SearchModal(props) {
@@ -83,7 +80,7 @@ function SearchModal(props) {
 
   const closeModal = () => {
     // stores time of search modal close - used to prevent search being updated in response to changes in map bounds (which can come from scroll bar appearing in windows browsers)
-    props.setLastSearchModalEvent(Date.now())
+    props.setLastSearchModalEvent(Date.now());
     // close modal
     setModalStyle("search-modal-1iw");
     // reset initial modal styles (after animation completes)

@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
-import itemArray from "../../data/itemArray";
 import "../css/linkModal.css";
 
+// modal which appears when a link to a hotel is clicked (in place of navigating to the page for the hotel)
+
 function LinkModal(props) {
+  // modal backdrop CSS style - changes for animation
   const [backdropStyle, setBackdropStyle] = useState("link-modal-jr6");
+  // modal outer container CSS setMapStyle - changes for animation
   const [modalStyle, setModalStyle] = useState("link-modal-pq2");
 
   const closeModal = () => {
@@ -13,23 +16,19 @@ function LinkModal(props) {
     setBackdropStyle("link-modal-bm0");
     setModalStyle("link-modal-lf8");
 
-// reset initial modal styles (after animation completes)
+    // reset initial modal styles (after animation completes)
     setTimeout(() => {
       setBackdropStyle("link-modal-jr6");
       setModalStyle("link-modal-pq2");
       props.setActiveLink(false);
     }, "400");
-
   };
 
   return (
     <div>
       <div className={backdropStyle}></div>
       <div onClick={closeModal} className="link-modal-ke7">
-        <div
-          className={modalStyle}
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className={modalStyle} onClick={(e) => e.stopPropagation()}>
           <div className="link-modal-pa3">
             <button
               aria-label="Close"
@@ -52,7 +51,6 @@ function LinkModal(props) {
               </span>
             </button>
           </div>
-
           <div class="link-modal-z4l">
             <header className="link-modal-sj7">
               <div className="link-modal-lw2">link clicked</div>

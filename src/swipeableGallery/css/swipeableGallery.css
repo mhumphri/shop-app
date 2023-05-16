@@ -19,12 +19,10 @@
 }
 
 .swipeable-gallery-rfe {
-object-fit: cover;
- aspect-ratio: 4/3;
- object-position: center;
-	vertical-align: center;
-
-
+  object-fit: cover;
+  aspect-ratio: 4/3;
+  object-position: center;
+  vertical-align: center;
   display: block;
   color: transparent;
   z-index: -100;
@@ -34,25 +32,21 @@ object-fit: cover;
 
 .swipeable-gallery-tz4 {
   position: relative;
-	height: 100%;
-	width: 100%;
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
 }
 
 .swipeable-gallery-uc3 {
-	display: block;
-
- object-fit: cover;
-
-
-
- aspect-ratio: 4/3;
--khtml-user-select: none;
--o-user-select: none;
--moz-user-select: none;
--webkit-user-select: none;
-user-select: none;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 4/3;
+  -khtml-user-select: none;
+  -o-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* CHEVRON BUTTONS */
@@ -78,31 +72,6 @@ user-select: none;
 
 /* chevron button styling */
 .swipeable-gallery-1d3 {
-  /*	-moz-box-pack: center !important;
-	-moz-box-align: center !important;
-
-		outline: currentcolor none medium !important;
-
-
-
-
-	margin: 0px !important;
-	padding: 0px !important;
-		appearance: none !important;
-
-
-
-	cursor: pointer !important;
-	touch-action: manipulation !important;
-
-	background-clip: padding-box !important;
-
-	transition: -ms-transform 0.25s ease 0s, transform 0.25s ease 0s, transform 0.25s ease 0s !important;
-
-	overscroll-behavior-x: contain;
-	touch-action: none;
-
-*/
   width: 32px !important;
   height: 32px !important;
   border-radius: 50% !important;
@@ -112,8 +81,7 @@ user-select: none;
   align-items: center !important;
   justify-content: center !important;
   color: rgb(34, 34, 34) !important;
- background-color: rgba(255, 255, 255, 0.9) !important;
-
+  background-color: rgba(255, 255, 255, 0.9) !important;
 }
 
 /* chevron button styling - hover */
@@ -142,17 +110,6 @@ user-select: none;
 
 /* inner scroll container */
 .swipeable-gallery-c14w {
-  /*	contain: var(--contentscroller_contain);
-	gap: var(--contentscroller_gap,16px);
-	grid-template-rows: var(--contentscroller_rows,none);
-	grid-template-areas: var(--contentscroller_areas,none);
-	-moz-box-pack: start;
-	justify-content: flex-start;
-		min-height: var(--contentscroller_min-height);
-			overflow: var(--contentscroller_overflow,auto hidden);
-				overscroll-behavior-x: contain;
-	scroll-padding-inline: var(--contentscroller_peek,32px);
-				*/
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 100%;
@@ -170,15 +127,11 @@ user-select: none;
 }
 
 .swipeable-gallery-c14w::-webkit-scrollbar {
- display: none;
+  display: none;
 }
 
 /* PROGRESS DOTS */
 .swipeable-gallery-b1t {
-  /*	-webkit-align-items: flex-end;
-	-webkit-box-align: flex-end;
-	-ms-flex-align: flex-end;
-	align-items: flex-end;*/
   display: grid;
   grid-template-columns: repeat(3, minmax(min-content, auto));
 }
@@ -196,25 +149,12 @@ user-select: none;
 }
 
 .swipeable-gallery-r75 {
-  /*
-	-moz-box-pack: center !important;
-	-moz-box-align: end !important;
-
-	align-items: flex-end !important;
-
-
-	*/
   display: flex;
   justify-content: center;
   height: 100%;
 }
 
 .swipeable-gallery-szn {
-  /*
-
-					overflow: hidden;
-
-	*/
   display: flex;
   overflow: clip;
   padding-bottom: 12px;
@@ -222,7 +162,7 @@ user-select: none;
 }
 
 .swipeable-gallery-1k9 {
-background: rgb(255, 255, 255) none repeat scroll 0% 0% !important;
+  background: rgb(255, 255, 255) none repeat scroll 0% 0% !important;
   border-radius: 50% !important;
   height: 6px !important;
   margin-left: 2.5px !important;
@@ -246,15 +186,6 @@ background: rgb(255, 255, 255) none repeat scroll 0% 0% !important;
 }
 
 .swipeable-gallery-1b2 {
-  /*
-	-moz-box-pack: center !important;
-	-moz-box-align: end !important;
-
-	list-style-type: none !important;
-	margin: 0px !important;
-	padding: 0px !important;
-
-		*/
   align-items: flex-end !important;
   display: flex !important;
   justify-content: center !important;
@@ -263,10 +194,6 @@ background: rgb(255, 255, 255) none repeat scroll 0% 0% !important;
 
 /* overlay container */
 .swipeable-gallery-o1q {
-  /*	overflow: hidden;
-				flex: 1 1;
-
-			 */
   display: flex;
   flex-flow: column;
   position: absolute;
@@ -276,8 +203,7 @@ background: rgb(255, 255, 255) none repeat scroll 0% 0% !important;
   left: 0;
   right: 0;
   padding: 12px 12px 0px 12px;
-background: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25));
-
+  background: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25));
 }
 
 .swipeable-gallery-o1q>* {
@@ -285,39 +211,28 @@ background: linear-gradient(180deg, transparent 80%, rgba(0, 0, 0, 0.25));
 }
 
 .swipeable-gallery-c14d {
-  /*all: unset;
-
-	overflow: clip;
-	overflow: hidden;
-	*/
   mask-image: -webkit-radial-gradient(white, black);
   position: relative;
   border-radius: 12px;
-
   background-color: #DDDDDD;
-
 }
 
 .swipeable-gallery-c14d2 {
-all: unset;
-/*
-	overflow: clip;
-	overflow: hidden;
-	*/
+  all: unset;
   mask-image: -webkit-radial-gradient(white, black);
   position: relative;
   border-radius: 12px;
-
   background-color: #DDDDDD;
-
 }
 
 .s134m7bb[class][class] {
-	pointer-events: auto;
+  pointer-events: auto;
 }
 
 .s1tdgjmu[class][class] {
-	visibility: hidden;
+  visibility: hidden;
 }
 
-.sqd06yw[class][class]{opacity:0;}
+.sqd06yw[class][class] {
+  opacity: 0;
+}

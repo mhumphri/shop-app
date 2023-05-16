@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import SliderButton from "./sliderButton";
 import "../css/rangeSlider.css";
-import "../css/discreteSlider.css";
 
 // range slider with resticted units (e.g. only 10,20, 30... can be selected by the user)
 

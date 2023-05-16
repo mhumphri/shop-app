@@ -1,7 +1,6 @@
 import PortfolioItem from "./portfolioItem";
 import SwipeableGallery from "../../swipeableGallery/components/swipeableGallery";
 // array of data - each element contains data for a single portfolio item
-import itemArray from "../../data/itemArray";
 import rangeSliderImg from "../images/rangeSlider.png";
 import hotelAppImg from "../images/hotelApp.jpg";
 import "../css/portfolioList.css";
