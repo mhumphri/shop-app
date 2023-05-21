@@ -175,8 +175,6 @@ function SearchMap(props) {
         return allowUpdate;
       };
 
-      console.log("allowUpdate(): " + allowUpdate());
-
       // if not first load and not a user specified country search, searchLocation state is set to "map area" (i.e the user has changed the map bounds triggering a new search)
       if (!firstLoad && allowUpdate()) {
         setSearchLocation("map area");
@@ -473,7 +471,7 @@ function SearchMap(props) {
 
 
       <main className="search-map-cy5">
-        <div class="_1hytef3">
+        <div class="search-map-1hy">
           {/* lowers position of button when screen height is low */}
           <div
             className={
@@ -485,21 +483,16 @@ function SearchMap(props) {
             {expandMapView ? (
               <button
                 type="button"
-                class="_174uh40 l1j9v1wn dir dir-ltr"
+                class="search-map-174"
                 onClick={toggleMapView}
               >
-                <span class="_7u66d2">
-                  <span class="_r16tng">Show list</span>
-                  <div class="_hqsu3j">
+                <span class="search-map-7u6">
+                  <span class="search-map-r16">Show list</span>
+                  <div class="search-map-hqs">
                     <svg
+                      className="search-map-sd2"
                       viewBox="0 0 16 16"
                       xmlns="http://www.w3.org/2000/svg"
-                      style={{
-                        display: "block",
-                        height: "16px",
-                        width: "16px",
-                        fill: "rgb(255, 255, 255)",
-                      }}
                       aria-hidden="true"
                       role="presentation"
                       focusable="false"
@@ -516,21 +509,16 @@ function SearchMap(props) {
             {!expandMapView && mapButtonActive ? (
               <button
                 type="button"
-                class="_174uh40 l1j9v1wn dir dir-ltr"
+                class="search-map-174"
                 onClick={toggleMapView}
               >
-                <span class="_7u66d2">
-                  <span class="_r16tng">Show map</span>
-                  <div class="_hqsu3j">
+                <span class="search-map-7u6">
+                  <span class="search-map-r16">Show map</span>
+                  <div class="search-map-hqs">
                     <svg
+                      className="search-map-sd2"
                       viewBox="0 0 16 16"
                       xmlns="http://www.w3.org/2000/svg"
-                      style={{
-                        display: "block",
-                        height: "16px",
-                        width: "16px",
-                        fill: "rgb(255, 255, 255)",
-                      }}
                       aria-hidden="true"
                       role="presentation"
                       focusable="false"

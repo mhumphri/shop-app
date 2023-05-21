@@ -25,10 +25,10 @@ function SwipeableGallery(props) {
   const [pointerHover, setPointerHover] = useState(false);
   // css styles for LHS and RHS chevrons
   const [lhsChevronStyle, setLhsChevronStyle] = useState(
-    "s134m7bb s1tdgjmu dir dir-ltr"
+    "swipeable-gallery-s13 swipeable-gallery-s1t dir dir-ltr"
   );
   const [rhsChevronStyle, setRhsChevronStyle] = useState(
-    "s134m7bb s1tdgjmu dir dir-ltr"
+    "swipeable-gallery-s13 swipeable-gallery-s1t dir dir-ltr"
   );
 
   // ref for photo viewer div
@@ -146,27 +146,27 @@ function SwipeableGallery(props) {
   const updateChevrons = () => {
     if (pointerHover) {
       if (currentPhoto > 0) {
-        setLhsChevronStyle("s134m7bb dir dir-ltr");
+        setLhsChevronStyle("swipeable-gallery-s13");
       } else {
         if (chevronsActive) {
-          setLhsChevronStyle("s134m7bb  sqd06yw  dir dir-ltr");
+          setLhsChevronStyle("swipeable-gallery-s13  swipeable-gallery-sqd");
         } else {
-          setLhsChevronStyle("s134m7bb s1tdgjmu  dir dir-ltr");
+          setLhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-s1t");
         }
       }
 
       if (currentPhoto < maxPhoto) {
-        setRhsChevronStyle("s134m7bb dir dir-ltr");
+        setRhsChevronStyle("swipeable-gallery-s13");
       } else {
         if (chevronsActive) {
-          setRhsChevronStyle("s134m7bb sqd06yw dir dir-ltr");
+          setRhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-sqd");
         } else {
-          setRhsChevronStyle("s134m7bb s1tdgjmu dir dir-ltr");
+          setRhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-s1t");
         }
       }
     } else {
-      setLhsChevronStyle("s134m7bb s1tdgjmu  dir dir-ltr");
-      setRhsChevronStyle("s134m7bb s1tdgjmu dir dir-ltr");
+      setLhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-s1t");
+      setRhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-s1t");
     }
   };
 

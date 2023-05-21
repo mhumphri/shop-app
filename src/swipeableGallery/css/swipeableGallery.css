@@ -225,14 +225,18 @@
   background-color: #DDDDDD;
 }
 
-.s134m7bb[class][class] {
+/* chevron styling */
+
+.swipeable-gallery-s13 {
   pointer-events: auto;
 }
 
-.s1tdgjmu[class][class] {
+/* chevron styling */
+.swipeable-gallery-s1t {
   visibility: hidden;
 }
 
-.sqd06yw[class][class] {
+/* chevron styling */
+.swipeable-gallery-sqd {
   opacity: 0;
 }
