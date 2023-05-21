@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
 import modalContent from "./modalContent.js";
@@ -18,6 +18,12 @@ function Modal() {
   //
   const dispatch = useDispatch();
 
+  // disables scrolling when the modal opens (component loads)
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "relative";
+  }, []);
+
   const closeModal = () => {
     // close modal
     setBackdropStyle("modal-bm0");
@@ -27,6 +33,9 @@ function Modal() {
     setTimeout(() => {
       setBackdropStyle("modal-jr6");
       setModalStyle("modal-pq2");
+      // enables scrolling when modal is closed
+      document.body.style.overflow = "auto";
+      document.body.style.position = "static";
       dispatch(updateMainModal(false));
     }, "400");
   };

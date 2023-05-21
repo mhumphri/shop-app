@@ -168,11 +168,10 @@ function SwipeableGallery(props) {
   // updates chevron styling in response to changes in currentPhoto and props.activeResult
 
   useEffect(() => {
-if (!touchScreen){
-    updateChevrons();
-  }
+    if (!touchScreen) {
+      updateChevrons();
+    }
   }, [currentPhoto, pointerHover, chevronsActive]);
-
 
   // activates chevron styling and active item in reponse to mouse entering
   const handleMouseEnter = () => {
@@ -192,131 +191,115 @@ if (!touchScreen){
     false
   );
 
-
- if (touchScreen) {
+  if (touchScreen) {
     return (
-        <div
-          class="swipeable-gallery-c14d"
-        >
+      <div class="swipeable-gallery-c14d">
+        <div class="swipeable-gallery-o1q">
+          <div />
 
-            <div class="swipeable-gallery-o1q">
-              <div />
-
-
-
-              <div class="swipeable-gallery-b1t">
-                <div class="swipeable-gallery-byc"></div>
-                <div class="swipeable-gallery-bal">
-                  <div
-                    role="img"
-                    class="swipeable-gallery-r75"
-                  >
-                    <div class="swipeable-gallery-szn">
-                      {dotsRender(currentPhoto)}
-                    </div>
-                  </div>
+          <div class="swipeable-gallery-b1t">
+            <div class="swipeable-gallery-byc"></div>
+            <div class="swipeable-gallery-bal">
+              <div role="img" class="swipeable-gallery-r75">
+                <div class="swipeable-gallery-szn">
+                  {dotsRender(currentPhoto)}
                 </div>
-                <div class="swipeable-gallery-b18"></div>
               </div>
             </div>
-
-
-          <div class="swipeable-gallery-cw9">
-              <div
-                class="swipeable-gallery-c14w"
-                onScroll={onGalleryScroll}
-                ref={galleryRef}
-              >
-                {props.photos.map((x) => (
-                  <div class="swipeable-gallery-rfe">
-                    <div className="swipeable-gallery-tz4">
-                      <img className="swipeable-gallery-uc3" alt="alt" src={x} />
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div class="swipeable-gallery-b18"></div>
           </div>
         </div>
-    )
-  }
-  else {
 
-
-  return (
-
+        <div class="swipeable-gallery-cw9">
+          <div
+            class="swipeable-gallery-c14w"
+            onScroll={onGalleryScroll}
+            ref={galleryRef}
+          >
+            {props.photos.map((x) => (
+              <div class="swipeable-gallery-rfe">
+                <div className="swipeable-gallery-tz4">
+                  <img className="swipeable-gallery-uc3" alt="alt" src={x} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    return (
       <div
         class="swipeable-gallery-c14d"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-          <div class="swipeable-gallery-o1q">
-            <div />
-            <div class="swipeable-gallery-m1d">
-              <div class="swipeable-gallery-m1t">
-                <div class={lhsChevronStyle}>
-                  <button class="swipeable-gallery-1d3" onClick={scrollLeft}>
-                    <svg
-                      className="swipeable-gallery-cl1"
-                      viewBox="0 0 32 32"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g>
-                        <path d="m20 28-11.29289322-11.2928932c-.39052429-.3905243-.39052429-1.0236893 0-1.4142136l11.29289322-11.2928932"></path>
-                      </g>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <div class="swipeable-gallery-ms8">
-                <div class={rhsChevronStyle}>
-                  <button class="swipeable-gallery-1d3" onClick={scrollRight}>
-                    <svg
-                      className="swipeable-gallery-cl1"
-                      viewBox="0 0 32 32"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <g>
-                        <path d="m12 4 11.2928932 11.2928932c.3905243.3905243.3905243 1.0236893 0 1.4142136l-11.2928932 11.2928932"></path>
-                      </g>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="swipeable-gallery-b1t">
-              <div class="swipeable-gallery-byc"></div>
-              <div class="swipeable-gallery-bal">
-                <div
-                  role="img"
-                  class="swipeable-gallery-r75"
-                >
-                  <div class="swipeable-gallery-szn">
-                    {dotsRender(currentPhoto)}
-                  </div>
-                </div>
-              </div>
-              <div class="swipeable-gallery-b18"></div>
-            </div>
-          </div>
-        <div class="swipeable-gallery-cw9">
-            <div
-              class="swipeable-gallery-c14w"
-              onScroll={onGalleryScroll}
-              ref={galleryRef}
-            >
-              {props.photos.map((x) => (
-                <div class="swipeable-gallery-rfe">
-                  <div className="swipeable-gallery-tz4">
-                    <img className="swipeable-gallery-uc3" alt="alt" src={x} />
-                  </div>
-                </div>
-              ))}
-            </div>
 
+
+        <div class="swipeable-gallery-o1q">
+          <div />
+          {props.itemLoading? null : <div class="swipeable-gallery-m1d">
+            <div class="swipeable-gallery-m1t">
+              <div class={lhsChevronStyle}>
+                <button class="swipeable-gallery-1d3" onClick={scrollLeft}>
+                  <svg
+                    className="swipeable-gallery-cl1"
+                    viewBox="0 0 32 32"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g>
+                      <path d="m20 28-11.29289322-11.2928932c-.39052429-.3905243-.39052429-1.0236893 0-1.4142136l11.29289322-11.2928932"></path>
+                    </g>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="swipeable-gallery-ms8">
+              <div class={rhsChevronStyle}>
+                <button class="swipeable-gallery-1d3" onClick={scrollRight}>
+                  <svg
+                    className="swipeable-gallery-cl1"
+                    viewBox="0 0 32 32"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g>
+                      <path d="m12 4 11.2928932 11.2928932c.3905243.3905243.3905243 1.0236893 0 1.4142136l-11.2928932 11.2928932"></path>
+                    </g>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div> }
+          {props.itemLoading? null : <div class="swipeable-gallery-b1t">
+            <div class="swipeable-gallery-byc"></div>
+            <div class="swipeable-gallery-bal">
+              <div role="img" class="swipeable-gallery-r75">
+                <div class="swipeable-gallery-szn">
+                  {dotsRender(currentPhoto)}
+                </div>
+              </div>
+            </div>
+            <div class="swipeable-gallery-b18"></div>
+          </div> }
+        </div>
+        <div class="swipeable-gallery-cw9">
+          <div
+            class="swipeable-gallery-c14w"
+            onScroll={onGalleryScroll}
+            ref={galleryRef}
+          >
+            {props.photos.map((x) => (
+              <div class="swipeable-gallery-rfe">
+                <div className="swipeable-gallery-tz4">
+                  <img className="swipeable-gallery-uc3" alt="alt" src={x} />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-  );
-}
+    );
+  }
 }
 
 export default SwipeableGallery;

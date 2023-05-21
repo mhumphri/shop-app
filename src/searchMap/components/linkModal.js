@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
 import "../css/linkModal.css";
@@ -11,6 +11,13 @@ function LinkModal(props) {
   // modal outer container CSS setMapStyle - changes for animation
   const [modalStyle, setModalStyle] = useState("link-modal-pq2");
 
+  // disables scrolling when the modal opens (component loads)
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "relative";
+  }, []);
+
+
   const closeModal = () => {
     // close modal
     setBackdropStyle("link-modal-bm0");
@@ -20,6 +27,9 @@ function LinkModal(props) {
     setTimeout(() => {
       setBackdropStyle("link-modal-jr6");
       setModalStyle("link-modal-pq2");
+      // enables scrolling when modal is closed
+      document.body.style.overflow = "auto";
+      document.body.style.position = "static";
       props.setActiveLink(false);
     }, "400");
   };
