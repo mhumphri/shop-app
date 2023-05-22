@@ -1,6 +1,4 @@
 import countryPolygons from "../data/countryPolygons.json";
-import { polygon } from "@turf/helpers";
-import intersect from "@turf/intersect";
 
 /* this function returns relevnt land polygons which fall within a given map boundary */
 

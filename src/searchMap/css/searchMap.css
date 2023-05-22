@@ -7,7 +7,6 @@ button, html input[type="button"] {
 /* prevents scroll bound behaviour in chrome and firefox */
 body {
   overscroll-behavior-y: none;
-  scrollbar-gutter: stable both-edges;
 }
 
 body:after {
