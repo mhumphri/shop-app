@@ -16,12 +16,6 @@ function DistributionSlider(props) {
   const [leftButtonPos, setLeftButtonPos] = useState(1);
   const [rightButtonPos, setRightButtonPos] = useState(100);
 
-  // stores position of active section of slider track
-  const [activeRangeLeft, setActiveRangeLeft] = useState(leftButtonPos);
-  const [activeRangeWidth, setActiveRangeWidth] = useState(
-    rightButtonPos - leftButtonPos
-  );
-
   // stores render of bar chart showing active price distribution
   const [distributionRender, setDistributionRender] = useState([]);
 
@@ -95,10 +89,6 @@ function DistributionSlider(props) {
     }
     setDistributionRender(newDistributionRender);
 
-    // calculate and set position of active track (0 to 100)
-
-    setActiveRangeLeft(leftButtonPos);
-    setActiveRangeWidth(rightButtonPos - leftButtonPos);
   }, [rightButtonPos, leftButtonPos, screenWidth]);
 
   // sets & removes pointermove event listener when slider button is dragged

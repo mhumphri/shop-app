@@ -108,6 +108,7 @@ function Modal() {
                     className="micsmodal-lb9"
                     href={modalData.githubHref}
                     target="_blank"
+                    rel="noreferrer"
                   >
                     <img
                       alt="GitHub Logomark"

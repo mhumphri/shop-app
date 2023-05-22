@@ -60,8 +60,6 @@ function ResultsMap(props) {
   let altCurrentPillMarker;
   //ref for map container - used to access position / dimensions of map containers
   const mapContainer = useRef(null);
-  // boolean which indicates if the google map has been loaded
-  const [mapLoaded, setMapLoaded] = useState();
   // holds data and google map object for largeMarker
   const [largeMarker, setLargeMarker] = useState();
   // keeps log of currently active pill marker - used for styling
@@ -75,7 +73,7 @@ function ResultsMap(props) {
   // keeps log of most recent hotel which has been hovered over in the results list - used to disable styling when props.hoverHotel state changes
   const [hoverHotelLocal, setHoverHotelLocal] = useState();
 
-  // COULD BE RATIONALISED? ?? highlights map marker when it is active (hover) in searchListLg.js and vice versa
+  // highlights map marker when it is active (hover) in searchListLg.js and vice versa
   useEffect(() => {
     if (markersLoaded) {
       // resets styling (to white background and black text) of previously hovered over hotel
@@ -144,7 +142,7 @@ function ResultsMap(props) {
   const deleteMarkers = (keysObject, refresh) => {
     // if refresh set to true, all markers are deleted (as the render for large marker is different)
     if (refresh) {
-      var i = markers.length;
+      let i = markers.length;
       while (i--) {
         if (markers[i].markerData.key) markers[i].marker.map = null;
         markers.splice(i, 1);
@@ -152,7 +150,7 @@ function ResultsMap(props) {
     }
     // if refresh is false, only markers for hotels which are not in both the previous array and new array are deleted
     else {
-      var i = markers.length;
+      let i = markers.length;
       while (i--) {
         if (!keysObject[markers[i].markerData.key]) {
           markers[i].marker.map = null;
@@ -647,7 +645,6 @@ function ResultsMap(props) {
     });
     // sets mapLoaded state to true when first idle event occurs (which then enables adding of markers inside the react component)
     window.google.maps.event.addListenerOnce(map, "idle", function () {
-      setMapLoaded(true);
     });
     // updates stored map parameters (bounds, center, zoom etc) when map bounds change
     window.google.maps.event.addListener(map, "idle", function () {

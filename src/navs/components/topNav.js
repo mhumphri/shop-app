@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
-import { useParams } from "react-router-dom";
 import "../css/topNav.css";
 
 // renders header and nav for site -  layout can be set using itemName url parameter and is reposnive to screen size (CSS)
@@ -32,7 +31,7 @@ function TopNav(props) {
         </div>
         {/* display github image and link if no item-name url parameter is set */}
         {props.itemName ? null : (
-          <a className="topnav-lb9" href="https://github.com/mhumphri/micsportfolio" target="_blank" >
+          <a className="topnav-lb9" href="https://github.com/mhumphri/micsportfolio" target="_blank" rel="noreferrer" >
             <img
               alt="GitHub Logomark"
               class="topnav-ek4"
