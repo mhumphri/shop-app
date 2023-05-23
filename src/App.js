@@ -5,7 +5,7 @@ import { updateScreenDimensions, updateTouchScreen } from "./redux/deviceData/de
 import TopNav from "./navs/components/topNav";
 import PortfolioList from "./homepage/components/portfolioList";
 import RangeSlider from "./rangeSlider/components/rangeSlider";
-import SearchMap from "./searchMap/components/searchMap";
+import SearchMap from "./hotelApp/components/hotelApp";
 import Modal from "./modal/components/modal";
 
 function App() {

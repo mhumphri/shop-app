@@ -3,13 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
 import SearchModal from "./searchModal";
 import countryPolygons from "../data/countryPolygons.json";
-import "../css/searchMapNav.css";
+import "../css/hotelAppNav.css";
 
 // header, nav and controls for hotel app - both large and small view
-function SearchMapNav(props) {
+function HotelAppNav(props) {
   // redux hook for dispatching data
   const dispatch = useDispatch();
-
   // screen width (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
   // boolean which indicates if text input / dropdown(large view) / search modal(small view) are open
@@ -88,8 +87,6 @@ function SearchMapNav(props) {
     if (props.searchLocation === "map area") {
       setCountryInput("");
     }
-    // sets time of opening search modal - used to prevent search updates being caused by related map bound changes
-    props.setLastSearchModalEvent(Date.now())
     setActiveSearch("country");
   };
 
@@ -390,7 +387,7 @@ function SearchMapNav(props) {
               <button
                 class="search-map-nav-q1e"
                 type="button"
-                onClick={() => props.setSearchRefresh(!props.searchRefresh)}
+                onClick={() => props.handleNavSearchClick()}
               >
                 <svg
                   viewBox="0 0 32 32"
@@ -520,4 +517,4 @@ function SearchMapNav(props) {
   }
 }
 
-export default SearchMapNav;
+export default HotelAppNav;
