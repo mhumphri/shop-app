@@ -509,12 +509,12 @@ function HotelAppNav(props) {
             countryInput={countryInput}
             setCountryInput={setCountryInput}
             textInputRef={textInputRef}
-            setLastSearchModalEvent={props.setLastSearchModalEvent}
           />
         ) : null}
       </>
     );
   }
 }
+
 
 export default HotelAppNav;
