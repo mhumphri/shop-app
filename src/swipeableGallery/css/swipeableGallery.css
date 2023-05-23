@@ -72,23 +72,23 @@
 
 /* chevron button styling */
 .swipeable-gallery-1d3 {
-  width: 32px !important;
-  height: 32px !important;
-  border-radius: 50% !important;
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
-  box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgba(0, 0, 0, 0.18) 0px 2px 4px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  color: rgb(34, 34, 34) !important;
-  background-color: rgba(255, 255, 255, 0.9) !important;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgba(0, 0, 0, 0.18) 0px 2px 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(34, 34, 34);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 /* chevron button styling - hover */
 .swipeable-gallery-1d3:hover {
-  background-color: rgb(255, 255, 255) !important;
-  box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgba(0, 0, 0, 0.12) 0px 6px 16px !important;
-  transform: scale(1.04) !important;
+  background-color: rgb(255, 255, 255);
+  box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgba(0, 0, 0, 0.12) 0px 6px 16px;
+  transform: scale(1.04);
 }
 
 /* chevron SVG styling */
@@ -162,34 +162,34 @@
 }
 
 .swipeable-gallery-1k9 {
-  background: rgb(255, 255, 255) none repeat scroll 0% 0% !important;
-  border-radius: 50% !important;
-  height: 6px !important;
-  margin-left: 2.5px !important;
-  margin-right: 2.5px !important;
-  min-width: 6px !important;
-  opacity: 0.6 !important;
-  transition: opacity 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s !important;
-  width: 6px !important;
+  background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+  border-radius: 50%;
+  height: 6px;
+  margin-left: 2.5px;
+  margin-right: 2.5px;
+  min-width: 6px;
+  opacity: 0.6;
+  transition: opacity 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s;
+  width: 6px;
 }
 
 .swipeable-gallery-4o7 {
-  background: rgb(255, 255, 255) none repeat scroll 0% 0% !important;
-  border-radius: 50% !important;
-  height: 6px !important;
-  margin-left: 2.5px !important;
-  margin-right: 2.5px !important;
-  min-width: 6px !important;
-  transition: opacity 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s !important;
-  width: 6px !important;
-  opacity: 1 !important;
+  background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+  border-radius: 50%;
+  height: 6px;
+  margin-left: 2.5px;
+  margin-right: 2.5px;
+  min-width: 6px;
+  transition: opacity 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s;
+  width: 6px;
+  opacity: 1;
 }
 
 .swipeable-gallery-1b2 {
-  align-items: flex-end !important;
-  display: flex !important;
-  justify-content: center !important;
-  transition: -ms-transform 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s, transform 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s, transform 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s !important;
+  align-items: flex-end;
+  display: flex;
+  justify-content: center;
+  transition: -ms-transform 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s, transform 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s, transform 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s;
 }
 
 /* overlay container */
@@ -226,7 +226,6 @@
 }
 
 /* chevron styling */
-
 .swipeable-gallery-s13 {
   pointer-events: auto;
 }

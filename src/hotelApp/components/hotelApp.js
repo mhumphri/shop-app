@@ -40,7 +40,7 @@ function HotelApp(props) {
   // max number of search pages returned by search (capped at 15)
   const [maxPages, setMaxPages] = useState();
   // boolean set to true when new search data is loading
-  const [dataLoading, setDataLoading] = useState();
+  const [dataLoading, setDataLoading] = useState(true);
   // boolean set to true when data for a new search page is loading (distinct from dataLoading as number of search results / max pages doesn't update)
   const [pageLoading, setPageLoading] = useState();
   // stores currently active page (which is shown / controlled by paginationNav)
@@ -434,7 +434,7 @@ function HotelApp(props) {
                 </span>
               </button>
             ) : null}
-            {!expandMapView && mapButtonActive ? (
+            {!expandMapView && mapButtonActive && !dataLoading && !pageLoading ? (
               <button
                 type="button"
                 class="search-map-174"

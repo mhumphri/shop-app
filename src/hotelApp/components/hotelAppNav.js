@@ -56,7 +56,6 @@ function HotelAppNav(props) {
         searchbarRef.current &&
         !searchbarRef.current.contains(event.target)
       ) {
-        event.preventDefault()
         props.setActiveSearch(false);
         setHighlightedDdOption(false);
         textInputRef.current.blur();
