@@ -143,6 +143,7 @@ function SearchModal(props) {
                     <input
                       class="search-modal-1l1"
                       placeholder="Search countries"
+                      autoComplete="off"
                       value={props.countryInput}
                       onChange={props.onChangeHandler}
                       ref={textInputRef}

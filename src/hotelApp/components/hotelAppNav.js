@@ -349,7 +349,7 @@ function HotelAppNav(props) {
                     placeholder="Search countries"
                     type="text"
                     name="name"
-                    autocomplete="off"
+                    autoComplete="off"
                     onChange={onChangeHandler}
                     value={countryInput}
                     ref={textInputRef}
