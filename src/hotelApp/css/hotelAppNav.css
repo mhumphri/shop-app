@@ -2,6 +2,16 @@
 	box-sizing: border-box;
 }
 
+/* transparent backdrop which closes dropdown when clicked (and also prevents elements underneath being clicked when dropdown is active)  */
+.search-map-nav-mm2 {
+	position: fixed;
+	width: 100vw;
+	height: calc(100vh - var(--navigation-bar-offset));
+	left: 0;
+	top: var(--navigation-bar-offset);
+	background-color: transparent;
+}
+
 /* fix for scroll bounce on firefox iOS -  white block added at top of page to prevent overscroll showing overflow content underneath  */
 .search-map-nav-cc7 {
 	position: fixed;

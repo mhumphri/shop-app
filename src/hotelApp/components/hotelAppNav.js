@@ -11,15 +11,13 @@ function HotelAppNav(props) {
   const dispatch = useDispatch();
   // screen width (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
-  // boolean which indicates if text input / dropdown(large view) / search modal(small view) are open
-  const [activeSearch, setActiveSearch] = React.useState();
   // stores array of all country names
   const [fullCountryArray, setFullCountryArray] = React.useState([]);
   // stores array of country names which currently appear as dropdown/search modal options (i.e. have not need filteredt out by text input search)
   const [activeCountryArray, setActiveCountryArray] = React.useState();
   // stores local text input (distinct from props.searchLocation which is the final inputted and validated value (taken from country array) used for the search)
   const [countryInput, setCountryInput] = React.useState("");
-  // logs keydown (for tab, enter, up arrow and down arrow) when activeSearch is true. Used to control dropdown menu
+  // logs keydown (for tab, enter, up arrow and down arrow) when props.activeSearch is true. Used to control dropdown menu
   const [activeKey, setActiveKey] = React.useState();
   // stores highlighted dropdown option (highlighted as a reult of keyboard controls being used). large view only
   const [highlightedDdOption, setHighlightedDdOption] = React.useState();
@@ -34,7 +32,7 @@ function HotelAppNav(props) {
   // prevents scrolling when search modal is open
   useEffect(() => {
     // if activeSearch is true and in small view (i.e. search modal is open) scrolling of search result list is disabled
-    if (activeSearch && !largeView) {
+    if (props.activeSearch && !largeView) {
       document.body.style.overflow = "hidden";
       document.body.style.position = "relative";
     }
@@ -44,7 +42,7 @@ function HotelAppNav(props) {
       document.body.style.position = "static";
     }
 
-  }, [activeSearch, largeView]);
+  }, [props.activeSearch, props.expandMapView, largeView]);
 
   // updates text input value when an input value is selected from the dropdown (large view) / seach modal (small view) list
   useEffect(() => {
@@ -58,7 +56,8 @@ function HotelAppNav(props) {
         searchbarRef.current &&
         !searchbarRef.current.contains(event.target)
       ) {
-        setActiveSearch(false);
+        event.preventDefault()
+        props.setActiveSearch(false);
         setHighlightedDdOption(false);
         textInputRef.current.blur();
 
@@ -78,7 +77,7 @@ function HotelAppNav(props) {
   const selectCountry = (newCountry) => {
     setCountryInput(newCountry);
     props.updateSearchLocation(newCountry);
-    setActiveSearch(false);
+    props.setActiveSearch(false);
     textInputRef.current.blur();
   };
 
@@ -87,7 +86,7 @@ function HotelAppNav(props) {
     if (props.searchLocation === "map area") {
       setCountryInput("");
     }
-    setActiveSearch("country");
+    props.setActiveSearch("country");
   };
 
   // updates text input value when user inputs text
@@ -141,10 +140,10 @@ function HotelAppNav(props) {
     if (countryInput !== props.searchLocation) {
       setCountryInput(props.searchLocation);
     }
-    setActiveSearch(false);
+    props.setActiveSearch(false);
   };
 
-  // keyDown event listener (controls dropdown menu for keyboard inputs) - added and removed when component loads/closes and when activeSearch updates
+  // keyDown event listener (controls dropdown menu for keyboard inputs) - added and removed when component loads/closes and when props.activeSearch updates
   useEffect(() => {
     // highlighted dropdown option (highlighted as a reult of keyboard controls being used) is reset every time the dropdown menu is opened or closed
     setHighlightedDdOption(false);
@@ -152,7 +151,7 @@ function HotelAppNav(props) {
     // handles key down event
     function handleKeyDown(e) {
       if (largeView) {
-      if (activeSearch) {
+      if (props.activeSearch) {
         // 9=tab, 13=return, 14=enter, 27=escape, 38=up, 40=down
         // if key is tab, return, enter, up arrow or down arrow - activeKey is updated which triggers code inside useEffect below (useEffect is used rather than directly including a fucntion as current state can't be accessed inside the event listener)
         if (
@@ -169,32 +168,32 @@ function HotelAppNav(props) {
           };
           setActiveKey(newKeyObject);
         }
-        // if key is  escape is pressed while dd is open, dd is closed (activeSearch is set to false) and text input is made inactive
+        // if key is  escape is pressed while dd is open, dd is closed (props.activeSearch is set to false) and text input is made inactive
         else if (e.keyCode === 27) {
           e.preventDefault();
-          setActiveSearch(false);
+          props.setActiveSearch(false);
           textInputRef.current.blur();
         }
       } else {
         // if key is tab (and dd is closed), dd is opened (activesearch is set to true) and text input is made active
         if (e.keyCode === 9) {
           e.preventDefault();
-          setActiveSearch(true);
+          props.setActiveSearch(true);
           textInputRef.current.focus();
         }
       }
     }
     }
 
-    // add key down event listener when activeSearch loads or component closes
+    // add key down event listener when props.activeSearch loads or component closes
     document.addEventListener("keydown", handleKeyDown);
 
     return function cleanup() {
-      // add key down event listener when activeSearch updates or component closes
+      // add key down event listener when props.activeSearch updates or component closes
       document.removeEventListener("keydown", handleKeyDown);
     };
 
-  }, [activeSearch]);
+  }, [props.activeSearch]);
 
   // useEffect which is trggered when activeKey updates (controls dropdown menu for keyboard inputs)
   useEffect(() => {
@@ -357,7 +356,7 @@ function HotelAppNav(props) {
               </label>
               <div
                 className={
-                  activeSearch && countryInput.length > 0
+                  props.activeSearch && countryInput.length > 0
                     ? "search-map-nav-gs1"
                     : "search-map-nav-gs2"
                 }
@@ -403,7 +402,9 @@ function HotelAppNav(props) {
                 </svg>
               </button>
             </div>
-            {activeSearch ? (
+            {props.activeSearch ? (
+              <>
+              <div className="search-map-nav-mm2" onClick={()=>props.setActiveSearch(false)} />
               <div class="search-map-nav-xhc">
                 <div className="search-map-nav-ue3" ref={dropdownRef}>
                   <div
@@ -445,6 +446,7 @@ function HotelAppNav(props) {
                   </div>
                 </div>
               </div>
+              </>
             ) : null}
           </nav>
         </div>
@@ -500,7 +502,7 @@ function HotelAppNav(props) {
             </div>
           </nav>
         </header>
-        {activeSearch ? (
+        {props.activeSearch ? (
           <SearchModal
             closeModal={closeSearchModal}
             activeCountryArray={activeCountryArray}

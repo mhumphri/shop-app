@@ -49,6 +49,8 @@ function HotelApp(props) {
   const [activeLink, setActiveLink] = useState();
   // stores hotel key if mouse currently hovering over in results list - used for highlighting pill marker on map
   const [hoverHotel, setHoverHotel] = useState();
+  // boolean which indicates if text input / dropdown(large view) / search modal(small view) are open
+  const [activeSearch, setActiveSearch] = useState();
 
   // updates searchLocation in response to user input and sets searchLocationUpdate boolean to true
   const updateSearchLocation = (newLocation) => {
@@ -392,6 +394,8 @@ function HotelApp(props) {
         updateSearchLocation={updateSearchLocation}
         expandMapView={expandMapView}
         handleNavSearchClick={handleNavSearchClick}
+        activeSearch={activeSearch}
+        setActiveSearch={setActiveSearch}
       />
 
       <main className="search-map-cy5">

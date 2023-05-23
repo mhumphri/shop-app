@@ -11,10 +11,8 @@ function LinkModal(props) {
 
   // disables scrolling when the modal opens (component loads)
   useEffect(() => {
-    /*
     document.body.style.overflow = "hidden";
     document.body.style.position = "relative";
-    */
   }, []);
 
 
@@ -28,10 +26,8 @@ function LinkModal(props) {
       setBackdropStyle("link-modal-jr6");
       setModalStyle("link-modal-pq2");
       // enables scrolling when modal is closed
-      /*
       document.body.style.overflow = "auto";
       document.body.style.position = "static";
-      */
       props.setActiveLink(false);
     }, "400");
   };
