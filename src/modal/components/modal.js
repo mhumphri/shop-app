@@ -20,8 +20,11 @@ function Modal() {
 
   // disables scrolling when the modal opens (component loads)
   useEffect(() => {
+    // will add this back in when I have resolved map bounds / search update issue
+    /*
     document.body.style.overflow = "hidden";
     document.body.style.position = "relative";
+    */
   }, []);
 
   const closeModal = () => {
@@ -34,8 +37,11 @@ function Modal() {
       setBackdropStyle("modal-jr6");
       setModalStyle("modal-pq2");
       // enables scrolling when modal is closed
+      // will add this back in when I have resolved map bounds / search update issue
+      /*
       document.body.style.overflow = "auto";
       document.body.style.position = "static";
+      */
       dispatch(updateMainModal(false));
     }, "400");
   };
