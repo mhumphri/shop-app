@@ -292,7 +292,7 @@ function HotelApp(props) {
     // initialises refresh boolean - if true prev search results are deleted even if they fall within current map bounds.
     let refresh = false;
     // refresh set to true when zooming out or if searchFresh has been toggled (i.e. search button on nav has been clicked) - all prev search reulsts are deleted
-    if (refreshHotels || mapParameters && newMapParameters.zoom < mapParameters.zoom) {
+    if (refreshHotels || (mapParameters && newMapParameters.zoom < mapParameters.zoom)) {
       refresh = true;
     }
 

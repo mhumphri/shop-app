@@ -15,7 +15,7 @@ function PortfoiloList() {
             name="hotel app"
             lightBackground={true}
             image={hotelAppImg}
-            href="/search-map"
+            href="/hotel-app"
             modal="searchMap"
           />
           <PortfolioItem

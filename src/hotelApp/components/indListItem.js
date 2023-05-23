@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import SwipeableGallery from "./swipeableGallery";
 import "../css/indListItem.css";
 
@@ -21,7 +21,7 @@ function IndListItem(props) {
     } else {
       setIndItemLoading(true);
     }
-  }, [props.listItemLoading]);
+  }, [props.listItemLoading, props.itemId]);
 
   // activates chevron styling and active item in reponse to mouse entering
   const handleMouseEnter = () => {

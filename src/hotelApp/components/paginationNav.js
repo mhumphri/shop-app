@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import "../css/paginationNav.css";
 
 // search results page selection nav which appears at bottom of resultsList.js - different layouf for large / small view
 
 function PaginationNav(props) {
-  // redux hook for dispatching data
-  const dispatch = useDispatch();
   // boolean for current view (i.e. large or small) (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
   // stores current state of render for page number options (large view only)
@@ -31,85 +29,88 @@ function PaginationNav(props) {
     }
   }, [props.activePage, props.maxPages]);
 
-  // render for the central part of page selector input (section between the chevrones showing groups page number buttons which are separated by elipsis when they break to a new number level) at the bottom of the search page
-  const updatePaginationRender = () => {
-    // initialises array containing numbers and elipsis' (represented as false)
-    let renderArray = [];
 
-    // depending on the max number of pages and currently active page, a selection of different renders are used for displaying page numbers (and elipsis) in the pagination nav. the number selection and elsipsis inclusion are put in the renderArray here
-    if (props.maxPages <= 7) {
-      for (let i = 0; i < props.maxPages; i++) {
-        renderArray.push(i + 1);
-      }
-    } else {
-      if (props.activePage < 4) {
-        renderArray = [1, 2, 3, 4, false, props.maxPages];
-      } else if (props.activePage > 3 && props.activePage < props.maxPages - 2) {
-        renderArray = [
-          1,
-          false,
-          props.activePage - 1,
-          props.activePage,
-          props.activePage + 1,
-          false,
-          props.maxPages,
-        ];
-      } else if (props.activePage > props.maxPages - 3) {
-        renderArray = [
-          1,
-          false,
-          props.maxPages - 3,
-          props.maxPages - 2,
-          props.maxPages - 1,
-          props.maxPages,
-        ];
-      }
-    }
-
-    // initialises array for storing render of page number options and elsipsis
-    let newPaginationRender = [];
-
-    // loops through renderArray and inserts button for page number (with active page highlighted) and elipsis (shown as false in renderArray) where specified
-    for (let i = 0; i < renderArray.length; i++) {
-      if (renderArray[i] && renderArray[i] === props.activePage) {
-        // render for currently active page number button
-        newPaginationRender.push(
-          <button
-            aria-current="page"
-            disabled=""
-            aria-disabled="true"
-            role="link"
-            type="button"
-            class="_u60i7ub"
-            onClick={() => props.goToPage(renderArray[i])}
-          >
-            {renderArray[i]}
-          </button>
-        );
-      }
-      // render for not currently active page number button
-      else if (renderArray[i] && renderArray[i] !== props.activePage) {
-        newPaginationRender.push(
-          <button
-            class="_833p2h"
-            onClick={() => props.goToPage(renderArray[i])}
-          >
-            {renderArray[i]}
-          </button>
-        );
-      }
-      // render for elipsis (which separates groups of page number buttons)
-      else {
-        newPaginationRender.push(<span class="_3bjjf5">…</span>);
-      }
-    }
-    setPaginationRender(newPaginationRender);
-  };
 
   // triggers update of the render for the page selector input when props.activePage, props.numberHotels or props.maxPages updates
   useEffect(() => {
+
+    // render for the central part of page selector input (section between the chevrones showing groups page number buttons which are separated by elipsis when they break to a new number level) at the bottom of the search page
+    const updatePaginationRender = () => {
+      // initialises array containing numbers and elipsis' (represented as false)
+      let renderArray = [];
+
+      // depending on the max number of pages and currently active page, a selection of different renders are used for displaying page numbers (and elipsis) in the pagination nav. the number selection and elsipsis inclusion are put in the renderArray here
+      if (props.maxPages <= 7) {
+        for (let i = 0; i < props.maxPages; i++) {
+          renderArray.push(i + 1);
+        }
+      } else {
+        if (props.activePage < 4) {
+          renderArray = [1, 2, 3, 4, false, props.maxPages];
+        } else if (props.activePage > 3 && props.activePage < props.maxPages - 2) {
+          renderArray = [
+            1,
+            false,
+            props.activePage - 1,
+            props.activePage,
+            props.activePage + 1,
+            false,
+            props.maxPages,
+          ];
+        } else if (props.activePage > props.maxPages - 3) {
+          renderArray = [
+            1,
+            false,
+            props.maxPages - 3,
+            props.maxPages - 2,
+            props.maxPages - 1,
+            props.maxPages,
+          ];
+        }
+      }
+
+      // initialises array for storing render of page number options and elsipsis
+      let newPaginationRender = [];
+
+      // loops through renderArray and inserts button for page number (with active page highlighted) and elipsis (shown as false in renderArray) where specified
+      for (let i = 0; i < renderArray.length; i++) {
+        if (renderArray[i] && renderArray[i] === props.activePage) {
+          // render for currently active page number button
+          newPaginationRender.push(
+            <button
+              aria-current="page"
+              disabled=""
+              aria-disabled="true"
+              role="link"
+              type="button"
+              class="_u60i7ub"
+              onClick={() => props.goToPage(renderArray[i])}
+            >
+              {renderArray[i]}
+            </button>
+          );
+        }
+        // render for not currently active page number button
+        else if (renderArray[i] && renderArray[i] !== props.activePage) {
+          newPaginationRender.push(
+            <button
+              class="_833p2h"
+              onClick={() => props.goToPage(renderArray[i])}
+            >
+              {renderArray[i]}
+            </button>
+          );
+        }
+        // render for elipsis (which separates groups of page number buttons)
+        else {
+          newPaginationRender.push(<span class="_3bjjf5">…</span>);
+        }
+      }
+      setPaginationRender(newPaginationRender);
+    };
+
     updatePaginationRender();
-  }, [props.activePage, props.numberHotels, props.maxPages]);
+  }, [props.activePage, props.numberHotels, props.maxPages, props]);
 
   if (largeView) {
     return (

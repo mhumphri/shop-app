@@ -101,25 +101,28 @@ function HotelAppNav(props) {
     textInputRef.current.focus();
   };
 
-  // filters out countries (from fullCountryArray) which don't match user inputted text string and returns array of remaining countries
-  const calcActiveCountryArray = () => {
-    let activeCountries = [];
-    for (let i = 0; i < fullCountryArray.length; i++) {
-      const inputLowerCase = countryInput.toLowerCase();
-      const countryNameFragment = fullCountryArray[i]
-        .substring(0, inputLowerCase.length)
-        .toLowerCase();
-      if (inputLowerCase === countryNameFragment) {
-        activeCountries.push(fullCountryArray[i]);
-      }
-    }
-    return activeCountries;
-  };
+
 
   // triggers setActiveCountryArray() when country input is updated
   useEffect(() => {
+
+    // filters out countries (from fullCountryArray) which don't match user inputted text string and returns array of remaining countries
+    const calcActiveCountryArray = () => {
+      let activeCountries = [];
+      for (let i = 0; i < fullCountryArray.length; i++) {
+        const inputLowerCase = countryInput.toLowerCase();
+        const countryNameFragment = fullCountryArray[i]
+          .substring(0, inputLowerCase.length)
+          .toLowerCase();
+        if (inputLowerCase === countryNameFragment) {
+          activeCountries.push(fullCountryArray[i]);
+        }
+      }
+      return activeCountries;
+    };
+
     setActiveCountryArray(calcActiveCountryArray());
-  }, [countryInput]);
+  }, [countryInput, fullCountryArray]);
 
   // populates fullCountryArray (full list) and activeCountryArray (currently active list of dropdown/search modal options) when page loads. Takes list of country names from larger geoJSON dataset
   useEffect(() => {
@@ -192,7 +195,7 @@ function HotelAppNav(props) {
       document.removeEventListener("keydown", handleKeyDown);
     };
 
-  }, [props.activeSearch]);
+  }, [props.activeSearch, largeView, props]);
 
   // useEffect which is trggered when activeKey updates (controls dropdown menu for keyboard inputs)
   useEffect(() => {
@@ -307,7 +310,7 @@ function HotelAppNav(props) {
         }
       }
     }
-  }, [activeKey]);
+  }, [activeKey, activeCountryArray]);
 
 
   // when activeCountryArray (active list of dropdown/seachmodal options) updates, refs for options list are updated, highlighted option and activeKey are reset and scroll back to top of options list

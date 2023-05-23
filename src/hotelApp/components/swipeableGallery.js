@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { updateMainModal } from "../../redux/modals/modalsSlice";
 
 import "../css/swipeableGallery.css";
 
@@ -135,43 +134,46 @@ function SwipeableGallery(props) {
     return newRender;
   };
 
-  // sets styles for rhs and lhs chevrons - different depending on whether the trigger is hover or scroll. if scroll, the chevron button remains visible to prevent link from being clicked. If hover, triggers the chevron button is hidden so cant be clicked
-  const updateChevrons = () => {
-    // total number of photos in array
-    const maxPhoto = props.photos.length - 1;
-    if (pointerHover) {
-      if (currentPhoto > 0) {
-        setLhsChevronStyle("swipeable-gallery-s13");
-      } else {
-        if (chevronsActive) {
-          setLhsChevronStyle("swipeable-gallery-s13  swipeable-gallery-sqd");
-        } else {
-          setLhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-s1t");
-        }
-      }
 
-      if (currentPhoto < maxPhoto) {
-        setRhsChevronStyle("swipeable-gallery-s13");
-      } else {
-        if (chevronsActive) {
-          setRhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-sqd");
-        } else {
-          setRhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-s1t");
-        }
-      }
-    } else {
-      setLhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-s1t");
-      setRhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-s1t");
-    }
-  };
 
   // updates chevron styling in response to changes in currentPhoto and props.activeResult
 
   useEffect(() => {
+
+    // sets styles for rhs and lhs chevrons - different depending on whether the trigger is hover or scroll. if scroll, the chevron button remains visible to prevent link from being clicked. If hover, triggers the chevron button is hidden so cant be clicked
+    const updateChevrons = () => {
+      // total number of photos in array
+      const maxPhoto = props.photos.length - 1;
+      if (pointerHover) {
+        if (currentPhoto > 0) {
+          setLhsChevronStyle("swipeable-gallery-s13");
+        } else {
+          if (chevronsActive) {
+            setLhsChevronStyle("swipeable-gallery-s13  swipeable-gallery-sqd");
+          } else {
+            setLhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-s1t");
+          }
+        }
+
+        if (currentPhoto < maxPhoto) {
+          setRhsChevronStyle("swipeable-gallery-s13");
+        } else {
+          if (chevronsActive) {
+            setRhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-sqd");
+          } else {
+            setRhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-s1t");
+          }
+        }
+      } else {
+        setLhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-s1t");
+        setRhsChevronStyle("swipeable-gallery-s13 swipeable-gallery-s1t");
+      }
+    };
+
     if (!touchScreen) {
       updateChevrons();
     }
-  }, [currentPhoto, pointerHover, chevronsActive]);
+  }, [currentPhoto, pointerHover, chevronsActive, touchScreen, props.photos.length]);
 
   // activates chevron styling and active item in reponse to mouse entering
   const handleMouseEnter = () => {
@@ -183,6 +185,7 @@ function SwipeableGallery(props) {
     setPointerHover(false);
   };
 
+/*
   document.body.addEventListener(
     "touchstart",
     function (event) {
@@ -190,6 +193,7 @@ function SwipeableGallery(props) {
     },
     false
   );
+  */
 
   if (touchScreen) {
     return (
