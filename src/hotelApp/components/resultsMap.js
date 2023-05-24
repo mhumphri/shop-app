@@ -122,7 +122,7 @@ function ResultsMap(props) {
         }
       }
     }
-  }, [props.hoverHotel]);
+  }, [props.hoverHotel, hoverHotelLocal, markersLoaded]);
 
   // parameters for initial map center and zoom
   let mapCenter = {
