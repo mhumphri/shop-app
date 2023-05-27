@@ -8,16 +8,24 @@ import area from "@turf/area";
 import circle from "@turf/circle";
 import intersect from "@turf/intersect";
 
-const getRandomCoords = (activePolygons, paddedBbox, locationSearch) => {
-  // step 1 - select random (with weightings to account for land mass) element from active land polygon array
-console.log("getRandomCoords1")
+const getRandomCoords = (
+  mapBounds,
+  mapDimensions,
+  mapMarginPx,
+  activePolygons
+) => {
+  const neCoords = mapBounds.getNorthEast(); // Coords of the northeast corner
+  const swCoords = mapBounds.getSouthWest(); // Coords of the southwest corner
+
+  // step 1 - select random (with weightings to account for land mass) element from active land polygon array  
+
   // step 1a - calculate total land mass
   let totalArea = 0;
   for (let i = 0; i < activePolygons.length; i++) {
     totalArea += area(activePolygons[i]);
   }
-console.log("getRandomCoords2")
-  // step 1b - randomly select a number bewteen zero and total area and take the polygon at that point in the distribution
+
+// step 1b - randomly select a number bewteen zero and total area and take the polygon at that point in the distribution
   const randomArea = randomNumberInRange(0, totalArea);
 
   let currentElement = 0;
@@ -31,8 +39,6 @@ console.log("getRandomCoords2")
     }
   }
 
-  console.log("getRandomCoords3")
-
   const randomLandPoly = activePolygons[currentElement];
 
   // step 2 - calculate border box around selected polygon
@@ -40,37 +46,52 @@ console.log("getRandomCoords2")
   const randomLandBbox = bbox(randomLandPoly);
 
   const marginCheck = (testPoint) => {
-    let checkResult;
+    let checkResult = true;
 
-    console.log(
-      "test point: " + JSON.stringify(testPoint.geometry.coordinates[0])
-    );
-    if (locationSearch) {
-      checkResult = true;
-    } else {
-      const testPointLng = testPoint.geometry.coordinates[0];
-      const testPointLat = testPoint.geometry.coordinates[1];
+    const marginPx = mapMarginPx;
+    const viewHeight = mapDimensions.height;
+    const latRange = neCoords.lat() - swCoords.lat();
+    const latLimit = (marginPx / viewHeight) * latRange;
+    const latDistNorth = neCoords.lat() - testPoint.geometry.coordinates[1];
+    const latDistSouth = testPoint.geometry.coordinates[1] - swCoords.lat();
+    if (latDistNorth < latLimit || latDistSouth < latLimit) {
+      checkResult = false;
+    }
 
-      // range of lng and lat for new map boundary box
-      const boundSouth = paddedBbox[1];
-      const boundNorth = paddedBbox[3];
-      const boundWest = paddedBbox[0];
-      const boundEast = paddedBbox[2];
+    const viewWidth = mapDimensions.width;
 
-      if (
-        testPointLat > boundSouth &&
-        testPointLat < boundNorth &&
-        testPointLng > boundWest &&
-        testPointLng < boundEast
-      ) {
-        checkResult = true;
+    let lngRange = neCoords.lng() - swCoords.lng();
+
+    if (neCoords.lng() < 0 && swCoords.lng() > 0) {
+      lngRange = Math.abs(-180 - neCoords.lng()) + (180 - swCoords.lng());
+    }
+    if (
+      (neCoords.lng() > 0 && swCoords.lng() > 0) ||
+      (neCoords.lng() < 0 && swCoords.lng() < 0)
+    ) {
+      if (neCoords.lng() < swCoords.lng()) {
+        lngRange = 360 - (swCoords.lng() - neCoords.lng());
       }
+    }
+
+    const lngLimit = (marginPx / viewWidth) * lngRange;
+
+    const lngDistEast = Math.abs(
+      neCoords.lng() - testPoint.geometry.coordinates[0]
+    );
+
+    const lngDistWest = Math.abs(
+      testPoint.geometry.coordinates[0] - swCoords.lng()
+    );
+
+    if (lngDistWest < lngLimit || lngDistEast < lngLimit) {
+      checkResult = false;
     }
 
     return checkResult;
   };
 
-  // step 3 - brute force coordinate verification with loop generating new coordinate within boundary box and chancks to make sure it is inside land polygon. If it is not, a new coordinate is generated
+// step 3 - brute force coordinate verification with loop generating new coordinate within boundary box and chancks to make sure it is inside land polygon. If it is not, a new coordinate is generated
 
   let verifiedPoint;
 
@@ -105,7 +126,7 @@ console.log("getRandomCoords2")
       countryPoly = polygon(countryPolygons.features[i].geometry.coordinates);
     }
 
-    // returns true if point falls within country polygon
+// returns true if point falls within country polygon
     if (booleanPointInPolygon(verifiedPoint, countryPoly)) {
       countryName = countryPolygons.features[i].properties.NAME;
       break;
@@ -129,7 +150,7 @@ console.log("getRandomCoords2")
       } else {
         countryPoly = polygon(countryPolygons.features[i].geometry.coordinates);
       }
-      // returns true if country polygon and circle around point intersect
+// returns true if country polygon and circle around point intersect
       if (intersect(countryPoly, circleAroundPoint)) {
         countryName = countryPolygons.features[i].properties.NAME;
         break;

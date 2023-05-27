@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
 import SearchModal from "./searchModal";
-import countryPolygons from "../data/countryPolygons.json";
+import allLocationArray from "../data/allLocationArray.js";
+import popularLocationArray from "../data/popularLocationArray.js";
 import "../css/hotelAppNav.css";
 
 // header, nav and controls for hotel app - both large and small view
@@ -11,23 +12,20 @@ function HotelAppNav(props) {
   const dispatch = useDispatch();
   // screen width (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
-  // stores array of all country names
-  const [fullCountryArray, setFullCountryArray] = React.useState([]);
   // stores array of country names which currently appear as dropdown/search modal options (i.e. have not need filteredt out by text input search)
-  const [activeCountryArray, setActiveCountryArray] = React.useState();
+  const [searchResultArray, setSearchResultArray] = useState(popularLocationArray);
+  // boolean indicating if deafult polular location search options are displayed - if true, turns on popular location label (at top of search option list)
+  const [popularLocationActive, setPopularLocationActive] = useState(true);
   // stores local text input (distinct from props.searchLocation which is the final inputted and validated value (taken from country array) used for the search)
-  const [countryInput, setCountryInput] = React.useState("");
-  // logs keydown (for tab, enter, up arrow and down arrow) when props.activeSearch is true. Used to control dropdown menu
-  const [activeKey, setActiveKey] = React.useState();
+  const [locationInputText, setLocationInputText] = useState("");
   // stores highlighted dropdown option (highlighted as a reult of keyboard controls being used). large view only
-  const [highlightedDdOption, setHighlightedDdOption] = React.useState();
-
+  const [highlightedDdOption, setHighlightedDdOption] = useState();
+  // ref for searchbar and dropdown element - used to detect clicks outside when dropdown is open
   const searchbarRef = useRef(null);
+  // ref for text input - used to focus, blur etc
   const textInputRef = useRef(null);
-  const dropdownRef = useRef(null);
-  // array of refs for active dropdown / search modal option list
-  const activeCountryArrayRef = useRef([]);
-
+  // array of refs for active dropdown / search modal option list - used for navigating dropdown search options with keyboard
+  const searchResultArrayRef = useRef([]);
 
   // prevents scrolling when search modal is open
   useEffect(() => {
@@ -41,13 +39,51 @@ function HotelAppNav(props) {
       document.body.style.overflow = "auto";
       document.body.style.position = "static";
     }
-
   }, [props.activeSearch, props.expandMapView, largeView]);
 
   // updates text input value when an input value is selected from the dropdown (large view) / seach modal (small view) list
   useEffect(() => {
-    setCountryInput(props.searchLocation);
+    setLocationInputText(props.searchLocation);
+
   }, [props.searchLocation]);
+
+  // resets search options for dropdown or search modal when they close
+  const resetSearchOptionList = () => {
+    // if current text input does not equal stored search location, location input is reset to stored search location
+    if (locationInputText !== props.searchLocation) {
+      setLocationInputText(props.searchLocation);
+      // if stored search location is set to either "map area" or there is no value for stored search location, search options are reset to popular locations default
+      if (props.searchLocation === "map area" || !props.searchLocation) {
+        setSearchResultArray(popularLocationArray);
+        setPopularLocationActive(true);
+      }
+      // else search options are set to the current stored search location
+      else {
+        // retrieves full data object for current stored search location and stores value in searchResultArray (i.e. it becomes the search result visible in dropdown)
+        for (let i = 0; i < allLocationArray.length; i++) {
+          if (props.searchLocation === allLocationArray[i].name) {
+            setSearchResultArray([allLocationArray[i]]);
+            setPopularLocationActive(false);
+            break;
+          }
+        }
+      }
+    }
+  };
+
+  // closes dropdown menu and resets highlighted dropdown option, turns off text input and resets search option list
+  const closeDropdown = () => {
+    props.setActiveSearch(false);
+    setHighlightedDdOption(false);
+    textInputRef.current.blur();
+    resetSearchOptionList();
+  };
+
+  // closes search modal (small view) and resets search option list
+  const closeSearchModal = () => {
+    props.setActiveSearch(false);
+    resetSearchOptionList();
+  };
 
   // click event listener which closes dropdown menu if user clicks outside searchnav / dropdown list (large view only)
   useEffect(() => {
@@ -56,13 +92,7 @@ function HotelAppNav(props) {
         searchbarRef.current &&
         !searchbarRef.current.contains(event.target)
       ) {
-        props.setActiveSearch(false);
-        setHighlightedDdOption(false);
-        textInputRef.current.blur();
-
-        if (countryInput !== props.searchLocation) {
-          setCountryInput(props.searchLocation);
-        }
+        closeDropdown();
       }
     };
 
@@ -72,265 +102,151 @@ function HotelAppNav(props) {
     };
   });
 
-  // updates searchLocation (stored country variable), countryInput (text input variable), closes dropdown (large view) / seachModal (small view) and deactivates text input when user selects a country from option list
-  const selectCountry = (newCountry) => {
-    setCountryInput(newCountry);
-    props.updateSearchLocation(newCountry);
+  // updates stored search location (& triggers new search) when user selects an item from search list (in either dropdown or search)
+  const selectLocation = (newLocation) => {
+    // updates text input
+    setLocationInputText(newLocation.name);
+    // updates stored search location & triggers new search
+    props.updateSearchLocation(newLocation);
+    // updates search option list with single value
+    setSearchResultArray([newLocation]);
+    // turns off popular location label (at top of search option list)
+    if (popularLocationActive) {
+      setPopularLocationActive(false);
+    }
+    // closes dropdown / search modal
     props.setActiveSearch(false);
+    // turns off text input
     textInputRef.current.blur();
   };
 
   // opens dropdown (large view) / searchModal (small view) and clears text input value if stored search value is set to "map area"
-  const countrySearch = () => {
+  const locationSearch = () => {
+    // if stored search location is "map area", text input value is set to  "" and search option list is reset to defaults
     if (props.searchLocation === "map area") {
-      setCountryInput("");
+      console.log("locationSearch2")
+      setLocationInputText("");
+        setSearchResultArray(popularLocationArray);
+        setPopularLocationActive(true);
     }
-    props.setActiveSearch("country");
+    // opens dropdown / search modal
+    props.setActiveSearch("location");
+  };
+
+  // handles keyDown event when text input is active - used to navigate dropdown menu options
+  const handleKeyPress = (event) => {
+    // if key is tab or down arrow highlight the next option (below) and remove highlight from prev highlighted option
+    if (event.keyCode === 9 || event.keyCode === 40) {
+      // if highlightedDdOption set to false, the first item in dropdown option list is highlighted (as zero is falsey, !== "number" is used instead)
+      if (typeof highlightedDdOption !== "number") {
+        setHighlightedDdOption(0);
+        searchResultArrayRef.current[0].classList.add("highlighted");
+      }
+      // if highlightedDdOption already set to a number (and the next option does not exceed the length of the array), the highlighted option is increment by one and previous option highlighting removed
+      else {
+        const nextOption = highlightedDdOption + 1;
+        if (nextOption < searchResultArray.length) {
+          searchResultArrayRef.current[highlightedDdOption].classList.remove(
+            "highlighted"
+          );
+          searchResultArrayRef.current[nextOption].classList.add(
+            "highlighted"
+          );
+          setHighlightedDdOption(nextOption);
+        }
+      }
+    }
+
+    // if key is up arrow highlight the next option (above) and remove highlight from prev highlighted option
+    else if (event.keyCode === 38) {
+      // if highlighted option array position is greater than 0 (i.e. at least second on the list), code for moving up the list is triggered
+      if (highlightedDdOption > 0) {
+        // new option highlighted, prev option unhighlighted and new option stored in state
+        const nextOption = highlightedDdOption - 1;
+        searchResultArrayRef.current[highlightedDdOption].classList.remove(
+          "highlighted"
+        );
+        searchResultArrayRef.current[nextOption].classList.add("highlighted");
+        setHighlightedDdOption(nextOption);
+      }
+    }
+    // if key is enter or return. currently highlighted option is selected and highlighted option, active key and text input are reset
+    else if (event.keyCode === 13 || event.keyCode === 14) {
+      if (typeof highlightedDdOption === "number") {
+        selectLocation(searchResultArray[highlightedDdOption]);
+        setHighlightedDdOption(false);
+        // turns off text input
+        textInputRef.current.blur();
+      }
+    }
   };
 
   // updates text input value when user inputs text
-  const onChangeHandler = (event) => {
+  const textInputHandler = (event) => {
+
     const newInputValue = event.target.value;
-    setCountryInput(newInputValue);
+    // if text input string length is zero, search options list is set to default popular options
+    if (newInputValue.length === 0) {
+      setLocationInputText(newInputValue);
+      setPopularLocationActive(true);
+      setSearchResultArray(popularLocationArray);
+    }
+    // text input string is matched against location names in allLocationArray and the top 4 are taken as the search option list
+    else {
+      // turn off popular location label
+      setPopularLocationActive(false);
+      // set location text input to new input string
+      setLocationInputText(newInputValue);
+      let count = 0;
+      let activeLocations = [];
+      // match input text string to first letters of location names in allLocationArray
+      for (let i = 0; i < allLocationArray.length; i++) {
+        // convert text input to lower case
+        const inputLowerCase = newInputValue.toLowerCase();
+        // get first x letters of location name in current array element and convert to lower case
+        const locationNameFragment = allLocationArray[i].name
+          .substring(0, inputLowerCase.length)
+          .toLowerCase();
+          // compare text string against location name fragment, if match push to active search option array
+        if (inputLowerCase === locationNameFragment) {
+          activeLocations.push(allLocationArray[i]);
+          count++;
+        }
+        // stop when active search option array reaches 4 in length
+        if (count > 3) {
+          break;
+        }
+      }
+      // set options as search reault list
+      setSearchResultArray(activeLocations);
+    }
   };
 
   // deletes text input value when user inputs clicks on cross button
   const crossButtonHandler = (e) => {
     e.stopPropagation();
-    setCountryInput("");
+    // sets search results to default popular locations
+    setSearchResultArray(popularLocationArray);
+    // turns on popular location label (at top of search option list)
+    setPopularLocationActive(true);
+    // clears location input text
+    setLocationInputText("");
     textInputRef.current.focus();
   };
 
-
-
-  // triggers setActiveCountryArray() when country input is updated
+  // when searchResultArray (active list of dropdown/seachmodal options) updates, refs for options list are updated, highlighted option and activeKey are reset and scroll back to top of options list
   useEffect(() => {
-
-    // filters out countries (from fullCountryArray) which don't match user inputted text string and returns array of remaining countries
-    const calcActiveCountryArray = () => {
-      let activeCountries = [];
-      for (let i = 0; i < fullCountryArray.length; i++) {
-        const inputLowerCase = countryInput.toLowerCase();
-        const countryNameFragment = fullCountryArray[i]
-          .substring(0, inputLowerCase.length)
-          .toLowerCase();
-        if (inputLowerCase === countryNameFragment) {
-          activeCountries.push(fullCountryArray[i]);
-        }
-      }
-      return activeCountries;
-    };
-
-    setActiveCountryArray(calcActiveCountryArray());
-  }, [countryInput, fullCountryArray]);
-
-  // populates fullCountryArray (full list) and activeCountryArray (currently active list of dropdown/search modal options) when page loads. Takes list of country names from larger geoJSON dataset
-  useEffect(() => {
-    const featuresArray = countryPolygons.features;
-    let countryArray = [];
-    for (let i = 0; i < featuresArray.length; i++) {
-      countryArray.push(featuresArray[i].properties.NAME);
-    }
-    // sorts list alphabetically
-    countryArray.sort();
-    setFullCountryArray(countryArray);
-    setActiveCountryArray(countryArray);
-  }, []);
-
-  // closes search modal (small view) / dropdown menu (large view) and resets text input value if it doesn't match stored seearch value
-  const closeSearchModal = () => {
-    if (countryInput !== props.searchLocation) {
-      setCountryInput(props.searchLocation);
-    }
-    props.setActiveSearch(false);
-  };
-
-  // keyDown event listener (controls dropdown menu for keyboard inputs) - added and removed when component loads/closes and when props.activeSearch updates
-  useEffect(() => {
-    // highlighted dropdown option (highlighted as a reult of keyboard controls being used) is reset every time the dropdown menu is opened or closed
-    setHighlightedDdOption(false);
-
-    // handles key down event
-    function handleKeyDown(e) {
-      if (largeView) {
-      if (props.activeSearch) {
-        // 9=tab, 13=return, 14=enter, 27=escape, 38=up, 40=down
-        // if key is tab, return, enter, up arrow or down arrow - activeKey is updated which triggers code inside useEffect below (useEffect is used rather than directly including a fucntion as current state can't be accessed inside the event listener)
-        if (
-          e.keyCode === 9 ||
-          e.keyCode === 13 ||
-          e.keyCode === 14 ||
-          e.keyCode === 38 ||
-          e.keyCode === 40
-        ) {
-          e.preventDefault();
-          const newKeyObject = {
-            keyCode: e.keyCode,
-            timeStamp: Date.now(),
-          };
-          setActiveKey(newKeyObject);
-        }
-        // if key is  escape is pressed while dd is open, dd is closed (props.activeSearch is set to false) and text input is made inactive
-        else if (e.keyCode === 27) {
-          e.preventDefault();
-          props.setActiveSearch(false);
-          textInputRef.current.blur();
-        }
-      } else {
-        // if key is tab (and dd is closed), dd is opened (activesearch is set to true) and text input is made active
-        if (e.keyCode === 9) {
-          e.preventDefault();
-          props.setActiveSearch(true);
-          textInputRef.current.focus();
-        }
-      }
-    }
-    }
-
-    // add key down event listener when props.activeSearch loads or component closes
-    document.addEventListener("keydown", handleKeyDown);
-
-    return function cleanup() {
-      // add key down event listener when props.activeSearch updates or component closes
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-
-  }, [props.activeSearch, largeView, props]);
-
-  // useEffect which is trggered when activeKey updates (controls dropdown menu for keyboard inputs)
-  useEffect(() => {
-    // if activeKey has a value and dropdown options are greater than 0, code is triggered
-    if (activeKey && activeCountryArray.length > 0) {
-      // checks if currently highlighted option is visible on the dropdown menu (i.e. user may have used mouse to scroll through options rather than keyboard, which would mean that the highlighted option would be out of view)
-      const checkScrollPosition = () => {
-        const ddHeight = dropdownRef.current.getBoundingClientRect().height;
-        const visibleOptions = ddHeight / 64;
-        const scrollMin = (highlightedDdOption - (visibleOptions - 1)) * 64;
-        const scrollMax = scrollMin + ddHeight;
-        const scrollPosition = dropdownRef.current.scrollTop;
-        if (scrollPosition > scrollMin && scrollPosition < scrollMax) {
-          return true;
-        } else {
-          return false;
-        }
-      };
-
-      // adjusts scroll position so that highlighted option is visible (if it is currently out of view - see checkScrollPosition() for test)
-      const fixScrollPosition = () => {
-        const ddHeight = dropdownRef.current.getBoundingClientRect().height;
-        const visibleOptions = ddHeight / 64;
-        const scrollMin = (highlightedDdOption + 1 - visibleOptions) * 64;
-        const scrollMax = scrollMin + ddHeight;
-        const scrollPosition = dropdownRef.current.scrollTop;
-        if (scrollPosition < scrollMin) {
-          dropdownRef.current.scrollTop = scrollMin + ddHeight / 2;
-        } else if (scrollPosition > scrollMax) {
-          dropdownRef.current.scrollTop = scrollMin + ddHeight / 2;
-        }
-      };
-
-      // calculates scroll value for midpoint of currently visible dropdown menu (used to update scroll when user navigates up and down through dropdown options using keyboard controls)
-      const getScrollMidpoint = () => {
-        const ddHeight = dropdownRef.current.getBoundingClientRect().height;
-        const scrollMin = dropdownRef.current.scrollTop;
-        const scrollMax = scrollMin + ddHeight;
-        const scrollMidPoint = (scrollMin + scrollMax) / 2;
-        return scrollMidPoint;
-      };
-
-      // if key is tab or down arrow highlight the next option (below) and remove highlight from prev highlighted option
-      if (activeKey.keyCode === 9 || activeKey.keyCode === 40) {
-        // if highlightedDdOption set to false, the first item in dropdown option list is highlighted
-        if (typeof highlightedDdOption !== "number") {
-          setHighlightedDdOption(0);
-          activeCountryArrayRef.current[0].classList.add("highlighted");
-        }
-        // if highlightedDdOption already set to a number (and the next option does not excedd the length of the array), the highlighted option is increment by one and previous option highlighting removed
-        else {
-          const nextOption = highlightedDdOption + 1;
-          if (nextOption < activeCountryArray.length) {
-            activeCountryArrayRef.current[highlightedDdOption].classList.remove(
-              "highlighted"
-            );
-            activeCountryArrayRef.current[nextOption].classList.add(
-              "highlighted"
-            );
-            setHighlightedDdOption(nextOption);
-            // updates scroll position, checking first to ensure that user hasn't scrolled away from previously highlighted option
-            if (checkScrollPosition()) {
-              // scrolls down by 64px if the position of the next highlighted option is more than halfway down the visible section of the  dropdown list
-              const scrollMidPoint = getScrollMidpoint();
-              const nextDdOptionPos = (highlightedDdOption + 1) * 64;
-              if (nextDdOptionPos > scrollMidPoint) {
-                dropdownRef.current.scrollTop =
-                  dropdownRef.current.scrollTop + 64;
-              }
-            }
-            // if prev highlighted option is not in the visible section of the dropdown list (as a result of the user scrolling with the mouse), scroll position is updated to bring it back into visible space
-            else {
-              fixScrollPosition();
-            }
-          }
-        }
-      }
-      // if key is up arrow highlight the next option (above) and remove highlight from prev highlighted option
-      else if (activeKey.keyCode === 38) {
-        // if highlighted option array position is greater than 0 (i.e. at least second on the list), code for moving up the list is triggered
-        if (highlightedDdOption > 0) {
-          // new option highlighted, prev option unhighlighted and new option stored in state
-          const nextOption = highlightedDdOption - 1;
-          activeCountryArrayRef.current[highlightedDdOption].classList.remove(
-            "highlighted"
-          );
-          activeCountryArrayRef.current[nextOption].classList.add(
-            "highlighted"
-          );
-          setHighlightedDdOption(nextOption);
-          // updates scroll position, checking first to ensure that user hasn't scrolled away from previously highlighted option
-          if (checkScrollPosition()) {
-            // scrolls up by 64px if the position of the next highlighted option is more than halfway up the visible section of the  dropdown list
-            const scrollMidPoint = getScrollMidpoint();
-            const nextDdOptionPos = highlightedDdOption * 64;
-            if (nextDdOptionPos < scrollMidPoint) {
-              dropdownRef.current.scrollTop =
-                dropdownRef.current.scrollTop - 64;
-            }
-          } else {
-            fixScrollPosition();
-          }
-        }
-      }
-      // if key is enter or return. currently highlighted option is selected and highlighted option, active key and text input are reset
-      else if (activeKey.keyCode === 13 || activeKey.keyCode === 14) {
-        if (typeof highlightedDdOption === "number") {
-          selectCountry(activeCountryArray[highlightedDdOption]);
-          setHighlightedDdOption(false);
-          setActiveKey(false);
-          textInputRef.current.blur();
-        }
-      }
-    }
-  }, [activeKey, activeCountryArray]);
-
-
-  // when activeCountryArray (active list of dropdown/seachmodal options) updates, refs for options list are updated, highlighted option and activeKey are reset and scroll back to top of options list
-  useEffect(() => {
-    if (activeCountryArray) {
-      activeCountryArrayRef.current = activeCountryArrayRef.current.slice(
+    if (searchResultArray) {
+      searchResultArrayRef.current = searchResultArrayRef.current.slice(
         0,
-        activeCountryArray.length
+        searchResultArray.length
       );
       setHighlightedDdOption(false);
-      setActiveKey(false);
-      if (dropdownRef.current) {
-        dropdownRef.current.scrollTop = 0;
-      }
     }
-  }, [activeCountryArray]);
+  }, [searchResultArray]);
 
   if (largeView) {
     return (
-
       <header class="search-map-nav-h1v">
         <div class="search-map-nav-c1x">
           <a href="/" className="search-map-nav-jk9">
@@ -339,26 +255,27 @@ function HotelAppNav(props) {
         </div>
         <div class="search-map-nav-c7e" ref={searchbarRef}>
           <nav className="search-map-nav-pl4">
-            <div className="search-map-nav-ga1" onClick={countrySearch}>
-              <label class="search-map-nav-f6t" htmlFor="locationInput">
+            <div className="search-map-nav-ga1" onClick={locationSearch}>
+              <label class="search-map-nav-f6t" htmlFor="locationInputText">
                 <div>
                   <div class="search-map-nav-snp">Country</div>
                   <input
                     class="search-map-nav-1yi"
-                    id="locationInput"
+                    id="locationInputText"
                     placeholder="Search countries"
                     type="text"
                     name="name"
                     autoComplete="off"
-                    onChange={onChangeHandler}
-                    value={countryInput}
+                    onKeyDown={handleKeyPress}
+                    onChange={textInputHandler}
+                    value={locationInputText}
                     ref={textInputRef}
                   />
                 </div>
               </label>
               <div
                 className={
-                  props.activeSearch && countryInput.length > 0
+                  props.activeSearch && locationInputText.length > 0
                     ? "search-map-nav-gs1"
                     : "search-map-nav-gs2"
                 }
@@ -406,48 +323,51 @@ function HotelAppNav(props) {
             </div>
             {props.activeSearch ? (
               <>
-              <div className="search-map-nav-mm2" onClick={()=>props.setActiveSearch(false)} />
-              <div class="search-map-nav-xhc">
-                <div className="search-map-nav-ue3" ref={dropdownRef}>
-                  <div
-                    class="search-map-nav-k3s"
-                    role="listbox"
-                    aria-label="Search suggestions"
-                    tabindex="-1"
-                  >
-                    {activeCountryArray.length > 0 ? (
-                      activeCountryArray.map((x, i) => (
-                        <div
-                          key={x + i + activeCountryArray.length}
-                          ref={(el) => (activeCountryArrayRef.current[i] = el)}
-                          class="search-map-nav-uzo"
-                          onClick={() => selectCountry(x)}
-                        >
-                          <div class="search-map-nav-bi8">
-                            <svg
-                              className="search-map-nav-iu5"
-                              viewBox="0 0 32 32"
-                              xmlns="http://www.w3.org/2000/svg"
-                              aria-hidden="true"
-                              role="presentation"
-                              focusable="false"
-                            >
-                              <path d="m15.9999.33325c6.4433664 0 11.6667 5.22332687 11.6667 11.66665 0 .395185-.0196984.7942624-.0585936 1.1970109-.3656031 3.7857147-2.3760434 7.7525726-5.487905 11.7201691-1.1932825 1.5214248-2.4696691 2.9382012-3.7464266 4.2149447l-.264609.2625401-.2565836.2505683-.4871024.4643445-.3377669.3126669-.2592315.2338445-.7684829.6644749-.6531219-.5633124-.7123549-.6476755-.4871002-.4643445c-.1682693-.1630063-.3422204-.3341398-.5211901-.5131084-1.2767516-1.2767436-2.5531323-2.69352-3.74640918-4.2149449-3.11184685-3.9675963-5.12227757-7.9344539-5.48787896-11.7201677-.03889501-.4027484-.05859326-.8018256-.05859326-1.1970105 0-6.44329813 5.22335863-11.66665 11.66665-11.66665zm0 2c-5.3387224 0-9.66665 4.32792195-9.66665 9.66665 0 .3301812.01653349.665142.04933146 1.004757.32161647 3.3302606 2.17313947 6.9835713 5.07084634 10.6781398.9771881 1.2459122 2.0157692 2.4217661 3.0628871 3.5026159l.5240256.5323924.4974749.4897834.4621846.4404115.2257179-.2133444.4810251-.4660964.252726-.2507558c1.2232503-1.2232369 2.4468714-2.5814442 3.5869296-4.0350084 2.8977203-3.6945683 4.7492518-7.3478787 5.0708697-10.6781384.0327981-.3396149.0493317-.6745755.0493317-1.0047566 0-5.33875305-4.3279026-9.66665-9.6667-9.66665zm.0001 4.66675c2.7614237 0 5 2.23857625 5 5 0 2.7614237-2.2385763 5-5 5s-5-2.2385763-5-5c0-2.76142375 2.2385763-5 5-5zm0 2c-1.6568542 0-3 1.3431458-3 3s1.3431458 3 3 3 3-1.3431458 3-3-1.3431458-3-3-3z"></path>
-                            </svg>
+                <div className="search-map-nav-mm2" onClick={closeDropdown} />
+                <div class="search-map-nav-xhc">
+                  <div className="search-map-nav-ue3">
+                    <div
+                      class="search-map-nav-k3s"
+                      role="listbox"
+                      aria-label="Search suggestions"
+                      tabindex="-1"
+                    >
+                      {popularLocationActive ? (
+                        <div class="search-map-nav-pa9">popular locations</div>
+                      ) : null}
+                      {searchResultArray.length > 0 ? (
+                        searchResultArray.map((x, i) => (
+                          <div
+                            key={x + i + searchResultArray.length}
+                            ref={(el) =>
+                              (searchResultArrayRef.current[i] = el)
+                            }
+                            class="search-map-nav-uzo"
+                            onClick={() => selectLocation(x)}
+                          >
+                            <div class="search-map-nav-bi8">
+                              <svg
+                                className="search-map-nav-iu5"
+                                viewBox="0 0 32 32"
+                                xmlns="http://www.w3.org/2000/svg"
+                                aria-hidden="true"
+                                role="presentation"
+                                focusable="false"
+                              >
+                                <path d="m15.9999.33325c6.4433664 0 11.6667 5.22332687 11.6667 11.66665 0 .395185-.0196984.7942624-.0585936 1.1970109-.3656031 3.7857147-2.3760434 7.7525726-5.487905 11.7201691-1.1932825 1.5214248-2.4696691 2.9382012-3.7464266 4.2149447l-.264609.2625401-.2565836.2505683-.4871024.4643445-.3377669.3126669-.2592315.2338445-.7684829.6644749-.6531219-.5633124-.7123549-.6476755-.4871002-.4643445c-.1682693-.1630063-.3422204-.3341398-.5211901-.5131084-1.2767516-1.2767436-2.5531323-2.69352-3.74640918-4.2149449-3.11184685-3.9675963-5.12227757-7.9344539-5.48787896-11.7201677-.03889501-.4027484-.05859326-.8018256-.05859326-1.1970105 0-6.44329813 5.22335863-11.66665 11.66665-11.66665zm0 2c-5.3387224 0-9.66665 4.32792195-9.66665 9.66665 0 .3301812.01653349.665142.04933146 1.004757.32161647 3.3302606 2.17313947 6.9835713 5.07084634 10.6781398.9771881 1.2459122 2.0157692 2.4217661 3.0628871 3.5026159l.5240256.5323924.4974749.4897834.4621846.4404115.2257179-.2133444.4810251-.4660964.252726-.2507558c1.2232503-1.2232369 2.4468714-2.5814442 3.5869296-4.0350084 2.8977203-3.6945683 4.7492518-7.3478787 5.0708697-10.6781384.0327981-.3396149.0493317-.6745755.0493317-1.0047566 0-5.33875305-4.3279026-9.66665-9.6667-9.66665zm.0001 4.66675c2.7614237 0 5 2.23857625 5 5 0 2.7614237-2.2385763 5-5 5s-5-2.2385763-5-5c0-2.76142375 2.2385763-5 5-5zm0 2c-1.6568542 0-3 1.3431458-3 3s1.3431458 3 3 3 3-1.3431458 3-3-1.3431458-3-3-3z"></path>
+                              </svg>
+                            </div>
+                            <div class="search-map-nav-182">{x.name}</div>
                           </div>
-                          <div class="search-map-nav-182">{x}</div>
+                        ))
+                      ) : (
+                        <div class="search-map-nav-jp4">
+                          <div class="search-map-nav-182">no matches</div>
                         </div>
-                      ))
-                    ) : (
-                      <div
-                        class="search-map-nav-jp4"
-                      >
-                        <div class="search-map-nav-182">no matches</div>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
               </>
             ) : null}
           </nav>
@@ -466,10 +386,10 @@ function HotelAppNav(props) {
   } else {
     return (
       <>
-      {/* fix for scroll bounce on firefox iOS -  white block added at top of page to prevent overscroll showing overflow content underneath  */}
+        {/* fix for scroll bounce on firefox iOS -  white block added at top of page to prevent overscroll showing overflow content underneath  */}
         <div className="search-map-nav-cc7" />
         <header class="search-map-nav-h1v">
-          <nav className="search-map-nav-sd3" onClick={countrySearch}>
+          <nav className="search-map-nav-sd3" onClick={locationSearch}>
             <div className="search-map-nav-ie1">
               <label class="search-map-nav-f6t">
                 <div>
@@ -507,11 +427,12 @@ function HotelAppNav(props) {
         {props.activeSearch ? (
           <SearchModal
             closeModal={closeSearchModal}
-            activeCountryArray={activeCountryArray}
-            onChangeHandler={onChangeHandler}
-            selectCountry={selectCountry}
-            countryInput={countryInput}
-            setCountryInput={setCountryInput}
+            searchResultArray={searchResultArray}
+            textInputHandler={textInputHandler}
+            selectLocation={selectLocation}
+            locationInputText={locationInputText}
+            setLocationInputText={setLocationInputText}
+            popularLocationActive={popularLocationActive}
             textInputRef={textInputRef}
           />
         ) : null}
@@ -519,6 +440,5 @@ function HotelAppNav(props) {
     );
   }
 }
-
 
 export default HotelAppNav;

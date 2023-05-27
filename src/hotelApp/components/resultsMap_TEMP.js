@@ -5,6 +5,7 @@ import randomNumberInRange from "../functions/randomNumberInRange";
 import { calcLngDiff } from "../functions/calcLngDiff";
 import bbox from "@turf/bbox";
 import Loader from "./loader";
+import allPlaceArray from "../data/allPlaceArray.js";
 import "../css/resultsMap.css";
 
 // component containing google map and logic for rendering and updating markers and responding to search queries which require the map to move
@@ -74,7 +75,8 @@ const mapMoveListener = {
 function ResultsMap(props) {
   // alternative for currentPillMarker state (which can be accessed "live" inside google map objects)
   let altCurrentPillMarker;
-
+  //ref for map container - used to access position / dimensions of map containers
+  const mapContainer = useRef(null);
   // holds data and google map object for largeMarker
   const [largeMarker, setLargeMarker] = useState();
   // keeps log of currently active pill marker - used for styling
@@ -130,15 +132,13 @@ function ResultsMap(props) {
   };
   let mapZoom = 5;
 
-
-  // triggers update of markers when props.hotelArray updates
+  // triggers update of markers when either pageLoading or dataLoading props set to false (i.e. after simulated loading has finished)
   useEffect(() => {
-    if (!props.firstLoad) {
+    if (!props.dataLoading && !props.pageLoading) {
       console.log("HOTEL ARRAY UPDATE");
-      updateMarkers();
+      // updateMarkers();
     }
-
-  }, [props.hotelArray]);
+  }, [props.dataLoading, props.pageLoading]);
 
   // refreshes markers when largeView state changes so that (1) popout box render updates; and (2) largeMarker is switched off if we are moving into small view (where html render is used instead of google maps marker object)
   useEffect(() => {
@@ -527,7 +527,7 @@ function ResultsMap(props) {
     const minMargin = 35;
 
     // get dimensions/position of map container html element
-    const mapBox = props.mapContainer.current.getBoundingClientRect();
+    const mapBox = mapContainer.current.getBoundingClientRect();
 
     // calculates coordinate distance between lhs of map and marker
     const lhsLngDiff = calcLngDiff(swCoords.lng(), markerData.coords.lng);
@@ -659,34 +659,6 @@ function ResultsMap(props) {
     }
   }, [props.searchLocation]);
 
-  // adjusts map bounds if new country is inputted by user
- useEffect(() => {
-    // map bound update is triggered if props.searchLocation has a non-false value and the value is not "map area" (which would be triggered by the user moving the map)
-    if (props.mapBbox) {
-
-
-      // creates google map LatLng object for NE of country bbox
-      const bound1 = new window.google.maps.LatLng(
-        props.mapBbox[1],
-        props.mapBbox[0]
-      );
-      // creates google map LatLng object for SW of country bbox
-      const bound2 = new window.google.maps.LatLng(
-        props.mapBbox[3],
-        props.mapBbox[2]
-      );
-      // initialises new LatLngBounds() google map object
-      let countryBounds = new window.google.maps.LatLngBounds();
-      // adds NE coords to countryBounds
-      countryBounds.extend(bound1);
-      // adds SW coords to countryBounds
-      countryBounds.extend(bound2);
-      // fits map to countryBounds
-      map.fitBounds(countryBounds, {top: 20, bottom: 20, left: 40, right: 40});
-
-    }
-  }, [props.mapBbox]);
-
   // creates new google map object and event listeners etc
   const renderMap = () => {
     // creates new google map object
@@ -700,14 +672,13 @@ function ResultsMap(props) {
     });
     // sets mapLoaded state to true when first idle event occurs (which then enables adding of markers inside the react component)
     window.google.maps.event.addListenerOnce(map, "idle", function () {
-     const newMapParameters = {
+      const newMapParameters = {
         bounds: map.getBounds(),
         center: map.getCenter(),
         zoom: map.getZoom(),
-        box: props.mapContainer.current.getBoundingClientRect(),
+        box: mapContainer.current.getBoundingClientRect(),
       };
-      props.makeServerCall("map", newMapParameters);
-
+      props.handleMapMove(newMapParameters);
     });
     // updates stored map parameters (bounds, center, zoom etc) when map bounds change
     window.google.maps.event.addListener(map, "idle", function () {
@@ -715,7 +686,7 @@ function ResultsMap(props) {
         bounds: map.getBounds(),
         center: map.getCenter(),
         zoom: map.getZoom(),
-        box: props.mapContainer.current.getBoundingClientRect(),
+        box: mapContainer.current.getBoundingClientRect(),
       }); */
 
       mapMoveListener.current = true;
@@ -793,9 +764,9 @@ function ResultsMap(props) {
           bounds: map.getBounds(),
           center: map.getCenter(),
           zoom: map.getZoom(),
-          box: props.mapContainer.current.getBoundingClientRect(),
+          box: mapContainer.current.getBoundingClientRect(),
         };
-        props.makeServerCall("map", newMapParameters);
+        props.handleMapMove(newMapParameters);
         setMapDragged(false);
         setMapZoomed(false);
       }
@@ -878,7 +849,7 @@ function ResultsMap(props) {
                   />
                 ) : null}
                 <div
-                  ref={props.mapContainer}
+                  ref={mapContainer}
                   id="map"
                   style={{
                     height: "100%",

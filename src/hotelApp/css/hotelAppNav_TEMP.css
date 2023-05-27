@@ -2,6 +2,15 @@
   box-sizing: border-box;
 }
 
+/* poular locations text */
+.search-map-nav-pa9 {
+  padding: 0px 0px 16px 24px;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: italic;
+  color: grey;
+}
+
 /* transparent backdrop which closes dropdown when clicked (and also prevents elements underneath being clicked when dropdown is active)  */
 .search-map-nav-mm2 {
   position: fixed;
@@ -265,24 +274,6 @@
 .search-map-nav-k3s {
   margin: 0 -32px -8px;
   padding: 16px 8px 24px;
-}
-
-/* poular locations text */
-.search-map-nav-pa9 {
-  padding: 0px 0px 16px 24px;
-  font-size: 16px;
-  font-weight: 500;
-  font-style: italic;
-  color: grey;
-}
-
-/* poular locations text - modal */
-.search-map-nav-de2 {
-  padding: 6px 24px 24px 24px;
-  font-size: 16px;
-  font-weight: 500;
-  font-style: italic;
-  color: grey;
 }
 
 .search-map-nav-uzo {
