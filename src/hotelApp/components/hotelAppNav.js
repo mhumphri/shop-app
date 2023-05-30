@@ -16,7 +16,7 @@ function HotelAppNav(props) {
   const [searchResultArray, setSearchResultArray] = useState(popularLocationArray);
   // boolean indicating if deafult polular location search options are displayed - if true, turns on popular location label (at top of search option list)
   const [popularLocationActive, setPopularLocationActive] = useState(true);
-  // stores local text input (distinct from props.searchLocation which is the final inputted and validated value (taken from country array) used for the search)
+  // stores local text input (distinct from props.searchLocation.name which is the final inputted and validated value (taken from country array) used for the search)
   const [locationInputText, setLocationInputText] = useState("");
   // stores highlighted dropdown option (highlighted as a reult of keyboard controls being used). large view only
   const [highlightedDdOption, setHighlightedDdOption] = useState();
@@ -41,19 +41,20 @@ function HotelAppNav(props) {
     }
   }, [props.activeSearch, props.expandMapView, largeView]);
 
+
   // updates text input value when an input value is selected from the dropdown (large view) / seach modal (small view) list
   useEffect(() => {
-    setLocationInputText(props.searchLocation);
+    setLocationInputText(props.searchLocation.name);
 
-  }, [props.searchLocation]);
+  }, [props.searchLocation.name]);
 
   // resets search options for dropdown or search modal when they close
   const resetSearchOptionList = () => {
     // if current text input does not equal stored search location, location input is reset to stored search location
-    if (locationInputText !== props.searchLocation) {
-      setLocationInputText(props.searchLocation);
+    if (locationInputText !== props.searchLocation.name) {
+      setLocationInputText(props.searchLocation.name);
       // if stored search location is set to either "map area" or there is no value for stored search location, search options are reset to popular locations default
-      if (props.searchLocation === "map area" || !props.searchLocation) {
+      if (props.searchLocation.name === "map area" || !props.searchLocation.name) {
         setSearchResultArray(popularLocationArray);
         setPopularLocationActive(true);
       }
@@ -61,7 +62,7 @@ function HotelAppNav(props) {
       else {
         // retrieves full data object for current stored search location and stores value in searchResultArray (i.e. it becomes the search result visible in dropdown)
         for (let i = 0; i < allLocationArray.length; i++) {
-          if (props.searchLocation === allLocationArray[i].name) {
+          if (props.searchLocation.name === allLocationArray[i].name) {
             setSearchResultArray([allLocationArray[i]]);
             setPopularLocationActive(false);
             break;
@@ -123,7 +124,7 @@ function HotelAppNav(props) {
   // opens dropdown (large view) / searchModal (small view) and clears text input value if stored search value is set to "map area"
   const locationSearch = () => {
     // if stored search location is "map area", text input value is set to  "" and search option list is reset to defaults
-    if (props.searchLocation === "map area") {
+   if (props.searchLocation.name === "map area") {
       console.log("locationSearch2")
       setLocationInputText("");
         setSearchResultArray(popularLocationArray);
@@ -321,7 +322,7 @@ function HotelAppNav(props) {
                 </svg>
               </button>
             </div>
-            {props.activeSearch ? (
+            { props.activeSearch ? (
               <>
                 <div className="search-map-nav-mm2" onClick={closeDropdown} />
                 <div class="search-map-nav-xhc">
@@ -364,12 +365,12 @@ function HotelAppNav(props) {
                         <div class="search-map-nav-jp4">
                           <div class="search-map-nav-182">no matches</div>
                         </div>
-                      )}
+                      ) }
                     </div>
                   </div>
                 </div>
               </>
-            ) : null}
+            ) : null }
           </nav>
         </div>
         <div class="search-map-nav-c1kb">
@@ -395,8 +396,8 @@ function HotelAppNav(props) {
                 <div>
                   <div class="search-map-nav-snp">Country</div>
                   <div class="search-map-nav-1yi">
-                    {props.searchLocation.length > 0 ? (
-                      props.searchLocation
+                    {props.searchLocation.name.length > 0 ? (
+                      props.searchLocation.name
                     ) : (
                       <span className="search-map-nav-ds1">
                         Search countries

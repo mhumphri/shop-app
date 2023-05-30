@@ -15,7 +15,7 @@ const generateHotelArray = (
 
 
 
-console.log("generateHotelArray1")
+
   // number of hotels from previous search which have been retained for current search (as they fall within current search map bounds)
   const currentArrayLength = newHotelArray.length;
 
@@ -27,16 +27,16 @@ console.log("generateHotelArray1")
       delete newHotelData[newHotelArray[i].hotelDataKey];
     }
   }
-console.log("generateHotelArray2")
+
   // function for randomly selecting hotel from object
   const getRandomHotel = (obj) => {
     var keys = Object.keys(obj);
     return obj[keys[(keys.length * Math.random()) << 0]];
   };
-console.log("generateHotelArray3")
+
   // adds new hotels to make up difference between the number of hotels retained frok previous search and number required for this search
   for (let i = currentArrayLength; i < numHotels; i++) {
-    console.log("generateHotelArray4")
+
     // randomly selects hotel from newHotelData object
     const randomHotel = getRandomHotel(newHotelData);
     // deletes selected hotel from newHotelData object (so that it cannot appear twice in the search results)
@@ -48,13 +48,13 @@ console.log("generateHotelArray3")
     // merges both arrays so that there is a unique, hotel-specific photo as the fist array element, followed by a random selection of other photos
     const mergedPhotoArray = photoArray.concat(otherPhotoArray);
     // generates location coords and country using mapboounds, mapbox, margin and active polygons as arguments
-        console.log("generateHotelArray5")
+
     const location = getRandomLocation(
       activePolygons,
       paddedBbox,
       locationSearch
     );
-    console.log("generateHotelArray6")
+
     // generates data from new hotel and adds to search results array
     const newHotel = {
       name: randomHotel.name,
@@ -67,7 +67,7 @@ console.log("generateHotelArray3")
       rating: randomNumberInRange(30, 50) / 10,
       numReviews: randomNumberInRange(5, 200),
     };
-        console.log("generateHotelArray7")
+
     newHotelArray.push(newHotel);
   }
 

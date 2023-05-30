@@ -19,6 +19,7 @@ let circleInner
 
 let cityPoint
 let cityArea
+let cityPopulation
 
 for (let i=0; i<cityPoints.features.length; i++) {
 
@@ -27,6 +28,7 @@ for (let i=0; i<cityPoints.features.length; i++) {
       /* place inside array brackets so can be processed in getRandomCoordinates() */
       cityPoint=cityPoints.features[i].geometry.coordinates;
       cityArea=cityPoints.features[i].properties.MAX_AREAKM;
+      cityPopulation=cityPoints.features[i].properties.POP_MAX;
       console.log("cityArea: " + cityArea)
       break;
     }
@@ -39,8 +41,8 @@ if (cityPoint) {
   let radiusInner = radiusOuter/3
   if (cityArea) {
     console.log("cityArea: " + cityArea);
-    radiusOuter = Math.sqrt(cityArea / Math.PI);
-    radiusInner = radiusOuter/3;
+    radiusOuter = Math.sqrt(cityArea / Math.PI)/2
+    radiusInner = radiusOuter/2;
   }
 
   circleOuter = circle(cityPoint, radiusOuter);
@@ -73,6 +75,7 @@ return {
   polygonsOuter: polygonsOuter,
   polygonsInner: polygonsInner,
   circleOuter: circleOuter,
+  population: cityPopulation, 
 }
 
 

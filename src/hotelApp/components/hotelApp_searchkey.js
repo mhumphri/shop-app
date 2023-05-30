@@ -33,7 +33,7 @@ function HotelApp(props) {
   // params of the currently visible map (bounds, center, zoom and box (position on screen))
   const [mapParameters, setMapParameters] = useState();
   // current stored search location (either country name or "map area")
-  const [searchLocation, setSearchLocation] = useState({name: ""});
+  const [searchLocation, setSearchLocation] = useState("");
   // boolean which is true if user has updated search location input - used to prevent search being updated in response to map bounds changing from location search
   const [searchLocationUpdate, setSearchLocationUpdate] = useState();
   // array containg data for current search results
@@ -64,17 +64,18 @@ function HotelApp(props) {
   const [locationSearchCurrent, setLocationSearchCurrent] = useState();
   // holds key for latest search - used to filter out returns for older searches, if several are active simultaneously
   const [latestSearchKey, setLatestSearchKey] = useState();
-  const searchKeyRef = useRef();
-  searchKeyRef.current = latestSearchKey;
 
   //ref for map container - used to access position / dimensions of map containers
   const mapContainer = useRef(null);
 
   // updates searchLocation in response to user input and sets searchLocationUpdate boolean to true
   const updateSearchLocation = (newLocation) => {
-    setSearchLocation(newLocation);
+    setSearchLocation(newLocation.name);
     setSearchLocationUpdate(true);
-    makeServerCall("location", newLocation)
+    const searchData = {location: newLocation,
+      mapContainer: mapContainer.current.getBoundingClientRect(),
+    }
+    makeServerCall("location", searchData)
 
   };
 
@@ -161,9 +162,9 @@ function HotelApp(props) {
   };
 
   // handles user inputs from paginationNav
-  const goToPage = (newPageNumber) => {
-    setActivePage(newPageNumber)
-    makeServerCall("updatePage", newPageNumber)
+  const goToPage = (number) => {
+    setActivePage(number)
+    makeServerCall("updatePage")
   };
 
   const handleNavSearchClick = () => {
@@ -179,50 +180,13 @@ function HotelApp(props) {
   };
 
 const makeServerCall = (type, searchData) => {
-
-
-let serverRoute
-
   // const timeStamp = Date.now()
 // IMPLEMENT SEARCK KEY!!!!
-
-  const initialiseSearch = () => {
-    setDataLoading(Date.now())
-    const searchKey = generateKey()
-
-    // scrolls back to top of resultsList when searchData is returned
+  const searchKey = generateKey()
+  setLatestSearchKey(searchKey)
+  setDataLoading(Date.now())
+  // scrolls back to top of resultsList when searchData is returned
     window.scrollTo(0, 0);
-  }
-
-
-  const fulfilServerCall = (newSearchResults) => {
-
-    // console.log("fulfilServerCall_newSearchResults: " + JSON.stringify(newSearchResults))
-    if (newSearchResults.searchKey === searchKeyRef.current) {
-      console.log("newSearchResults.searchKey === searchKeyRef.current")
-    setHotelArray(newSearchResults.hotelArray)
-    if (newSearchResults.mapBbox) {
-    setMapBbox(newSearchResults.mapBbox)
-  }
-  if (newSearchResults.numberHotels) {
-    setNumberHotels(newSearchResults.numberHotels)
-  }
-  if (newSearchResults.maxPages) {
-    setMaxPages(newSearchResults.maxPages)
-  }
-  console.log("fulfilServerCall_activePage: " + JSON.stringify(activePage))
-  if (newSearchResults.activePage) {
-    setActivePage(newSearchResults.activePage);
-  }
-    setDataLoading(false)
-    if (firstLoad) {
-    setFirstLoad(false)
-  }
-}
-  }
-
-
-
 
   if (type === "map") {
 console.log("map server call")
@@ -237,78 +201,80 @@ if (locationSearchCurrent) {
   setLocationSearchCurrent(false)
 }
 else {
-  initialiseSearch()
+
+    setTimeout(() => {
+      let newSearchResults
+      // if first time loading, ignore the initial dummy hotel array and set firstLoad to false
+      if (firstLoad) {
+        newSearchResults = mapSearch(searchData, []);
+      }
+      else {
+        newSearchResults = mapSearch(searchKey, searchData, hotelArray);
+        setSearchLocation("map area");
+      }
+      setHotelArray(newSearchResults.hotelArray)
+      setMapBbox(false)
+      setNumberHotels(newSearchResults.numberHotels)
+      setMaxPages(newSearchResults.maxPages)
+      setActivePage(1);
+      setDataLoading(false)
+      if (firstLoad) {
+      setFirstLoad(false)
+    }
+    }, "1500");
+    // save map data (for update page search)
     setSavedMapData(searchData)
-    let prevHotelArray = hotelArray
-if (firstLoad) {
-prevHotelArray = []
-}
-else {
-  setSearchLocation({name: "map area"});
-}
-
-const newSearchKey = generateKey();
-setLatestSearchKey(newSearchKey)
-serverRoute = mapSearch(newSearchKey, searchData, prevHotelArray)
-
-
-
-
-
-
-
   }
   }
   else if (type === "location") {
-
-    initialiseSearch()
+    console.log("location server call")
     setLocationSearchCurrent(true)
-    setSavedMapData(false)
-    const newSearchKey = generateKey();
-    setLatestSearchKey(newSearchKey)
-    serverRoute = locationSearch(newSearchKey, searchData);
+    setTimeout(() => {
+      const newSearchResults = locationSearch(searchKey, searchData);
 
+      setHotelArray(newSearchResults.hotelArray)
+      setMapBbox(newSearchResults.mapBbox)
+      setNumberHotels(newSearchResults.numberHotels)
+      setMaxPages(newSearchResults.maxPages)
+      setActivePage(1);
+
+      setDataLoading(false)
+    }, "1500");
+    setSavedMapData(false)
   }
 
   else if (type === "updatePage") {
-    console.log("updatePage search")
-    initialiseSearch()
-    const newSearchKey = generateKey();
-    setLatestSearchKey(newSearchKey)
+    console.log("update page server call")
+    setTimeout(() => {
 
-    const newPageNumber = searchData
-    console.log("newPageNumber: " + newPageNumber)
-    let finalPageHotels = false;
-    if (maxPages===newPageNumber) {
-      console.log("maxPages===newPageNumber")
-      finalPageHotels = numberHotels-(maxPages-1)*18
+      const newSearchResults = updatePageSearch(searchKey, searchLocation, savedMapData, hotelArray);
 
-    }
-    console.log("finalPageHotels: " + finalPageHotels)
-    serverRoute = updatePageSearch(newSearchKey, searchLocation, savedMapData, finalPageHotels);
 
+      setHotelArray(newSearchResults.hotelArray)
+
+
+      setDataLoading(false)
+
+    }, "1500");
 
   }
 
   else if (type === "searchRefresh") {
-    initialiseSearch();
-    const newSearchKey = generateKey();
-    setLatestSearchKey(newSearchKey)
-    serverRoute = searchRefreshSearch(newSearchKey, searchLocation, savedMapData, hotelArray);
+    console.log("refresh search server call")
+    setTimeout(() => {
+
+      const newSearchResults = searchRefreshSearch(searchKey, searchLocation, savedMapData, hotelArray);
+
+
+      setHotelArray(newSearchResults.hotelArray)
+
+
+
+      setDataLoading(false)
+
+    }, "1500");
 
   }
-
-  const makeServerCall = new Promise((resolve) => {
-
-
-    setTimeout(() => {
-      resolve(serverRoute);
-    }, 1500);
-  });
-
-  makeServerCall
-    .then((value) => fulfilServerCall(value))
-
 
 };
 

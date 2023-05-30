@@ -5,31 +5,67 @@ import generateHotelArray from "./generateHotelArray";
 import bbox from "@turf/bbox";
 
 // updates search results in response to the map moving (either when there is a drag or zoom event )
-const locationSearch = (searchData) => {
+const locationSearch = (searchKey, locationData, searchType, finalPageHotels) => {
   // initialise search return variables
   let newHotelArray = [];
-  let newMaxPages = 15;
-  let newNumberHotels = 1000;
+  let newMaxPages = 0;
+  let newNumberHotels = 0;
   let locationBbox = false;
+  let newActivePage = 1
 
   let locationPolygons = []
 
-  if (searchData.location.type==="city") {
+
+  if (locationData.type==="city") {
     console.log("city search")
-const cityPolygons = getCityPolygon(searchData.location.name);
+const cityPolygons = getCityPolygon(locationData.name);
 console.log("cityPolygon: " + JSON.stringify(cityPolygons))
 locationBbox = bbox(cityPolygons.circleOuter);
+// get total number of hotels in city
+const population = cityPolygons.population
+newNumberHotels = 106
+
+if (population) {
+  newNumberHotels = Math.round(population/10000)
+}
+console.log("population: " + population)
+console.log("newNumberHotels: " + newNumberHotels)
+
+newMaxPages = Math.ceil(newNumberHotels / 18);
+if (newMaxPages > 15) {
+  newMaxPages = 15;
+}
+
+let numberHotelsInner = 12
+let numberHotelsOuter = 6
+
+
+
+if (newNumberHotels<18) {
+  numberHotelsInner = Math.round(newNumberHotels*2/3)
+  numberHotelsOuter = newNumberHotels - numberHotelsInner
+}
+console.log("loacationSearchAA")
+console.log("newMaxPages: " + newMaxPages)
+
+// if search is returning results for last page this calculates and sets the number of search results that will appear (possibly less than the default 18)
+if (finalPageHotels) {
+
+  numberHotelsInner = Math.round(finalPageHotels*2/3)
+  numberHotelsOuter = finalPageHotels - numberHotelsInner
+}
+
 console.log("locationBbox: " + JSON.stringify(locationBbox))
-const newHotelArrayOuter = generateHotelArray([], 6, cityPolygons.polygonsOuter, locationBbox, true)
-const newHotelArrayInner = generateHotelArray([], 12, cityPolygons.polygonsInner, locationBbox, true)
+const newHotelArrayOuter = generateHotelArray([], numberHotelsOuter, cityPolygons.polygonsOuter, locationBbox, true)
+const newHotelArrayInner = generateHotelArray([], numberHotelsInner, cityPolygons.polygonsInner, locationBbox, true)
 newHotelArray = newHotelArrayOuter.concat(newHotelArrayInner);
 
 
   }
-  else if (searchData.location.type==="country") {
+  else if (locationData.type==="country") {
     console.log("country search")
     // get polygons for country
-    const locationPolygons = getCountryPolygons(searchData.location.name);
+    const locationPolygons = getCountryPolygons(locationData.name);
     console.log("locationPolygons COUNTRY: " + JSON.stringify(locationPolygons))
     // get bbox for country
     locationBbox = bbox(locationPolygons);
@@ -51,16 +87,23 @@ newHotelArray = generateHotelArray([], 18, [locationPolygons], locationBbox, tru
 
 
 
-
+  if (searchType==="updatePage") {
+    newMaxPages = false;
+    newNumberHotels = false;
+    locationBbox = false;
+    newActivePage = false;
+  }
 
 
 
 
   let newSearchData = {
+    searchKey: searchKey,
     hotelArray: newHotelArray,
     mapBbox: locationBbox,
     numberHotels: newNumberHotels,
     maxPages: newMaxPages,
+    activePage: newActivePage,
   };
 
   return newSearchData;

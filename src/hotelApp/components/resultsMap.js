@@ -627,14 +627,14 @@ function ResultsMap(props) {
   // adjusts map bounds if new country is inputted by user
  useEffect(() => {
     // map bound update is triggered if props.searchLocation has a non-false value and the value is not "map area" (which would be triggered by the user moving the map)
-    if (props.searchLocation && props.searchLocation !== "map area") {
+    if (props.searchLocation.name && props.searchLocation.name !== "map area") {
 
 
 
 
       /*
       // gets polygons for seleted country
-      const countryPolygons = getCountryPolygons(props.searchLocation);
+      const countryPolygons = getCountryPolygons(props.searchLocation.name);
       // gets boundary box (smallest rectangle which contains country polygons) for country polygons (using turf bbox function)
       const countryBbox = bbox(countryPolygons);
       // creates google map LatLng object for NE of country bbox
@@ -657,11 +657,11 @@ function ResultsMap(props) {
       map.fitBounds(countryBounds);
       */
     }
-  }, [props.searchLocation]);
+  }, [props.searchLocation.name]);
 
   // adjusts map bounds if new country is inputted by user
  useEffect(() => {
-    // map bound update is triggered if props.searchLocation has a non-false value and the value is not "map area" (which would be triggered by the user moving the map)
+    // map bound update is triggered if props.searchLocation.name has a non-false value and the value is not "map area" (which would be triggered by the user moving the map)
     if (props.mapBbox) {
 
 
@@ -706,6 +706,7 @@ function ResultsMap(props) {
         zoom: map.getZoom(),
         box: props.mapContainer.current.getBoundingClientRect(),
       };
+      console.log("map server call 1")
       props.makeServerCall("map", newMapParameters);
 
     });
@@ -795,6 +796,7 @@ function ResultsMap(props) {
           zoom: map.getZoom(),
           box: props.mapContainer.current.getBoundingClientRect(),
         };
+        console.log("map server call 2")
         props.makeServerCall("map", newMapParameters);
         setMapDragged(false);
         setMapZoomed(false);

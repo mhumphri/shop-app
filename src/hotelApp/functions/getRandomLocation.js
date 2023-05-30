@@ -10,13 +10,13 @@ import intersect from "@turf/intersect";
 
 const getRandomCoords = (activePolygons, paddedBbox, locationSearch) => {
   // step 1 - select random (with weightings to account for land mass) element from active land polygon array
-console.log("getRandomCoords1")
+
   // step 1a - calculate total land mass
   let totalArea = 0;
   for (let i = 0; i < activePolygons.length; i++) {
     totalArea += area(activePolygons[i]);
   }
-console.log("getRandomCoords2")
+
   // step 1b - randomly select a number bewteen zero and total area and take the polygon at that point in the distribution
   const randomArea = randomNumberInRange(0, totalArea);
 
@@ -31,7 +31,7 @@ console.log("getRandomCoords2")
     }
   }
 
-  console.log("getRandomCoords3")
+
 
   const randomLandPoly = activePolygons[currentElement];
 
@@ -42,9 +42,7 @@ console.log("getRandomCoords2")
   const marginCheck = (testPoint) => {
     let checkResult;
 
-    console.log(
-      "test point: " + JSON.stringify(testPoint.geometry.coordinates[0])
-    );
+
     if (locationSearch) {
       checkResult = true;
     } else {
