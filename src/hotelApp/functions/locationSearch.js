@@ -1,11 +1,25 @@
 import getCountryPolygons from "./getCountryPolygons";
+import landPolygons from "../data/landPolygons.json";
 import getCityPolygon from "./getCityPolygon";
-import getHotelNumber from "./getHotelNumber";
+import getCityPolygonArray from "./getCityPolygonArray";
 import generateHotelArray from "./generateHotelArray";
+import getCityRadius from "./getCityRadius";
+import mapSearch from "./mapSearch";
+import area from "@turf/area";
 import bbox from "@turf/bbox";
+import { point } from "@turf/helpers";
+import intersect from "@turf/intersect";
+import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
+import bboxPolygon from "@turf/bbox-polygon";
+import circle from "@turf/circle";
+import cityData from "../data/cityData.json";
+import countryPolygons from "../data/countryPolygons.json";
 
 // updates search results in response to the map moving (either when there is a drag or zoom event )
-const locationSearch = (searchKey, locationData, searchType, finalPageHotels) => {
+const locationSearch = (searchKey, locationData, mapData, searchType, finalPageHotels) => {
+
+console.log("mapData: " + JSON.stringify(mapData))
+
   // initialise search return variables
   let newHotelArray = [];
   let newMaxPages = 0;
@@ -15,6 +29,8 @@ const locationSearch = (searchKey, locationData, searchType, finalPageHotels) =>
 
   let locationPolygons = []
 
+
+console.log("locationData: " + JSON.stringify(locationData))
 
   if (locationData.type==="city") {
     console.log("city search")
@@ -56,14 +72,118 @@ if (finalPageHotels) {
 }
 
 console.log("locationBbox: " + JSON.stringify(locationBbox))
-const newHotelArrayOuter = generateHotelArray([], numberHotelsOuter, cityPolygons.polygonsOuter, locationBbox, true)
-const newHotelArrayInner = generateHotelArray([], numberHotelsInner, cityPolygons.polygonsInner, locationBbox, true)
+const newHotelArrayOuter = generateHotelArray("cityName", [], numberHotelsOuter, cityPolygons.polygonsOuter, locationBbox, true)
+const newHotelArrayInner = generateHotelArray("cityName", [], numberHotelsInner, cityPolygons.polygonsInner, locationBbox, true)
 newHotelArray = newHotelArrayOuter.concat(newHotelArrayInner);
 
 
   }
   else if (locationData.type==="country") {
     console.log("country search")
+
+    //const countrySearchData = mapSearch(searchKey, {}, [], false, false, "countrySearch")
+    // console.log("countrySearchData: " + JSON.stringify(countrySearchData))
+    // mapSearch(searchKey, newMapParameters, prevHotelArray, searchType, finalPageHotels, countrySearch)
+
+    // step 1 get the country polygons
+
+    const countryPolygons = getCountryPolygons(locationData.name);
+    locationBbox = bbox(countryPolygons);
+    const locationBboxPoly = bboxPolygon(locationBbox);
+    console.log("countryPolygons: " + JSON.stringify(countryPolygons))
+    console.log("locationBbox: " + JSON.stringify(locationBbox))
+
+    // calculate pixel area of map on screen
+    const mapBox = mapData.box;
+    console.log("mapBox: " + mapBox)
+    const bboxAreaPx = mapBox.width * mapBox.height;
+    console.log("bboxAreaPx: " + bboxAreaPx)
+    // calculate km2 area of map on screen
+    const bboxAreaKm = Math.round(area(locationBboxPoly) / 1000000);
+    console.log("bboxAreaKm: " + bboxAreaKm)
+
+
+    // step 2 - determine what cities are inside the country polygons
+
+    let activeCityArray = [];
+    let totalPopulation = 0;
+    for (let i = 0; i < cityData.features.length; i++) {
+      const cityPoint = point(cityData.features[i].geometry.coordinates);
+
+      if (booleanPointInPolygon(cityPoint, countryPolygons)) {
+
+        const cityRadius = getCityRadius(cityData.features[i].properties.pop_max);
+        const cityCircle = circle(cityPoint, cityRadius);
+        const areaOuter = area(cityCircle) / 1000000;
+
+          totalPopulation =
+            totalPopulation + cityData.features[i].properties.pop_max;
+/*
+            let polygonsOuter = [];
+
+            for (let i = 0; i < countryPolygons.length; i++) {
+              const intersectionOuter = intersect(cityCircle, countryPolygons[i]);
+              if (intersectionOuter) {
+                polygonsOuter.push(intersectionOuter);
+              }
+            }
+            */
+
+            const newCity = {
+              name: cityData.features[i].properties.name,
+              polygonsOuter: cityCircle,
+              areaOuter: areaOuter,
+            };
+            activeCityArray.push(newCity);
+      }
+    }
+
+    console.log("activeCityArray: " + JSON.stringify(activeCityArray))
+
+
+
+    // step 3 - calculate number of hotels and max page number for population identified in activeCityArray
+
+    newNumberHotels = Math.ceil(totalPopulation / 10000);
+
+    console.log("newNumberHotels: " + newNumberHotels);
+
+    newMaxPages = Math.ceil(newNumberHotels / 18);
+    if (newMaxPages > 15) {
+      newMaxPages = 15;
+    }
+
+    console.log("newMaxPages: " + newMaxPages);
+
+
+    // step 4
+
+    let maxHotels = 18
+
+    for (let i = 0; i < activeCityArray.length; i++) {
+
+
+      // number of pixels on map occupied by city
+      const cityPx = (activeCityArray[i].areaOuter / bboxAreaKm) * bboxAreaPx;
+      console.log("cityPx: " + cityPx)
+      // number of hotels which can be displyed on cityPx
+      const totalHotelsInCity = Math.ceil(cityPx / 1500);
+
+  console.log("totalHotelsInCity: " + totalHotelsInCity)
+
+
+      const cityHotelArray = generateHotelArray(activeCityArray[i].name, newHotelArray, totalHotelsInCity, [activeCityArray[i].polygonsOuter], locationBbox, true)
+
+      newHotelArray.push(...cityHotelArray);
+
+      console.log("newHotelArray: " + JSON.stringify(newHotelArray))
+
+      if (newHotelArray.length >= maxHotels) {
+        break;
+      }
+    }
+
+    /*
     // get polygons for country
     const locationPolygons = getCountryPolygons(locationData.name);
     console.log("locationPolygons COUNTRY: " + JSON.stringify(locationPolygons))
@@ -80,8 +200,9 @@ newHotelArray = newHotelArrayOuter.concat(newHotelArrayInner);
 
     //
 
-newHotelArray = generateHotelArray([], 18, [locationPolygons], locationBbox, true)
+newHotelArray = generateHotelArray("cityName", [], 18, [locationPolygons], locationBbox, true)
 //  shuffleArray(newHotelArray);
+*/
 
   }
 

@@ -197,17 +197,17 @@ let serverRoute
 
   const fulfilServerCall = (newSearchResults) => {
 
-    // console.log("fulfilServerCall_newSearchResults: " + JSON.stringify(newSearchResults))
+     console.log("fulfilServerCall_newSearchResults: " + JSON.stringify(newSearchResults))
     if (newSearchResults.searchKey === searchKeyRef.current) {
       console.log("newSearchResults.searchKey === searchKeyRef.current")
     setHotelArray(newSearchResults.hotelArray)
     if (newSearchResults.mapBbox) {
     setMapBbox(newSearchResults.mapBbox)
   }
-  if (newSearchResults.numberHotels) {
+  if (typeof newSearchResults.numberHotels === "number") {
     setNumberHotels(newSearchResults.numberHotels)
   }
-  if (newSearchResults.maxPages) {
+  if (typeof newSearchResults.maxPages === "number") {
     setMaxPages(newSearchResults.maxPages)
   }
   console.log("fulfilServerCall_activePage: " + JSON.stringify(activePage))
@@ -266,7 +266,8 @@ serverRoute = mapSearch(newSearchKey, searchData, prevHotelArray)
     setSavedMapData(false)
     const newSearchKey = generateKey();
     setLatestSearchKey(newSearchKey)
-    serverRoute = locationSearch(newSearchKey, searchData);
+    console.log("savedMapData: " + JSON.stringify(savedMapData))
+    serverRoute = locationSearch(newSearchKey, searchData, savedMapData);
 
   }
 

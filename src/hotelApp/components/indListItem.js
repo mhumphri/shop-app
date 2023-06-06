@@ -100,7 +100,7 @@ function IndListItem(props) {
                 : "ind-list-item-te8"
             }
           >
-            somewhere in {props.hotelData.country}
+            {props.hotelData.locationName}
           </div>
         </div>
         <div>

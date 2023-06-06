@@ -1,108 +1,88 @@
+///////////////
 
+const zoom = newMapParameters.zoom
+const existingHotels = existingHotelArray.length
 
+if (zoom<7 && urbanPolygons.length>0) {
+    newHotelArray = generateHotelArray(existingHotelArray, 18, urbanPolygons, paddedBbox)
+}
+else if (zoom>6 && cityPolygons.length>0) {
 
+if (cityPolygons.length<urbanPolygons.length) {
+// find and delete urban polygons which intersect with city polygons
 
-// number of hotels from previous search which have been retained for current search (as they fall within current search map bounds)
-const currentArrayLength = newHotelArray.length;
+let residualUrbanPolygons = [ ...urbanPolygons]
+console.log("residualUrbanPolygons: " + JSON.stringify(residualUrbanPolygons))
 
-// !!!NEED AN EXTRA STEP HERE TO ACCOUNT FOR PHTOS RETAINED FROM PREV SEARCH!!!!
-// generates array with numbers 0 to 19 - used to select unique photo from list of stock photos
-let indexArray = [];
-for (let i = 0; i < 26; i++) {
-  indexArray.push(i);
+/*
+let i = residualUrbanPolygons.length;
+while (i >= 0) {
+  console.log("residualUrbanPolygons: " + JSON.stringify(residualUrbanPolygons[i]))
+    i--;
+}
+*/
+
 }
 
-// adds new hotels to make up difference between the number of hotels retained frok previous search and number required for this search
-for (let i = currentArrayLength; i < numHotels; i++) {
-  // randomly selects an index value from indexArray
-  const mainPicIndex = Math.floor(Math.random() * indexArray.length);
-  // sets value (number between 0 and 19) to identify main photo
-  const mainPic = indexArray[mainPicIndex];
-  // main pic value is deleted from index array, so it cannot be selected again
-  indexArray.splice(mainPicIndex, 1);
-  //!! NEED TO SEE WHAT'S GOING ON WITH BOX AND MARGIN!!
-  // generates location coords and country using mapboounds, mapbox, margin and active polygons as arguments
-  const location = getRandomLocation(
-    mapParameters.bounds,
-    mapParameters.box,
-    50,
-    activePolygons
-  );
+else {
+console.log("cityPolygons[0]: " + JSON.stringify(cityPolygons[0]))
+const locationBbox = bbox(cityPolygons[0].circleOuter);
+const requiredHotels = 18 - existingHotels
+const numberHotelsInner = Math.round(requiredHotels*2/3)
+const numberHotelsOuter = requiredHotels - numberHotelsInner
+const newHotelArrayOuter = generateHotelArray([], numberHotelsOuter, cityPolygons[0].polygonsOuter, locationBbox, true)
+const newHotelArrayInner = generateHotelArray([], numberHotelsInner, cityPolygons[0].polygonsInner, locationBbox, true)
+const currentCityArray = newHotelArrayOuter.concat(newHotelArrayInner);
+newHotelArray = existingHotelArray.concat(currentCityArray);
 
-  // generates data from new hotel and adds to search results array
-  const newHotel = {
-    name: "accomodation name",
-    key: generateKey(12),
-    coords: location.coords,
-    country: location.country,
-    price: randomNumberInRange(30, 450),
-    photos: getPhotos(mainPic),
-    rating: randomNumberInRange(30, 50) / 10,
-    numReviews: randomNumberInRange(5, 200),
-  };
-  newHotelArray.push(newHotel);
+}
+}
+else if (urbanPolygons.length>0) {
+  newHotelArray = generateHotelArray(existingHotelArray, 18, urbanPolygons, paddedBbox)
+}
+else {
+  newHotelArray = []
 }
 
 
-//////////////////
-
-{props.itemLoading ? null : (
-  <div class="swipeable-gallery-o1q">
-    <div />
+// number of hotels returned >0 search results are generated an stored in hotelArray state
+/* if (activePolygons.length > 0) {
 
 
 
-    <div class="swipeable-gallery-b1t">
-      <div class="swipeable-gallery-byc"></div>
-      <div class="swipeable-gallery-bal">
-        <div
-          role="img"
-          class="swipeable-gallery-r75"
-        >
-          <div class="swipeable-gallery-szn">
-            {dotsRender(currentPhoto)}
-          </div>
-        </div>
-      </div>
-      <div class="swipeable-gallery-b18"></div>
-    </div>
-  </div>
-)}
+  newHotelArray = generateHotelArray(existingHotelArray, numberHotelsInArray, urbanPolygons, paddedBbox)
 
-/////////
+} */
 
-const allowUpdate = () => {
-  let allowUpdate = true
-  // calcs time interval since last screen resize (if below 500ms it is assumed that change in map bounds results from screen resize and new search is aborted)
-  const msSinceResize = Date.now() - resize;
 
-  if (msSinceResize < 500) {
-    allowUpdate = false
+
+/////////////
+
+if (cityPolygons.length<urbanPolygons.length) {
+  // find and delete urban polygons which intersect with city polygons
+
+  let residualUrbanPolygons = [ ...urbanPolygons]
+
+  let i = residualUrbanPolygons.length;
+  while (i >= 0) {
+    for (let j=0; j<cityPolygons.length; j++) {
+      if (booleanIntersects(residualUrbanPolygons[i], cityPolygons[j])) {
+        console.log("booleanIntersects!!!")
+      }
+    }
+    /* const random = Math.floor(Math.random() * otherPhotosArray.length);
+    otherPhotosArray.splice(random, 1); */
+    i--;
   }
 
-  if (lastViewToggle) {
-    const msSinceLastViewToggle = Date.now() - lastViewToggle;
-    console.log("msSinceLastViewToggleX: " + msSinceLastViewToggle)
-    console.log("expandMapView: " + expandMapView)
-    if (largeView && !expandMapView && msSinceLastViewToggle < 1500) {
-      allowUpdate = false
-    }
-    if (largeView && expandMapView && msSinceLastViewToggle < 500) {
-      allowUpdate = false
-    }
-    if (!largeView && msSinceLastViewToggle < 500) {
-      allowUpdate = false
-    }
-  }
-
-  if (lastSearchModalEvent) {
-    const msSinceLastSearchModalEvent = Date.now() - lastSearchModalEvent;
-    console.log("msSinceLastSearchModalEvent: " + msSinceLastSearchModalEvent)
-    if (msSinceLastSearchModalEvent<500) {
-      allowUpdate = false
-    }
-  }
-  return allowUpdate
 }
 
-console.log("allowUpdate(): " + allowUpdate())
+
+
+// randomly delete photos from otherPhotos array until reach given number
+let i = otherPhotosArray.length;
+while (i >= numPhotos) {
+  const random = Math.floor(Math.random() * otherPhotosArray.length);
+  otherPhotosArray.splice(random, 1);
+  i--;
+}

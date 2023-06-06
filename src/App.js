@@ -7,6 +7,7 @@ import PortfolioList from "./homepage/components/portfolioList";
 import RangeSlider from "./rangeSlider/components/rangeSlider";
 import HotelApp from "./hotelApp/components/hotelApp";
 import Modal from "./modal/components/modal";
+import DatePickersAll from "./datePicker/components/datePickersAll";
 
 function App() {
 
@@ -70,6 +71,15 @@ function App() {
           element={
             <>
               <HotelApp />
+            </>
+          }
+        />
+        <Route
+          path="/date-picker"
+          element={
+            <>
+            <TopNav itemName="datePicker" />
+              <DatePickersAll />
             </>
           }
         />

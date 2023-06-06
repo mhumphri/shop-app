@@ -12,6 +12,7 @@ const getHotelArrayInit = () => {
       photos: [],
       rating: 3.8,
       numReviews: 122,
+      locationName: "city in country",
     };
     hotelArrayInit.push(newHotel);
   }

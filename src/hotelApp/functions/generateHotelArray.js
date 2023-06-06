@@ -3,28 +3,23 @@ import getOtherPhotos from "./getOtherPhotos";
 import getRandomLocation from "./getRandomLocation";
 import randomNumberInRange from "./randomNumberInRange";
 import generateKey from "./generateKey";
+import countryPolygons from "../data/countryPolygons.json";
 
 // generates data for hotels returned by search. Takes numbers of hotels, active land polygons and refresh (deleted all prev results if true) as arguments
 const generateHotelArray = (
-  newHotelArray,
+  cityName,
+  existingHotelArray,
   numHotels,
   activePolygons,
   paddedBbox,
   locationSearch
 ) => {
-
-
-
-
-  // number of hotels from previous search which have been retained for current search (as they fall within current search map bounds)
-  const currentArrayLength = newHotelArray.length;
-
   let newHotelData = { ...hotelData };
 
-  // deletes properties from newHotelData, if those hotels are present in newHotelArray (so that hotels do not appear more than once in the search results)
-  for (let i = 0; i < newHotelArray.length; i++) {
-    if (newHotelData[newHotelArray[i].hotelDataKey]) {
-      delete newHotelData[newHotelArray[i].hotelDataKey];
+  // deletes properties from newHotelData, if those hotels are present in existingHotelArray (so that hotels do not appear more than once in the search results)
+  for (let i = 0; i < existingHotelArray.length; i++) {
+    if (newHotelData[existingHotelArray[i].hotelDataKey]) {
+      delete newHotelData[existingHotelArray[i].hotelDataKey];
     }
   }
 
@@ -34,9 +29,10 @@ const generateHotelArray = (
     return obj[keys[(keys.length * Math.random()) << 0]];
   };
 
-  // adds new hotels to make up difference between the number of hotels retained frok previous search and number required for this search
-  for (let i = currentArrayLength; i < numHotels; i++) {
+  let newHotelArray = [];
 
+  // adds new hotels to make up difference between the number of hotels retained frok previous search and number required for this search
+  for (let i = 0; i < numHotels; i++) {
     // randomly selects hotel from newHotelData object
     const randomHotel = getRandomHotel(newHotelData);
     // deletes selected hotel from newHotelData object (so that it cannot appear twice in the search results)
@@ -55,6 +51,24 @@ const generateHotelArray = (
       locationSearch
     );
 
+    let locationName = "somewhere in " + location.country
+    if (cityName) {
+      locationName = cityName + ", " + location.country
+    }
+
+    let countryIncomeLevel
+
+    for (let i=0; i<countryPolygons.features.length; i++) {
+
+        if (location.country===countryPolygons.features[i].properties.NAME) {
+          /* place inside array brackets so can be processed in getRandomCoordinates() */
+          countryIncomeLevel=Number(countryPolygons.features[i].properties.INCOME_GRP.substring(0, 1));
+          break;
+        }
+
+    }
+    console.log("countryIncomeLevel: " + countryIncomeLevel)
+
     // generates data from new hotel and adds to search results array
     const newHotel = {
       name: randomHotel.name,
@@ -62,17 +76,18 @@ const generateHotelArray = (
       hotelDataKey: randomHotel.key,
       coords: location.coords,
       country: location.country,
-      price: randomNumberInRange(30, 450),
+      price: Math.ceil(randomNumberInRange(50, 350)/countryIncomeLevel),
       photos: mergedPhotoArray,
       rating: randomNumberInRange(30, 50) / 10,
       numReviews: randomNumberInRange(5, 200),
+      cityName: cityName,
+      locationName: locationName,
     };
 
     newHotelArray.push(newHotel);
   }
 
   return newHotelArray;
-
 };
 
-export default generateHotelArray
+export default generateHotelArray;

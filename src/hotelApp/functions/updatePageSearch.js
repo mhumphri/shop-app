@@ -17,7 +17,7 @@ let searchResults
     console.log("updatePageSearch3")
     console.log("finalPageHotels: " + finalPageHotels)
 
-    searchResults = locationSearch(searchKey, searchLocation, "updatePage", finalPageHotels)
+    searchResults = locationSearch(searchKey, searchLocation, mapData, "updatePage", finalPageHotels)
   }
 
   console.log("updatePageSearch4")

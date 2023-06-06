@@ -32,7 +32,7 @@ function PopoutBoxSm(props) {
             <div>
               <div class="popout-box-sm-jh3">{props.markerData.name}</div>
 
-              <div class="popout-box-sm-jh4">{props.markerData.country}</div>
+              <div class="popout-box-sm-jh4">{props.markerData.locationName}</div>
             </div>
 
             <div>

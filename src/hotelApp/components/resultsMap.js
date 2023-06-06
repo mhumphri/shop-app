@@ -592,7 +592,7 @@ function ResultsMap(props) {
           <div class="results-map-lq2">${markerData.name}</div>
         </div>
 
-        <div class="results-map-jh4">somewhere in ${markerData.country}</div>
+        <div class="results-map-jh4">${markerData.locationName}</div>
       </div>
       <div>
         <div class="results-map-pp1">
