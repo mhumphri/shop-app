@@ -2,7 +2,6 @@ import getActivePolygons from "./getActivePolygons";
 import getHotelNumber from "./getHotelNumber";
 import generateHotelArray from "./generateHotelArray";
 import getHotelsInBbox from "./getHotelsInBbox";
-import getUrbanPolygons from "./getUrbanPolygons";
 import getBboxCityPolygons from "./getBboxCityPolygons";
 import shuffleArray from "./shuffleArray";
 import calcLandArea from "./calcLandArea";

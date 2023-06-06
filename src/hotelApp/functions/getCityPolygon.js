@@ -1,4 +1,3 @@
-import cityPoints from "../data/cityPoints.json";
 import cityData from "../data/cityData.json";
 import landPolygons from "../data/landPolygons.json";
 import getCityRadius from "./getCityRadius";

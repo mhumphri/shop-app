@@ -1,7 +1,6 @@
 import getCountryPolygons from "./getCountryPolygons";
 import landPolygons from "../data/landPolygons.json";
 import getCityPolygon from "./getCityPolygon";
-import getCityPolygonArray from "./getCityPolygonArray";
 import generateHotelArray from "./generateHotelArray";
 import getCityRadius from "./getCityRadius";
 import mapSearch from "./mapSearch";
@@ -119,16 +118,7 @@ newHotelArray = newHotelArrayOuter.concat(newHotelArrayInner);
 
           totalPopulation =
             totalPopulation + cityData.features[i].properties.pop_max;
-/*
-            let polygonsOuter = [];
 
-            for (let i = 0; i < countryPolygons.length; i++) {
-              const intersectionOuter = intersect(cityCircle, countryPolygons[i]);
-              if (intersectionOuter) {
-                polygonsOuter.push(intersectionOuter);
-              }
-            }
-            */
 
             const newCity = {
               name: cityData.features[i].properties.name,
