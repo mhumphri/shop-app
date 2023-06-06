@@ -219,7 +219,7 @@ const mapSearch = (
       if (newHotelsInCity > maxNewHotels) {
         newHotelsInCity = maxNewHotels;
       }
-
+      console.log("NAME!!: " + cityPolygons[i].name)
       const cityHotelArray = generateHotelArray(
         cityPolygons[i].name,
         newHotelArray,

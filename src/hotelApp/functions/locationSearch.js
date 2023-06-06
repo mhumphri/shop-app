@@ -72,8 +72,9 @@ if (finalPageHotels) {
 }
 
 console.log("locationBbox: " + JSON.stringify(locationBbox))
-const newHotelArrayOuter = generateHotelArray("cityName", [], numberHotelsOuter, cityPolygons.polygonsOuter, locationBbox, true)
-const newHotelArrayInner = generateHotelArray("cityName", [], numberHotelsInner, cityPolygons.polygonsInner, locationBbox, true)
+console.log("cityPolygons.name: " + cityPolygons.name)
+const newHotelArrayOuter = generateHotelArray(cityPolygons.name, [], numberHotelsOuter, cityPolygons.polygonsOuter, locationBbox, true)
+const newHotelArrayInner = generateHotelArray(cityPolygons.name, [], numberHotelsInner, cityPolygons.polygonsInner, locationBbox, true)
 newHotelArray = newHotelArrayOuter.concat(newHotelArrayInner);
 
 

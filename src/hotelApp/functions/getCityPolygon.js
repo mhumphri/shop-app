@@ -20,8 +20,10 @@ const getCityPolygon = (cityName, activePolygons) => {
   let cityPoint;
   let cityArea;
   let cityPopulation;
+  let cityNameOnly
 
   for (let i = 0; i < cityData.features.length; i++) {
+    cityNameOnly = cityData.features[i].properties.name
     const elementCityName =
       cityData.features[i].properties.name +
       ", " +
@@ -77,7 +79,7 @@ const getCityPolygon = (cityName, activePolygons) => {
   }
 
   return {
-    name: cityName,
+    name: cityNameOnly,
     population: cityPopulation,
     polygonsOuter: polygonsOuter,
     polygonsInner: polygonsInner,

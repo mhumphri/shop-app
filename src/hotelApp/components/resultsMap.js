@@ -801,6 +801,10 @@ function ResultsMap(props) {
         setMapDragged(false);
         setMapZoomed(false);
       }
+      // resets searchLocationUpdate boolean after it has cancelled map search
+      if (props.searchLocationUpdate) {
+        props.setSearchLocationUpdate(false)
+      }
     }
   });
 
@@ -820,7 +824,10 @@ function ResultsMap(props) {
                 }}
                 data-testid="map/GoogleMap"
               >
-                <div
+
+
+              {props.largeView ?
+                (<div
                   class="cezhrh0 c1aiokyr dir dir-ltr"
                   style={{
                     whiteSpace: "nowrap",
@@ -872,7 +879,13 @@ function ResultsMap(props) {
                       </button>
                     </div>
                   </div>
-                </div>
+                </div>) : null}
+
+
+
+
+
+
                 {props.dataLoading || props.pageLoading ? (
                   <Loader
                     largeView={props.largeView}

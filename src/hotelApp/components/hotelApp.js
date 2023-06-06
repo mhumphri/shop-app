@@ -225,7 +225,7 @@ let serverRoute
 
 
   if (type === "map") {
-console.log("map server call")
+// console.log("map server call")
     if (savedMapData) {
       searchData.prevZoom = savedMapData.zoom
     }
@@ -263,7 +263,7 @@ serverRoute = mapSearch(newSearchKey, searchData, prevHotelArray)
 
     initialiseSearch()
     setLocationSearchCurrent(true)
-    setSavedMapData(false)
+    // setSavedMapData(false)
     const newSearchKey = generateKey();
     setLatestSearchKey(newSearchKey)
     console.log("savedMapData: " + JSON.stringify(savedMapData))
@@ -422,6 +422,7 @@ serverRoute = mapSearch(newSearchKey, searchData, prevHotelArray)
             hoverHotel={hoverHotel}
             handleMapMove={handleMapMove}
             searchLocationUpdate={searchLocationUpdate}
+            setSearchLocationUpdate={setSearchLocationUpdate}
             makeServerCall={makeServerCall}
             firstLoad={firstLoad}
             mapContainer={mapContainer}
