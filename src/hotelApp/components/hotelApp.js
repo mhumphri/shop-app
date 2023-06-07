@@ -4,22 +4,15 @@ import ResultsMap from "./resultsMap";
 import ResultsList from "./resultsList";
 import HotelAppNav from "./hotelAppNav";
 import LinkModal from "./linkModal";
-import getActivePolygons from "../functions/getActivePolygons";
-import getCountryPolygons from "../functions/getCountryPolygons";
-import getRandomLocation from "../functions/getRandomLocation";
-import getOtherPhotos from "../functions/getOtherPhotos";
-import calcLandArea from "../functions/calcLandArea";
 import generateKey from "../functions/generateKey";
-import randomNumberInRange from "../functions/randomNumberInRange";
 import getHotelArrayInit from "../functions/getHotelArrayInit";
 import mapSearch from "../functions/mapSearch";
 import locationSearch from "../functions/locationSearch";
 import updatePageSearch from "../functions/updatePageSearch";
 import searchRefreshSearch from "../functions/searchRefreshSearch";
-import hotelData from "../data/hotelData";
 import "../css/hotelApp.css";
 
-// main component for earchPage app - contains homepage and all the logic for generating mock search results in place of server
+// homepage component for hotelApp - contains jsx for homepage and search/server comms logic
 
 function HotelApp(props) {
   // large view (boolean indicating if app currently in large view) and screen height (stored in redux)
@@ -33,7 +26,7 @@ function HotelApp(props) {
   // params of the currently visible map (bounds, center, zoom and box (position on screen))
   const [mapParameters, setMapParameters] = useState();
   // current stored search location (either country name or "map area")
-  const [searchLocation, setSearchLocation] = useState({name: ""});
+  const [searchLocation, setSearchLocation] = useState({ name: "" });
   // boolean which is true if user has updated search location input - used to prevent search being updated in response to map bounds changing from location search
   const [searchLocationUpdate, setSearchLocationUpdate] = useState();
   // array containg data for current search results
@@ -46,8 +39,6 @@ function HotelApp(props) {
   const [maxPages, setMaxPages] = useState();
   // boolean set to true when new search data is loading
   const [dataLoading, setDataLoading] = useState(true);
-  // boolean set to true when data for a new search page is loading (distinct from dataLoading as number of search results / max pages doesn't update)
-  const [pageLoading, setPageLoading] = useState();
   // stores currently active page (which is shown / controlled by paginationNav)
   const [activePage, setActivePage] = useState(1);
   // stores currently active page (which is shown / controlled by paginationNav)
@@ -64,6 +55,7 @@ function HotelApp(props) {
   const [locationSearchCurrent, setLocationSearchCurrent] = useState();
   // holds key for latest search - used to filter out returns for older searches, if several are active simultaneously
   const [latestSearchKey, setLatestSearchKey] = useState();
+  // used to store current version latestSearchKey - needed as function is called fromgoogle maps event handler (to avoid react state closure issue)
   const searchKeyRef = useRef();
   searchKeyRef.current = latestSearchKey;
 
@@ -74,26 +66,7 @@ function HotelApp(props) {
   const updateSearchLocation = (newLocation) => {
     setSearchLocation(newLocation);
     setSearchLocationUpdate(true);
-    makeServerCall("location", newLocation)
-
-  };
-
-
-  // generates number of hotels based on land area implied by active map bounds (more land in scope = more hotels)
-  const getHotelNumber = (activePolygons) => {
-    const landArea = calcLandArea(activePolygons);
-    return Math.round((landArea / 10000000) * randomNumberInRange(5, 30));
-  };
-
-  // updates numberHotels state, calcs and updates MaxPages state and resets active page state to 1
-  const updateHotelAndPages = (newNumberHotels) => {
-    setNumberHotels(newNumberHotels);
-    let newMaxPages = Math.ceil(newNumberHotels / 18);
-    if (newMaxPages > 15) {
-      newMaxPages = 15;
-    }
-    setMaxPages(newMaxPages);
-    setActivePage(1);
+    makeServerCall("location", newLocation);
   };
 
   // boolean controlling visibility of map button (if page scrolled right down beyond limit of listcontainer, the button is not rendered)
@@ -104,8 +77,6 @@ function HotelApp(props) {
   const [mapStyle, setMapStyle] = useState("m1ict9kd dir dir-ltr");
   // ref for outer container of results list (used for controlling visibility of "show list" / "show map" button)
   const listContainerRef = useRef(null);
-
-
 
   // listens for scroll event (to control visibility of map/list items button in render, as it disappears when scrolled down to pagination nav)
   useEffect(() => {
@@ -162,157 +133,133 @@ function HotelApp(props) {
 
   // handles user inputs from paginationNav
   const goToPage = (newPageNumber) => {
-    setActivePage(newPageNumber)
-    makeServerCall("updatePage", newPageNumber)
+    setActivePage(newPageNumber);
+    makeServerCall("updatePage", newPageNumber);
   };
 
+  // handles user click on nav search icon - makes srver call to refresh search
   const handleNavSearchClick = () => {
-    makeServerCall("searchRefresh")
-  }
-
-  // updates search results in response to the map moving (either when there is a drag or zoom event )
-  const handleMapMove = (newMapParameters, refreshHotels) => {
-
-    console.log("handleMapMove: " + JSON.stringify(newMapParameters));
-
-
+    makeServerCall("searchRefresh");
   };
 
-const makeServerCall = (type, searchData) => {
+  // handles server calls and routes - mimics REST API POST call - uses promises and timeOut functions to imitate server comms
+  const makeServerCall = (type, searchData) => {
+    let serverRoute;
 
+    const initialiseSearch = (newSearchKey) => {
+      // sets data loading which turns on loader icon and greys out results in searchList
+      setDataLoading(true);
+      // stores key for search
+      setLatestSearchKey(newSearchKey);
+      // scrolls back to top of resultsList when searchData is returned
+      window.scrollTo(0, 0);
+    };
 
-let serverRoute
-
-  // const timeStamp = Date.now()
-// IMPLEMENT SEARCK KEY!!!!
-
-  const initialiseSearch = () => {
-    setDataLoading(Date.now())
-    const searchKey = generateKey()
-
-    // scrolls back to top of resultsList when searchData is returned
-    window.scrollTo(0, 0);
-  }
-
-
-  const fulfilServerCall = (newSearchResults) => {
-
-     console.log("fulfilServerCall_newSearchResults: " + JSON.stringify(newSearchResults))
-    if (newSearchResults.searchKey === searchKeyRef.current) {
-      console.log("newSearchResults.searchKey === searchKeyRef.current")
-    setHotelArray(newSearchResults.hotelArray)
-    if (newSearchResults.mapBbox) {
-    setMapBbox(newSearchResults.mapBbox)
-  }
-  if (typeof newSearchResults.numberHotels === "number") {
-    setNumberHotels(newSearchResults.numberHotels)
-  }
-  if (typeof newSearchResults.maxPages === "number") {
-    setMaxPages(newSearchResults.maxPages)
-  }
-  console.log("fulfilServerCall_activePage: " + JSON.stringify(activePage))
-  if (newSearchResults.activePage) {
-    setActivePage(newSearchResults.activePage);
-  }
-    setDataLoading(false)
-    if (firstLoad) {
-    setFirstLoad(false)
-  }
-}
-  }
-
-
-
-
-  if (type === "map") {
-// console.log("map server call")
-    if (savedMapData) {
-      searchData.prevZoom = savedMapData.zoom
+    // hadles data object returned from server, updating state for which data has been returned
+    const fulfilServerCall = (newSearchResults) => {
+      // search key for server response must match most recent searchkey stored locally - this is to avoid state being updated with data from search calls which have been superceded
+      if (newSearchResults.searchKey === searchKeyRef.current) {
+        setHotelArray(newSearchResults.hotelArray);
+        // updates map boundary box (for location search when map will move in response to search results)
+        if (newSearchResults.mapBbox) {
+          setMapBbox(newSearchResults.mapBbox);
+        }
+        // sets number of hotels for current search "typeof" used as a zero response is also falsey
+        if (typeof newSearchResults.numberHotels === "number") {
+          setNumberHotels(newSearchResults.numberHotels);
+        }
+        // sets number of maxPages for current search "typeof" used as a zero response is also falsey
+        if (typeof newSearchResults.maxPages === "number") {
+          setMaxPages(newSearchResults.maxPages);
+        }
+        // resets search page (i.e. sets page to 1)
+        if (newSearchResults.activePage) {
+          setActivePage(newSearchResults.activePage);
+        }
+        setDataLoading(false);
+        if (firstLoad) {
+          setFirstLoad(false);
+        }
+      }
+    };
+    // handles server calls initiated by map movements ("idle google map event handler")
+    if (type === "map") {
+      // adds previous zoom level to search object
+      if (savedMapData) {
+        searchData.prevZoom = savedMapData.zoom;
+      }
+      // locationSearchCurrent boolean is true server call is aborted and boolean set to false (this is to avopid a search being triggered by map movement caused by location search)
+      if (locationSearchCurrent) {
+        setLocationSearchCurrent(false);
+      } else {
+        // updates savedMapData with latest search data
+        setSavedMapData(searchData);
+        let prevHotelArray = hotelArray;
+        // if not first load searchLocation set to "map search" . If firstLoad searchLocation remains unchanged and prevHotelArray is set to false (to avoid init dummy variables being sent to server)
+        if (firstLoad) {
+          prevHotelArray = [];
+        } else {
+          setSearchLocation({ name: "map area" });
+        }
+        // generates unique key and calls initialise search function
+        const newSearchKey = generateKey();
+        initialiseSearch(newSearchKey);
+        // sets up route (function mimics REST API POST call) for map search server call
+        serverRoute = mapSearch(newSearchKey, searchData, prevHotelArray);
+      }
     }
-
-
-
-
-if (locationSearchCurrent) {
-  setLocationSearchCurrent(false)
-}
-else {
-  initialiseSearch()
-    setSavedMapData(searchData)
-    let prevHotelArray = hotelArray
-if (firstLoad) {
-prevHotelArray = []
-}
-else {
-  setSearchLocation({name: "map area"});
-}
-
-const newSearchKey = generateKey();
-setLatestSearchKey(newSearchKey)
-serverRoute = mapSearch(newSearchKey, searchData, prevHotelArray)
-
-
-
-
-
-
-
-  }
-  }
-  else if (type === "location") {
-
-    initialiseSearch()
-    setLocationSearchCurrent(true)
-    // setSavedMapData(false)
-    const newSearchKey = generateKey();
-    setLatestSearchKey(newSearchKey)
-    console.log("savedMapData: " + JSON.stringify(savedMapData))
-    serverRoute = locationSearch(newSearchKey, searchData, savedMapData);
-
-  }
-
-  else if (type === "updatePage") {
-    console.log("updatePage search")
-    initialiseSearch()
-    const newSearchKey = generateKey();
-    setLatestSearchKey(newSearchKey)
-
-    const newPageNumber = searchData
-    console.log("newPageNumber: " + newPageNumber)
-    let finalPageHotels = false;
-    if (maxPages===newPageNumber) {
-      console.log("maxPages===newPageNumber")
-      finalPageHotels = numberHotels-(maxPages-1)*18
-
+    // handles server calls initiated by user selecting option from location dropdown menu
+    else if (type === "location") {
+      // boolean which prevents map search being triggered by map movement caused by change of location
+      setLocationSearchCurrent(true);
+      // generates unique key and calls initialise search function
+      const newSearchKey = generateKey();
+      initialiseSearch(newSearchKey);
+      // sets up route (function mimics REST API POST call) for location search server call
+      serverRoute = locationSearch(newSearchKey, searchData, savedMapData);
     }
-    console.log("finalPageHotels: " + finalPageHotels)
-    serverRoute = updatePageSearch(newSearchKey, searchLocation, savedMapData, finalPageHotels);
+    // handles server calls initiated by user selecting a new page from the pagination nav
+    else if (type === "updatePage") {
+      // generates unique key and calls initialise search function
+      const newSearchKey = generateKey();
+      initialiseSearch(newSearchKey);
+      const newPageNumber = searchData;
+      let finalPageHotels = false;
+      // if page specified by search is the max page posiible, the number of results for the final page is calculated and sent as an argument (inreality this would prob happen server side)
+      if (maxPages === newPageNumber) {
+        console.log("maxPages===newPageNumber");
+        finalPageHotels = numberHotels - (maxPages - 1) * 18;
+      }
+      // sets up route (function mimics REST API POST call) for update page search
+      serverRoute = updatePageSearch(
+        newSearchKey,
+        searchLocation,
+        savedMapData,
+        finalPageHotels
+      );
+    }
+    // handles server calls initiated by user clicking on nav search icon
+    else if (type === "searchRefresh") {
+      // generates unique key and calls initialise search function
+      const newSearchKey = generateKey();
+      initialiseSearch(newSearchKey);
+      // sets up route (function mimics REST API POST call) for search refresh search
+      serverRoute = searchRefreshSearch(
+        newSearchKey,
+        searchLocation,
+        savedMapData,
+        hotelArray
+      );
+    }
+    //
+    const makeServerCall = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(serverRoute);
+      }, 1500);
+    });
 
-
-  }
-
-  else if (type === "searchRefresh") {
-    initialiseSearch();
-    const newSearchKey = generateKey();
-    setLatestSearchKey(newSearchKey)
-    serverRoute = searchRefreshSearch(newSearchKey, searchLocation, savedMapData, hotelArray);
-
-  }
-
-  const makeServerCall = new Promise((resolve) => {
-
-
-    setTimeout(() => {
-      resolve(serverRoute);
-    }, 1500);
-  });
-
-  makeServerCall
-    .then((value) => fulfilServerCall(value))
-
-
-};
-
+    makeServerCall.then((value) => fulfilServerCall(value));
+  };
 
   return (
     <div className="search-map-nr6">
@@ -361,7 +308,9 @@ serverRoute = mapSearch(newSearchKey, searchData, prevHotelArray)
                 </span>
               </button>
             ) : null}
-            {!expandMapView && mapButtonActive && !dataLoading && !pageLoading ? (
+            {!expandMapView &&
+            mapButtonActive &&
+            !dataLoading  ? (
               <button
                 type="button"
                 class="search-map-174"
@@ -391,7 +340,7 @@ serverRoute = mapSearch(newSearchKey, searchData, prevHotelArray)
         </div>
 
         <div className={searchListStyle}>
-      <ResultsList
+          <ResultsList
             listContainerRef={listContainerRef}
             numberHotels={numberHotels}
             hotelArray={hotelArray}
@@ -399,7 +348,6 @@ serverRoute = mapSearch(newSearchKey, searchData, prevHotelArray)
             activePage={activePage}
             maxPages={maxPages}
             goToPage={goToPage}
-            pageLoading={pageLoading}
             setActiveLink={setActiveLink}
             hoverHotel={hoverHotel}
             setHoverHotel={setHoverHotel}
@@ -415,12 +363,10 @@ serverRoute = mapSearch(newSearchKey, searchData, prevHotelArray)
             mapParameters={mapParameters}
             hotelArray={hotelArray}
             dataLoading={dataLoading}
-            pageLoading={pageLoading}
             largeView={largeView}
             screenWidth={screenWidth}
             setActiveLink={setActiveLink}
             hoverHotel={hoverHotel}
-            handleMapMove={handleMapMove}
             searchLocationUpdate={searchLocationUpdate}
             setSearchLocationUpdate={setSearchLocationUpdate}
             makeServerCall={makeServerCall}

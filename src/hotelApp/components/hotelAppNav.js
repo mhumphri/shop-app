@@ -41,11 +41,9 @@ function HotelAppNav(props) {
     }
   }, [props.activeSearch, props.expandMapView, largeView]);
 
-
   // updates text input value when an input value is selected from the dropdown (large view) / seach modal (small view) list
   useEffect(() => {
     setLocationInputText(props.searchLocation.name);
-
   }, [props.searchLocation.name]);
 
   // resets search options for dropdown or search modal when they close
@@ -54,7 +52,10 @@ function HotelAppNav(props) {
     if (locationInputText !== props.searchLocation.name) {
       setLocationInputText(props.searchLocation.name);
       // if stored search location is set to either "map area" or there is no value for stored search location, search options are reset to popular locations default
-      if (props.searchLocation.name === "map area" || !props.searchLocation.name) {
+      if (
+        props.searchLocation.name === "map area" ||
+        !props.searchLocation.name
+      ) {
         setSearchResultArray(popularLocationArray);
         setPopularLocationActive(true);
       }
@@ -124,11 +125,11 @@ function HotelAppNav(props) {
   // opens dropdown (large view) / searchModal (small view) and clears text input value if stored search value is set to "map area"
   const locationSearch = () => {
     // if stored search location is "map area", text input value is set to  "" and search option list is reset to defaults
-   if (props.searchLocation.name === "map area") {
-      console.log("locationSearch2")
+    if (props.searchLocation.name === "map area") {
+      console.log("locationSearch2");
       setLocationInputText("");
-        setSearchResultArray(popularLocationArray);
-        setPopularLocationActive(true);
+      setSearchResultArray(popularLocationArray);
+      setPopularLocationActive(true);
     }
     // opens dropdown / search modal
     props.setActiveSearch("location");
@@ -150,9 +151,7 @@ function HotelAppNav(props) {
           searchResultArrayRef.current[highlightedDdOption].classList.remove(
             "highlighted"
           );
-          searchResultArrayRef.current[nextOption].classList.add(
-            "highlighted"
-          );
+          searchResultArrayRef.current[nextOption].classList.add("highlighted");
           setHighlightedDdOption(nextOption);
         }
       }
@@ -184,7 +183,6 @@ function HotelAppNav(props) {
 
   // updates text input value when user inputs text
   const textInputHandler = (event) => {
-
     const newInputValue = event.target.value;
     // if text input string length is zero, search options list is set to default popular options
     if (newInputValue.length === 0) {
@@ -208,7 +206,7 @@ function HotelAppNav(props) {
         const locationNameFragment = allLocationArray[i].name
           .substring(0, inputLowerCase.length)
           .toLowerCase();
-          // compare text string against location name fragment, if match push to active search option array
+        // compare text string against location name fragment, if match push to active search option array
         if (inputLowerCase === locationNameFragment) {
           activeLocations.push(allLocationArray[i]);
           count++;
@@ -322,7 +320,7 @@ function HotelAppNav(props) {
                 </svg>
               </button>
             </div>
-            { props.activeSearch ? (
+            {props.activeSearch ? (
               <>
                 <div className="search-map-nav-mm2" onClick={closeDropdown} />
                 <div class="search-map-nav-xhc">
@@ -340,9 +338,7 @@ function HotelAppNav(props) {
                         searchResultArray.map((x, i) => (
                           <div
                             key={x + i + searchResultArray.length}
-                            ref={(el) =>
-                              (searchResultArrayRef.current[i] = el)
-                            }
+                            ref={(el) => (searchResultArrayRef.current[i] = el)}
                             class="search-map-nav-uzo"
                             onClick={() => selectLocation(x)}
                           >
@@ -365,12 +361,12 @@ function HotelAppNav(props) {
                         <div class="search-map-nav-jp4">
                           <div class="search-map-nav-182">no matches</div>
                         </div>
-                      ) }
+                      )}
                     </div>
                   </div>
                 </div>
               </>
-            ) : null }
+            ) : null}
           </nav>
         </div>
         <div class="search-map-nav-c1kb">

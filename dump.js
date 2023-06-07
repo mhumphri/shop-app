@@ -1,88 +1,261 @@
-///////////////
+const calcSinglePanelDimensions = () => {
+  const newSinglePanelDimensions = {
 
-const zoom = newMapParameters.zoom
-const existingHotels = existingHotelArray.length
-
-if (zoom<7 && urbanPolygons.length>0) {
-    newHotelArray = generateHotelArray(existingHotelArray, 18, urbanPolygons, paddedBbox)
-}
-else if (zoom>6 && cityPolygons.length>0) {
-
-if (cityPolygons.length<urbanPolygons.length) {
-// find and delete urban polygons which intersect with city polygons
-
-let residualUrbanPolygons = [ ...urbanPolygons]
-console.log("residualUrbanPolygons: " + JSON.stringify(residualUrbanPolygons))
-
-/*
-let i = residualUrbanPolygons.length;
-while (i >= 0) {
-  console.log("residualUrbanPolygons: " + JSON.stringify(residualUrbanPolygons[i]))
-    i--;
-}
-*/
-
+  }
+  return newSinglePanelDimensions
 }
 
-else {
-console.log("cityPolygons[0]: " + JSON.stringify(cityPolygons[0]))
-const locationBbox = bbox(cityPolygons[0].circleOuter);
-const requiredHotels = 18 - existingHotels
-const numberHotelsInner = Math.round(requiredHotels*2/3)
-const numberHotelsOuter = requiredHotels - numberHotelsInner
-const newHotelArrayOuter = generateHotelArray([], numberHotelsOuter, cityPolygons[0].polygonsOuter, locationBbox, true)
-const newHotelArrayInner = generateHotelArray([], numberHotelsInner, cityPolygons[0].polygonsInner, locationBbox, true)
-const currentCityArray = newHotelArrayOuter.concat(newHotelArrayInner);
-newHotelArray = existingHotelArray.concat(currentCityArray);
+// stores datepicker dimensions for a single panel render in large view - responsive to container width
+const [singlePanelDimensions, setSinglePanelDimensions] = useState(calcSinglePanelDimensions());
 
-}
-}
-else if (urbanPolygons.length>0) {
-  newHotelArray = generateHotelArray(existingHotelArray, 18, urbanPolygons, paddedBbox)
-}
-else {
-  newHotelArray = []
-}
-
-
-// number of hotels returned >0 search results are generated an stored in hotelArray state
-/* if (activePolygons.length > 0) {
-
-
-
-  newHotelArray = generateHotelArray(existingHotelArray, numberHotelsInArray, urbanPolygons, paddedBbox)
-
-} */
-
-
+setSinglePanelDimensions(calcSinglePanelDimensions())
 
 /////////////
 
-if (cityPolygons.length<urbanPolygons.length) {
-  // find and delete urban polygons which intersect with city polygons
+<div class="_65d865">
+     <div class="dhjkeof dir dir-ltr">
+       <div class="_3hmsj">
+         <div
+           class="_g2s11rv"
+           style={
+             screenWidth < 850
+               ? { width: "410px" }
+               : { width: "801px" }
+           }
+         >
+           <div>
+             <div
+               style={
+                 screenWidth < 850
+                   ? { width: "409px" }
+                   : { width: "800px" }
+               }
+             >
+               <div
+                 class="_1x76l5m3"
+                 aria-hidden="true"
+                 role="presentation"
+               >
+                 <div
+                   class="_2cafln"
+                   style={{
+                     left: "0px",
+                     padding: "0px 27px",
+                   }}
+                 >
+                   <ul class="_xv14sf">
+                     {dotwArray.map((x) => (
+                       <li
+                         class="_92xroi"
+                         style={{ width: "48px" }}
+                       >
+                         {x}
+                       </li>
+                     ))}
+                   </ul>
+                 </div>
+                 {screenWidth < 850 ? null : (
+                   <div
+                     class="_2cafln"
+                     style={{
+                       left: "391px",
+                       padding: "0px 27px",
+                     }}
+                   >
+                     <ul class="_xv14sf">
+                       {dotwArray.map((x) => (
+                         <li
+                           class="_92xroi"
+                           style={{ width: "48px" }}
+                         >
+                           {x}
+                         </li>
+                       ))}
+                     </ul>
+                   </div>
+                 )}
+               </div>
+               <div
+                 class="_14676s3"
+                 tabindex="-1"
+                 role="application"
+                 aria-label="Calendar"
+               >
+                 <div class="_5neba7a">
+                   <div class="_1d1qzab">
+                     <button
+                       aria-disabled="false"
+                       aria-label="Go back to switch to the previous month."
+                       type="button"
+                       class="_oda838"
+                       onClick={moveBack}
+                       disabled={
+                         currentMonth < 2
+                           ? true
+                           : false
+                       }
+                     >
+                       <span class="_e296pg">
+                         <svg
+                           viewBox="0 0 18 18"
+                           role="presentation"
+                           aria-hidden="true"
+                           focusable="false"
+                           style={{
+                             height: "12px",
+                             width: "12px",
+                             display: "block",
+                             fill: "currentcolor",
+                           }}
+                         >
+                           <path
+                             d="m13.7 16.29a1 1 0 1 1 -1.42 1.41l-8-8a1 1 0 0 1 0-1.41l8-8a1 1 0 1 1 1.42 1.41l-7.29 7.29z"
+                             fill-rule="evenodd"
+                           ></path>
+                         </svg>
+                       </span>
+                     </button>
+                   </div>
 
-  let residualUrbanPolygons = [ ...urbanPolygons]
-
-  let i = residualUrbanPolygons.length;
-  while (i >= 0) {
-    for (let j=0; j<cityPolygons.length; j++) {
-      if (booleanIntersects(residualUrbanPolygons[i], cityPolygons[j])) {
-        console.log("booleanIntersects!!!")
-      }
-    }
-    /* const random = Math.floor(Math.random() * otherPhotosArray.length);
-    otherPhotosArray.splice(random, 1); */
-    i--;
-  }
-
-}
-
-
-
-// randomly delete photos from otherPhotos array until reach given number
-let i = otherPhotosArray.length;
-while (i >= numPhotos) {
-  const random = Math.floor(Math.random() * otherPhotosArray.length);
-  otherPhotosArray.splice(random, 1);
-  i--;
-}
+                   <div class="_qz9x4fc">
+                     <button
+                       aria-disabled="false"
+                       aria-label="Move forward to change to the next month."
+                       type="button"
+                       class="_oda838"
+                       onClick={moveForward}
+                       disabled={
+                         currentMonth > 22
+                           ? true
+                           : false
+                       }
+                     >
+                       <span class="_e296pg">
+                         <svg
+                           viewBox="0 0 18 18"
+                           role="presentation"
+                           aria-hidden="true"
+                           focusable="false"
+                           style={{
+                             height: "12px",
+                             width: "12px",
+                             display: "block",
+                             fill: "currentcolor",
+                           }}
+                         >
+                           <path
+                             d="m4.29 1.71a1 1 0 1 1 1.42-1.41l8 8a1 1 0 0 1 0 1.41l-8 8a1 1 0 1 1 -1.42-1.41l7.29-7.29z"
+                             fill-rule="evenodd"
+                           ></path>
+                         </svg>
+                       </span>
+                     </button>
+                   </div>
+                 </div>
+               </div>
+            {screenWidth < 850
+                 ? [
+                     <div
+                       class="_1foj6yps"
+                       style={{
+                         width: "409px",
+                         height: pickerHeight + "px",
+                       }}
+                     >
+                       <div
+                         class="_2hyui6e"
+                         style={trackStyle}
+                       >
+                         <div
+                           class={tabLg1Style}
+                           style={tabLg1Pos}
+                         >
+                           {monthRender(
+                             calendarData[
+                               currentMonth - 1
+                             ],
+                             tempCheckin,
+                             tempCheckout
+                           )}
+                         </div>
+                         <div class={tabLg2Style}>
+                           {monthRender(
+                             calendarData[
+                               currentMonth
+                             ],
+                             tempCheckin,
+                             tempCheckout
+                           )}
+                         </div>
+                         <div class={tabLg4Style}>
+                           {monthRender(
+                             calendarData[
+                               currentMonth + 1
+                             ],
+                             tempCheckin,
+                             tempCheckout
+                           )}
+                         </div>
+                       </div>
+                     </div>,
+                   ]
+                 : [
+                     <div
+                       class="_1foj6yps"
+                       style={{
+                         width: "800px",
+                         height: pickerHeight + "px",
+                       }}
+                     >
+                       <div
+                         class="_2hyui6e"
+                         style={trackStyle}
+                       >
+                         <div
+                           class={tabLg1Style}
+                           style={tabLg1Pos}
+                         >
+                           {monthRender(
+                             calendarData[
+                               currentMonth - 1
+                             ],
+                             tempCheckin,
+                             tempCheckout
+                           )}
+                         </div>
+                         <div class={tabLg2Style}>
+                           {monthRender(
+                             calendarData[
+                               currentMonth
+                             ],
+                             tempCheckin,
+                             tempCheckout
+                           )}
+                         </div>
+                         <div class={tabLg3Style}>
+                           {monthRender(
+                             calendarData[
+                               currentMonth + 1
+                             ],
+                             tempCheckin,
+                             tempCheckout
+                           )}
+                         </div>
+                         <div class={tabLg4Style}>
+                           {monthRender(
+                             calendarData[
+                               currentMonth + 2
+                             ],
+                             tempCheckin,
+                             tempCheckout
+                           )}
+                         </div>
+                       </div>
+                     </div>,
+                   ]}
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>

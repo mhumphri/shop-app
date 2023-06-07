@@ -185,15 +185,6 @@ function SwipeableGallery(props) {
     setPointerHover(false);
   };
 
-/*
-  document.body.addEventListener(
-    "touchstart",
-    function (event) {
-      event.preventDefault();
-    },
-    false
-  );
-  */
 
   if (touchScreen) {
     return (

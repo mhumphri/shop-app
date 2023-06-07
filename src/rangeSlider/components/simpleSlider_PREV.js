@@ -4,7 +4,6 @@ import "../css/rangeSlider.css";
 
 // simple range slider
 
-
 function SimpleSlider(props) {
   // stores screen position of slider track
   const [trackPosition, setTrackPosition] = useState();
@@ -56,7 +55,6 @@ function SimpleSlider(props) {
     }
     // otherwise button position state is set at current position on screen
     setButtonPos(newButtonPos);
-    props.updateSliderPosition(newButtonPos)
   };
 
   return (

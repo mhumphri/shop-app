@@ -7,8 +7,6 @@ import "../css/resultsList.css";
 
 function ResultsList(props) {
 
-
-
   return (
     <>
       <div className="results-list-yt6">

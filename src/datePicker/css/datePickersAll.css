@@ -7,7 +7,9 @@ flex-direction: column;
   align-items: center;
 }
 
-
+.date-pickers-all-hs1 {
+  width: 500px;
+}
 
 .date-pickers-all-re2 {
   background-color: yellow;

@@ -14,8 +14,6 @@ dayjs.extend(isSameOrBefore);
 
 function DatePicker(props) {
 
-
-
   // large view (boolean indicating if app currently in large view) and screen height (stored in redux)
   // const largeView = useSelector((state) => state.deviceData.largeView);
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
@@ -48,8 +46,6 @@ function DatePicker(props) {
   const [localCheckin, setLocalCheckin] = useState();
   /* set height of wrapper round full month picker - height may change when month chages as number of weeks in month can vary */
   const [pickerHeight, setPickerHeight] = useState(350);
-  // stores datepicker dimensions for a single panel render in large view - responsive to container width
-  const [singlePanelDimensions, setSinglePanelDimensions] = useState({});
   /* number of months visible in small view */
   const [visibleMonths, setVisibleMonths] = useState(4);
   /* for setDate() logic for small view. Records whether last date to be set was checkin our checkout */
@@ -133,10 +129,10 @@ function DatePicker(props) {
   };
 
   /* calculates height of outer div containing calendar - based on number of weeks spanned by month*/
-  /* const updatePickerHeight = (newMonth) => {
+  const updatePickerHeight = (newMonth) => {
     if (calendarData) {
       let baseMonth = newMonth;
-      // if a new month is not provided as an argument, use current month from state as baseMonth
+      /* if a new month is not provided as an argument, use current month from state as baseMonth */
       if (!newMonth) {
         baseMonth = currentMonth;
       }
@@ -146,7 +142,7 @@ function DatePicker(props) {
         calendarData[baseMonth + 1].dotmArray.length / 7
       );
 
-      // if screen width is below 850px only one month is displayed, so pisckerheight in calcualted just far that month. If screenWidth >= 850 2 months are rendered so pickerHeigt needs to take account of both
+      /* if screen width is below 850px only one month is displayed, so pisckerheight in calcualted just far that month. If screenWidth >= 850 2 months are rendered so pickerHeigt needs to take account of both */
       let height = 350;
       if (props.largeView < 850) {
         if (numRows1 > 5) {
@@ -160,69 +156,12 @@ function DatePicker(props) {
       setPickerHeight(height);
     }
   };
-  */
-
-const calcSinglePanelDimensions = () => {
-  const newSinglePanelDimensions = {
-    outerContainer: props.width - 2,
-    outerContainer2: props.width - 3,
-    dateWidth: (props.width-76)/7 -2,
-    dateHeight: (props.width-76)/7 - 2,
-    dotwWidth: (props.width-76)/7,
-    sliderTrackWidth: (props.width-76)*4,
-  }
-
-  return(newSinglePanelDimensions)
-}
-
-const calcPickerHeight = (width) => {
-
-let newPickerHeight
-
-
-if (props.doubleView) {
-// add code
-}
-else {
-  const dateHeight = (width-76)/7 - 2
-  newPickerHeight = dateHeight*7 + 28
-}
-
-  return newPickerHeight
-}
 
   // calcs width of dotm & dotw divs plus outer wrapper in samll view - varies with screenWidth in samll view
   const calcPickerDimensions = () => {
-    console.log("props.width: " + props.width)
     let dimensions = {};
     if (props.largeView) {
       dimensions = { dotm: 46, dotw: 48 };
-
-      let dateHeight = 46
-      let dateWidth = 46
-
-
-      const newSinglePanelDimensions = {
-        outerContainer: props.width - 2,
-        outerContainer2: props.width - 3,
-        dateWidth: (props.width-76)/7 -2,
-        dateHeight: (props.width-76)/7 - 2,
-        dotwWidth: (props.width-76)/7,
-        sliderTrackWidth: (props.width-76)*4,
-      }
-
-
-
-
-
-      const largeViewDimensions = {
-        outerContainer: 801,
-        outerContainer2: 800,
-        doubleView: false,
-      }
-
-
-
     } else {
       let newDotw = Math.round((props.width - 77) / 7);
       if (newDotw > 70) {
@@ -237,13 +176,6 @@ else {
     return dimensions;
   };
 
-  /* initialises data upon page load */
-  useEffect(() => {
-    setPickerDimensions(calcPickerDimensions())
-    setSinglePanelDimensions(calcSinglePanelDimensions())
-    setPickerHeight(calcPickerHeight(props.width))
-  }, [props.width]);
-
   // contains width of dotm & dotw divs plus outer wrapper in samll view - varies with screenWidth in samll view
   const [pickerDimensions, setPickerDimensions] = useState(
     calcPickerDimensions()
@@ -256,7 +188,7 @@ else {
     updateCalendardata();
 
     if (props.largeView) {
-      // updatePickerHeight();
+      updatePickerHeight();
       setCurrentMonth(1);
     }
   }, []);
@@ -355,7 +287,7 @@ else {
         width: "1564px",
         transition: "transform 200ms ease-in-out 0s",
       });
-      // updatePickerHeight(currentMonth + 1);
+      updatePickerHeight(currentMonth + 1);
       setTimeout(() => {
         setTrackStyle({ transform: "translateX(0px)", width: "1564px" });
         setTabLg4Style("_kuxo8ai");
@@ -374,7 +306,7 @@ else {
         width: "1564px",
         transition: "transform 200ms ease-in-out 0s",
       });
-      // updatePickerHeight(currentMonth - 1);
+      updatePickerHeight(currentMonth - 1);
       setTimeout(() => {
         setTabLg1Pos({});
         setTrackStyle({ transform: "translateX(0px)", width: "1564px" });
@@ -602,8 +534,8 @@ else {
                   data-testid="calendar-day-29/10/2022"
                   data-is-day-blocked="false"
                   style={{
-                    width: singlePanelDimensions.dateWidth + "px",
-                    height: singlePanelDimensions.dateHeight + "px",
+                    width: pickerDimensions.dotm + "px",
+                    height: pickerDimensions.dotm + "px",
                   }}
                 >
                   {dayjs(calendarData[j]).format("D")}
@@ -710,30 +642,32 @@ if (props.largeView) {
                             onMouseOver={() => dateContainerHover()}
                             onMouseLeave={() => dateContainerHover()}
                           >
-
-
-
-
-
-
-
                          <div class="_65d865">
                               <div class="dhjkeof dir dir-ltr">
                                 <div class="_3hmsj">
+
+
+
+
+
+
+
+
+
                                   <div
                                     class="_g2s11rv"
                                     style={
-                                      props.doubleView
-                                        ? { width: "801px" }
-                                        : { width: singlePanelDimensions.outerContainer + "px" }
+                                      screenWidth < 850
+                                        ? { width: "410px" }
+                                        : { width: "801px" }
                                     }
                                   >
                                     <div>
                                       <div
                                         style={
-                                          props.doubleView
-                                            ? { width: "800px" }
-                                            : { width: singlePanelDimensions.outerContainer2 + "px" }
+                                          screenWidth < 850
+                                            ? { width: "409px" }
+                                            : { width: "800px" }
                                         }
                                       >
                                         <div
@@ -752,14 +686,14 @@ if (props.largeView) {
                                               {dotwArray.map((x) => (
                                                 <li
                                                   class="_92xroi"
-                                                  style={{ width: singlePanelDimensions.dotwWidth + "px" }}
+                                                  style={{ width: "48px" }}
                                                 >
                                                   {x}
                                                 </li>
                                               ))}
                                             </ul>
                                           </div>
-                                          { props.doubleView ?  (
+                                          {screenWidth < 850 ? null : (
                                             <div
                                               class="_2cafln"
                                               style={{
@@ -778,8 +712,17 @@ if (props.largeView) {
                                                 ))}
                                               </ul>
                                             </div>
-                                          ) : null }
+                                          )}
                                         </div>
+
+
+
+
+
+
+
+
+
                                         <div
                                           class="_14676s3"
                                           tabindex="-1"
@@ -858,8 +801,61 @@ if (props.largeView) {
                                             </div>
                                           </div>
                                         </div>
-                                     {props.doubleView
+
+
+
+
+
+
+
+
+                                     {screenWidth < 850
                                           ? [
+                                              <div
+                                                class="_1foj6yps"
+                                                style={{
+                                                  width: "409px",
+                                                  height: pickerHeight + "px",
+                                                }}
+                                              >
+                                                <div
+                                                  class="_2hyui6e"
+                                                  style={trackStyle}
+                                                >
+                                                  <div
+                                                    class={tabLg1Style}
+                                                    style={tabLg1Pos}
+                                                  >
+                                                    {monthRender(
+                                                      calendarData[
+                                                        currentMonth - 1
+                                                      ],
+                                                      tempCheckin,
+                                                      tempCheckout
+                                                    )}
+                                                  </div>
+                                                  <div class={tabLg2Style}>
+                                                    {monthRender(
+                                                      calendarData[
+                                                        currentMonth
+                                                      ],
+                                                      tempCheckin,
+                                                      tempCheckout
+                                                    )}
+                                                  </div>
+                                                  <div class={tabLg4Style}>
+                                                    {monthRender(
+                                                      calendarData[
+                                                        currentMonth + 1
+                                                      ],
+                                                      tempCheckin,
+                                                      tempCheckout
+                                                    )}
+                                                  </div>
+                                                </div>
+                                              </div>,
+                                            ]
+                                          : [
                                               <div
                                                 class="_1foj6yps"
                                                 style={{
@@ -912,61 +908,27 @@ if (props.largeView) {
                                                   </div>
                                                 </div>
                                               </div>,
-                                            ] : [
-                                                <div
-                                                  class="_1foj6yps"
-                                                  style={{
-                                                    width: singlePanelDimensions.outerContainer2 + "px",
-                                                    height: pickerHeight + "px",
-                                                  }}
-                                                >
-                                                  <div
-                                                    class="_2hyui6e"
-                                                    style={trackStyle}
-                                                  >
-                                                    <div
-                                                      class={tabLg1Style}
-                                                      style={tabLg1Pos}
-                                                    >
-                                                      {monthRender(
-                                                        calendarData[
-                                                          currentMonth - 1
-                                                        ],
-                                                        tempCheckin,
-                                                        tempCheckout
-                                                      )}
-                                                    </div>
-                                                    <div class={tabLg2Style}>
-                                                      {monthRender(
-                                                        calendarData[
-                                                          currentMonth
-                                                        ],
-                                                        tempCheckin,
-                                                        tempCheckout
-                                                      )}
-                                                    </div>
-                                                    <div class={tabLg4Style}>
-                                                      {monthRender(
-                                                        calendarData[
-                                                          currentMonth + 1
-                                                        ],
-                                                        tempCheckin,
-                                                        tempCheckout
-                                                      )}
-                                                    </div>
-                                                  </div>
-                                                </div>,
-                                              ]}
+                                            ]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-
-
-
-
                           </div>
                         </div>
                       </div>
