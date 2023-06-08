@@ -13,23 +13,41 @@ function DatePickersAll() {
   //
   const [mobileViewWidth, setMobileViewWidth] = useState(411);
   //
-  const [largeViewWidth, setLargeViewWidth] = useState(900);
+  const [largeViewWidth, setLargeViewWidth] = useState(500);
+
+  const [doublePanelWidth, setDoublePanelWidth] = useState(800);
 
   const updateMobileViewWidth = (newSliderPosition) => {
-    console.log("updateSliderPosition: " + newSliderPosition)
     const newMobileViewWidth = 300 + Math.ceil(newSliderPosition*2.5)
     setMobileViewWidth(newMobileViewWidth)
   }
 
   const updateLargeViewWidth = (newSliderPosition) => {
-    console.log("updateSliderPosition: " + newSliderPosition)
     const newLargeViewWidth = 300 + Math.ceil(newSliderPosition*4)
     setLargeViewWidth(newLargeViewWidth)
   }
 
+  const updateDoublePanelWidth = (newSliderPosition) => {
+    const newDoublePanelWidth =600 + Math.ceil(newSliderPosition*8)
+    setDoublePanelWidth(newDoublePanelWidth)
+  }
+
   return (
     <main className="date-pickers-all-yu1">
-    <h2 className="date-pickers-all-ps2">large view</h2>
+    <h2 className="date-pickers-all-ps2">large view - double panel</h2>
+    <div className="date-pickers-all-hs1">
+    {doublePanelWidth}
+    <SimpleSlider
+      simpleDrag={simpleDrag}
+      setSimpleDrag={setSimpleDrag}
+      sliderPosition={sliderPosition}
+      updateSliderPosition={updateDoublePanelWidth}
+    />
+    </div>
+  <div className="date-pickers-all-re3" style={{width: doublePanelWidth + "px"}}>
+    <DatePicker width={doublePanelWidth} largeView={true} doublePanel={true} />
+   </div>
+ <h2 className="date-pickers-all-ps2">large view</h2>
     <div className="date-pickers-all-hs1">
     {largeViewWidth}
     <SimpleSlider

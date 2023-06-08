@@ -50,10 +50,20 @@ function DatePicker(props) {
   const [pickerHeight, setPickerHeight] = useState(350);
   // stores datepicker dimensions for a single panel render in large view - responsive to container width
   const [singlePanelDimensions, setSinglePanelDimensions] = useState({});
+  // stores datepicker dimensions for a double panel render in large view - responsive to container width
+  const [doublePanelDimensions, setDoublePanelDimensions] = useState({});
+  // stores datepicker dimensions for slider track (width and horizontal movement) - responsive to container width
+  const [sliderTrackDimensions, setSliderTrackDimensions] = useState({});
+  // stores position of slider track - used to generate horizontal sliding effect
+  const [sliderTrackState, setSliderTrackState] = useState({transform: 0, translate: "unset"});
   /* number of months visible in small view */
   const [visibleMonths, setVisibleMonths] = useState(4);
   /* for setDate() logic for small view. Records whether last date to be set was checkin our checkout */
   const [checkinLastSelected, setCheckinLastSelected] = useState(4);
+
+  // ref for container which controls height of datepicker - ref used to control css styles (switch on/off transition/animation, so it isn't animated when change is a result of container width changing)
+    const [pickerHeightStyle, setPickerHeightStyle] = useState("none");
+
 
   // initializes/updates calendar data
   const updateCalendardata = () => {
@@ -162,6 +172,25 @@ function DatePicker(props) {
   };
   */
 
+  const calcSliderTrackDimensions = () => {
+ if (props.doublePanel) {
+      return {
+      trackWidth: (props.width-21)*2,
+      horizontalMovement: (props.width-21)/2,
+    }
+    }
+    else {
+      return {
+      trackWidth: (props.width-21)*4,
+      horizontalMovement: (props.width-21),
+    }
+    }
+
+
+
+  }
+
+
 const calcSinglePanelDimensions = () => {
   const newSinglePanelDimensions = {
     outerContainer: props.width - 2,
@@ -169,26 +198,58 @@ const calcSinglePanelDimensions = () => {
     dateWidth: (props.width-76)/7 -2,
     dateHeight: (props.width-76)/7 - 2,
     dotwWidth: (props.width-76)/7,
-    sliderTrackWidth: (props.width-76)*4,
+    // sliderTrackWidth: (props.width-76)*4,
   }
 
   return(newSinglePanelDimensions)
 }
 
-const calcPickerHeight = (width) => {
+const calcDoublePanelDimensions = () => {
+  const newDoublePanelDimensions = {
+    outerContainer: props.width - 2,
+    outerContainer2: props.width - 3,
+    dateWidth: (props.width-130)/14 -2,
+    dateHeight: (props.width-130)/14 - 2,
+    dotwWidth: (props.width-130)/14,
+    // sliderTrackWidth: (props.width-76)*4,
+  }
+
+  return(newDoublePanelDimensions)
+}
+
+const calcPickerHeight = (newMonth) => {
+if (calendarData) {
+  let baseMonth = newMonth;
+  // if a new month is not provided as an argument, use current month from state as baseMonth
+  if (!newMonth) {
+    baseMonth = currentMonth;
+  }
+
+  const numRows1 = Math.ceil(calendarData[baseMonth].dotmArray.length / 7);
+  const numRows2 = Math.ceil(
+    calendarData[baseMonth + 1].dotmArray.length / 7
+  );
+
 
 let newPickerHeight
 
 
-if (props.doubleView) {
-// add code
+if (props.doublePanel) {
+const dateHeight = (props.width-130)/14 - 2;
+let numRows = numRows1
+if (numRows2>numRows1) {
+  numRows = numRows2
+}
+newPickerHeight = dateHeight*numRows + 120
 }
 else {
-  const dateHeight = (width-76)/7 - 2
-  newPickerHeight = dateHeight*7 + 28
+  const dateHeight = (props.width-76)/7 - 2
+  newPickerHeight = dateHeight*numRows1 + 120
 }
 
   return newPickerHeight
+
+}
 }
 
   // calcs width of dotm & dotw divs plus outer wrapper in samll view - varies with screenWidth in samll view
@@ -214,12 +275,13 @@ else {
 
 
 
-
+/*
       const largeViewDimensions = {
         outerContainer: 801,
         outerContainer2: 800,
         doubleView: false,
       }
+      */
 
 
 
@@ -239,9 +301,13 @@ else {
 
   /* initialises data upon page load */
   useEffect(() => {
+    // pickerHeightContainer.current.style.backgroundColor = "yellow"
+    setPickerHeightStyle("unset")
     setPickerDimensions(calcPickerDimensions())
     setSinglePanelDimensions(calcSinglePanelDimensions())
-    setPickerHeight(calcPickerHeight(props.width))
+    setDoublePanelDimensions(calcDoublePanelDimensions())
+    setPickerHeight(calcPickerHeight())
+    setSliderTrackDimensions(calcSliderTrackDimensions())
   }, [props.width]);
 
   // contains width of dotm & dotw divs plus outer wrapper in samll view - varies with screenWidth in samll view
@@ -350,14 +416,19 @@ else {
   const moveForward = () => {
     if (currentMonth < calendarData.length - 3) {
       setTabLg4Style("_1lds9wb");
-      setTrackStyle({
-        transform: "translateX(-391px)",
-        width: "1564px",
+      /* setTrackStyle({
+        transform: "translateX(-" + sliderTrackDimensions.horizontalMovement + "px)",
+        width: sliderTrackDimensions.trackWidth + "px",
         transition: "transform 200ms ease-in-out 0s",
-      });
+      }); */
       // updatePickerHeight(currentMonth + 1);
+      setSliderTrackState({transform: -sliderTrackDimensions.horizontalMovement, transition: "transform 200ms ease-in-out 0s"} )
+      setPickerHeightStyle("height 0.2s ease-in-out 0s")
+      setPickerHeight(calcPickerHeight(currentMonth + 1))
       setTimeout(() => {
-        setTrackStyle({ transform: "translateX(0px)", width: "1564px" });
+        // setTrackStyle({ transform: "translateX(0px)", width: singlePanelDimensions.sliderTrackWidth + "px" });
+        // setSliderTrackPosition(0)
+        setSliderTrackState({transform: 0, transition: "unset"} )
         setTabLg4Style("_kuxo8ai");
         setCurrentMonth(currentMonth + 1);
       }, "200");
@@ -367,17 +438,22 @@ else {
   /* moves active month back by one */
   const moveBack = () => {
     if (currentMonth > 1) {
-      setTabLg1Pos({ position: "absolute", left: "-391px" });
+      setTabLg1Pos({ position: "absolute", left: -sliderTrackDimensions.horizontalMovement + "px" });
       setTabLg1Style("_1lds9wb");
-      setTrackStyle({
+      /* setTrackStyle({
         transform: "translateX(391px)",
-        width: "1564px",
+        width: singlePanelDimensions.sliderTrackWidth + "px",
         transition: "transform 200ms ease-in-out 0s",
-      });
+      }); */
       // updatePickerHeight(currentMonth - 1);
+      setSliderTrackState({transform: sliderTrackDimensions.horizontalMovement, transition: "transform 200ms ease-in-out 0s"} )
+      setPickerHeightStyle("height 0.2s ease-in-out 0s")
+      setPickerHeight(calcPickerHeight(currentMonth - 1))
       setTimeout(() => {
         setTabLg1Pos({});
-        setTrackStyle({ transform: "translateX(0px)", width: "1564px" });
+        // setTrackStyle({ transform: "translateX(0px)", width: singlePanelDimensions.sliderTrackWidth + "px" });
+        // setSliderTrackPosition(0)
+        setSliderTrackState({transform: 0, transition: "unset"} )
         setTabLg1Style("_fdp53bg");
         setCurrentMonth(currentMonth - 1);
       }, "200");
@@ -602,8 +678,8 @@ else {
                   data-testid="calendar-day-29/10/2022"
                   data-is-day-blocked="false"
                   style={{
-                    width: singlePanelDimensions.dateWidth + "px",
-                    height: singlePanelDimensions.dateHeight + "px",
+                    width: props.doublePanel ? doublePanelDimensions.dateWidth : singlePanelDimensions.dateWidth + "px",
+                    height: props.doublePanel ? doublePanelDimensions.dateHeight : singlePanelDimensions.dateHeight + "px",
                   }}
                 >
                   {dayjs(calendarData[j]).format("D")}
@@ -723,16 +799,16 @@ if (props.largeView) {
                                   <div
                                     class="_g2s11rv"
                                     style={
-                                      props.doubleView
-                                        ? { width: "801px" }
+                                      props.doublePanel
+                                        ? { width: doublePanelDimensions.outerContainer + "px" }
                                         : { width: singlePanelDimensions.outerContainer + "px" }
                                     }
                                   >
                                     <div>
                                       <div
                                         style={
-                                          props.doubleView
-                                            ? { width: "800px" }
+                                          props.doublePanel
+                                            ? { width: doublePanelDimensions.outerContainer2 + "px" }
                                             : { width: singlePanelDimensions.outerContainer2 + "px" }
                                         }
                                       >
@@ -752,18 +828,18 @@ if (props.largeView) {
                                               {dotwArray.map((x) => (
                                                 <li
                                                   class="_92xroi"
-                                                  style={{ width: singlePanelDimensions.dotwWidth + "px" }}
+                                                  style={{ width: props.doublePanel ? doublePanelDimensions.dotwWidth : singlePanelDimensions.dotwWidth + "px" }}
                                                 >
                                                   {x}
                                                 </li>
                                               ))}
                                             </ul>
                                           </div>
-                                          { props.doubleView ?  (
+                                          { props.doublePanel ?  (
                                             <div
                                               class="_2cafln"
                                               style={{
-                                                left: "391px",
+                                                left: sliderTrackDimensions.horizontalMovement + "px",
                                                 padding: "0px 27px",
                                               }}
                                             >
@@ -771,7 +847,7 @@ if (props.largeView) {
                                                 {dotwArray.map((x) => (
                                                   <li
                                                     class="_92xroi"
-                                                    style={{ width: "48px" }}
+                                                    style={{ width: doublePanelDimensions.dotwWidth + "px" }}
                                                   >
                                                     {x}
                                                   </li>
@@ -858,18 +934,23 @@ if (props.largeView) {
                                             </div>
                                           </div>
                                         </div>
-                                     {props.doubleView
+                                     {props.doublePanel
                                           ? [
                                               <div
                                                 class="_1foj6yps"
                                                 style={{
-                                                  width: "800px",
+                                                  width: doublePanelDimensions.outerContainer2 + "px",
                                                   height: pickerHeight + "px",
+                                                  transition: pickerHeightStyle,
                                                 }}
                                               >
                                                 <div
                                                   class="_2hyui6e"
-                                                  style={trackStyle}
+                                                  style={{
+                                                    transform: "translateX(" + sliderTrackState.transform + "px)",
+                                                    width: sliderTrackDimensions.trackWidth + "px",
+                                                    transition: sliderTrackState.transform,
+                                                  }}
                                                 >
                                                   <div
                                                     class={tabLg1Style}
@@ -918,11 +999,16 @@ if (props.largeView) {
                                                   style={{
                                                     width: singlePanelDimensions.outerContainer2 + "px",
                                                     height: pickerHeight + "px",
+                                                    transition: pickerHeightStyle,
                                                   }}
                                                 >
                                                   <div
                                                     class="_2hyui6e"
-                                                    style={trackStyle}
+                                                    style={{
+                                                      transform: "translateX(" + sliderTrackState.transform + "px)",
+                                                      width: sliderTrackDimensions.trackWidth + "px",
+                                                      transition: sliderTrackState.transition,
+                                                    }}
                                                   >
                                                     <div
                                                       class={tabLg1Style}
