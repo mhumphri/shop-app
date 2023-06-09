@@ -26,6 +26,7 @@ function RangeSlider() {
               <SimpleSlider
                 simpleDrag={simpleDrag}
                 setSimpleDrag={setSimpleDrag}
+                sliderPositionInit={50}
               />
               <h2 className="rangeSlider-kz1">discrete slider</h2>
               <DiscreteSlider

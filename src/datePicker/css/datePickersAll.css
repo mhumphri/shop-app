@@ -7,22 +7,43 @@ flex-direction: column;
   align-items: center;
 }
 
+
+/* h2 */
+.date-pickers-all-ps2 {
+  all: unset;
+  margin: 40px 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
 .date-pickers-all-hs1 {
-  width: 500px;
+  width: 350px;
+}
+
+.date-pickers-all-ta1 {
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  font-style: italic;
 }
 
 .date-pickers-all-re2 {
-  background-color: yellow;
-  height: 731px;
+  margin: 20px 0;
+  height: 650px;
   position: relative;
-  border: solid 1px;
+  /* border: solid 1px; */
+
+	box-shadow: 0 0 0 1px rgba(0,0,0,0.04),0 8px 16px rgba(0,0,0,0.15);
+
+
 }
 
 .date-pickers-all-re3 {
-  background-color: yellow;
+  margin: 20px 0;
   height: auto;
   position: relative;
-  border: solid 1px;
+  /* border: solid 1px; */
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.04),0 8px 16px rgba(0,0,0,0.15);
 }
 
 @media only screen and (min-width : 768px) {

@@ -8,14 +8,12 @@ import "../css/datePickersAll.css";
 function DatePickersAll() {
   // boolean showing true if the relevant slider is currently dragging
   const [simpleDrag, setSimpleDrag] = useState();
-  // boolean showing true if the relevant slider is currently dragging
-  const [sliderPosition, setSliderPosition] = useState(50);
   //
-  const [mobileViewWidth, setMobileViewWidth] = useState(411);
+  const [mobileViewWidth, setMobileViewWidth] = useState(300);
   //
-  const [largeViewWidth, setLargeViewWidth] = useState(500);
+  const [largeViewWidth, setLargeViewWidth] = useState(300);
 
-  const [doublePanelWidth, setDoublePanelWidth] = useState(800);
+  const [doublePanelWidth, setDoublePanelWidth] = useState(600);
 
   const updateMobileViewWidth = (newSliderPosition) => {
     const newMobileViewWidth = 300 + Math.ceil(newSliderPosition*2.5)
@@ -34,47 +32,54 @@ function DatePickersAll() {
 
   return (
     <main className="date-pickers-all-yu1">
-    <h2 className="date-pickers-all-ps2">large view - double panel</h2>
+    <h2 className="date-pickers-all-ps2">mobile view (vertical axis)</h2>
     <div className="date-pickers-all-hs1">
-    {doublePanelWidth}
+    <div className="date-pickers-all-ta1">width: {mobileViewWidth}px</div>
     <SimpleSlider
       simpleDrag={simpleDrag}
       setSimpleDrag={setSimpleDrag}
-      sliderPosition={sliderPosition}
-      updateSliderPosition={updateDoublePanelWidth}
+      sliderPositionInit={0}
+      updateSliderPosition={updateMobileViewWidth}
+      labelDisabled={true}
     />
     </div>
-  <div className="date-pickers-all-re3" style={{width: doublePanelWidth + "px"}}>
-    <DatePicker width={doublePanelWidth} largeView={true} doublePanel={true} />
-   </div>
- <h2 className="date-pickers-all-ps2">large view</h2>
+     <div className="date-pickers-all-re2" style={{width: mobileViewWidth + "px"}}>
+
+  <DatePicker width={mobileViewWidth} />
+
+    </div>
+
+
+ <h2 className="date-pickers-all-ps2">standard view - single panel</h2>
     <div className="date-pickers-all-hs1">
-    {largeViewWidth}
+    <div className="date-pickers-all-ta1">width: {largeViewWidth}px</div>
     <SimpleSlider
       simpleDrag={simpleDrag}
       setSimpleDrag={setSimpleDrag}
-      sliderPosition={sliderPosition}
+      sliderPositionInit={0}
       updateSliderPosition={updateLargeViewWidth}
+      labelDisabled={true}
     />
     </div>
   <div className="date-pickers-all-re3" style={{width: largeViewWidth + "px"}}>
     <DatePicker width={largeViewWidth} largeView={true} />
    </div>
+   <h2 className="date-pickers-all-ps2">standard view - double panel</h2>
+   <div className="date-pickers-all-hs1">
+   <div className="date-pickers-all-ta1">width: {doublePanelWidth}px</div>
+   <SimpleSlider
+     simpleDrag={simpleDrag}
+     setSimpleDrag={setSimpleDrag}
+     sliderPositionInit={0}
+     updateSliderPosition={updateDoublePanelWidth}
+     labelDisabled={true}
+   />
+   </div>
+ <div className="date-pickers-all-re3" style={{width: doublePanelWidth + "px"}}>
+   <DatePicker width={doublePanelWidth} largeView={true} doublePanel={true} />
+  </div>
 
-    <h2 className="date-pickers-all-ps2">mobile view</h2>
-     <div className="date-pickers-all-re2" style={{width: mobileViewWidth + "px"}}>
-  <DatePicker width={mobileViewWidth} />
 
-    </div>
-    <div className="date-pickers-all-hs1">
-    {sliderPosition}
-    <SimpleSlider
-      simpleDrag={simpleDrag}
-      setSimpleDrag={setSimpleDrag}
-      sliderPosition={sliderPosition}
-      updateSliderPosition={updateMobileViewWidth}
-    />
-    </div>
 
     </main>
   );

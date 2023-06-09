@@ -22,7 +22,8 @@ function DatePicker(props) {
 
   const dotwArray = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-
+  // base clendar data
+  const [calendarData, setCalendarData] = useState();
   /* active month being viewwed in picker data - LHS month in large view above 850px (where two months are visible) */
   const [currentMonth, setCurrentMonth] = useState(1);
 
@@ -65,7 +66,7 @@ function DatePicker(props) {
 
 
   // initializes/updates calendar data
-  const updateCalendarData = () => {
+  const updateCalendardata = () => {
     // two year period
     let numMonths = 24;
   //  let firstDayOfMonth = dayjs().utc().startOf("month");
@@ -137,12 +138,9 @@ function DatePicker(props) {
       monthObjectArray.push(monthObject);
     }
 
-    return monthObjectArray;
+    setCalendarData(monthObjectArray);
 
   };
-
-  // base clendar data
-  const [calendarData, setCalendarData] = useState(updateCalendarData());
 
   /* calculates height of outer div containing calendar - based on number of weeks spanned by month*/
   /* const updatePickerHeight = (newMonth) => {
@@ -220,9 +218,7 @@ const calcDoublePanelDimensions = () => {
 }
 
 const calcPickerHeight = (newMonth) => {
-  console.log("calcPickerHeight1")
 if (calendarData) {
-  console.log("calcPickerHeight2")
   let baseMonth = newMonth;
   // if a new month is not provided as an argument, use current month from state as baseMonth
   if (!newMonth) {
@@ -261,13 +257,32 @@ else {
     console.log("props.width: " + props.width)
     let dimensions = {};
     if (props.largeView) {
+      dimensions = { dotm: 46, dotw: 48 };
 
-      if (props.doublePanel) {
-        dimensions = { dotm: (props.width-130)/14 - 2, dotw: (props.width-130)/14 };
+      let dateHeight = 46
+      let dateWidth = 46
+
+
+      const newSinglePanelDimensions = {
+        outerContainer: props.width - 2,
+        outerContainer2: props.width - 3,
+        dateWidth: (props.width-76)/7 -2,
+        dateHeight: (props.width-76)/7 - 2,
+        dotwWidth: (props.width-76)/7,
+        sliderTrackWidth: (props.width-76)*4,
       }
-      else {
-        dimensions = { dotm: (props.width-76)/7 - 2, dotw: (props.width-76)/7 };
+
+
+
+
+/*
+      const largeViewDimensions = {
+        outerContainer: 801,
+        outerContainer2: 800,
+        doubleView: false,
       }
+      */
+
 
 
     } else {
@@ -286,18 +301,7 @@ else {
 
   /* initialises data upon page load */
   useEffect(() => {
-    setCurrentMonth(0);
-    calcPickerDimensions();
-    // setCalendarData(updateCalendarData());
-
-    if (props.largeView) {
-      // updatePickerHeight();
-      setCurrentMonth(1);
-    }
-  }, []);
-
-  /* initialises data upon page load */
-  useEffect(() => {
+    // pickerHeightContainer.current.style.backgroundColor = "yellow"
     setPickerHeightStyle("unset")
     setPickerDimensions(calcPickerDimensions())
     setSinglePanelDimensions(calcSinglePanelDimensions())
@@ -311,7 +315,17 @@ else {
     calcPickerDimensions()
   );
 
+  /* initialises data upon page load */
+  useEffect(() => {
+    setCurrentMonth(0);
+    calcPickerDimensions();
+    updateCalendardata();
 
+    if (props.largeView) {
+      // updatePickerHeight();
+      setCurrentMonth(1);
+    }
+  }, []);
 
   /* updates both local active date and global active date (in redux) when user clicks on dotm */
   const updateCheckin = (newDate) => {
@@ -402,17 +416,17 @@ else {
   const moveForward = () => {
     if (currentMonth < calendarData.length - 3) {
       setTabLg4Style("_1lds9wb");
-     setTrackStyle({
+      /* setTrackStyle({
         transform: "translateX(-" + sliderTrackDimensions.horizontalMovement + "px)",
         width: sliderTrackDimensions.trackWidth + "px",
         transition: "transform 200ms ease-in-out 0s",
-      });
+      }); */
       // updatePickerHeight(currentMonth + 1);
       setSliderTrackState({transform: -sliderTrackDimensions.horizontalMovement, transition: "transform 200ms ease-in-out 0s"} )
       setPickerHeightStyle("height 0.2s ease-in-out 0s")
       setPickerHeight(calcPickerHeight(currentMonth + 1))
       setTimeout(() => {
-        setTrackStyle({ transform: "translateX(0px)", width: singlePanelDimensions.sliderTrackWidth + "px" });
+        // setTrackStyle({ transform: "translateX(0px)", width: singlePanelDimensions.sliderTrackWidth + "px" });
         // setSliderTrackPosition(0)
         setSliderTrackState({transform: 0, transition: "unset"} )
         setTabLg4Style("_kuxo8ai");
@@ -426,18 +440,18 @@ else {
     if (currentMonth > 1) {
       setTabLg1Pos({ position: "absolute", left: -sliderTrackDimensions.horizontalMovement + "px" });
       setTabLg1Style("_1lds9wb");
-    setTrackStyle({
+      /* setTrackStyle({
         transform: "translateX(391px)",
         width: singlePanelDimensions.sliderTrackWidth + "px",
         transition: "transform 200ms ease-in-out 0s",
-      });
+      }); */
       // updatePickerHeight(currentMonth - 1);
       setSliderTrackState({transform: sliderTrackDimensions.horizontalMovement, transition: "transform 200ms ease-in-out 0s"} )
       setPickerHeightStyle("height 0.2s ease-in-out 0s")
       setPickerHeight(calcPickerHeight(currentMonth - 1))
       setTimeout(() => {
         setTabLg1Pos({});
-        setTrackStyle({ transform: "translateX(0px)", width: singlePanelDimensions.sliderTrackWidth + "px" });
+        // setTrackStyle({ transform: "translateX(0px)", width: singlePanelDimensions.sliderTrackWidth + "px" });
         // setSliderTrackPosition(0)
         setSliderTrackState({transform: 0, transition: "unset"} )
         setTabLg1Style("_fdp53bg");
@@ -664,8 +678,8 @@ else {
                   data-testid="calendar-day-29/10/2022"
                   data-is-day-blocked="false"
                   style={{
-                    width: pickerDimensions.dotm + "px",
-                    height: pickerDimensions.dotm + "px",
+                    width: props.doublePanel ? doublePanelDimensions.dateWidth : singlePanelDimensions.dateWidth + "px",
+                    height: props.doublePanel ? doublePanelDimensions.dateHeight : singlePanelDimensions.dateHeight + "px",
                   }}
                 >
                   {dayjs(calendarData[j]).format("D")}
@@ -708,7 +722,7 @@ else {
       const monthRender = [
         <div>
           <div
-            style={{ padding: "0px 13px" }}
+            style={{ padding: "0px 35px" }}
             class="_ytfarf"
             data-visible="true"
           >
@@ -754,7 +768,7 @@ if (props.largeView) {
   return (
     <div class="_kasbqg">
 
-
+{calendarData ? (
 
         <div>
           <div>
@@ -932,7 +946,11 @@ if (props.largeView) {
                                               >
                                                 <div
                                                   class="_2hyui6e"
-                                                  style={trackStyle}
+                                                  style={{
+                                                    transform: "translateX(" + sliderTrackState.transform + "px)",
+                                                    width: sliderTrackDimensions.trackWidth + "px",
+                                                    transition: pickerHeightStyle,
+                                                  }}
                                                 >
                                                   <div
                                                     class={tabLg1Style}
@@ -986,7 +1004,11 @@ if (props.largeView) {
                                                 >
                                                   <div
                                                     class="_2hyui6e"
-                                                    style={trackStyle}
+                                                    style={{
+                                                      transform: "translateX(" + sliderTrackState.transform + "px)",
+                                                      width: sliderTrackDimensions.trackWidth + "px",
+                                                      transition: pickerHeightStyle,
+                                                    }}
                                                   >
                                                     <div
                                                       class={tabLg1Style}
@@ -1040,7 +1062,7 @@ if (props.largeView) {
               </section>
             </div>
           </div>
-        </div>
+        </div>) : null}
 
 
 

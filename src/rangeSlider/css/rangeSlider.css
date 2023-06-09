@@ -47,6 +47,13 @@ body {
   margin: 50px 0px 80px 0px;
 }
 
+/* slider track container - when labelDisabled prop is true */
+.rangeslider-ll3 {
+  margin: auto;
+  width: 100%;
+  margin: 40px 0px 40px 0px;
+}
+
 .rangeslider-lx4 {
   margin: auto;
   width: 100%;

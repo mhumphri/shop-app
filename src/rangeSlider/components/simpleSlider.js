@@ -10,7 +10,7 @@ function SimpleSlider(props) {
   const [trackPosition, setTrackPosition] = useState();
 
   // stores position of slider button (scale 0  to 100)
-  const [buttonPos, setButtonPos] = useState(50);
+  const [buttonPos, setButtonPos] = useState(props.sliderPositionInit);
 
   // ref for slider track
   const sliderTrack = useRef(null);
@@ -60,7 +60,7 @@ function SimpleSlider(props) {
   };
 
   return (
-    <div class="rangeslider-hc7">
+    <div class={props.labelDisabled ? "rangeslider-ll3" : "rangeslider-hc7"}>
       <div>
         <div class="rangeslider-jn7">
           <div class="rangeslider-ty3" ref={sliderTrack}></div>
@@ -74,6 +74,7 @@ function SimpleSlider(props) {
               buttonPos={buttonPos}
               handleDrag={handleDrag}
               buttonDrag={props.simpleDrag}
+              labelDisabled={props.labelDisabled}
             />
           </div>
         </div>
