@@ -220,9 +220,7 @@ const calcDoublePanelDimensions = () => {
 }
 
 const calcPickerHeight = (newMonth) => {
-  console.log("calcPickerHeight1")
 if (calendarData) {
-  console.log("calcPickerHeight2")
   let baseMonth = newMonth;
   // if a new month is not provided as an argument, use current month from state as baseMonth
   if (!newMonth) {
@@ -258,7 +256,6 @@ else {
 
   // calcs width of dotm & dotw divs plus outer wrapper in samll view - varies with screenWidth in samll view
   const calcPickerDimensions = () => {
-    console.log("props.width: " + props.width)
     let dimensions = {};
     if (props.largeView) {
 
@@ -315,7 +312,6 @@ else {
 
   /* updates both local active date and global active date (in redux) when user clicks on dotm */
   const updateCheckin = (newDate) => {
-    console.log("update checkin: " + newDate);
     setLocalCheckin(newDate);
     /*    dispatch(datesUpdated({ _key: "checkin", value: newDate})) */
 
@@ -324,7 +320,6 @@ else {
   };
 
   const updateCheckout = (newDate) => {
-    console.log("update checkout: " + newDate);
     /*      dispatch(datesUpdated({ _key: "checkout", value: newDate})) */
     setLocalCheckout(newDate);
     setTempCheckout(newDate);
@@ -333,35 +328,27 @@ else {
 
   /* updates selected date range and active date input field on the nav */
   const setDate = (newDate) => {
-    console.log("SET_DATE1")
     if (!localCheckin) {
       updateCheckin(newDate);
     }
     if (localCheckin && !localCheckout) {
-      console.log("SET_DATE2")
       if (dayjs(newDate).isSameOrAfter(localCheckin, "day")) {
-        console.log("SET_DATE2A")
         updateCheckout(newDate);
       } else {
-        console.log("SET_DATE2B")
         updateCheckin(newDate);
       }
     }
     if (localCheckin && localCheckout) {
-      console.log("SET_DATE3")
       if (!checkinLastSelected) {
         if (dayjs(newDate).isBefore(localCheckout, "day")) {
           updateCheckin(newDate);
         } else {
           updateCheckin(newDate);
-          console.log("false checkout 1");
           updateCheckout(false);
         }
       } else {
         if (dayjs(newDate).isSameOrBefore(localCheckin, "day")) {
-          console.log("SET_DATE4")
           updateCheckin(newDate);
-          console.log("false checkout 2");
           updateCheckout(false);
         } else {
           updateCheckout(newDate);
@@ -369,24 +356,20 @@ else {
       }
     } else {
       if (props.largeNav === "checkin") {
-        console.log("SET_DATE5")
         updateCheckin(newDate);
         if (
           localCheckout &&
           dayjs(newDate).isAfter(localCheckout, "day")
         ) {
           updateCheckout(false);
-          console.log("false checkout 3");
         }
         props.setLargeNav("checkout");
       }
 
       if (props.largeNav === "checkout") {
         if (dayjs(newDate).isBefore(localCheckin, "day")) {
-          console.log("SET_DATE6")
           updateCheckin(newDate);
           updateCheckout(false);
-          console.log("false checkout 4");
         } else if (!localCheckin) {
           updateCheckout(newDate);
           props.setLargeNav("checkin");

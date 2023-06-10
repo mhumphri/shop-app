@@ -19,7 +19,7 @@ function HotelApp(props) {
   const largeView = useSelector((state) => state.deviceData.largeView);
   // viewport height (stored in redux)
   const screenHeight = useSelector((state) => state.deviceData.screenHeight);
-  // viewport height (stored in redux)
+  // viewport width (stored in redux)
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
   // boolean indicating if expanded map view is active
   const [expandMapView, setExpandMapView] = useState(false);
