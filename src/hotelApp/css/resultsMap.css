@@ -11,6 +11,14 @@
   box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
 }
 
+
+@media (max-width: 767px) {
+  .results-map-ft9 {
+     display: none; 
+  }
+}
+
+
 .results-map-hy6 {
   border-radius: 12px;
   background-color: #FFFFFF;

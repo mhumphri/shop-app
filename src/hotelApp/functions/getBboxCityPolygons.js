@@ -1,9 +1,7 @@
 import landPolygons from "../data/landPolygons.json";
-import cityData from "../data/cityData.json";
 import { polygon, point } from "@turf/helpers";
 import intersect from "@turf/intersect";
 import bboxPolygon from "@turf/bbox-polygon";
-import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 import circle from "@turf/circle";
 import area from "@turf/area";
 

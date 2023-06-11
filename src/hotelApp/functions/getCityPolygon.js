@@ -1,7 +1,6 @@
 import cityData from "../data/cityData.json";
 import landPolygons from "../data/landPolygons.json";
 import getCityRadius from "./getCityRadius";
-import bbox from "@turf/bbox";
 import circle from "@turf/circle";
 import intersect from "@turf/intersect";
 import { polygon } from "@turf/helpers";
@@ -17,7 +16,6 @@ const getCityPolygon = (cityName, activePolygons) => {
   let circleInner;
 
   let cityPoint;
-  let cityArea;
   let cityPopulation;
   let cityNameOnly
 

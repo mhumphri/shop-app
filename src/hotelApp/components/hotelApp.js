@@ -27,8 +27,6 @@ function HotelApp(props) {
   const [mapParameters, setMapParameters] = useState();
   // current stored search location (either country name or "map area")
   const [searchLocation, setSearchLocation] = useState({ name: "" });
-  // boolean which is true if user has updated search location input - used to prevent search being updated in response to map bounds changing from location search
-  const [searchLocationUpdate, setSearchLocationUpdate] = useState();
   // array containg data for current search results
   const [hotelArray, setHotelArray] = useState(getHotelArrayInit);
   // Boolean indicating if first load of app is taking place - used to prevent searchLocation variable being set to "map area" when map bounds are first declared
@@ -52,12 +50,13 @@ function HotelApp(props) {
   // map data saved every time there is a map search - used for update page search
   const [savedMapData, setSavedMapData] = useState();
   // boolean indicating if location search is uderway - used to block a new map search from occuring when the map updates
-  const [locationSearchCurrent, setLocationSearchCurrent] = useState();
+  // const [locationSearchCurrent, setLocationSearchCurrent] = useState();
   // holds key for latest search - used to filter out returns for older searches, if several are active simultaneously
   const [latestSearchKey, setLatestSearchKey] = useState();
   // used to store current version latestSearchKey - needed as function is called fromgoogle maps event handler (to avoid react state closure issue)
   const searchKeyRef = useRef();
   searchKeyRef.current = latestSearchKey;
+  const locationSearchCurrentRef = useRef();
 
   //ref for map container - used to access position / dimensions of map containers
   const mapContainer = useRef(null);
@@ -65,7 +64,6 @@ function HotelApp(props) {
   // updates searchLocation in response to user input and sets searchLocationUpdate boolean to true
   const updateSearchLocation = (newLocation) => {
     setSearchLocation(newLocation);
-    setSearchLocationUpdate(true);
     makeServerCall("location", newLocation);
   };
 
@@ -177,7 +175,9 @@ function HotelApp(props) {
           setActivePage(newSearchResults.activePage);
         }
         setDataLoading(false);
+        console.log("just before reset first load");
         if (firstLoad) {
+          console.log("inside reset first load");
           setFirstLoad(false);
         }
       }
@@ -188,30 +188,28 @@ function HotelApp(props) {
       if (savedMapData) {
         searchData.prevZoom = savedMapData.zoom;
       }
-      // locationSearchCurrent boolean is true server call is aborted and boolean set to false (this is to avopid a search being triggered by map movement caused by location search)
-      if (locationSearchCurrent) {
-        setLocationSearchCurrent(false);
+
+      // updates savedMapData with latest search data
+      setSavedMapData(searchData);
+      let prevHotelArray = hotelArray;
+      // if not first load searchLocation set to "map search" . If firstLoad searchLocation remains unchanged and prevHotelArray is set to false (to avoid init dummy variables being sent to server)
+      if (firstLoad) {
+        console.log("it's firstLoad");
+        prevHotelArray = [];
       } else {
-        // updates savedMapData with latest search data
-        setSavedMapData(searchData);
-        let prevHotelArray = hotelArray;
-        // if not first load searchLocation set to "map search" . If firstLoad searchLocation remains unchanged and prevHotelArray is set to false (to avoid init dummy variables being sent to server)
-        if (firstLoad) {
-          prevHotelArray = [];
-        } else {
-          setSearchLocation({ name: "map area" });
-        }
-        // generates unique key and calls initialise search function
-        const newSearchKey = generateKey();
-        initialiseSearch(newSearchKey);
-        // sets up route (function mimics REST API POST call) for map search server call
-        serverRoute = mapSearch(newSearchKey, searchData, prevHotelArray);
+        console.log("it's not firstLoad");
+        setSearchLocation({ name: "map area" });
       }
+      // generates unique key and calls initialise search function
+      const newSearchKey = generateKey();
+      initialiseSearch(newSearchKey);
+      // sets up route (function mimics REST API POST call) for map search server call
+      serverRoute = mapSearch(newSearchKey, searchData, prevHotelArray);
     }
     // handles server calls initiated by user selecting option from location dropdown menu
     else if (type === "location") {
       // boolean which prevents map search being triggered by map movement caused by change of location
-      setLocationSearchCurrent(true);
+      locationSearchCurrentRef.current = true;
       // generates unique key and calls initialise search function
       const newSearchKey = generateKey();
       initialiseSearch(newSearchKey);
@@ -308,9 +306,7 @@ function HotelApp(props) {
                 </span>
               </button>
             ) : null}
-            {!expandMapView &&
-            mapButtonActive &&
-            !dataLoading  ? (
+            {!expandMapView && mapButtonActive && !dataLoading ? (
               <button
                 type="button"
                 class="search-map-174"
@@ -367,12 +363,11 @@ function HotelApp(props) {
             screenWidth={screenWidth}
             setActiveLink={setActiveLink}
             hoverHotel={hoverHotel}
-            searchLocationUpdate={searchLocationUpdate}
-            setSearchLocationUpdate={setSearchLocationUpdate}
             makeServerCall={makeServerCall}
             firstLoad={firstLoad}
             mapContainer={mapContainer}
             mapBbox={mapBbox}
+            locationSearchCurrentRef={locationSearchCurrentRef}
           />
         </div>
       </main>
