@@ -9,31 +9,32 @@ dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 
 // responsive datePicker component
+
 function DatePicker(props) {
   console.log("DatePicker")
   const dotwArray = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-  // active month being viewed in picker data - LHS month in large view above 850px (where two months are visible)
+  /* active month being viewwed in picker data - LHS month in large view above 850px (where two months are visible) */
   const [currentMonth, setCurrentMonth] = useState(props.largeView ? 1 : 0);
 
-  // manages position of calendar months as they slide in and out (large view only)
+  /* manages position of calendar months as they slide in and out (large view only) */
   const [trackStyle, setTrackStyle] = useState({
     transform: "translateX(0px)",
     width: "1564px",
   });
-  // manages css style for months as they slide in and out (large view only)
+  /* maanges css style for months as they slide in and out (large view only) */
   const [tabLg1Style, setTabLg1Style] = useState("_fdp53bg");
   const [tabLgLastStyle, setTabLgLastStyle] = useState("_kuxo8ai");
-  // manages position of first calendar months as the months slide in and out (large view only)
+  /* manages position of first calendar months as the months slide in and out (large view only) */
   const [tabLg1Pos, setTabLg1Pos] = useState({});
 
-  //  temporary checkin/out values - used for temp setting values when mouse hovers over dotm
+  /* checkin/out values stored locally (but not necessarily in redux) - used for temp setting values when mouse hovers over dotm */
   const [tempCheckout, setTempCheckout] = useState();
   const [tempCheckin, setTempCheckin] = useState();
-  // checkin/out values stored locally (in practice could be stored elsewhere e.g. in parent component or redux)
+  /* checkin/out values stored locally (but not necessarily in redux) - used for temp setting values when mouse hovers over dotm */
   const [localCheckout, setLocalCheckout] = useState();
   const [localCheckin, setLocalCheckin] = useState();
-  // set height of wrapper round full month picker - height may change when month chages as number of weeks in month can vary
+  /* set height of wrapper round full month picker - height may change when month chages as number of weeks in month can vary */
   const [pickerHeight, setPickerHeight] = useState(350);
   // stores datepicker dimensions for a single panel render in large view - responsive to container width
   const [singlePanelDimensions, setSinglePanelDimensions] = useState({});
@@ -41,19 +42,19 @@ function DatePicker(props) {
   const [doublePanelDimensions, setDoublePanelDimensions] = useState({});
   // stores datepicker dimensions for slider track (width and horizontal movement) - responsive to container width
   const [sliderTrackDimensions, setSliderTrackDimensions] = useState({});
-  // number of months visible in small view
+  /* number of months visible in small view */
   const [visibleMonths, setVisibleMonths] = useState(4);
-  // Boolean which records whether last date to be set was checkin or checkout - for setDate() logic for small view.
-  const [checkinLastSelected, setCheckinLastSelected] = useState();
+  /* for setDate() logic for small view. Records whether last date to be set was checkin our checkout */
+  const [checkinLastSelected, setCheckinLastSelected] = useState(4);
+
   // ref for container which controls height of datepicker - ref used to control css styles (switch on/off transition/animation, so it isn't animated when change is a result of container width changing)
   const [pickerHeightStyle, setPickerHeightStyle] = useState("none");
-  // calendar data object
-  const [calendarData, setCalendarData] = useState();
 
 
 
-  // initialises calendar data upon component load
-  useEffect(() => {
+  // initializes/updates calendar data
+  const updateCalendarData = useCallback(() => {
+    console.log("updateCalendarData1")
     // two year period
     let numMonths = 24;
     //  let firstDayOfMonth = dayjs().utc().startOf("month");
@@ -124,9 +125,13 @@ function DatePicker(props) {
       // adds object for this month to all Month array
       monthObjectArray.push(monthObject);
     }
-    setCalendarData(monthObjectArray);
+    console.log("updateCalendarData2")
+
+    return monthObjectArray;
   }, [props.largeView]);
 
+  // calendar data object
+  const [calendarData, setCalendarData] = useState(updateCalendarData());
 
   const calcPickerHeight = useCallback((newMonth) => {
     if (calendarData) {
@@ -188,7 +193,7 @@ function DatePicker(props) {
     return dimensions;
   }, [props.doublePanel, props.largeView, props.width]);
 
-  // initialises data upon page load
+  /* initialises data upon page load */
   useEffect(() => {
 
     const calcSinglePanelDimensions = () => {
@@ -246,9 +251,11 @@ function DatePicker(props) {
 
 
 
-  // updates selected date range and active date input field on the nav
+  /* updates selected date range and active date input field on the nav */
   const setDate = (newDate) => {
-    // updates both local active date and global active date (in redux) when user clicks on dotm
+    console.log("setDate")
+
+    /* updates both local active date and global active date (in redux) when user clicks on dotm */
     const updateCheckin = (newDate) => {
       setLocalCheckin(newDate);
       setTempCheckin(newDate);
@@ -310,8 +317,9 @@ function DatePicker(props) {
     }
   };
 
-  // moves forward active month by one (largeView only)
+  /* moves forward active month by one */
   const moveForward = () => {
+    console.log("moveForward")
     if (currentMonth < calendarData.length - 3) {
       setTabLgLastStyle("_1lds9wb");
       setTrackStyle({
@@ -333,8 +341,9 @@ function DatePicker(props) {
     }
   };
 
-  // moves active month back by one (largeView only)
+  /* moves active month back by one */
   const moveBack = () => {
+    console.log("moveBack")
     if (currentMonth > 1) {
       setTabLg1Pos({
         position: "absolute",
@@ -360,8 +369,9 @@ function DatePicker(props) {
     }
   };
 
-  // sets local checkin / checkout date if mouse hovers over dotm
+  /* sets local checkin / checkout date if mouse hovers over dotm */
   const dateHover = (e, date) => {
+  console.log("dateHover")
     e.stopPropagation();
     if (localCheckin && !localCheckout) {
       if (dayjs(date).isBefore(dayjs(localCheckin), "day")) {
@@ -380,7 +390,7 @@ function DatePicker(props) {
   };
 
   // IS THIS NEEDED????
-  // sets local checkin / checkout to false when mouse moves away from dotm
+  /* sets local checkin / checkout to false when mouse moves away from dotm */
   const dateContainerHover = (e, date) => {
     if (props.localCheckin && !props.localCheckout) {
       setTempCheckout(false);
@@ -390,8 +400,9 @@ function DatePicker(props) {
     }
   };
 
-  // creates calendar render for a single month, including the formatting etc of selected dates
+  /* creates calendar render for a single month, including the formatting etc of selected dates  */
   const monthRender = (monthData) => {
+    console.log("monthRender")
     const calendarData = monthData.dotmArray;
     let newRender = [];
     const numRows = Math.ceil(calendarData.length / 7);
@@ -402,9 +413,9 @@ function DatePicker(props) {
 
       let newRow = [];
       for (let j = rowStart; j < rowEnd; j++) {
-        // returns true / false if before current date or not
+        /* returns true / false if before current date or not */
         const inPast = dayjs(calendarData[j]).isBefore(dayjs(), "day");
-        // adds an empty <td> if day is before start of month
+        /* adds an empty <td> if day is before start of month */
         if (!calendarData[j]) {
           newRow.push(<td></td>);
         } else {
@@ -420,29 +431,29 @@ function DatePicker(props) {
             dayjs(calendarData[j]).isAfter(tempCheckin, "day") &&
             dayjs(calendarData[j]).isBefore(tempCheckout, "day");
 
-          // sets styles for mid-row days
+          /* sets styles for mid-row days */
           let style1 = "_xzo51qd";
           let style2 = "_6gi1qsw";
           if (inPast) {
             style1 = "_10rqnsul";
             style2 = "_1ct0t2";
           }
-          // sets styles for selected day - checkin
+          /* sets styles for selected day - checkin */
           if (checkin) {
             style1 = "_16ylgctq";
             style2 = "_1nf2vyse";
           }
-          // sets styles for selected day - checkout
+          /* sets styles for selected day - checkout */
           if (checkout) {
             style1 = "_1ba08hns";
             style2 = "_1nf2vyse";
           }
-          // sets styles for selected day - in between checkin and checkout
+          /* sets styles for selected day - in between checkin and checkout */
           if (betweenDay) {
             style1 = "_1ifwywb1";
             style2 = "_gkknk2q";
           }
-          // filters for days at start of row
+          /* filters for days at start of row */
           if (Number.isInteger(j / 7)) {
             style1 = "_12glnvbt";
             style2 = "_1gazwvry";
@@ -450,60 +461,60 @@ function DatePicker(props) {
               style1 = "_1k32kw4z";
               style2 = "_1ct0t2";
             }
-            // sets styles for selected day - checkin
+            /* sets styles for selected day - checkin */
             if (checkin) {
               style1 = "_16ylgctq";
               style2 = "_1nf2vyse";
             }
-            // sets styles for selected day - checkout
+            /* sets styles for selected day - checkout */
             if (checkout) {
               style1 = "_1kd8ctdu";
               style2 = "_161fiz8i";
             }
-            // sets styles for selected day - in between checkin and checkout
+            /* sets styles for selected day - in between checkin and checkout */
             if (betweenDay) {
               style1 = "_7179yqh";
               style2 = "_119nin5s";
             }
           }
-          // filters for days at end of row
+          /* filters for days at end of row */
           if (Number.isInteger((j + 1) / 7)) {
-            // sets styles for unselected days
+            /* sets styles for unselected days */
             style1 = "_uab5izv";
             style2 = "_1gazwvry";
             if (inPast) {
               style1 = "_874f7s1";
               style2 = "_1ct0t2";
             }
-            // sets styles for selected day - checkin
+            /* sets styles for selected day - checkin */
             if (checkin) {
               style1 = "_8hxfazu";
               style2 = "_161fiz8i";
             }
-            // sets styles for selected day - checkout
+            /* sets styles for selected day - checkout */
             if (checkout) {
               style1 = "_1ba08hns";
               style2 = "_1nf2vyse";
             }
-            // sets styles for selected day - in between checkin and checkout
+            /* sets styles for selected day - in between checkin and checkout */
             if (betweenDay) {
               style1 = "_luu0gt5";
               style2 = "_ws34ciu";
             }
           }
-          // sets styles if either checkin only  is selected
+          /* sets styles if either checkin only  is selected */
           if (checkin && !tempCheckout) {
             style1 = "_16d21rye";
             style2 = "_1ueso2fg";
           }
 
-          // sets styles if either checkout only is selected
+          /* sets styles if either checkout only is selected */
           if (checkout && !tempCheckin) {
             style1 = "_16d21rye";
             style2 = "_1ueso2fg";
           }
 
-          // this section adjusts formatting if the dotm falls at the beginning or end of the month
+          /* this section adjusts formatting if the dotm falls at the beginning or end of the month */
           let overflow = false;
           let overflowForward = false;
           const startOfMonth = dayjs(calendarData[j]).isSame(
@@ -516,17 +527,17 @@ function DatePicker(props) {
           );
           const isntSunday = dayjs(calendarData[j]).day() !== 0;
           const isntMonday = dayjs(calendarData[j]).day() !== 1;
-          // formatting for end of month (if not Sunday)
+          /* formatting for end of month (if not Sunday) */
           if (endOfMonth && betweenDay && isntSunday && !checkout) {
             overflow = true;
             overflowForward = true;
           }
-          // formatting for end of month (if not Monday)
+          /* formatting for end of month (if not Monday) */
           if (startOfMonth && betweenDay && isntMonday && !checkin) {
             overflow = true;
           }
 
-          // adds table element for start and end of month (if not Sunday or Monday)
+          /* adds table element for start and end of month (if not Sunday or Monday) */
           if (overflow) {
             newRow.push(
               <td
@@ -558,7 +569,7 @@ function DatePicker(props) {
               </td>
             );
           } else {
-            // adds table element for all other days of the month
+            /* adds table element for all other days of the month */
             newRow.push(
               <td
                 class={style1}
@@ -591,7 +602,7 @@ function DatePicker(props) {
     }
 
     if (props.largeView) {
-      // add render elements around rows of dotm
+      /* add render elements around rows of dotm */
       const monthRender = [
         <div
           class="_ytfarf"
@@ -616,7 +627,7 @@ function DatePicker(props) {
       ];
       return monthRender;
     } else {
-      // add render elements around rows of dotm
+      /* add render elements around rows of dotm */
       const monthRender = [
         <div>
           <div
@@ -659,7 +670,6 @@ function DatePicker(props) {
     }
   };
 
-if (calendarData) {
   if (props.largeView) {
     return (
       <div class="_kasbqg">
@@ -1037,7 +1047,6 @@ if (calendarData) {
       </section>
     );
   }
-}
 }
 
 export default DatePicker;
