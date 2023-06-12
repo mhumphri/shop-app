@@ -5,10 +5,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   --site-color: #FF385C;
+/*
   overscroll-behavior: none;
   -webkit-overflow-scrolling: auto;
+
+  */
 }
+
+/*
 
 input,
 textarea,
@@ -28,3 +34,4 @@ code {
   --search-list-width: 58%;
   --navigation-bar-offset: 85px;
 }
+*/

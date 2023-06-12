@@ -7,7 +7,7 @@ import "../css/rangeSlider.css";
 
 // range slider portfolio item
 
-function RangeSlider() {
+function Widgets() {
   // boolean showing true if the relevant slider is currently dragging
   const [simpleDrag, setSimpleDrag] = useState();
   const [discreteDrag, setDiscreteDrag] = useState();
@@ -28,7 +28,7 @@ function RangeSlider() {
                 setSimpleDrag={setSimpleDrag}
                 sliderPositionInit={50}
               />
-              <h2 className="rangeSlider-kz1">discrete slider</h2>
+            <h2 className="rangeSlider-kz1">discrete slider</h2>
               <DiscreteSlider
                 discreteDrag={discreteDrag}
                 setDiscreteDrag={setDiscreteDrag}
@@ -41,7 +41,7 @@ function RangeSlider() {
                 setTwoHandleRightDrag={setTwoHandleRightDrag}
               />
             </div>
-            <h2 className="rangeSlider-kz1">data distribution slider</h2>
+            <h2 className="rangeSlider-kz1" >data distribution slider</h2>
             <DistributionSlider
               distributionLeftDrag={distributionLeftDrag}
               setDistributionLeftDrag={setDistributionLeftDrag}
@@ -55,4 +55,4 @@ function RangeSlider() {
   );
 }
 
-export default RangeSlider;
+export default Widgets;

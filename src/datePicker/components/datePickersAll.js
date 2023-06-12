@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import DatePicker from "./datePicker";
-import SimpleSlider from "../../rangeSlider/components/simpleSlider";
-import "../css/datePickersAll.css";
+import Datepicker from "./datepicker";
+import SimpleSlider from "../../widgets/components/simpleSlider";
+import "../css/datepickersAll.css";
 
 const calcNewViewWidth = (newSliderPosition, screenWidth, minWidth, maxWidth) => {
   if (maxWidth > Math.round(screenWidth)*0.9) {
@@ -37,7 +37,7 @@ const updateDoublePanelWidth = (newSliderPosition, screenWidth) => {
 
 // renders list of individual portfolio items in a grid
 
-function DatePickersAll() {
+function DatepickersAll() {
   // viewport width (stored in redux)
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
   // boolean showing true if the relevant slider is currently dragging
@@ -69,21 +69,6 @@ function DatePickersAll() {
     setDoublePanelWidth(updateDoublePanelWidth(newSliderPosition, screenWidth))
     doublePanelSliderRef.current = newSliderPosition
   }
-
-
-/*
-  const updateLargeViewWidth = (newSliderPosition) => {
-    const newLargeViewWidth = 300 + Math.ceil(newSliderPosition*4)
-    setSinglePanelWidth(newLargeViewWidth)
-    setSinglePanelSlider(newSliderPosition)
-  }
-
-  const updateDoublePanelWidth = (newSliderPosition) => {
-    const newDoublePanelWidth =600 + Math.ceil(newSliderPosition*8)
-    setDoublePanelWidth(newDoublePanelWidth)
-    setDoublePanelSlider(newSliderPosition)
-  }
-  */
 
   // triggers update of markers when props.hotelArray updates
    useEffect(() => {
@@ -118,7 +103,7 @@ function DatePickersAll() {
     </div>
      <div className="date-pickers-all-re2" style={{width: mobileViewWidth + "px"}}>
 
-  <DatePicker width={mobileViewWidth} />
+  <Datepicker width={mobileViewWidth} />
 
     </div>
 
@@ -135,12 +120,12 @@ function DatePickersAll() {
     />
     </div>
   <div className="date-pickers-all-re3" style={{width: singlePanelWidth + "px"}}>
-    <DatePicker width={singlePanelWidth} largeView={true} />
+    <Datepicker width={singlePanelWidth} largeView={true} />
    </div>
 
    {screenWidth > 650 ?
      <>
-   <h2 className="date-pickers-all-ps2">standard view - double panel</h2>
+   <h2 className="date-pickers-all-ps2">horizontal picker - double panel</h2>
    <div className="date-pickers-all-hs1">
    <div className="date-pickers-all-ta1">width: {Math.round(doublePanelWidth)}px</div>
    <SimpleSlider
@@ -152,10 +137,16 @@ function DatePickersAll() {
    />
    </div>
  <div className="date-pickers-all-re3" style={{width: doublePanelWidth + "px"}}>
-   <DatePicker width={doublePanelWidth} largeView={true} doublePanel={true} />
+   <Datepicker width={doublePanelWidth} largeView={true} doublePanel={true} />
   </div>
   </>
-: null }
+:
+<>
+<h2 className="date-pickers-all-ps2">horizontal picker - double panel</h2>
+  <div className="date-pickers-all-ta1">
+    you'll need a screen at least 650px wide to see this one
+  </div>
+</> }
 
 
 
@@ -164,4 +155,4 @@ function DatePickersAll() {
 
 }
 
-export default DatePickersAll;
+export default DatepickersAll;

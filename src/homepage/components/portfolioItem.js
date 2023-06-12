@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateMainModal } from "../../redux/modals/modalsSlice";
-import TestImg1 from "../images/testImg1.jpg";
 
 import "../css/portfolioItem.css";
 

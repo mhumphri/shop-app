@@ -1,12 +1,12 @@
 import PortfolioItem from "./portfolioItem";
-import SwipeableGallery from "../../swipeableGallery/components/swipeableGallery";
-import rangeSliderImg from "../images/rangeSlider.png";
+import widgetsImg from "../images/widgets.png";
+import datepickersImg from "../images/datepickers.png";
 import hotelAppImg from "../images/hotelApp.jpg";
 import "../css/portfolioList.css";
 
 // renders list of individual portfolio items in a grid
 
-function PortfoiloList() {
+function Homepage() {
   return (
     <main className="portfoliolist-yu1">
       <div className="portfoliolist-ap7">
@@ -16,19 +16,21 @@ function PortfoiloList() {
             lightBackground={true}
             image={hotelAppImg}
             href="/hotel-app"
-            modal="searchMap"
           />
           <PortfolioItem
-            name="range sliders"
-            image={rangeSliderImg}
-            href="/range-slider"
-            modal="rangeSlider"
+            name="datepickers"
+            image={datepickersImg}
+            href="/datepickers"
           />
-          <SwipeableGallery />
+          <PortfolioItem
+            name="widgets"
+            image={widgetsImg}
+            href="/widgets"
+          />
         </div>
       </div>
     </main>
   );
 }
 
-export default PortfoiloList;
+export default Homepage;

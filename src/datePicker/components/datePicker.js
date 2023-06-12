@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import "../css/datePicker.css";
+import "../css/datepicker.css";
 const dayjs = require("dayjs");
 var utc = require("dayjs/plugin/utc");
 dayjs.extend(utc);
@@ -379,13 +379,13 @@ function DatePicker(props) {
     }
   };
 
-  // IS THIS NEEDED????
-  // sets local checkin / checkout to false when mouse moves away from dotm
+
+  // sets temp checkin / checkout to false when mouse moves outside the outer container (so that dates temporarily highlighted by mouse hover are unhighlighted when mouse moves outside the datepicker component)
   const dateContainerHover = (e, date) => {
-    if (props.localCheckin && !props.localCheckout) {
+    if (localCheckin && !localCheckout) {
       setTempCheckout(false);
     }
-    if (props.localCheckout && !props.localCheckin) {
+    if (localCheckout && !localCheckin) {
       setTempCheckin(false);
     }
   };
@@ -973,7 +973,10 @@ if (calendarData) {
     return (
       <section class="biod118 dir dir-ltr" aria-hidden="false">
         <div class="dp1cp1f dir dir-ltr" style={{ top: "148px" }}>
-          <div class="_1h0hirz">
+          <div class="_1h0hirz"
+            onMouseOver={() => dateContainerHover()}
+            onMouseLeave={() => dateContainerHover()}
+            >
             <div class="_1mfsr54">
               <div class="_1y26gh8o">
                 <div>
