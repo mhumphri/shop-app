@@ -15,7 +15,7 @@ import Homepage from "./homepage/components/homepage";
 import Widgets from "./widgets/components/widgets";
 import HotelApp from "./hotelApp/components/hotelApp";
 import Modal from "./modal/components/modal";
-// import DatepickersAll from "./datepicker/components/datepickersAll";
+import DatepickersAll from "./datepicker/components/datepickersAll";
 
 function App() {
   const dispatch = useDispatch();
@@ -76,7 +76,7 @@ function App() {
             </>
           }
         />
-      {/*}  <Route
+        <Route
           path="/datepickers"
           element={
             <>
@@ -84,7 +84,7 @@ function App() {
               <DatepickersAll />
             </>
           }
-        /> */}
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       {mainModal ? <Modal /> : null}

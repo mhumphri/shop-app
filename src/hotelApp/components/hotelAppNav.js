@@ -26,6 +26,8 @@ function HotelAppNav(props) {
   const textInputRef = useRef(null);
   // array of refs for active dropdown / search modal option list - used for navigating dropdown search options with keyboard
   const searchResultArrayRef = useRef([]);
+  // ref for text input - used to focus, blur etc
+  const textInputLgRef = useRef(null);
 
   // prevents scrolling when search modal is open
   useEffect(() => {
@@ -106,20 +108,48 @@ function HotelAppNav(props) {
 
   // updates stored search location (& triggers new search) when user selects an item from search list (in either dropdown or search)
   const selectLocation = (newLocation) => {
-    // updates text input
-    setLocationInputText(newLocation.name);
+
     // updates stored search location & triggers new search
     props.updateSearchLocation(newLocation);
-    // updates search option list with single value
-    setSearchResultArray([newLocation]);
-    // turns off popular location label (at top of search option list)
-    if (popularLocationActive) {
-      setPopularLocationActive(false);
+
+    if (largeView) {
+      // updates text input
+      setLocationInputText(newLocation.name);
+      // updates stored search location & triggers new search
+      props.updateSearchLocation(newLocation);
+      // updates search option list with single value
+      setSearchResultArray([newLocation]);
+      // turns off popular location label (at top of search option list)
+      if (popularLocationActive) {
+        setPopularLocationActive(false);
+      }
+      props.setActiveSearch(false);
+      // turns off text input
+      textInputRef.current.blur();
     }
-    // closes dropdown / search modal
-    props.setActiveSearch(false);
-    // turns off text input
-    textInputRef.current.blur();
+    else {
+      // introduces a delay before closing searchModal to avoid a flash (of search results truning grey when modal closes)
+      setTimeout(() => {
+        // updates text input
+        setLocationInputText(newLocation.name);
+        // updates search option list with single value
+        setSearchResultArray([newLocation]);
+        // turns off popular location label (at top of search option list)
+        if (popularLocationActive) {
+          setPopularLocationActive(false);
+        }
+  props.setActiveSearch(false);
+}, "100");
+
+    }
+
+
+
+
+
+
+
+
   };
 
   // opens dropdown (large view) / searchModal (small view) and clears text input value if stored search value is set to "map area"
@@ -133,6 +163,7 @@ function HotelAppNav(props) {
     }
     // opens dropdown / search modal
     props.setActiveSearch("location");
+    textInputRef.current.focus();
   };
 
   // handles keyDown event when text input is active - used to navigate dropdown menu options
@@ -222,7 +253,7 @@ function HotelAppNav(props) {
   };
 
   // deletes text input value when user inputs clicks on cross button
-  const crossButtonHandler = (e) => {
+  const deleteInputText = (e) => {
     e.stopPropagation();
     // sets search results to default popular locations
     setSearchResultArray(popularLocationArray);
@@ -257,11 +288,11 @@ function HotelAppNav(props) {
             <div className="search-map-nav-ga1" onClick={locationSearch}>
               <label class="search-map-nav-f6t" htmlFor="locationInputText">
                 <div>
-                  <div class="search-map-nav-snp">Country</div>
+                  <div class="search-map-nav-snp">Location</div>
                   <input
                     class="search-map-nav-1yi"
                     id="locationInputText"
-                    placeholder="Search countries"
+                    placeholder="Search Locations"
                     type="text"
                     name="name"
                     autoComplete="off"
@@ -284,7 +315,7 @@ function HotelAppNav(props) {
                   aria-label="Clear Input"
                   type="button"
                   class="cross_button_10r"
-                  onClick={(e) => crossButtonHandler(e)}
+                  onClick={(e) => deleteInputText(e)}
                 >
                   <svg
                     viewBox="0 0 32 32"
@@ -431,6 +462,7 @@ function HotelAppNav(props) {
             setLocationInputText={setLocationInputText}
             popularLocationActive={popularLocationActive}
             textInputRef={textInputRef}
+            deleteInputText={deleteInputText}
           />
         ) : null}
       </>

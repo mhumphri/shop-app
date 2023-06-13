@@ -60,7 +60,7 @@ function SearchModal(props) {
             <div class="search-modal-z4l">
               <header className="search-modal-sj7" />
               <section className="search-modal-po4">
-                <h2 class="search-modal-we5">Select a country</h2>
+                <h2 class="search-modal-we5">Select a location</h2>
 
                 <form className="search-modal-f1w">
                   <label for="country-input-small" class="search-modal-1dr">
@@ -76,6 +76,7 @@ function SearchModal(props) {
                       </svg>
                     </div>
                     <input
+                      id="country-input-small"
                       class="search-modal-1l1"
                       placeholder="Search countries"
                       autoComplete="off"
@@ -86,7 +87,7 @@ function SearchModal(props) {
                       onBlur={() => setTextInputFocus(false)}
                     />
                     {props.locationInputText.length > 0
-                      ? crossButton(crossButtonHandler)
+                      ? crossButton(props.deleteInputText)
                       : null}
                   </label>
                 </form>

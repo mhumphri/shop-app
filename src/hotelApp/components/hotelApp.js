@@ -226,7 +226,14 @@ function HotelApp(props) {
       // if page specified by search is the max page posiible, the number of results for the final page is calculated and sent as an argument (inreality this would prob happen server side)
       if (maxPages === newPageNumber) {
         console.log("maxPages===newPageNumber");
-        finalPageHotels = numberHotels - (maxPages - 1) * 18;
+        // if greater than 15*18 (max number of hotels which can be seen due to 15 page max, the number of hotles on the final page is set the max, which is 18)
+        if (numberHotels>269) {
+          finalPageHotels = 18
+        }
+        // if total number of hotles is below 270, the number of hotels which will appear in the final page is calculated 
+        else {
+          finalPageHotels = numberHotels - (maxPages - 1) * 18;
+        }
       }
       // sets up route (function mimics REST API POST call) for update page search
       serverRoute = updatePageSearch(

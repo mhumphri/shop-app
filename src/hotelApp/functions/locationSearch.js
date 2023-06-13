@@ -67,7 +67,7 @@ const locationSearch = (
     // generates array of hotels for inner city
     const newHotelArrayInner = generateHotelArray(
       cityPolygons.name,
-      [],
+      newHotelArrayOuter,
       numberHotelsInner,
       cityPolygons.polygonsInner,
       locationBbox,
@@ -151,7 +151,7 @@ const locationSearch = (
 
     // ADD SHORTFALL CODE !!!
 
-    
+
   }
 
   // if search typs is "update page" newMaxPages, newNumberHotels, newActivePage are set to false as these values do not need to be updated
