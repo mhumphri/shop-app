@@ -38,8 +38,6 @@ const updateDoublePanelWidth = (newSliderPosition, screenWidth) => {
 // renders list of individual portfolio items in a grid
 
 function DatepickersAll() {
-  // large view (boolean indicating if app currently in large view) and screen height (stored in redux)
-  const largeView = useSelector((state) => state.deviceData.largeView);
   // viewport width (stored in redux)
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
   // boolean showing true if the relevant slider is currently dragging
@@ -89,7 +87,7 @@ function DatepickersAll() {
 
 
 
-if (largeView) {
+
   return (
     <main className="date-pickers-all-yu1">
     <h2 className="date-pickers-all-ps2">vertical picker</h2>
@@ -154,18 +152,6 @@ if (largeView) {
 
     </main>
   );
-}
-else {
-  return(
-
-    <div className="date-pickers-all-ks7" style={{width: screenWidth + "px", marginTop: "70px"}}>
-
- <DatePicker width={screenWidth} />
-
-   </div>
-
-  )
-}
 
 }
 
