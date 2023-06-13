@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import SliderButton from "./sliderButton";
 import "../css/rangeSlider.css";
 
 // range slider with resticted units (e.g. only 10,20, 30... can be selected by the user)
 
 function DiscreetSlider(props) {
-  // stores screen position of slider track
-  const [trackPosition, setTrackPosition] = useState();
 
   // stores position of slider button (scale 0  to 100)
   const [buttonPos, setButtonPos] = useState(50);
@@ -14,23 +12,11 @@ function DiscreetSlider(props) {
   // ref for slider track
   const sliderTrack = useRef(null);
 
-  // initialses trackPosition on load and updates at screen resize events
-  useEffect(() => {
-    setTrackPosition(sliderTrack.current.getBoundingClientRect());
-    window.addEventListener("resize", () => {
-      setTrackPosition(sliderTrack.current.getBoundingClientRect());
-    });
-    return () => {
-      window.removeEventListener("resize", () => {
-        setTrackPosition(sliderTrack.current.getBoundingClientRect());
-      });
-    };
-  }, []);
-
   // drag event listener (sets button position on load)
   const handleButton = (e) => {
-    let newButtonPos =
-      ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
+    const trackPosition = sliderTrack.current.getBoundingClientRect();
+    // calcs new button position (resulting from pointer down) on track as % (0%=LHS bound and 100%=RHS bound)
+    let newButtonPos = ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
     setButtonPos(Math.round(newButtonPos / 10) * 10);
     window.addEventListener("pointermove", handleDrag);
     props.setDiscreteDrag(true);
@@ -42,9 +28,9 @@ function DiscreetSlider(props) {
 
   // updates buttonPos in response to drag of slider button
   const handleDrag = (e) => {
+    const trackPosition = sliderTrack.current.getBoundingClientRect();
     // calcs new button position (resulting from drag) on track as % (0%=LHS bound and 100%=RHS bound)
-    let newButtonPos =
-      ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
+    let newButtonPos = ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
     // if new button position is less than 0% (i.e. off the LHS of the track), button position state is set to 0
     if (newButtonPos < 0) {
       setButtonPos(0);

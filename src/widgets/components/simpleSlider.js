@@ -4,49 +4,40 @@ import "../css/rangeSlider.css";
 
 // simple range slider
 
-
 function SimpleSlider(props) {
-  // stores screen position of slider track
-  const [trackPosition, setTrackPosition] = useState();
 
   // stores position of slider button (scale 0  to 100)
-  const [buttonPos, setButtonPos] = useState(props.sliderPositionInit);
+  const [buttonPos, setButtonPos] = useState(props.sliderPositionInit ? props.sliderPositionInit : 0);
 
   // ref for slider track
   const sliderTrack = useRef(null);
 
-  // initialses trackPosition on load and updates at screen resize events
-  useEffect(() => {
-    setTrackPosition(sliderTrack.current.getBoundingClientRect());
-    window.addEventListener("resize", () => {
-      setTrackPosition(sliderTrack.current.getBoundingClientRect());
-    });
-    return () => {
-      window.removeEventListener("resize", () => {
-        setTrackPosition(sliderTrack.current.getBoundingClientRect());
-      });
-    };
-  }, []);
-
   // drag event listener (sets button position on load)
   const handleButton = (e) => {
-    let newButtonPos =
-      ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
+    const trackPosition = sliderTrack.current.getBoundingClientRect();
+    // calcs new button position (resulting from pointer down) on track as % (0%=LHS bound and 100%=RHS bound)
+    let newButtonPos = ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
+    // update button position in this component
     setButtonPos(newButtonPos);
+    // update button position in parent component
+    if (props.updateSliderPosition) {
+      props.updateSliderPosition(newButtonPos);
+    }
     window.addEventListener("pointermove", handleDrag);
-    props.setSimpleDrag(true);
+    // props.setSimpleDrag(true);
     window.addEventListener("pointerup", () => {
-      props.setSimpleDrag(false);
+      // props.setSimpleDrag(false);
       window.removeEventListener("pointermove", handleDrag);
     });
   };
 
   // updates buttonPos in response to drag of slider button
   const handleDrag = (e) => {
+    const trackPosition = sliderTrack.current.getBoundingClientRect();
     // calcs new button position (resulting from drag) on track as % (0%=LHS bound and 100%=RHS bound)
     let newButtonPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
-      // if new button position is less than 0% (i.e. off the LHS of the track), button position state is set to 0
+    // if new button position is less than 0% (i.e. off the LHS of the track), button position state is set to 0
     if (newButtonPos < 1) {
       newButtonPos = 0;
     }
@@ -54,9 +45,12 @@ function SimpleSlider(props) {
     else if (newButtonPos > 100) {
       newButtonPos = 100;
     }
-    // otherwise button position state is set at current position on screen
+    // update button position in this component
     setButtonPos(newButtonPos);
-    props.updateSliderPosition(newButtonPos)
+    // update button position in parent component
+    if (props.updateSliderPosition) {
+      props.updateSliderPosition(newButtonPos);
+    }
   };
 
   return (
