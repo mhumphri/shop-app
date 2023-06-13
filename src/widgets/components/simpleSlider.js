@@ -9,7 +9,7 @@ function SimpleSlider(props) {
   const [trackPosition, setTrackPosition] = useState();
 
   // stores position of slider button (scale 0  to 100)
-  const [buttonPos, setButtonPos] = useState(50);
+  const [buttonPos, setButtonPos] = useState(props.sliderPositionInit ? props.sliderPositionInit : 0);
 
   // ref for slider track
   const sliderTrack = useRef(null);
@@ -32,6 +32,9 @@ function SimpleSlider(props) {
     let newButtonPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
     setButtonPos(newButtonPos);
+    if (props.updateSliderPosition) {
+      props.updateSliderPosition(newButtonPos);
+    }
     window.addEventListener("pointermove", handleDrag);
     props.setSimpleDrag(true);
     window.addEventListener("pointerup", () => {
@@ -55,7 +58,9 @@ function SimpleSlider(props) {
     }
     // otherwise button position state is set at current position on screen
     setButtonPos(newButtonPos);
-    props.updateSliderPosition(newButtonPos);
+    if (props.updateSliderPosition) {
+      props.updateSliderPosition(newButtonPos);
+    }
   };
 
   return (
