@@ -7,7 +7,7 @@ import "../css/rangeSlider.css";
 
 function DistributionSlider(props) {
   // screen width (stored in redux)
-  
+
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
 
   // stores position of slider track
@@ -97,6 +97,12 @@ function DistributionSlider(props) {
     console.log("E: " + e);
     let newButtonPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
+      if (newButtonPos<0) {
+        newButtonPos=0
+      }
+      else if (newButtonPos>100) {
+        newButtonPos=100
+      }
     const leftDistance = Math.abs(newButtonPos - leftButtonPos);
     const rightDistance = Math.abs(newButtonPos - rightButtonPos);
 

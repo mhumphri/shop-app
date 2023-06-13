@@ -5,7 +5,7 @@ import "../css/rangeSlider.css";
 // range slider portfolio item
 
 function TwoHandleSlider(props) {
-  
+
   // stores screen position of slider track
   const [trackPosition, setTrackPosition] = useState();
 
@@ -40,6 +40,12 @@ function TwoHandleSlider(props) {
     console.log("E: " + e);
     let newButtonPos =
       ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
+      if (newButtonPos<0) {
+        newButtonPos=0
+      }
+      else if (newButtonPos>100) {
+        newButtonPos=100
+      }
     const leftDistance = Math.abs(newButtonPos - leftButtonPos);
     const rightDistance = Math.abs(newButtonPos - rightButtonPos);
 
