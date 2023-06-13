@@ -7,6 +7,7 @@ import "../css/rangeSlider.css";
 
 function DistributionSlider(props) {
   // screen width (stored in redux)
+  
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
 
   // stores position of slider track

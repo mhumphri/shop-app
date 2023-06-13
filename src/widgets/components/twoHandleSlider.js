@@ -5,6 +5,7 @@ import "../css/rangeSlider.css";
 // range slider portfolio item
 
 function TwoHandleSlider(props) {
+  
   // stores screen position of slider track
   const [trackPosition, setTrackPosition] = useState();
 

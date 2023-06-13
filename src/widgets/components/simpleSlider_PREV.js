@@ -1,14 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SliderButton from "./sliderButton";
 import "../css/rangeSlider.css";
 
-// range slider with resticted units (e.g. only 10,20, 30... can be selected by the user)
+// simple range slider
 
-function DiscreetSlider(props) {
-  
+function SimpleSlider(props) {
 
   // stores position of slider button (scale 0  to 100)
-  const [buttonPos, setButtonPos] = useState(50);
+  const [buttonPos, setButtonPos] = useState(props.sliderPositionInit ? props.sliderPositionInit : 0);
 
   // ref for slider track
   const sliderTrack = useRef(null);
@@ -18,11 +17,16 @@ function DiscreetSlider(props) {
     const trackPosition = sliderTrack.current.getBoundingClientRect();
     // calcs new button position (resulting from pointer down) on track as % (0%=LHS bound and 100%=RHS bound)
     let newButtonPos = ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
-    setButtonPos(Math.round(newButtonPos / 10) * 10);
+    // update button position in this component
+    setButtonPos(newButtonPos);
+    // update button position in parent component
+    if (props.updateSliderPosition) {
+      props.updateSliderPosition(newButtonPos);
+    }
     window.addEventListener("pointermove", handleDrag);
-    props.setDiscreteDrag(true);
+    // props.setSimpleDrag(true);
     window.addEventListener("pointerup", () => {
-      props.setDiscreteDrag(false);
+      // props.setSimpleDrag(false);
       window.removeEventListener("pointermove", handleDrag);
     });
   };
@@ -31,43 +35,40 @@ function DiscreetSlider(props) {
   const handleDrag = (e) => {
     const trackPosition = sliderTrack.current.getBoundingClientRect();
     // calcs new button position (resulting from drag) on track as % (0%=LHS bound and 100%=RHS bound)
-    let newButtonPos = ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
+    let newButtonPos =
+      ((e.clientX - trackPosition.left) / trackPosition.width) * 100;
     // if new button position is less than 0% (i.e. off the LHS of the track), button position state is set to 0
-    if (newButtonPos < 0) {
-      setButtonPos(0);
-      // if new button position is greater than than 100% (i.e. off the RHS of the track), button position state is set to 100
-    } else if (newButtonPos > 100) {
-      setButtonPos(100);
-      // otherwise button position state is set to nearest multiple of 10 (permitted unit for discrete steps)
-    } else {
-      setButtonPos(Math.round(newButtonPos / 10) * 10);
+    if (newButtonPos < 1) {
+      newButtonPos = 0;
+    }
+    // if new button position is greater than than 100% (i.e. off the RHS of the track), button position state is set to 100
+    else if (newButtonPos > 100) {
+      newButtonPos = 100;
+    }
+    // update button position in this component
+    setButtonPos(newButtonPos);
+    // update button position in parent component
+    if (props.updateSliderPosition) {
+      props.updateSliderPosition(newButtonPos);
     }
   };
 
   return (
-    <div class="rangeslider-hc7">
+    <div class={props.labelDisabled ? "rangeslider-ll3" : "rangeslider-hc7"}>
       <div>
         <div class="rangeslider-jn7">
-          <div class="rangeslider-ty3 wide" ref={sliderTrack} />
+          <div class="rangeslider-ty3" ref={sliderTrack}></div>
+
           <div
-            class="rangeslider-vs7 wide"
+            class="rangeslider-vs7"
             style={{ left: "0%", width: buttonPos + "%" }}
           ></div>
-
-          {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((x) => (
-            <div
-              style={{ left: x + "%" }}
-              className={
-                buttonPos < x ? "rangeslider-hn2" : "rangeslider-hn2 on"
-              }
-            />
-          ))}
-
           <div class="rangeslider-af3" onPointerDown={handleButton}>
             <SliderButton
               buttonPos={buttonPos}
               handleDrag={handleDrag}
-              buttonDrag={props.discreteDrag}
+              buttonDrag={props.simpleDrag}
+              labelDisabled={props.labelDisabled}
             />
           </div>
         </div>
@@ -76,4 +77,4 @@ function DiscreetSlider(props) {
   );
 }
 
-export default DiscreetSlider;
+export default SimpleSlider;
