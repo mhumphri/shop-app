@@ -67,7 +67,7 @@ const locationSearch = (
     // generates array of hotels for inner city
     const newHotelArrayInner = generateHotelArray(
       cityPolygons.name,
-      newHotelArrayOuter,
+      newHotelArrayOuter ,
       numberHotelsInner,
       cityPolygons.polygonsInner,
       locationBbox,
