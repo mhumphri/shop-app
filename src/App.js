@@ -15,7 +15,7 @@ import Homepage from "./homepage/components/homepage";
 import Widgets from "./widgets/components/widgets";
 import HotelApp from "./hotelApp/components/hotelApp";
 import Modal from "./modal/components/modal";
-import DatepickersAll from "./datepickerX/components/datepickersAll";
+import DatepickersAll from "./datepicker/components/datepickersAll";
 
 function App() {
   const dispatch = useDispatch();
