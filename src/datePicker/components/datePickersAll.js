@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import Datepicker from "./datepicker";
+import DatePicker2 from "./datepicker2";
 import SimpleSlider from "../../widgets/components/simpleSlider";
 import "../css/datepickersAll.css";
 
@@ -103,7 +103,7 @@ function DatepickersAll() {
     </div>
      <div className="date-pickers-all-re2" style={{width: mobileViewWidth + "px"}}>
 
-  <Datepicker width={mobileViewWidth} />
+  <DatePicker2 width={mobileViewWidth} />
 
     </div>
 
@@ -120,7 +120,7 @@ function DatepickersAll() {
     />
     </div>
   <div className="date-pickers-all-re3" style={{width: singlePanelWidth + "px"}}>
-    <Datepicker width={singlePanelWidth} largeView={true} />
+    <DatePicker2 width={singlePanelWidth} largeView={true} />
    </div>
 
    {screenWidth > 650 ?
@@ -137,7 +137,7 @@ function DatepickersAll() {
    />
    </div>
  <div className="date-pickers-all-re3" style={{width: doublePanelWidth + "px"}}>
-   <Datepicker width={doublePanelWidth} largeView={true} doublePanel={true} />
+   <DatePicker2 width={doublePanelWidth} largeView={true} doublePanel={true} />
   </div>
   </>
 :
