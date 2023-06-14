@@ -15,7 +15,7 @@ Libraries/fameworks used:
 * React
 * Redux (react-redux and redux toolkit)
 * Google Maps Javascript API
-* Turf (geospatial)
+* Turf (geospatial library)
 
 ### `Datepickers`
 
