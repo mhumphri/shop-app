@@ -4,7 +4,7 @@ const initialState = {
   screenWidth: false,
   screenHeight: false,
   visualVpHeight: 50,
-  largeView: false,
+  largeView: window.innerWidth > 767 ? true : false,
   touchScreen: false,
 };
 

@@ -1,0 +1,78 @@
+/* outer container */
+.date-pickers-all-yu1 {
+  margin-top: 50px;
+  padding-bottom: 50px;
+display: flex;
+flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.date-pickers-all-ks6 {
+  display: absolute;
+  margin: 50px 0px;
+  margin-top: 50px;
+display: flex;
+flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+/* h2 */
+.date-pickers-all-ps2 {
+  all: unset;
+  margin: 40px 15px;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.date-pickers-all-hs1 {
+  width: 350px;
+  max-width: 80%;
+}
+
+.date-pickers-all-ta1 {
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  font-style: italic;
+  margin: 0px 10px;
+  text-align: center;
+}
+
+.date-pickers-all-re2 {
+  margin: 20px 0;
+  height: 650px;
+  position: relative;
+	box-shadow: 0 0 0 1px rgba(0,0,0,0.04),0 8px 16px rgba(0,0,0,0.15);
+}
+
+.date-pickers-all-ks7 {
+  height: calc(100vh - 50px);
+  position: relative;
+	box-shadow: 0 0 0 1px rgba(0,0,0,0.04),0 8px 16px rgba(0,0,0,0.15);
+}
+
+.date-pickers-all-uu9 {
+  height: 650px;
+  position: relative;
+}
+
+.date-pickers-all-re3 {
+    margin: 20px 0;
+  height: auto;
+  position: relative;
+  /* border: solid 1px; */
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.04),0 8px 16px rgba(0,0,0,0.15);
+}
+
+@media only screen and (min-width : 768px) {
+
+  /* outer container - increased top margin to accomodate nav */
+  .date-pickers-all-yu1 {
+    margin-top: 70px;
+  }
+}

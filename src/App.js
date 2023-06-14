@@ -1,37 +1,42 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { updateScreenDimensions, updateTouchScreen } from "./redux/deviceData/deviceDataSlice";
+import {
+  Navigate,
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+import {
+  updateScreenDimensions,
+  updateTouchScreen,
+} from "./redux/deviceData/deviceDataSlice";
 import TopNav from "./navs/components/topNav";
-import PortfolioList from "./homepage/components/portfolioList";
-import RangeSlider from "./rangeSlider/components/rangeSlider";
-import SearchMap from "./searchMap/components/searchMap";
+import Homepage from "./homepage/components/homepage";
+import Widgets from "./widgets/components/widgets";
+import HotelApp from "./hotelApp/components/hotelApp";
 import Modal from "./modal/components/modal";
+import DatepickersAll from "./datepicker/components/datepickersAll";
 
 function App() {
-
   const dispatch = useDispatch();
 
   // main modal state (stored in redux)
   const mainModal = useSelector((state) => state.modals.mainModal);
 
-
-
-/* stores screen width when component loads
-  updateScreenWidth(); */
-
-  /* listens for screen re-size and updates screen width variable */
+  // listens for screen resize and updates screen width variable in redux
   useEffect(() => {
-
     // stores current screenwidth in redux
     const updateScreenWidth = () => {
-
-      dispatch(updateScreenDimensions({width: window.innerWidth, height: window.innerHeight}));
-
+      dispatch(
+        updateScreenDimensions({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        })
+      );
     };
     updateScreenWidth();
-      // detect if a "coarse pointer" - usually a touch screen - is the primary input device and stores touchScreen boolean in redux
-      dispatch(updateTouchScreen(window.matchMedia("(pointer: coarse)").matches))
+    // detect if a "coarse pointer" - usually a touch screen - is the primary input device and stores touchScreen boolean in redux
+    dispatch(updateTouchScreen(window.matchMedia("(pointer: coarse)").matches));
     window.addEventListener("resize", () => {
       updateScreenWidth();
     });
@@ -42,8 +47,6 @@ function App() {
     };
   }, [dispatch]);
 
-
-
   return (
     <Router>
       <Routes>
@@ -52,27 +55,37 @@ function App() {
           element={
             <>
               <TopNav />
-              <PortfolioList />
+              <Homepage />
             </>
           }
         />
         <Route
-          path="/range-slider"
+          path="/widgets"
           element={
             <>
-              <TopNav narrow={true} itemName="rangeSlider" />
-              <RangeSlider />
+              <TopNav narrow={true} itemName="widgets" />
+              <Widgets />
             </>
           }
         />
         <Route
-          path="/search-map"
+          path="/hotel-app"
           element={
             <>
-              <SearchMap />
+              <HotelApp />
             </>
           }
         />
+        <Route
+          path="/datepickers"
+          element={
+            <>
+              <TopNav narrow={true} itemName="datepickers" />
+              <DatepickersAll />
+            </>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       {mainModal ? <Modal /> : null}
     </Router>
