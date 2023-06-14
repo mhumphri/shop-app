@@ -1,20 +1,16 @@
 # Mic's Portfolio
 
-Hi. My name is Michael and this is my web development portfolio. 
+Hi. This is my web development portfolio. It currently includes examples of Javascript, React, Redux, React Router CSS, JSX, Day.js, Turf (geospatial library) and Google maps Javascript API integration. Create React App has been used to handle webpack, Babel and ESLint.   
 
 The live version of the site can be found at https://micsportfolio.com 
 
 If you'd like to contact me, please email humphries_michael@hotmail.com  
 
-## Portfolio items
-
-In the project directory, you can find the following portfolio items:
-
 ### `Hotel app`
 
-This item is a mock up of a search page and server for a hotel booking app. The search page displays a list of hotels and a map with corresponding markers. Users can search for hotels by selecting a country or by navigating the map. The "server" component of the app returns an array of hotels with randomly generated coordinates based on either the selected country or current map bounds.
+Hotel app is a mock up search page and server for a hotel booking app. The search page displays a list of hotels and a map with corresponding markers. Users can search hotels by entering a location or by navigating the map and select them either by clicking on a result from a list or by clicking on a map marker. Over 4000 city and country options are available which can be filtered using a text input and dropdown menu. The "server" component of the app uses a range of data (geographic, polulation and economic) to return an array of hotel data which includes location, prices, photos and map coordinates. Javascript promises are used to communcate between the front end and back end components.   
 
-The following libraries/fameworks have been used:
+Libraries/fameworks used:
 
 * React
 * Redux (react-redux and redux toolkit)
@@ -23,31 +19,23 @@ The following libraries/fameworks have been used:
 * land polygon geoJSON data
 * country polygon geoJSON data
 
-### `Range sliders`
+### `Datepickers`
 
-This item contains a set of rangeslider number inputs. In the simple case, a single handle is moved along a track to select a number from the range. Further functionality has been added by restricting the number selection to discrete intervals, adding a second handle which allows the user to select both ends of the range and adding a bar chart which can be used to show the underlying data distribution.
+Datepickers contains a set of responsive datepicker inputs. 3 different views are included: (1) vertical axis picker; (2) single-panel horizontal picker (best for mobile screens) and double-panel horizontal picker. Calendar data is generated internally within the component and manipulated and queried using Day.js.
 
-The following libraries/fameworks have been used:
+Libraries/fameworks used:
+
+* React
+* Day.js
+
+### `Widgets`
+
+Widgets contains a set of rangeslider inputs. The simple rangeslider is a one-handled slider which returns values 0 to 100 when moving along a track. Further functionality has been added by restricting number selection to discrete intervals, adding a second handle which allows the user to select both ends of the range and adding a bar chart which can be used to show the underlying data distribution.
+
+Libraries/fameworks used:
 
 * React
 
-### `Swipeable gallery`
-
-This item is a carrousel-style image gallery which can be viewed either by swiping a touchscreen/trackpad or clicking chevron buttons which appear when the user hovers over the gallery. Current position and movement through the gallery are shown by a group of animated dost which are highlighted and scale up and down as the user moves from one image to the next.
-
-The following libraries/fameworks have been used:
-
-* React
-
-### `Portfolio site`
-
-The portfolio site itself consists of a list of tiles which either link to or directly contain portfolio items. Modals are used to present information on the portfolio items.
-
-The following libraries/fameworks have been used:
-
-* React
-* Redux (react-redux and redux toolkit)
-* Create React App
 
 ## Testing
 
