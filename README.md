@@ -28,7 +28,7 @@ Libraries/fameworks used:
 
 ### `Widgets`
 
-Widgets contains a set of rangeslider inputs. The simple rangeslider is a one-handled slider which returns values 0 to 100 when moving along a track. Further functionality has been added by restricting number selection to discrete intervals, adding a second handle which allows the user to select both ends of the range and adding a bar chart which can be used to show the underlying data distribution.
+Widgets contains a set of rangeslider inputs. The simple slider is a one-handled slider which returns values 0 to 100 when moving along a track. Further functionality has been added by restricting number selection to discrete intervals, adding a second handle which allows the user to select both ends of the range and adding a bar chart which can be used to show the underlying data distribution.
 
 Libraries/fameworks used:
 
