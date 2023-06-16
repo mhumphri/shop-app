@@ -7,6 +7,7 @@ import LocationMap from "./locationMap";
 import DateInput from "./dateInput";
 import Reviews from "./reviews";
 import FloatingFooter from "./floatingFooter";
+import ImageGallery from "./imageGallery";
 import "../../css/hotelPage/hotelPage.css";
 
 // homepage component for hotelApp - contains jsx for homepage and search/server comms logic
@@ -90,6 +91,7 @@ else {
   return (
 
 <main className="hotel-page-rt7">
+  <ImageGallery />
 <Summary />
 <Description />
  <Amenities />

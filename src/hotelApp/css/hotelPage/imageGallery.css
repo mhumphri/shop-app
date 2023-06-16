@@ -1,0 +1,108 @@
+.image-gallery-v25 {
+	display: block !important;
+}
+
+.image-gallery-1tr {
+	height: 100% !important;
+	position: relative !important;
+	width: 100% !important;
+}
+
+.image-gallery-rxz {
+	scrollbar-width: none !important;
+	display: flex !important;
+	height: 100% !important;
+	list-style: none !important;
+	overflow: auto clip !important;
+	padding-left: 0px !important;
+	margin-bottom: 0px !important;
+	margin-top: 0px !important;
+	min-width: 100% !important;
+	scroll-snap-type: x mandatory !important;
+  overscroll-behavior: none;
+}
+
+.image-gallery-145 {
+	border-style: solid !important;
+	border-color: transparent !important;
+	scroll-snap-align: start !important;
+	scroll-snap-stop: always !important;
+	flex: 0 0 100% !important;
+	max-width: 100% !important;
+}
+
+.image-gallery-1yf {
+	height: 100% !important;
+}
+
+.image-gallery-11e {
+	cursor: pointer !important;
+	position: relative !important;
+	touch-action: manipulation !important;
+	font-family: inherit !important;
+	font-size: inherit !important;
+	line-height: inherit !important;
+	font-weight: inherit !important;
+	border-radius: 0px !important;
+	outline: currentcolor none medium !important;
+	transition: box-shadow 0.2s ease 0s, transform 0.1s ease 0s, transform 0.1s ease 0s !important;
+	background: transparent none repeat scroll 0% 0% !important;
+	border: medium none !important;
+	color: inherit !important;
+	display: block !important;
+	margin: 0px !important;
+	padding: 0px !important;
+	text-align: inherit !important;
+	text-decoration: none !important;
+	height: 100% !important;
+	width: 100% !important;
+}
+
+.image-gallery-v0g {
+	padding-top: 67% !important;
+	position: relative !important;
+	flex: 1 1 !important;
+	background-position: 50% 50% !important;
+	background-repeat: no-repeat !important;
+}
+
+.image-gallery-462 {
+	-moz-box-pack: center !important;
+	-moz-box-align: center !important;
+	position: absolute !important;
+	inset: 0px !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+}
+
+.image-gallery-oxz {
+  object-fit: cover;
+	inset: 0px !important;
+  height: 100% !important;
+width: 100% !important;
+	position: absolute !important;
+	contain: paint !important;
+}
+
+.image-gallery-thq {
+	-moz-box-pack: end !important;
+	align-items: flex-end !important;
+	inset: 0px !important;
+	display: flex !important;
+	justify-content: flex-end !important;
+	pointer-events: none !important;
+	position: absolute !important;
+}
+
+.image-gallery-oab {
+	font-size: 12px !important;
+	line-height: 16px !important;
+	background-color: rgba(34, 34, 34, 0.66) !important;
+	border-radius: 4px !important;
+	color: rgb(255, 255, 255) !important;
+	font-weight: 600 !important;
+	margin-bottom: 16px !important;
+	margin-right: 12px !important;
+	padding: 3px 10px !important;
+}
