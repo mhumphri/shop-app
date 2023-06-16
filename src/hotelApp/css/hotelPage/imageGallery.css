@@ -20,6 +20,7 @@
 	min-width: 100% !important;
 	scroll-snap-type: x mandatory !important;
   overscroll-behavior: none;
+  overflow-x: hidden;
 }
 
 .image-gallery-145 {
