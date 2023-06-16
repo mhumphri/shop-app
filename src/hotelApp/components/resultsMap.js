@@ -576,7 +576,6 @@ function ResultsMap(props) {
                   width: "100%",
                   height: "100%",
                 }}
-                data-testid="map/GoogleMap"
               >
                 {props.largeView ? (
                   <div
@@ -642,7 +641,7 @@ function ResultsMap(props) {
                     largeMarker={largeMarker}
                   />
                 ) : null}
-                <div
+             <div
                   ref={props.mapContainer}
                   id="map"
                   style={{
@@ -651,7 +650,7 @@ function ResultsMap(props) {
                     position: "relative",
                     overflow: "hidden",
                   }}
-                ></div>
+                ></div> 
               </div>
             </div>
           </div>

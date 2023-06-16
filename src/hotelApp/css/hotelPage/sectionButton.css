@@ -1,0 +1,28 @@
+.section-button-b65 {
+  display: inline-block;
+position: relative;
+text-decoration: none;
+width: auto;
+touch-action: manipulation;
+font-size: 16px;
+line-height: 20px;
+font-weight: 600;
+cursor: pointer;
+margin: 0;
+text-align: center;
+border-radius: 8px;
+border-width: 1px;
+border-style: solid;
+transition: box-shadow 0.2s ease,transform 0.1s ease;
+border-color: var(--f-k-smk-x);
+background: var(--f-mkcy-f);
+padding: 13px 23px;
+width: 100%;
+
+
+}
+
+.section-button-b65:hover {
+	border-color: #000000;
+	background: #F7F7F7;
+}

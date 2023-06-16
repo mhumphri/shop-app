@@ -1,0 +1,45 @@
+.hotel-page-rt7 {
+	position: relative !important;
+	z-index: 0 !important;
+	min-height: 100vh !important;
+	margin-bottom: 80px;
+}
+
+.hotel-page-pa6 {
+  display: flex;
+
+}
+
+.hotel-page-zn8 {
+  padding: 0 24px;
+  display: flex !important;
+align-items: stretch !important;
+justify-content: flex-start !important;
+flex-wrap: wrap !important;
+width: 100% !important;
+}
+
+.hotel-page-zn9 {
+  padding:  24px 0;
+  width: 100%;
+}
+
+.hotel-page-cd3 {
+  	border-top-width: 1px !important;
+  	border-top-style: solid !important;
+    border-top-color: rgb(221, 221, 221);
+    width: 100%;
+    padding: 0 24px;
+
+}
+
+.hotel-page-js1 {
+  all: unset;
+  font-size: 22px;
+  font-weight: 600;
+  padding-bottom: 24px
+}
+
+.hotel-page-ew3 {
+  padding-bottom: 25px;
+}

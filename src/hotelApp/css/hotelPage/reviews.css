@@ -1,0 +1,30 @@
+.reviews-h1v {
+  font-size: 22px;
+  font-weight: 600;
+  padding-bottom: 24px
+}
+
+.reviews-itu {
+  display: inline-flex;
+  margin-right: 8px;
+}
+
+.reviews-pl2 {
+  display: block;
+  height: 16px;
+  width: 16px;
+  fill: currentcolor;
+}
+
+.reviews-t1x {
+  display: inline-flex;
+}
+
+.reviews-4i3 {
+	color: inherit;
+	font-size: 1em;
+	font-weight: inherit;
+	line-height: inherit;
+	margin: 0px;
+	padding: 0px;
+}

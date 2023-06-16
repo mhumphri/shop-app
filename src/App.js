@@ -14,6 +14,7 @@ import TopNav from "./navs/components/topNav";
 import Homepage from "./homepage/components/homepage";
 import Widgets from "./widgets/components/widgets";
 import HotelApp from "./hotelApp/components/hotelApp";
+import HotelPage from "./hotelApp/components/hotelPage/hotelPage";
 import Modal from "./modal/components/modal";
 import DatepickersAll from "./datepicker/components/datepickersAll";
 
@@ -59,6 +60,7 @@ function App() {
             </>
           }
         />
+
         <Route
           path="/widgets"
           element={
@@ -73,6 +75,14 @@ function App() {
           element={
             <>
               <HotelApp />
+            </>
+          }
+        />
+        <Route
+          path="hotel-app/hotels/:hotelId"
+          element={
+            <>
+            <HotelPage />
             </>
           }
         />

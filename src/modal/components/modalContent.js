@@ -13,7 +13,7 @@ const modalContent = {
   },
   datepickers: {
     name: "Datepickers",
-    description: ['Datepickers contains a set of responsive datepicker inputs. 3 different views are included: (1) vertical axis picker; (2) single-panel horizontal picker (best for mobile screens) and double-panel horizontal picker. Calendar data is generated internally within the component and manipulated and queried using Day.js.'],
+    description: ['Datepickers contains a set of responsive datepicker inputs. 3 different views are included: (1) vertical axis picker; (2) single-panel horizontal picker (best for mobile screens) and double-panel horizontal picker. Calendar data is generated internally within the component and is manipulated/queried using Day.js.'],
     libraries: ['React', 'Day.js'],
     githubHref: "https://github.com/mhumphri/micsportfolio",
   },
