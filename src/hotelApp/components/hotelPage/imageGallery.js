@@ -53,7 +53,7 @@ function ImageGallery(props) {
   const [activePhoto, setActivePhoto] = useState(1);
   const [photoModal, setPhotoModal] = useState();
 
-  /* updates the number for current photo when user scrolls through gallery */
+  // updates the number for current photo when user scrolls through gallery
   const handleScroll = () => {
     const currentPhoto =
       Math.round(scrollDiv.current.scrollLeft / scrollDiv.current.clientWidth) +
@@ -67,30 +67,19 @@ function ImageGallery(props) {
   const dispatch = useDispatch();
 
   const selectPhoto = (photoId) => {
-    // dispatch(photoModalUpdated(true))
     props.setActivePhoto(photoId);
     console.log("photoId: " + photoId);
   };
 
   const indImage = (imgData, index) => {
     return [
-      <div class="_1emsdka">
+      <div class="image-gallery-1em">
         <button
-          aria-label="Listing image 1, Show all photos"
           type="button"
-          class="_1xh26pm2"
+          class="image-gallery-1xh"
           onClick={() => selectPhoto(index)}
         >
-          <div
-            class="_1h6n1zu"
-            style={{
-              display: "inline-block",
-              verticalAlign: "bottom",
-              height: "100%",
-              width: "100%",
-              minHeight: "1px",
-            }}
-          >
+          <div class="image-gallery-1h6">
             <picture>
               <source srcset={imgData.img} media="(max-width: 743px)" />
               <source
@@ -102,17 +91,7 @@ function ImageGallery(props) {
                 media="(min-width: 1127.1px) and (max-width: 1439px)"
               />
               <source srcset={imgData.img} media="(min-width: 1439.1px)" />
-              <img
-                class="_6tbg2q"
-                style={{ objectFit: "cover", verticalAlign: "bottom" }}
-                aria-hidden="true"
-                alt=""
-                elementtiming="LCP-target"
-                fetchpriority="high"
-                id="FMP-target"
-                src={imgData.img}
-                data-original-uri={imgData.img}
-              />
+              <img class="image-gallery-6tb" src={imgData.img} />
             </picture>
             <div
               class="_15p4g025"
@@ -126,93 +105,36 @@ function ImageGallery(props) {
 
   if (props.largeView) {
     return (
-      <div class="c1yo0219 dir dir-ltr">
-        <div>
-          <div class="_le6wlg">
-            <div
-              class="plmw1e5 mq5rv0q dir dir-ltr"
-              style={{ maxWidth: "1120px" }}
-            >
-              <div
-                data-plugin-in-point-id="HERO_DEFAULT"
-                data-section-id="HERO_DEFAULT"
-                style={{ paddingTop: "24px" }}
-              >
-                <div class="_88xxct">
-                  <div class="_z80d2i">
-                    <div class="_9xgknn">
-                      <div class="_168ht2w">
-                        <div class="_skzmvy">
-                          <div class="_5ltqju">
-                            <div class="_13sj9hk">
-                              <div class="_100fji8">{indImage(data[0], 0)}</div>
-                            </div>
-                          </div>
+      <div class="image-gallery-z80">
+        <div class="image-gallery-9xg">
+          <div class="image-gallery-168">
+            <div class="image-gallery-skz">
+              <div class="image-gallery-5lt">
+                <div class="image-gallery-13s">
+                  <div class="image-gallery-100">{indImage(data[0], 0)}</div>
+                </div>
+              </div>
 
-                          <div class="_178t1g5">
-                            <div class="_13sj9hk">
-                              <div class="_1l7oqbd">
-                                <div class="_100fji8">
-                                  {indImage(data[1], 1)}
-                                </div>
-                              </div>
+              <div class="image-gallery-178">
+                <div class="image-gallery-13s">
+                  <div class="image-gallery-1l7">
+                    <div class="image-gallery-100">{indImage(data[1], 1)}</div>
+                  </div>
 
-                              <div class="_924zz4g">
-                                <div class="_100fji8">
-                                  {indImage(data[2], 2)}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                  <div class="image-gallery-924">
+                    <div class="image-gallery-100">{indImage(data[2], 2)}</div>
+                  </div>
+                </div>
+              </div>
 
-                          <div class="_1827gf2">
-                            <div class="_13sj9hk">
-                              <div class="_1l7oqbd">
-                                <div class="_100fji8">
-                                  {indImage(data[3], 3)}
-                                </div>
-                              </div>
+              <div class="image-gallery-182">
+                <div class="image-gallery-13s">
+                  <div class="image-gallery-1l7">
+                    <div class="image-gallery-100">{indImage(data[3], 3)}</div>
+                  </div>
 
-                              <div class="_924zz4g">
-                                <div class="_100fji8">
-                                  {indImage(data[4], 4)}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="_ekor09">
-                        <button
-                          type="button"
-                          class="_1ju7xj0j"
-                          onClick={() => selectPhoto(0)}
-                        >
-                          <div class="_5kaapu">
-                            <svg
-                              viewBox="0 0 16 16"
-                              xmlns="http://www.w3.org/2000/svg"
-                              style={{
-                                display: "block",
-                                height: "16px",
-                                width: "16px",
-                                fill: "currentcolor",
-                              }}
-                              aria-hidden="true"
-                              role="presentation"
-                              focusable="false"
-                            >
-                              <path
-                                d="m3 11.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-10-5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-10-5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"
-                                fill-rule="evenodd"
-                              ></path>
-                            </svg>
-                            <div class="_uhxsfg">Show all photos</div>
-                          </div>
-                        </button>
-                      </div>
-                    </div>
+                  <div class="image-gallery-924">
+                    <div class="image-gallery-100">{indImage(data[4], 4)}</div>
                   </div>
                 </div>
               </div>
@@ -236,7 +158,6 @@ function ImageGallery(props) {
                 aria-hidden="false"
                 data-key={x.dataKey}
                 class="image-gallery-145"
-                style={{ borderWidth: "0px" }}
               >
                 <div data-key={x.dataKey} class="image-gallery-1yf">
                   <button
@@ -244,7 +165,6 @@ function ImageGallery(props) {
                     class="image-gallery-11e"
                     onClick={() => selectPhoto(index)}
                   >
-                    {/* REMOVED - style="--dls-liteimage-padding-top: 66.6667%;" */}
                     <div
                       class="image-gallery-v0g"
                       role="img"
@@ -266,19 +186,7 @@ function ImageGallery(props) {
                             srcset={x.img}
                             media="(min-width: 1439.1px)"
                           />
-                          <img
-                            class="image-gallery-oxz"
-                            style={{ objectFit: "cover" }}
-                            aria-hidden="true"
-                            alt="Show all photos"
-                            elementtiming="FMP-target"
-                            id="FMP-target"
-                            src={x.img}
-                            data-original-uri={x.img}
-                            data-shared-element-id={
-                              "listing-" + x.dataKey + "-hero-image"
-                            }
-                          />
+                          <img class="image-gallery-oxz" src={x.img} />
                         </picture>
                       </div>
                     </div>

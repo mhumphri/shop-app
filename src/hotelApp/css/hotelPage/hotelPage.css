@@ -1,3 +1,5 @@
+/* small view - START */
+
 .hotel-page-rt7 {
 	position: relative !important;
 	z-index: 0 !important;
@@ -17,6 +19,13 @@ align-items: stretch !important;
 justify-content: flex-start !important;
 flex-wrap: wrap !important;
 width: 100% !important;
+}
+
+@media (min-width: 768px) {
+	.hotel-page-zn8 {
+	  padding: 0;
+
+	}
 }
 
 .hotel-page-zn9 {
@@ -43,3 +52,19 @@ width: 100% !important;
 .hotel-page-ew3 {
   padding-bottom: 25px;
 }
+
+/* small view - END */
+
+/* large view - START */
+
+.hotel-page-16g {
+	position: relative !important;
+	min-height: calc(100vh - 70px) !important;
+	max-width: 1280px;
+margin: 0px auto !important;
+padding: 0px 24px;
+}
+
+
+
+/* large view - END */

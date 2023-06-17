@@ -277,7 +277,8 @@ function HotelAppNav(props) {
 
   if (largeView) {
     return (
-      <header className="search-map-nav-h1v">
+      <header className={props.hotelPage ? "search-map-nav-h1v hotel-page" : "search-map-nav-h1v" }>
+        <div className="search-map-nav-4dr">
         <div className="search-map-nav-c1x">
           <a href="/" className="search-map-nav-jk9">
             mic's portfolio
@@ -409,6 +410,7 @@ function HotelAppNav(props) {
             item info
           </button>
         </div>
+</div>
       </header>
     );
   } else {

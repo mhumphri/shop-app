@@ -8,6 +8,7 @@ import DateInput from "./dateInput";
 import Reviews from "./reviews";
 import FloatingFooter from "./floatingFooter";
 import ImageGallery from "./imageGallery";
+import HotelAppNav from "../hotelAppNav";
 import "../../css/hotelPage/hotelPage.css";
 
 // homepage component for hotelApp - contains jsx for homepage and search/server comms logic
@@ -63,6 +64,17 @@ function HotelPage(props) {
   const [checkinDate, setCheckinDate] = useState();
   const [checkoutDate, setCheckoutDate] = useState();
 
+  // boolean which indicates if text input / dropdown(large view) / search modal(small view) are open
+  const [activeSearch, setActiveSearch] = useState();
+  // current stored search location (either country name or "map area")
+  const [searchLocation, setSearchLocation] = useState({ name: "" });
+
+
+
+
+
+
+
 
   // refs used to find position of divs for scrolling to
   const photosRef = useRef(null);
@@ -74,6 +86,17 @@ function HotelPage(props) {
   const floatingSearchInner = useRef(null);
     const datePickerRef = useRef(null)
 
+    // updates searchLocation in response to user input and sets searchLocationUpdate boolean to true
+    const updateSearchLocation = (newLocation) => {
+      // setSearchLocation(newLocation);
+      // makeServerCall("location", newLocation);
+    };
+
+    // handles user click on nav search icon - makes srver call to refresh search
+    const handleNavSearchClick = () => {
+      // makeServerCall("searchRefresh");
+    };
+
   const navigateHome = () => {
     console.log("navigateHome")
   }
@@ -84,7 +107,31 @@ function HotelPage(props) {
 
 if (largeView) {
   return (
-    <main>HotelPage - large View</main>
+
+<>
+    <HotelAppNav
+      hotelPage={true}
+      largeView={true}
+      searchLocation={searchLocation}
+      updateSearchLocation={updateSearchLocation}
+      handleNavSearchClick={handleNavSearchClick}
+      activeSearch={activeSearch}
+      setActiveSearch={setActiveSearch}
+      narrow={true}
+    />
+                <div class="hotel-page-16g">
+
+                      <main>
+
+                      <Summary />
+                      <ImageGallery largeView={largeView} />
+
+                        HotelPage - large View</main>
+                </div>
+</>
+
+
+
   )
 }
 else {

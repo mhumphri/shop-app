@@ -37,6 +37,26 @@
   overscroll-behavior: none;
 }
 
+
+
+.search-map-nav-h1v.hotel-page {
+  position: static;
+  height: 70px;
+  margin: 0px auto !important;
+}
+
+.search-map-nav-4dr {
+
+  height: 100%;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0px auto !important;
+
+  align-items: center;
+  display: flex;
+
+}
+
 /* lhs content container */
 .search-map-nav-c1x {
   flex: 1 0 140px;
