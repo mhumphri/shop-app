@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../css/hotelPage/floatingFooter.css";
-import calcCosts from "./functions/calcCosts";
 const dayjs = require("dayjs");
 
 function FloatingFooter(props) {
@@ -33,7 +32,7 @@ function FloatingFooter(props) {
             <span class="floating-footer-14y">
               <div class="floating-footer-1jo" aria-hidden="true">
                 <span class="floating-footer-tyx">
-                  £25{/*£[calcCosts().perNight]*/}
+                  £{props.costs.avePerNight}
                 </span>
                 <span class="floating-footer-r1n">&nbsp;night</span>
               </div>
@@ -58,7 +57,7 @@ function FloatingFooter(props) {
               </span>
             </div>
           </div>
-          <div class="floating-footer-176">
+    {/*      <div class="floating-footer-176">
             <span class="floating-footer-1pg">
               <span>
                 <svg
@@ -79,7 +78,7 @@ function FloatingFooter(props) {
                 {props.data.rating}
               </span>
             </span>
-          </div>
+          </div> */}
         </div>
       );
     }
@@ -114,7 +113,7 @@ function FloatingFooter(props) {
                     <button
                       type="button"
                       class="floating-footer-108"
-                      onClick={props.scrollToDatePicker}
+                      onClick={props.scrollToDatepicker}
                     >
                         Check availability
                     </button>

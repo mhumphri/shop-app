@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import getHref from "../functions/getHref";
 import SwipeableGallery from "./swipeableGallery";
 import "../css/indListItem.css";
 
@@ -33,10 +35,19 @@ function IndListItem(props) {
     props.setHoverHotel(false);
   };
 
+  const navigate = useNavigate();
+
+  const navigateToProperty = () => {
+    const href = getHref(props.hotelData.key)
+      // dispatch(updateNavigateAway(true))
+      console.log("href: " + href)
+     navigate(href);
+  }
+
   return (
     <div
       className="ind-list-item-la6"
-      onClick={() => props.setActiveLink("/hotels/" + props.hotelData.key)}
+      onClick={navigateToProperty}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

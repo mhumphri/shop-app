@@ -251,14 +251,14 @@ function DatePicker(props) {
     // updates both local active date and global active date (in redux) when user clicks on dotm
     const updateCheckin = (newDate) => {
       setLocalCheckin(newDate);
-      // props.updateStartDate(newDate);
+      props.updateStartDate(newDate);
       setTempCheckin(newDate);
       setCheckinLastSelected(true);
     };
 
     const updateCheckout = (newDate) => {
       setLocalCheckout(newDate);
-      // props.updateEndDate(newDate)
+      props.updateEndDate(newDate)
       setTempCheckout(newDate);
       setCheckinLastSelected(false);
     };

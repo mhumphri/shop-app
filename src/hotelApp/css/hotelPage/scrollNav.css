@@ -1,0 +1,212 @@
+.scroll-nav-6gz {
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 0px !important;
+	background-color: rgb(255, 255, 255) !important;
+	position: fixed !important;
+	left: 0px !important;
+	right: 0px !important;
+	top: 0px !important;
+	z-index: 3 !important;
+  height: 80px;
+}
+
+.scroll-nav-le6 {
+	display: flex !important;
+	align-items: stretch !important;
+	justify-content: flex-start !important;
+	flex-wrap: wrap !important;
+	width: 100% !important;
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+}
+
+.scroll-nav-plm {
+	height: 100%;
+	width: 100%;
+  margin-left: auto;
+margin-right: auto;
+padding: 0 24px;
+max-width: 1280px;
+}
+
+.scroll-nav-dmn {
+	display: flex !important;
+	justify-content: space-between !important;
+	align-items: center !important;
+}
+
+.scroll-nav-yau {
+	display: inline-block !important;
+	white-space: nowrap !important;
+overflow: hidden !important;
+color: rgb(113, 113, 113) !important;
+font-weight: 400 !important;
+font-size: 14px !important;
+line-height: 20px !important;
+}
+
+.scroll-nav-1jo {
+	color: black !important;
+	display: flex !important;
+	font-weight: 400 !important;
+	align-items: baseline !important;
+
+}
+
+.scroll-nav-14f {
+	display: inline-block !important;
+	margin-right: 24px !important;
+}
+
+.scroll-nav-1yy {
+	cursor: pointer !important;
+	position: relative !important;
+	touch-action: manipulation !important;
+	font-family: inherit !important;
+	font-size: inherit !important;
+	line-height: inherit !important;
+	font-weight: inherit !important;
+	border-radius: 8px !important;
+	outline: currentcolor none medium !important;
+	transition: box-shadow 0.2s ease 0s, transform 0.1s ease 0s, transform 0.1s ease 0s !important;
+	background: transparent none repeat scroll 0% 0% !important;
+	border: medium none !important;
+	color: inherit !important;
+	display: block !important;
+	margin: 0px !important;
+	padding: 0px !important;
+	text-align: inherit !important;
+	text-decoration: none !important;
+	height: 100% !important;
+	width: 100% !important;
+}
+
+.scroll-nav-11g {
+	color: rgb(34, 34, 34) !important;
+	font-weight: 600 !important;
+	padding: 30px 0px !important;
+	display: inline-block !important;
+	text-decoration: none !important;
+	position: relative !important;
+}
+
+.scroll-nav-11g:hover::after {
+	opacity: 1 !important;
+}
+
+.scroll-nav-11g::after {
+	background-color: rgb(34, 34, 34) !important;
+	content: "" !important;
+	display: block !important;
+	bottom: 0px !important;
+	height: 4px !important;
+	opacity: 0 !important;
+	position: absolute !important;
+	transition: opacity 0.15s ease 0s !important;
+	width: 100% !important;
+}
+
+.scroll-nav-e29 {
+	position: relative !important;
+}
+
+.scroll-nav-xkk {
+	align-items: center !important;
+	display: flex !important;
+	position: absolute !important;
+	right: 0px !important;
+	transform: translateY(-50%) !important;
+	background-color: rgb(255, 255, 255) !important;
+}
+
+.scroll-nav-15t {
+	white-space: nowrap !important;
+	display: block !important;
+	margin-left: 40px !important;
+}
+
+.scroll-nav-14u {
+	display: none !important;
+	white-space: nowrap !important;
+}
+
+.scroll-nav-1fx {
+	color: black !important;
+	font-weight: 400 !important;
+	font-size: 16px !important;
+	line-height: 20px !important;
+	padding-top: 16px !important;
+	padding-bottom: 16px !important;
+	display: flex !important;
+	align-items: center !important;
+}
+
+.scroll-nav-ixd {
+	align-items: flex-start !important;
+	display: flex !important;
+	flex-direction: row !important;
+	justify-content: center !important;
+	margin-right: 16px !important;
+}
+
+.scroll-nav-ati {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: flex-start;
+}
+
+.scroll-nav-14y {
+	font-size: 16px;
+	line-height: 20px;
+	overflow: initial;
+	white-space: inherit;
+}
+
+.scroll-nav-tyx {
+	font-weight: 800;
+}
+
+.scroll-nav-r1n {
+	white-space: nowrap !important;
+	font-weight: 400 !important;
+	font-size: 14px;
+	line-height: 18px;
+	min-width: initial;
+	overflow: initial;
+	text-overflow: initial;
+}
+
+.scroll-nav-1cr {
+	color: rgb(34, 34, 34) !important;
+	font-weight: 400 !important;
+}
+
+.scroll-nav-fz3 {
+	flex-shrink: 0 !important;
+}
+
+.scroll-nav-108 {
+	cursor: pointer !important;
+	display: inline-block !important;
+	margin: 0px !important;
+	position: relative !important;
+	text-align: center !important;
+	text-decoration: none !important;
+	width: auto !important;
+	touch-action: manipulation !important;
+	font-size: 16px !important;
+	line-height: 20px !important;
+	font-weight: 600 !important;
+	border-radius: 8px !important;
+	outline: currentcolor none medium !important;
+	padding: 14px 24px !important;
+	transition: box-shadow 0.2s ease 0s, transform 0.1s ease 0s, transform 0.1s ease 0s !important;
+	border: medium none !important;
+	background: rgba(0, 0, 0, 0) linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%) repeat scroll 0% 0% !important;
+	color: rgb(255, 255, 255) !important;
+}
+
+.scroll-nav-c4w {
+	display: block;
+	position: relative;
+	pointer-events: none;
+}

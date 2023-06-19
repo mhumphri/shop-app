@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateHotelArray } from "../../redux/hotelApp/hotelAppSlice";
 import ResultsMap from "./resultsMap";
 import ResultsList from "./resultsList";
 import HotelAppNav from "./hotelAppNav";
@@ -15,6 +16,8 @@ import "../css/hotelApp.css";
 // homepage component for hotelApp - contains jsx for homepage and search/server comms logic
 
 function HotelApp(props) {
+  // redux hook for dispatching data
+  const dispatch = useDispatch();
   // large view (boolean indicating if app currently in large view) and screen height (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
   // viewport height (stored in redux)
@@ -158,6 +161,7 @@ function HotelApp(props) {
       // search key for server response must match most recent searchkey stored locally - this is to avoid state being updated with data from search calls which have been superceded
       if (newSearchResults.searchKey === searchKeyRef.current) {
         setHotelArray(newSearchResults.hotelArray);
+        dispatch(updateHotelArray("hotelApp"))
         // updates map boundary box (for location search when map will move in response to search results)
         if (newSearchResults.mapBbox) {
           setMapBbox(newSearchResults.mapBbox);

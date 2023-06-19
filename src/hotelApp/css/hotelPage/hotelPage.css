@@ -65,6 +65,38 @@ margin: 0px auto !important;
 padding: 0px 24px;
 }
 
+.hotel-page-12n {
+	display: flex !important;
+	align-items: stretch !important;
+	justify-content: flex-start !important;
+	flex-wrap: wrap !important;
+	width: 100% !important;
+}
+
+.hotel-page-16e {
+	position: relative !important;
+	width: 58.3333% !important;
+	margin-left: 0% !important;
+	margin-right: 0% !important;
+}
+
+.hotel-page-1s2 {
+	position: relative !important;
+	width: 33.3333% !important;
+	margin-left: 8.33333% !important;
+	margin-right: 0% !important;
+}
+
+.hotel-page-mub {
+	position: sticky !important;
+	top: 80px !important;
+	z-index: 1 !important;
+	width: 100% !important;
+	display: inline-block !important;
+	padding-right: 1px !important;
+	padding-bottom: 48px;
+}
+
 
 
 /* large view - END */

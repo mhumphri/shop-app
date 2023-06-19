@@ -9,7 +9,19 @@ function DateInput(props) {
   const [checkinDate, setCheckinDate] = useState();
   const [checkoutDate, setCheckoutDate] = useState();
 
-const minNights = 3
+  const minNights = 3
+
+
+
+  const updateStartDate = (newDate) => {
+    setCheckinDate(newDate)
+    props.setCheckinDate(newDate)
+  }
+
+  const updateEndDate = (newDate) => {
+    setCheckoutDate(newDate)
+    props.setCheckoutDate(newDate)
+  }
 
 
   const bookingSummaryRender = () => {
@@ -59,7 +71,7 @@ return (
       <div className="hotel-page-zn9">
         <section>
           {bookingSummaryRender()}
-      <DatePicker width={props.screenWidth} largeView={true} updateStartDate={setCheckinDate} updateEndDate={setCheckoutDate} /> 
+      <DatePicker width={props.screenWidth} largeView={true} doublePanel={props.doublePanel} updateStartDate={updateStartDate} updateEndDate={updateEndDate} />
         </section>
       </div>
     </div>
