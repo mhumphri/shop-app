@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { updateNavigateAway, updateSavedMapData } from "../../redux/hotelApp/hotelAppSlice";
 import { useNavigate } from "react-router-dom";
 import PopoutBoxSm from "./popoutBoxSm";
 import randomNumberInRange from "../functions/randomNumberInRange";
@@ -40,14 +38,8 @@ const mapMoveListener = {
 };
 
 function ResultsMap(props) {
-  // redux hook for dispatching data
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const markersLoadedRef = useRef();
-  // boolean showing true is user has navigated away to individual hotel page (used to prevent data reload when they navigate back)
-  const navigateAway = useSelector((state) => state.hotelApp.navigateAway);
-  // map data saved every time there is a map search - used for update page search
-  const savedMapData = useSelector((state) => state.hotelApp.savedMapData);
   // keeps log of most recent hotel which has been hovered over in the results list - used to disable styling when props.hoverHotel state changes
   const [hoverHotelLocal, setHoverHotelLocal] = useState();
   // keeps log of currently active pill marker - used for styling
@@ -91,10 +83,8 @@ function ResultsMap(props) {
 
   // updates pill markers using latest roomData array - triggers update of markers when props.hotelArray updates
   useEffect(() => {
-    console.log("UPDATE_MARKERS_1")
     // creates new pill marker - markerData argument contains the hotel data (element from hotelArray)
     const addPillMarker = (markerData) => {
-      console.log("UPDATE_MARKERS_7a")
       const createNewMarker = () => {
         function pillMarkerContent(markerData) {
           // initialise variables for pill marker inline styling (white background, dark text)
@@ -136,15 +126,13 @@ function ResultsMap(props) {
 
           return content;
         }
-console.log("UPDATE_MARKERS_7b")
+
         // creates new google maps advanced marker object
         const newMarker = new window.google.maps.marker.AdvancedMarkerView({
           map,
           content: pillMarkerContent(markerData),
           position: markerData.coords,
         });
-
-
 
         // creates large marker (which shows photo and more detail for hotel) when pill marker is clicked
         newMarker.addListener("click", (event) => {
@@ -168,27 +156,18 @@ console.log("UPDATE_MARKERS_7b")
           });
         });
 
-                console.log("UPDATE_MARKERS_7c")
-
         // pushes object containing markerData and google maps marker object to markers array
         markers.push({ marker: newMarker, markerData: markerData });
       };
 
+        // create new marker is called with random delay & timeout creates impression of loading from server
+        let randomDelay = randomNumberInRange(200, 1000);
 
-
-
-          // create new marker is called with random delay & timeout creates impression of loading from server
-          let randomDelay = randomNumberInRange(200, 1000);
-          if (navigateAway) {
-            randomDelay = 0
-          }
         setTimeout(() => {
           createNewMarker();
         }, randomDelay);
-
     };
 
-console.log("UPDATE_MARKERS_2")
     // Creates large popout marker (which gives more details on the currently selected pill marker + link)
     const addLargeMarker = (markerData) => {
       // deletes large marker (google map object and staored marker data) if one is currently active
@@ -220,10 +199,7 @@ console.log("UPDATE_MARKERS_2")
       setLargeMarker({ marker: newMarker, markerData: markerData });
     };
 
-console.log("UPDATE_MARKERS_3")
-
     if (!props.firstLoad) {
-      console.log("UPDATE_MARKERS_4")
       // initialise variables
       let largeMarkerRetained;
       let keysObject = {};
@@ -241,8 +217,6 @@ console.log("UPDATE_MARKERS_3")
           }
         }
       }
-
-      console.log("UPDATE_MARKERS_5")
 
       // if largeMarker is not contained in current hotel data array, set largeMarker state to false
       if (!largeMarkerRetained && largeMarkerRef.current) {
@@ -263,27 +237,19 @@ console.log("UPDATE_MARKERS_3")
       // add new pill marker objects for all elements of hotelArray which are not in keysObject
         // residualKeysObject stores keys of map markers which have not been deleted
         let residualKeysObject = {};
-        if (!navigateAway) {
         for (let i = 0; i < markers.length; i++) {
           residualKeysObject[markers[i].markerData.key] = true;
         }
-      }
         // pill markers added for elements of hotel array, with undeleted markers from previous hotel array filtered out
         for (let i = 0; i < props.hotelArray.length; i++) {
           if (!residualKeysObject[props.hotelArray[i].key]) {
-            console.log("UPDATE_MARKERS_6" + i)
             addPillMarker(props.hotelArray[i]);
           }
         }
 
-        console.log("UPDATE_MARKERS_6")
-
       // set markersLoaded state to true
       if (!markersLoadedRef.current) {
         markersLoadedRef.current = true;
-      }
-      if (navigateAway) {
-        dispatch(updateNavigateAway(false))
       }
     }
   }, [props.hotelArray, props.firstLoad]);
@@ -519,13 +485,7 @@ console.log("UPDATE_MARKERS_3")
       lat: 48.6,
       lng: 0,
     };
-    if (savedMapData.center) {
-      mapCenter = savedMapData.center
-    }
     let mapZoom = 5;
-    if (savedMapData.zoom) {
-      mapZoom = savedMapData.zoom
-    }
     // creates new google map object
     map = new window.google.maps.Map(document.getElementById("map"), {
       zoom: mapZoom,
@@ -592,13 +552,6 @@ console.log("UPDATE_MARKERS_3")
 
   mapMoveListener.registerListener(function (val) {
     if (val) {
-      const newMapParameters = {
-        bounds: map.getBounds(),
-        center: map.getCenter(),
-        zoom: map.getZoom(),
-        box: props.mapContainer.current.getBoundingClientRect(),
-      };
-      dispatch(updateSavedMapData(newMapParameters))
       // if map idle has been triggered by either a user drag, change of zoom or search location input change, props.handleMapMove is triggered
       if (mapZoomedRef.current || mapDraggedRef.current) {
         if (props.locationSearchCurrentRef.current) {

@@ -1,7 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import getHotelArrayInit from "../../hotelApp/functions/getHotelArrayInit";
 
 const initialState = {
-  hotelArray: [],
+  hotelArray: getHotelArrayInit(),
+  navigateAway: false,
+  savedMapData: {},
+  mapBbox: false,
+  numberHotels: 1000,
+  maxPages: false,
+  activePage: 1,
 };
 
 const modalsSlice = createSlice({
@@ -11,9 +18,27 @@ const modalsSlice = createSlice({
     updateHotelArray(state, action) {
       state.hotelArray = action.payload;
     },
+    updateNavigateAway(state, action) {
+      state.navigateAway = action.payload;
+    },
+    updateSavedMapData(state, action) {
+      state.savedMapData = action.payload;
+    },
+    updateMapBbox(state, action) {
+      state.mapBbox = action.payload;
+    },
+    updateNumberHotels(state, action) {
+      state.numberHotels = action.payload;
+    },
+    updateMaxPages(state, action) {
+      state.maxPages = action.payload;
+    },
+    updateActivePage(state, action) {
+      state.activePage = action.payload;
+    },
   },
 });
 
-export const { updateHotelArray } = modalsSlice.actions;
+export const { updateHotelArray, updateNavigateAway, updateSavedMapData, updateMapBbox, updateNumberHotels, updateMaxPages, updateActivePage } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

@@ -21,12 +21,12 @@
 	margin-top: 0px !important;
 	min-width: 100% !important;
 	scroll-snap-type: x mandatory !important;
-  overscroll-behavior: none;
+  overscroll-behavior-x: none;
   overflow-x: hidden;
 }
 
 .image-gallery-145 {
-	border-style: solid !important;
+	/* border-style: solid !important; */
 	border-color: transparent !important;
 	scroll-snap-align: start !important;
 	scroll-snap-stop: always !important;

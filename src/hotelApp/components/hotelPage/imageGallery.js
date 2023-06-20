@@ -81,22 +81,8 @@ function ImageGallery(props) {
         >
           <div class="image-gallery-1h6">
             <picture>
-              <source srcset={imgData.img} media="(max-width: 743px)" />
-              <source
-                srcset={imgData.img}
-                media="(min-width: 743.1px) and (max-width: 1127px)"
-              />
-              <source
-                srcset={imgData.img}
-                media="(min-width: 1127.1px) and (max-width: 1439px)"
-              />
-              <source srcset={imgData.img} media="(min-width: 1439.1px)" />
-              <img class="image-gallery-6tb" src={imgData.img} />
+              <img class="image-gallery-6tb" src={imgData} />
             </picture>
-            <div
-              class="_15p4g025"
-              style={{ backgroundImage: imgData.img, backgroundSize: "cover" }}
-            ></div>
           </div>
         </button>
       </div>,
@@ -111,18 +97,18 @@ function ImageGallery(props) {
             <div class="image-gallery-skz">
               <div class="image-gallery-5lt">
                 <div class="image-gallery-13s">
-                  <div class="image-gallery-100">{indImage(data[0], 0)}</div>
+                  <div class="image-gallery-100">{indImage(props.hotelData.photos[0], 0)}</div>
                 </div>
               </div>
 
               <div class="image-gallery-178">
                 <div class="image-gallery-13s">
                   <div class="image-gallery-1l7">
-                    <div class="image-gallery-100">{indImage(data[1], 1)}</div>
+                    <div class="image-gallery-100">{indImage(props.hotelData.photos[1], 1)}</div>
                   </div>
 
                   <div class="image-gallery-924">
-                    <div class="image-gallery-100">{indImage(data[2], 2)}</div>
+                    <div class="image-gallery-100">{indImage(props.hotelData.photos[2], 2)}</div>
                   </div>
                 </div>
               </div>
@@ -130,11 +116,11 @@ function ImageGallery(props) {
               <div class="image-gallery-182">
                 <div class="image-gallery-13s">
                   <div class="image-gallery-1l7">
-                    <div class="image-gallery-100">{indImage(data[3], 3)}</div>
+                    <div class="image-gallery-100">{indImage(props.hotelData.photos[3], 3)}</div>
                   </div>
 
                   <div class="image-gallery-924">
-                    <div class="image-gallery-100">{indImage(data[4], 4)}</div>
+                    <div class="image-gallery-100">{indImage(props.hotelData.photos[4], 4)}</div>
                   </div>
                 </div>
               </div>
@@ -153,7 +139,7 @@ function ImageGallery(props) {
             class="image-gallery-rxz"
             style={{ marginLeft: "0px", marginRight: "0px" }}
           >
-            {data.map((x, index) => (
+            {props.hotelData.photos.map((x, index) => (
               <li
                 aria-hidden="false"
                 data-key={x.dataKey}
@@ -173,20 +159,7 @@ function ImageGallery(props) {
                     >
                       <div class="image-gallery-462">
                         <picture>
-                          <source srcset={x.img} media="(max-width: 743px)" />
-                          <source
-                            srcset={x.img}
-                            media="(min-width: 743.1px) and (max-width: 1127px)"
-                          />
-                          <source
-                            srcset={x.img}
-                            media="(min-width: 1127.1px) and (max-width: 1439px)"
-                          />
-                          <source
-                            srcset={x.img}
-                            media="(min-width: 1439.1px)"
-                          />
-                          <img class="image-gallery-oxz" src={x.img} />
+                          <img class="image-gallery-oxz" src={x} />
                         </picture>
                       </div>
                     </div>

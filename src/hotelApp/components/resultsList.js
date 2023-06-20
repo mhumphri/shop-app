@@ -25,6 +25,7 @@ function ResultsList(props) {
               setActiveLink={props.setActiveLink}
               hoverHotel={props.hoverHotel}
               setHoverHotel={props.setHoverHotel}
+              navigateAway={props.navigateAway}
             />
           ))}
         </div>

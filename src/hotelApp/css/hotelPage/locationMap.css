@@ -1,8 +1,20 @@
 .location-map-grw {
 overflow: hidden !important;
 position: relative !important;
-height: 218px !important;
+height: 300px !important;
 border-radius: 12px !important;
+}
+
+@media (min-width: 450px) {
+  .location-map-grw {
+  height: 400px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .location-map-grw {
+  height: 700px !important;
+  }
 }
 
 .location-map-fa2 {

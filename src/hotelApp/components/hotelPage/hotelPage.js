@@ -12,9 +12,13 @@ import ImageGallery from "./imageGallery";
 import HotelAppNav from "../hotelAppNav";
 import ScrollNav from "./scrollNav";
 import FloatingSearchbox from "./floatingSearchbox";
+import hotelData2 from "../../data/hotelData2";
+import hotelDataset from "../../data/hotelData2";
+import getOtherPhotos from "../../functions/getOtherPhotos";
 import "../../css/hotelPage/hotelPage.css";
 
 // homepage component for hotelApp - contains jsx for homepage and search/server comms logic
+
 
 const roomData = {
   reviews: {
@@ -63,6 +67,7 @@ const roomData = {
   },
 };
 
+
 function HotelPage(props) {
   // placeholder
   const roomRate = 100;
@@ -74,6 +79,11 @@ function HotelPage(props) {
   // large view (boolean indicating if app currently in large view) and screen height (stored in redux)
   const largeView = useSelector((state) => state.deviceData.largeView);
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
+
+  // XYX
+  const [hotelData, setHotelData] = useState();
+  // XYX
+  const [hotelPhotos, setHotelPhotos] = useState();
 
   // logs with of LHS panel - used to size datepicker
   const [lhsPanelWidth, setLhsPanelWidth] = useState(0);
@@ -116,12 +126,55 @@ function HotelPage(props) {
   // used for measuring with of LHS panel - used to size datepicker
   const lhsPanelRef = useRef(null);
 
-  // calculates costs on first load
+  // loads hotel data for specified id
   useEffect(() => {
-  //  console.log("params.hotelId: " + params.hotelId)
 
+  let newHotelData
 
-    // console.log("hotelArray!!!!!!!" + JSON.stringify(hotelArray))
+  for (let i=0; i<hotelArray.length; i++) {
+
+    if (hotelArray[i].hotelDataKey===params.hotelId) {
+      newHotelData = hotelArray[i];
+      break;
+    }
+
+  }
+
+  if (newHotelData) {
+   setHotelData(newHotelData)
+const randomHotel = hotelDataset[params.hotelId]
+  }
+  else {
+    setHotelData({
+      "name": "Peaceful Garden Hotel",
+      "key": "TNLYMRBqWEfT",
+      "hotelDataKey": "JwhHyJenNaRU",
+      "coords": {
+        "lng": 9.9745625200506,
+        "lat": 53.608286610157016
+      },
+      "country": "Germany",
+      "price": 297,
+      "photos": [
+        "/static/media/main10.8f3b95ae7693db747ba8.jpg",
+        "/static/media/other1.e122534b79a8aa50c26f.jpg",
+        "/static/media/other12.50cd6dac4bbc153d44c2.jpg",
+        "/static/media/other21.348665915f3e5ec66853.jpg",
+        "/static/media/other16.3bd88d639dbfb857ea9e.jpg",
+        "/static/media/other19.7e7e416cac594a8fb755.jpg",
+        "/static/media/other14.cbc6fee4c7acb93dda05.jpg",
+        "/static/media/other12.50cd6dac4bbc153d44c2.jpg",
+        "/static/media/other22.151f87dcc9f27b910a72.jpg",
+        "/static/media/other6.67a420a5d6a92d6ff6a7.jpg",
+        "/static/media/other18.748fc418d458700428b0.jpg",
+        "/static/media/other2.fa57e8801fb7ca73318d.jpg"
+      ],
+      "rating": 3.2,
+      "numReviews": 151,
+      "cityName": "Hamburg",
+      "locationName": "Hamburg, Germany"
+    })
+  }
   }, []);
 
   // this loads the data for the current room into redux using the room ID param from the URL and enables scrolling on page load
@@ -130,7 +183,7 @@ function HotelPage(props) {
       if (largeView) {
         setLhsPanelWidth(lhsPanelRef.current.getBoundingClientRect().width);
       }
-  }, [screenWidth]);
+  }, [screenWidth, hotelData]);
 
   // calculates costs (in reality would be done on server)
   const calcCosts = (checkinDate, checkoutDate, roomRate, guestsData) => {
@@ -149,7 +202,7 @@ function HotelPage(props) {
       }
       newNumberNights = numberNights;
       newRoomCost = roomRate * numberNights;
-      newTaxCost = 15 + newRoomCost * 0.05;
+      newTaxCost = 25 + newRoomCost * 0.03;
       newTotalCost = newRoomCost + newTaxCost;
       newAvePerNight = newTotalCost / numberNights;
     }
@@ -255,12 +308,13 @@ function HotelPage(props) {
           setActiveSearch={setActiveSearch}
           narrow={true}
         />
-        <div class="hotel-page-16g">
+      {hotelData ?
+        (<div class="hotel-page-16g">
           <main>
             <div>
               <div ref={photosRef} />
-              <Summary />
-              <ImageGallery largeView={largeView} />
+              <Summary hotelData={hotelData}/>
+            <ImageGallery largeView={largeView} hotelData={hotelData} hotelPhotos={hotelPhotos} />
             </div>
             <ScrollNav
               middleContentBox={middleContentBox}
@@ -282,14 +336,13 @@ function HotelPage(props) {
                 <div ref={amenitiesRef} />
                 <Amenities />
                 <div ref={datepickerRef} />
-                <DateInput
+              {lhsPanelWidth ?  <DateInput
                   screenWidth={lhsPanelWidth}
                   doublePanel={screenWidth > 1120 ? true : false}
                   setCheckinDate={updateCheckinDate}
                   setCheckoutDate={updateCheckoutDate}
-                />
-                <div ref={reviewsRef} />
-                <Reviews />
+                /> : null}
+
               </div>
               <div class="hotel-page-1s2">
                 <div class="hotel-page-mub">
@@ -308,21 +361,21 @@ function HotelPage(props) {
             </div>
 
             <div ref={locationRef} />
-            <LocationMap />
-            <LocationMap />
-            <LocationMap />
+            <LocationMap hotelData={hotelData}  />
+              <div ref={reviewsRef} />
+              <Reviews />
           </main>
-        </div>
+        </div>) : null }
       </>
     );
   } else {
     return (
       <main className="hotel-page-rt7">
-        <ImageGallery />
-        <Summary />
+        {hotelData ? (<><ImageGallery hotelData={hotelData} />
+        <Summary hotelData={hotelData} />
         <Description />
         <Amenities />
-        <LocationMap />
+        <LocationMap hotelData={hotelData} />
         <div ref={datepickerRef} />
         <DateInput
           screenWidth={screenWidth}
@@ -337,8 +390,8 @@ function HotelPage(props) {
           data={roomData.reviews}
           scrollToDatepicker={() => scrollTo(datepickerRef)}
           costs={costs}
-        />
-      </main>
+        /></> ) : null}
+    </main>
     );
   }
 }

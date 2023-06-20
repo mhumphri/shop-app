@@ -25,7 +25,7 @@ return (
           <div className="location-map-grw">
 
 
-                    <HotelPageMap hotelData={props.hotelData} /> 
+                        {/*    <HotelPageMap coords={coords} /> */}
 
 
 

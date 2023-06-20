@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { updateNavigateAway } from "../../redux/hotelApp/hotelAppSlice";
 import getHref from "../functions/getHref";
 import SwipeableGallery from "./swipeableGallery";
 import "../css/indListItem.css";
@@ -7,14 +9,16 @@ import "../css/indListItem.css";
 // render for individual hotel search result (appearing in resultsList.js)
 
 function IndListItem(props) {
+  // redux hook for dispatching data
+  const dispatch = useDispatch();
   // boolean indicating if item is currently loading (used to imitate server loading delay)
-  const [indItemLoading, setIndItemLoading] = useState(true);
+  const [indItemLoading, setIndItemLoading] = useState(props.navigateAway ? false : true);
 
   //  controls delay for individual search result (adding on small random additonal delay) when props.listItemLoading in the parent component (resultsList.js) updates
   useEffect(() => {
     if (!props.listItemLoading) {
       // random delay added
-      const msDelay = props.itemId * 50;
+      let msDelay = props.itemId * 50;
 
       // loading state changed to false after random delay timeout
       setTimeout(() => {
@@ -38,10 +42,9 @@ function IndListItem(props) {
   const navigate = useNavigate();
 
   const navigateToProperty = () => {
-    const href = getHref(props.hotelData.key)
-      // dispatch(updateNavigateAway(true))
-      console.log("href: " + href)
+    const href = getHref(props.hotelData.hotelDataKey)
      navigate(href);
+     dispatch(updateNavigateAway(true))
   }
 
   return (
