@@ -9,6 +9,7 @@ const initialState = {
   numberHotels: 1000,
   maxPages: false,
   activePage: 1,
+  searchLocation: {name: ""},
 };
 
 const modalsSlice = createSlice({
@@ -36,9 +37,12 @@ const modalsSlice = createSlice({
     updateActivePage(state, action) {
       state.activePage = action.payload;
     },
+    updateSearchLocationRedux(state, action) {
+      state.searchLocation = action.payload;
+    },
   },
 });
 
-export const { updateHotelArray, updateNavigateAway, updateSavedMapData, updateMapBbox, updateNumberHotels, updateMaxPages, updateActivePage } = modalsSlice.actions;
+export const { updateHotelArray, updateNavigateAway, updateSavedMapData, updateMapBbox, updateNumberHotels, updateMaxPages, updateActivePage, updateSearchLocationRedux } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

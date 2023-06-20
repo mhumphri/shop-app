@@ -8,7 +8,7 @@ import "../../css/hotelPage/indReview.css";
 function IndReview(props) {
 
 const reviewText = useRef(null);
-// true if text exceeds x lines and "show more" button is enabled 
+// true if text exceeds x lines and "show more" button is enabled
 const [boxOverflow, setBoxOverflow] = useState();
 
 
@@ -36,6 +36,22 @@ countLines()
 
 }, []);
 
+/* returns render of text and line breaks in response to array of text and false (for line break) elements */
+const textRender = (textArray) => {
+  let newText = [];
+  for (let i = 0; i < textArray.length; i++) {
+    if (!textArray[i]) newText.push(<br />);
+    else if (textArray[i].header) {
+      newText.push(
+        <span className="description-1di">{textArray[i].header}</span>
+      );
+    } else {
+      newText.push(textArray[i]);
+    }
+  }
+  return newText;
+};
+
 
 
   return (  <div role="listitem" class="ind-review-162">
@@ -57,6 +73,7 @@ countLines()
           </div>
         </div>
         <div>
+          {/*
           <div style={boxOverflow ? {
             lineHeight: "24px",
             overflow: "hidden",
@@ -65,13 +82,15 @@ countLines()
             WebkitLineClamp: "3",
             MozBoxOrient: "vertical",
           } : {
-            lineHeight: "24px"}}>
+            lineHeight: "24px"}}> */}
+            <div style={{
+              lineHeight: "24px"}}>
             <span>
-              <span ref={reviewText}>{props.data.text}</span>
+              <span ref={reviewText}>{textRender(props.data.text)}</span>
             </span>
           </div>
         </div>
-        {boxOverflow ?
+        {/* boxOverflow ?
           <div class="ind-review-s17">
             <button
               type="button"
@@ -96,7 +115,7 @@ countLines()
                 </span>
               </span>
             </button>
-          </div> : null }
+          </div> : null  */}
     </div>)
 
 

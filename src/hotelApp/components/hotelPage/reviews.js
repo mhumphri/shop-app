@@ -16,12 +16,6 @@ const data = {rating: 4.6, list: [
       "date": "March 2022",
       "text": [
         "Our stay was okay but for future travelers wanted to point out some major considerations for renting this place. The host was responsive and communicated well with recommendations and information for the area. They were also very accommodating with regards to storing luggage at check in and check out.",
-        false,
-        false,
-        "My biggest disappointment is for the price I would have expected a much nicer rental. The chalet was very funky. It has many rooms and bathrooms so if you don’t care about staying somewhere nice it can work well for a group (if you don’t mind paper thin walls and the sound traveling). The beds were absolutely horrible. There was only a single roll of toilet paper in the house upon arrival. Only enough towels for the seven of us and not enough to have a second towel for the hot tub. No dish towels which made it hard to cook and clean in the kitchen. There were a lot of bugs.",
-        false,
-        false,
-        "Lastly if you don’t plan to rent a car you will have to walk up a huge hill to get from the bus to the house. Also you’ll have to walk the garbage and recycling down to the center of town. If you have a car then these won’t be issues."
       ],
         },
     {
@@ -31,7 +25,6 @@ const data = {rating: 4.6, list: [
         "Very friendly host and welcoming, the perfect stay for our honeymoon trip!"
       ],
       },
-    null,
     {
       "userName": "Alina",
       "date": "May 2022",
@@ -55,7 +48,7 @@ return (
       <div class="hotel-page-cd3" />
       <div class="hotel-page-zn9">
         <section>
-          <div class="reviews-h1v">
+          <div class={props.twoColumn? "reviews-h1v two-column" : "reviews-h1v"} >
             <span class="reviews-itu">
               <svg
                 viewBox="0 0 32 32"
@@ -74,22 +67,25 @@ return (
             <span class="reviews-t1x ">
               <h2 tabindex="-1" class="reviews-4i3" elementtiming="LCP-target">
 
-                  <span aria-hidden="true">{data.rating} · {data.list.length} reviews</span>
+                  <span aria-hidden="true">{props.hotelData.rating} · {props.hotelData.numReviews} reviews</span>
 
               </h2>
             </span>
           </div>
-          <div>
-            {data.list.slice(0, 3).map((x) =>
+          <div className={props.twoColumn? "reviews-sa1 two-column" : "reviews-sa1"}>
+
+            {data.list.slice(0, 4).map((x) =>
                                 (
 <IndReview data={x} showMore={props.openModal} />
 
                                 )
             )}
           </div>
-          <div>
+
+        {/*  <div>
             <SectionButton largeView={props.largeView ? true : false} message={"Show all " + data.list.length +  " reviews"} click={props.openModal} />
           </div>
+          */}
 
         </section>
       </div>

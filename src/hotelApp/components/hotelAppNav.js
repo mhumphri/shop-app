@@ -8,6 +8,7 @@ import "../css/hotelAppNav.css";
 
 // header, nav and controls for hotel app - both large and small view
 function HotelAppNav(props) {
+  console.log("HotelAppNav")
   // redux hook for dispatching data
   const dispatch = useDispatch();
   // screen width (stored in redux)

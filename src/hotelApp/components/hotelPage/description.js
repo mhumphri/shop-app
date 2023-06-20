@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../css/hotelPage/description.css";
-
+/*
 const descriptionText = [
   [
     "Qui nemo delectus aut rerum delectus rem dolore alias. Qui amet voluptatem est voluptatem obcaecati ea consequatur earum ad consequatur ipsam qui nesciunt similique ut accusantium rerum qui dignissimos necessitatibus. Et velit atque sit nostrum consequatur ab dignissimos quis.",
@@ -43,6 +43,16 @@ const descriptionText = [
     "Ut ullam repellendus ea quia facere qui ullam amet quo omnis debitis. Qui assumenda quibusdam et consequatur harum ea earum molestias aut dolorem officiis. Qui excepturi modi aut minima expedita eos esse facilis non saepe velit nam sapiente facere aut sint voluptate et praesentium dolor.",
   ],
 ];
+*/
+
+const descriptionText = [
+  [
+    "Qui nemo delectus aut rerum delectus rem dolore alias. Qui amet voluptatem est voluptatem obcaecati ea consequatur earum ad consequatur ipsam qui nesciunt similique ut accusantium rerum qui dignissimos necessitatibus. Et velit atque sit nostrum consequatur ab dignissimos quis.",
+  ],
+  false,
+  false,
+  [
+    "Ut ullam repellendus ea quia facere qui ullam amet quo omnis debitis. Qui assumenda quibusdam et consequatur harum ea earum molestias aut dolorem officiis."]]
 
 // homepage component for hotelApp - contains jsx for homepage and search/server comms logic
 
@@ -87,7 +97,7 @@ function Description(props) {
         <div class="hotel-page-cd3" />
         <div class="hotel-page-zn9">
           <section>
-            <div
+          {/*} <div
               style={
                 boxOverflow
                   ? {
@@ -102,13 +112,20 @@ function Description(props) {
                       lineHeight: "24px",
                     }
               }
-            >
+            > */}
+            <div
+                style={
+                  {
+                        lineHeight: "24px",
+                      }
+                }
+              >
               <span>
                 <span ref={text}>{textRender(descriptionText)}</span>
               </span>
             </div>
             <div className="description-s1i">
-              <button
+          {/*    <button
                 type="button"
                 className="description-b1k"
                 onClick={props.openModal}
@@ -130,7 +147,7 @@ function Description(props) {
                     </svg>
                   </span>
                 </span>
-              </button>
+              </button> */}
             </div>
           </section>
         </div>

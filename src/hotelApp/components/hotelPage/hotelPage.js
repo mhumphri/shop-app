@@ -12,13 +12,13 @@ import ImageGallery from "./imageGallery";
 import HotelAppNav from "../hotelAppNav";
 import ScrollNav from "./scrollNav";
 import FloatingSearchbox from "./floatingSearchbox";
+import Footer from "../footer/footer";
 import hotelData2 from "../../data/hotelData2";
 import hotelDataset from "../../data/hotelData2";
 import getOtherPhotos from "../../functions/getOtherPhotos";
 import "../../css/hotelPage/hotelPage.css";
 
 // homepage component for hotelApp - contains jsx for homepage and search/server comms logic
-
 
 const roomData = {
   reviews: {
@@ -66,7 +66,6 @@ const roomData = {
     ],
   },
 };
-
 
 function HotelPage(props) {
   // placeholder
@@ -128,53 +127,50 @@ function HotelPage(props) {
 
   // loads hotel data for specified id
   useEffect(() => {
+    let newHotelData;
 
-  let newHotelData
-
-  for (let i=0; i<hotelArray.length; i++) {
-
-    if (hotelArray[i].hotelDataKey===params.hotelId) {
-      newHotelData = hotelArray[i];
-      break;
+    for (let i = 0; i < hotelArray.length; i++) {
+      if (hotelArray[i].hotelDataKey === params.hotelId) {
+        newHotelData = hotelArray[i];
+        break;
+      }
     }
 
-  }
-
-  if (newHotelData) {
-   setHotelData(newHotelData)
-const randomHotel = hotelDataset[params.hotelId]
-  }
-  else {
-    setHotelData({
-      "name": "Peaceful Garden Hotel",
-      "key": "TNLYMRBqWEfT",
-      "hotelDataKey": "JwhHyJenNaRU",
-      "coords": {
-        "lng": 9.9745625200506,
-        "lat": 53.608286610157016
-      },
-      "country": "Germany",
-      "price": 297,
-      "photos": [
-        "/static/media/main10.8f3b95ae7693db747ba8.jpg",
-        "/static/media/other1.e122534b79a8aa50c26f.jpg",
-        "/static/media/other12.50cd6dac4bbc153d44c2.jpg",
-        "/static/media/other21.348665915f3e5ec66853.jpg",
-        "/static/media/other16.3bd88d639dbfb857ea9e.jpg",
-        "/static/media/other19.7e7e416cac594a8fb755.jpg",
-        "/static/media/other14.cbc6fee4c7acb93dda05.jpg",
-        "/static/media/other12.50cd6dac4bbc153d44c2.jpg",
-        "/static/media/other22.151f87dcc9f27b910a72.jpg",
-        "/static/media/other6.67a420a5d6a92d6ff6a7.jpg",
-        "/static/media/other18.748fc418d458700428b0.jpg",
-        "/static/media/other2.fa57e8801fb7ca73318d.jpg"
-      ],
-      "rating": 3.2,
-      "numReviews": 151,
-      "cityName": "Hamburg",
-      "locationName": "Hamburg, Germany"
-    })
-  }
+    if (newHotelData) {
+      setHotelData(newHotelData);
+      const randomHotel = hotelDataset[params.hotelId];
+    } else {
+      setHotelData({
+        name: "Peaceful Garden Hotel",
+        key: "TNLYMRBqWEfT",
+        hotelDataKey: "JwhHyJenNaRU",
+        coords: {
+          lng: 9.9745625200506,
+          lat: 53.608286610157016,
+        },
+        country: "Germany",
+        price: 297,
+        photos: [
+          "/static/media/main10.8f3b95ae7693db747ba8.jpg",
+          "/static/media/other1.e122534b79a8aa50c26f.jpg",
+          "/static/media/other12.50cd6dac4bbc153d44c2.jpg",
+          "/static/media/other21.348665915f3e5ec66853.jpg",
+          "/static/media/other16.3bd88d639dbfb857ea9e.jpg",
+          "/static/media/other19.7e7e416cac594a8fb755.jpg",
+          "/static/media/other14.cbc6fee4c7acb93dda05.jpg",
+          "/static/media/other12.50cd6dac4bbc153d44c2.jpg",
+          "/static/media/other22.151f87dcc9f27b910a72.jpg",
+          "/static/media/other6.67a420a5d6a92d6ff6a7.jpg",
+          "/static/media/other18.748fc418d458700428b0.jpg",
+          "/static/media/other2.fa57e8801fb7ca73318d.jpg",
+        ],
+        rating: 3.2,
+        numReviews: 151,
+        cityName: "Hamburg",
+        locationName: "Hamburg, Germany",
+        locationNameShort: "Hamburg"
+      });
+    }
   }, []);
 
   // this loads the data for the current room into redux using the room ID param from the URL and enables scrolling on page load
@@ -195,7 +191,7 @@ const randomHotel = hotelDataset[params.hotelId]
 
     if (checkinDate && checkoutDate) {
       const numberNights = (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24);
-      console.log("numberNights: " + numberNights)
+      console.log("numberNights: " + numberNights);
       let totalGuests = guestsData.Children * 0.5 + guestsData.Adults;
       if (totalGuests > 2) {
         roomRate = (roomRate * totalGuests) / 2;
@@ -215,8 +211,6 @@ const randomHotel = hotelDataset[params.hotelId]
       avePerNight: Math.round(newAvePerNight).toLocaleString("en-US"),
     };
   };
-
-
 
   const updateCheckinDate = (newDate) => {
     setCheckinDate(newDate);
@@ -252,9 +246,13 @@ const randomHotel = hotelDataset[params.hotelId]
     // makeServerCall("searchRefresh");
   };
 
+
+
   const navigateHome = () => {
-    console.log("navigateHome");
-  };
+
+    window.location.href ="/hotel-app"
+
+  }
 
   // scrolls to selected ref
   const scrollTo = (scrollRef) => {
@@ -293,8 +291,6 @@ const randomHotel = hotelDataset[params.hotelId]
     }
   };
 
-
-
   if (largeView) {
     return (
       <>
@@ -308,90 +304,108 @@ const randomHotel = hotelDataset[params.hotelId]
           setActiveSearch={setActiveSearch}
           narrow={true}
         />
-      {hotelData ?
-        (<div class="hotel-page-16g">
-          <main>
-            <div>
-              <div ref={photosRef} />
-              <Summary hotelData={hotelData}/>
-            <ImageGallery largeView={largeView} hotelData={hotelData} hotelPhotos={hotelPhotos} />
-            </div>
-            <ScrollNav
-              middleContentBox={middleContentBox}
-              scrollTo={scrollTo}
-              photosRef={photosRef}
-              amenitiesRef={amenitiesRef}
-              reviewsRef={reviewsRef}
-              locationRef={locationRef}
-              checkinDate={checkinDate}
-              checkoutDate={checkoutDate}
-              costs={costs}
-              floatingSearchInner={floatingSearchInner}
-              scrollToDatepicker={() => scrollTo(datepickerRef)}
-            />
-            <div ref={middleContentBox} class="hotel-page-12n">
-              <div class="hotel-page-16e" ref={lhsPanelRef}>
-                <Description />
-
-                <div ref={amenitiesRef} />
-                <Amenities />
-                <div ref={datepickerRef} />
-              {lhsPanelWidth ?  <DateInput
-                  screenWidth={lhsPanelWidth}
-                  doublePanel={screenWidth > 1120 ? true : false}
-                  setCheckinDate={updateCheckinDate}
-                  setCheckoutDate={updateCheckoutDate}
-                /> : null}
-
+        {hotelData ? (
+          <div class="hotel-page-16g">
+            <main>
+              <div>
+                <div ref={photosRef} />
+                <Summary hotelData={hotelData} />
+                <ImageGallery
+                  largeView={largeView}
+                  hotelData={hotelData}
+                  hotelPhotos={hotelPhotos}
+                />
               </div>
-              <div class="hotel-page-1s2">
-                <div class="hotel-page-mub">
-                  <FloatingSearchbox
-                    checkinDate={checkinDate}
-                    checkoutDate={checkoutDate}
-                    costs={costs}
-                    scrollToDatepicker={() => scrollTo(datepickerRef)}
-                    setGuestsData={updateGuestsData}
-                    guestsData={guestsData}
-                    floatingSearchInner={floatingSearchInner}
-                  />
-                  <div />
+              <ScrollNav
+                middleContentBox={middleContentBox}
+                scrollTo={scrollTo}
+                photosRef={photosRef}
+                amenitiesRef={amenitiesRef}
+                reviewsRef={reviewsRef}
+                locationRef={locationRef}
+                checkinDate={checkinDate}
+                checkoutDate={checkoutDate}
+                costs={costs}
+                floatingSearchInner={floatingSearchInner}
+                scrollToDatepicker={() => scrollTo(datepickerRef)}
+              />
+              <div ref={middleContentBox} class="hotel-page-12n">
+                <div class="hotel-page-16e" ref={lhsPanelRef}>
+                  <Description />
+
+                  <div ref={amenitiesRef} />
+                  <Amenities twoColumn={screenWidth > 1120 ? true : false} />
+                  <div ref={datepickerRef} style={{ marginBottom: "35px" }}>
+                    {lhsPanelWidth ? (
+                      <DateInput
+                        hotelData={hotelData}
+                        screenWidth={lhsPanelWidth}
+                        doublePanel={screenWidth > 1120 ? true : false}
+                        setCheckinDate={updateCheckinDate}
+                        setCheckoutDate={updateCheckoutDate}
+                      />
+                    ) : null}
+                  </div>
+                </div>
+                <div class="hotel-page-1s2">
+                  <div class="hotel-page-mub">
+                    <FloatingSearchbox
+                      checkinDate={checkinDate}
+                      checkoutDate={checkoutDate}
+                      costs={costs}
+                      scrollToDatepicker={() => scrollTo(datepickerRef)}
+                      setGuestsData={updateGuestsData}
+                      guestsData={guestsData}
+                      floatingSearchInner={floatingSearchInner}
+                    />
+                    <div />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div ref={locationRef} />
-            <LocationMap hotelData={hotelData}  />
+              <div ref={locationRef} />
+              <LocationMap hotelData={hotelData} />
               <div ref={reviewsRef} />
-              <Reviews />
-          </main>
-        </div>) : null }
+              <Reviews hotelData={hotelData} twoColumn={true} />
+            </main>
+          </div>
+        ) : null}
+        <Footer largeView={true} />
       </>
     );
   } else {
     return (
+      <>
       <main className="hotel-page-rt7">
-        {hotelData ? (<><ImageGallery hotelData={hotelData} />
-        <Summary hotelData={hotelData} />
-        <Description />
-        <Amenities />
-        <LocationMap hotelData={hotelData} />
-        <div ref={datepickerRef} />
-        <DateInput
-          screenWidth={screenWidth}
-          setCheckinDate={updateCheckinDate}
-          setCheckoutDate={updateCheckoutDate}
-        />
-        <Reviews />
-        <FloatingFooter
-          navigateHome={navigateHome}
-          storedCheckin={checkinDate}
-          storedCheckout={checkoutDate}
-          data={roomData.reviews}
-          scrollToDatepicker={() => scrollTo(datepickerRef)}
-          costs={costs}
-        /></> ) : null}
-    </main>
+        {hotelData ? (
+          <>
+            <ImageGallery hotelData={hotelData} />
+            <Summary hotelData={hotelData} />
+            <Description />
+            <Amenities />
+            <LocationMap hotelData={hotelData} />
+            <div ref={datepickerRef} />
+            <DateInput
+              hotelData={hotelData}
+              screenWidth={screenWidth}
+              setCheckinDate={updateCheckinDate}
+              setCheckoutDate={updateCheckoutDate}
+            />
+            <Reviews hotelData={hotelData} />
+            <FloatingFooter
+              navigateHome={navigateHome}
+              storedCheckin={checkinDate}
+              storedCheckout={checkoutDate}
+              data={roomData.reviews}
+              scrollToDatepicker={() => scrollTo(datepickerRef)}
+              costs={costs}
+            />
+          <Footer />
+          </>
+        ) : null}
+      </main>
+
+        </>
     );
   }
 }

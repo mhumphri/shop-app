@@ -3,7 +3,7 @@ import getAmenitiesList from "./functions/getAmenitiesList";
 //import SectionButton from "../inputs/sectionButton";
 import "../../css/hotelPage/amenities.css";
 
-const data = getAmenitiesList("random", 12)
+const data = getAmenitiesList("random", 20)
 
 
 function Amenities(props) {
@@ -18,7 +18,7 @@ return (
         <h2 className="hotel-page-js1">What this hotel offers</h2>
         </div>
         <div>
-
+          <div className={props.twoColumn? "amenities-vs2 two-column" : "amenities-vs2"} >
           {data.list.map((x) =>
           (<div class="amenities-19x">
             <div class="amenities-iik">
@@ -39,7 +39,7 @@ return (
           </div>)
   )}
 
-
+</div>
         </div>
         </section>
       </div>

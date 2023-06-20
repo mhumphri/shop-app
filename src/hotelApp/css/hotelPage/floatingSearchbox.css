@@ -245,7 +245,9 @@ border-radius: 0px 0px 8px 8px;
 
 .floating-searchbox-qqb {
 	cursor: pointer !important;
-	display: inline-block !important;
+	display: inline-flex !important;
+	align-items: center;
+	justify-content: center;
 	margin: 0px !important;
 	position: relative !important;
 	text-align: center !important;
@@ -264,6 +266,13 @@ border-radius: 0px 0px 8px 8px;
 	width: 100% !important;
 }
 
+.floating-searchbox-qqb:active {
+	transform: scale(0.96) !important;
+	border: medium none !important;
+	background: rgb(255, 56, 92) !important;
+	color: rgb(255, 255, 255) !important;
+}
+
 .floating-searchbox-1wp {
 	font-size: 16px !important;
 	line-height: 20px !important;
@@ -272,16 +281,6 @@ border-radius: 0px 0px 8px 8px;
 	white-space: normal !important;
 	margin-top: 24px !important;
 }
-
-/*
-.floating-searchbox-18x {
-	font-size: 14px !important;
-	line-height: 18px !important;
-	color: rgb(113, 113, 113) !important;
-	font-weight: 400 !important;
-	padding-top: 16px !important;
-}
-*/
 
 .floating-searchbox-1em {
 	font-size: 14px !important;

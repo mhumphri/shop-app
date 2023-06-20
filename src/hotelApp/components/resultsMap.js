@@ -91,10 +91,8 @@ function ResultsMap(props) {
 
   // updates pill markers using latest roomData array - triggers update of markers when props.hotelArray updates
   useEffect(() => {
-    console.log("UPDATE_MARKERS_1")
     // creates new pill marker - markerData argument contains the hotel data (element from hotelArray)
     const addPillMarker = (markerData) => {
-      console.log("UPDATE_MARKERS_7a")
       const createNewMarker = () => {
         function pillMarkerContent(markerData) {
           // initialise variables for pill marker inline styling (white background, dark text)
@@ -136,7 +134,6 @@ function ResultsMap(props) {
 
           return content;
         }
-console.log("UPDATE_MARKERS_7b")
         // creates new google maps advanced marker object
         const newMarker = new window.google.maps.marker.AdvancedMarkerView({
           map,
@@ -168,7 +165,6 @@ console.log("UPDATE_MARKERS_7b")
           });
         });
 
-                console.log("UPDATE_MARKERS_7c")
 
         // pushes object containing markerData and google maps marker object to markers array
         markers.push({ marker: newMarker, markerData: markerData });
@@ -188,7 +184,6 @@ console.log("UPDATE_MARKERS_7b")
 
     };
 
-console.log("UPDATE_MARKERS_2")
     // Creates large popout marker (which gives more details on the currently selected pill marker + link)
     const addLargeMarker = (markerData) => {
       // deletes large marker (google map object and staored marker data) if one is currently active
@@ -220,10 +215,8 @@ console.log("UPDATE_MARKERS_2")
       setLargeMarker({ marker: newMarker, markerData: markerData });
     };
 
-console.log("UPDATE_MARKERS_3")
 
     if (!props.firstLoad) {
-      console.log("UPDATE_MARKERS_4")
       // initialise variables
       let largeMarkerRetained;
       let keysObject = {};
@@ -242,7 +235,6 @@ console.log("UPDATE_MARKERS_3")
         }
       }
 
-      console.log("UPDATE_MARKERS_5")
 
       // if largeMarker is not contained in current hotel data array, set largeMarker state to false
       if (!largeMarkerRetained && largeMarkerRef.current) {
@@ -271,12 +263,12 @@ console.log("UPDATE_MARKERS_3")
         // pill markers added for elements of hotel array, with undeleted markers from previous hotel array filtered out
         for (let i = 0; i < props.hotelArray.length; i++) {
           if (!residualKeysObject[props.hotelArray[i].key]) {
-            console.log("UPDATE_MARKERS_6" + i)
+
             addPillMarker(props.hotelArray[i]);
           }
         }
 
-        console.log("UPDATE_MARKERS_6")
+
 
       // set markersLoaded state to true
       if (!markersLoadedRef.current) {

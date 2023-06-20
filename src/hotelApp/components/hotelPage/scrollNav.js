@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import ActionButton from "./actionButton";
 import "../../css/hotelPage/scrollNav.css";
 
 function ScrollNav(props) {
@@ -40,12 +41,9 @@ function ScrollNav(props) {
     ];
   };
 
-  const actionButton = (clickFunction, label) => {
-    return [
-      <button type="button" class="scroll-nav-108" onClick={clickFunction}>
-        <span class="scroll-nav-c4w">{label}</span>
-      </button>,
-    ];
+  // handles user clicking "reserve" button - activates spinner and navigates to homepage after timeout
+  const navigateHome = () => {
+    window.location.href = "/hotel-app";
   };
 
   if (scrollNavActive) {
@@ -92,12 +90,18 @@ function ScrollNav(props) {
                         </div>
                       </div>
                       <div class="scroll-nav-fz3">
-                        {props.checkinDate && props.checkoutDate
-                          ? actionButton(props.navigateHome, "Reserve")
-                          : actionButton(
-                              props.scrollToDatepicker,
-                              "Check Availability"
-                            )}
+                        {props.checkinDate && props.checkoutDate ? (
+                          <ActionButton
+                            message={"Reserve"}
+                            loader={true}
+                            clickFunction={navigateHome}
+                          />
+                        ) : (
+                          <ActionButton
+                            message={"Check Availability"}
+                            clickFunction={props.scrollToDatepicker}
+                          />
+                        )}
                       </div>
                     </div>
                   </div>

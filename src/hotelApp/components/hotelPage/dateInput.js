@@ -37,7 +37,7 @@ function DateInput(props) {
     if (numberNights>1) {
       dayLabel = "nights"
     }
-    message1 =  numberNights + " " + dayLabel +  " in Rome"
+    message1 =  numberNights + " " + dayLabel +  " in " + props.hotelData.locationNameShort
     message2 = dayjs(checkinDate).format('DD MMM YYYY') + " - " + dayjs(checkoutDate).format('DD MMM YYYY')
   }
 

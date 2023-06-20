@@ -4,7 +4,7 @@
 	position: relative !important;
 	z-index: 0 !important;
 	min-height: 100vh !important;
-	margin-bottom: 80px;
+	padding-bottom: 60px;  
 }
 
 .hotel-page-pa6 {
@@ -78,6 +78,7 @@ padding: 0px 24px;
 	width: 58.3333% !important;
 	margin-left: 0% !important;
 	margin-right: 0% !important;
+
 }
 
 .hotel-page-1s2 {
@@ -94,7 +95,7 @@ padding: 0px 24px;
 	width: 100% !important;
 	display: inline-block !important;
 	padding-right: 1px !important;
-	padding-bottom: 48px;
+	padding-bottom: 20px;
 }
 
 

@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import GuestPickerSearchbox from "./guestPickerSearchbox";
+import ActionButton from "./actionButton";
 import "../../css/hotelPage/floatingSearchbox.css";
 const dayjs = require("dayjs");
 
 function FloatingSearchbox(props) {
   const [guestPickerActive, setGuestPickerActive] = useState();
+  const [reserveClickSpinner, setReserveClickSpinner] = useState();
 
   const storedCheckin = false;
   const storedCheckout = false;
@@ -20,7 +22,6 @@ function FloatingSearchbox(props) {
         !guestPickerRef.current.contains(event.target) &&
         !guestButtonRef.current.contains(event.target)
       ) {
-        console.log("closeSidebarPicker");
         setGuestPickerActive(false);
       }
     }
@@ -59,6 +60,23 @@ function FloatingSearchbox(props) {
     }
     return newMsg;
   };
+
+  // handles user clicking "reserve" button - activates spinner and navigates to homepage after timeout
+  const reserveClickHandler = () => {
+console.log("eserveClickHandler")
+setReserveClickSpinner(true)
+setTimeout(() => {
+  setReserveClickSpinner(false)
+  // window.location.href ="/hotel-app"
+}, "1500");
+  }
+
+  // handles user clicking "reserve" button - activates spinner and navigates to homepage after timeout
+  const navigateHome = () => {
+
+    window.location.href ="/hotel-app"
+
+  }
 
   return (
     <div class="floating-searchbox-ud8" ref={props.sidebarRef} >
@@ -163,22 +181,31 @@ function FloatingSearchbox(props) {
 
       <div>
         {props.checkinDate && props.checkoutDate ? (
-          <button
-            type="button"
-            class="floating-searchbox-qqb"
-            onClick={props.navigateHome}
-          >
-            Reserve
-          </button>
-        ) : (
-          <button
+          <ActionButton message={"Reserve"} loader={true} clickFunction={navigateHome} />
+        ) :
+          (<ActionButton message={"Check Availability"} clickFunction={props.scrollToDatepicker} />)
+
+        }
+        {/*
+
+
+          props.checkinDate && props.checkoutDate ? (
+            <button
+              type="button"
+              class="floating-searchbox-qqb"
+              onClick={reserveClickHandler}
+            >
+              {reserveClickSpinner ? <div className="floating-searchbox-loader" /> :  <span className="floating-searchbox-sk4">Reserve</span>}
+            </button>
+          ) :
+
+           <button
             type="button"
             class="floating-searchbox-qqb"
             onClick={props.scrollToDatepicker}
           >
             Check Availability
-          </button>
-        )}
+          </button> */}
       </div>
       </div>
 

@@ -52,8 +52,10 @@ const generateHotelArray = (
     );
 
     let locationName = "somewhere in " + location.country
+    let locationNameShort = location.country
     if (cityName) {
       locationName = cityName + ", " + location.country
+      locationNameShort = cityName
     }
 
     let countryIncomeLevel
@@ -67,7 +69,6 @@ const generateHotelArray = (
         }
 
     }
-    console.log("countryIncomeLevel: " + countryIncomeLevel)
 
     // generates data from new hotel and adds to search results array
     const newHotel = {
@@ -82,6 +83,7 @@ const generateHotelArray = (
       numReviews: randomNumberInRange(5, 200),
       cityName: cityName,
       locationName: locationName,
+      locationNameShort: locationNameShort,
     };
 
     newHotelArray.push(newHotel);

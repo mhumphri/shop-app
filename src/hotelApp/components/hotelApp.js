@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateHotelArray, updateSavedMapData, updateMapBbox, updateNumberHotels, updateMaxPages, updateActivePage } from "../../redux/hotelApp/hotelAppSlice";
+import { updateHotelArray, updateSavedMapData, updateMapBbox, updateNumberHotels, updateMaxPages, updateActivePage, updateSearchLocationRedux } from "../../redux/hotelApp/hotelAppSlice";
 import ResultsMap from "./resultsMap";
 import ResultsList from "./resultsList";
 import HotelAppNav from "./hotelAppNav";
@@ -16,6 +16,7 @@ import "../css/hotelApp.css";
 // homepage component for hotelApp - contains jsx for homepage and search/server comms logic
 
 function HotelApp(props) {
+  console.log("HotelApp")
   // redux hook for dispatching data
   const dispatch = useDispatch();
   // large view (boolean indicating if app currently in large view) and screen height (stored in redux)
@@ -38,6 +39,8 @@ function HotelApp(props) {
   const maxPages = useSelector((state) => state.hotelApp.maxPages);
   // stores currently active page (which is shown / controlled by paginationNav)
   const activePage = useSelector((state) => state.hotelApp.activePage);
+  // stores currently active page (which is shown / controlled by paginationNav)
+  const searchLocation = useSelector((state) => state.hotelApp.searchLocation);
 
   // boolean indicating if expanded map view is active
   const [expandMapView, setExpandMapView] = useState(false);
@@ -45,7 +48,7 @@ function HotelApp(props) {
   // NEEDED??? /////
   const [mapParameters, setMapParameters] = useState();
   // current stored search location (either country name or "map area")
-  const [searchLocation, setSearchLocation] = useState({ name: "" });
+  // const [searchLocation, setSearchLocation] = useState({ name: "" });
   /*
   // array containg data for current search results
   const [hotelArray, setHotelArray] = useState(getHotelArrayInit);
@@ -86,7 +89,9 @@ function HotelApp(props) {
 
   // updates searchLocation in response to user input and sets searchLocationUpdate boolean to true
   const updateSearchLocation = (newLocation) => {
-    setSearchLocation(newLocation);
+    // setSearchLocation(newLocation);
+    console.log("newLocation: " + JSON.stringify(newLocation) )
+    dispatch(updateSearchLocationRedux(newLocation))
     makeServerCall("location", newLocation);
   };
 
@@ -238,7 +243,7 @@ function HotelApp(props) {
         prevHotelArray = [];
       } else {
         console.log("it's not firstLoad");
-        setSearchLocation({ name: "map area" });
+        //setSearchLocation({ name: "map area" });
       }
       // generates unique key and calls initialise search function
       const newSearchKey = generateKey();

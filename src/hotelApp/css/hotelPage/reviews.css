@@ -4,6 +4,10 @@
   padding-bottom: 24px
 }
 
+.reviews-h1v.two-column {
+  padding-bottom: 10px
+}
+
 .reviews-itu {
   display: inline-flex;
   margin-right: 8px;
@@ -21,10 +25,21 @@
 }
 
 .reviews-4i3 {
-	color: inherit;
-	font-size: 1em;
-	font-weight: inherit;
-	line-height: inherit;
-	margin: 0px;
-	padding: 0px;
+  color: inherit;
+  font-size: 1em;
+  font-weight: inherit;
+  line-height: inherit;
+  margin: 0px;
+  padding: 0px;
+}
+
+.reviews-sa1 {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+
+}
+
+.reviews-sa1.two-column {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
 }
