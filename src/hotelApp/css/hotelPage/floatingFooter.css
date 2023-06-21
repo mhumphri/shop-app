@@ -18,8 +18,8 @@ align-items: stretch;
 justify-content: flex-start;
 flex-wrap: wrap;
 width: 100%;
-padding-left: 24px;
-padding-right: 24px;
+padding-left: 12px;
+padding-right: 12px;
 
 }
 
@@ -123,12 +123,24 @@ padding-right: 24px;
 	color: rgb(255, 255, 255);
 }
 
+@media (min-width: 375px) {
+
+
+	.floating-footer-le6 {
+	padding-left: 16px;
+	padding-right: 16px;
+	}
+}
+
 @media (min-width: 410px) {
   .floating-footer-108 {
-
   	padding: 14px 24px;
-
   }
+
+	.floating-footer-le6 {
+	padding-left: 24px;
+	padding-right: 24px;
+	}
 }
 
 .floating-footer-tyx {

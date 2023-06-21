@@ -32,12 +32,16 @@ position: absolute;
 	font-weight: 600 !important;
 	border-radius: 8px !important;
 	outline: currentcolor none medium !important;
-	padding: 14px 24px !important;
+	padding: 12px 24px !important;
 	transition: box-shadow 0.2s ease 0s, transform 0.1s ease 0s, transform 0.1s ease 0s !important;
 	border: medium none !important;
 	background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%) !important;
 	color: rgb(255, 255, 255) !important;
 	width: 100% !important;
+}
+
+.action-button-qqb.narrow {
+	padding: 12px 14px !important;
 }
 
 .action-button-qqb:active {
@@ -48,7 +52,7 @@ position: absolute;
 }
 
 .action-button-sk4 {
-	line-height: 22px;
+	line-height: 20px;
 }
 
 .action-button-sk4.hidden {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateHotelArray, updateSavedMapData, updateMapBbox, updateNumberHotels, updateMaxPages, updateActivePage, updateSearchLocationRedux } from "../../redux/hotelApp/hotelAppSlice";
+import { updateHotelArray, updateSavedMapData, updateMapBbox, updateNumberHotels, updateMaxPages, updateActivePage, updateSearchLocationRedux, updateExpandMapView, refreshMarkerStateObject, updateActiveMarker } from "../../redux/hotelApp/hotelAppSlice";
 import ResultsMap from "./resultsMap";
 import ResultsList from "./resultsList";
 import HotelAppNav from "./hotelAppNav";
@@ -41,9 +41,15 @@ function HotelApp(props) {
   const activePage = useSelector((state) => state.hotelApp.activePage);
   // stores currently active page (which is shown / controlled by paginationNav)
   const searchLocation = useSelector((state) => state.hotelApp.searchLocation);
+  // boolean indicating if expanded map view is active
+  const expandMapView = useSelector((state) => state.hotelApp.expandMapView);
+  //
+  const activeMarker = useSelector((state) => state.hotelApp.activeMarker);
+  //
+  const markerStateObject = useSelector((state) => state.hotelApp.markerStateObject);
 
   // boolean indicating if expanded map view is active
-  const [expandMapView, setExpandMapView] = useState(false);
+  // const [expandMapView, setExpandMapView] = useState(false);
   // params of the currently visible map (bounds, center, zoom and box (position on screen))
   // NEEDED??? /////
   const [mapParameters, setMapParameters] = useState();
@@ -98,9 +104,9 @@ function HotelApp(props) {
   // boolean controlling visibility of map button (if page scrolled right down beyond limit of listcontainer, the button is not rendered)
   const [mapButtonActive, setMapButtonActive] = useState(true);
   // initialises css styles for search list outer container (needed for change of map view)
-  const [searchListStyle, setSearchListStyle] = useState("fmdphkf dir dir-ltr");
+  const [searchListStyle, setSearchListStyle] = useState(expandMapView ? "fmdphkf fgnm67p f1lf7snk dir dir-ltr" : "fmdphkf dir dir-ltr");
   // initialises css styles for map outer container (needed for change of map view)
-  const [mapStyle, setMapStyle] = useState("m1ict9kd dir dir-ltr");
+  const [mapStyle, setMapStyle] = useState(expandMapView ? "m1ict9kd m1k84ca2 dir dir-ltr" : "m1ict9kd dir dir-ltr");
   // ref for outer container of results list (used for controlling visibility of "show list" / "show map" button)
   const listContainerRef = useRef(null);
 
@@ -129,7 +135,8 @@ function HotelApp(props) {
   const toggleMapView = () => {
     // if currently in expanded view set expandMapview to false and css updated
     if (expandMapView) {
-      setExpandMapView(false);
+      // setExpandMapView(false);
+      dispatch(updateExpandMapView(false))
       // enables scrolling when full map is not enabled (needed for windows chrome/edge browsers where scrollbar changes size of map)
       document.body.style.overflow = "auto";
       document.body.style.position = "static";
@@ -148,7 +155,8 @@ function HotelApp(props) {
     }
     // if not currently in expanded view set expandMapview to true and css updated
     else {
-      setExpandMapView(true);
+      //setExpandMapView(true);
+      dispatch(updateExpandMapView(true))
       // disables scrolling when full map is enabled (needed for windows chrome/edge browsers where scrollbar changes size of map)
       document.body.style.overflow = "hidden";
       document.body.style.position = "relative";
@@ -188,8 +196,36 @@ function HotelApp(props) {
       console.log("fulfilServerCall")
       // search key for server response must match most recent searchkey stored locally - this is to avoid state being updated with data from search calls which have been superceded
       if (newSearchResults.searchKey === searchKeyRef.current) {
-        // setHotelArray(newSearchResults.hotelArray);
+        // update markerStateObject when hotelArray is updated
+        const newHotelArray = [... newSearchResults.hotelArray];
+        let newArrayKeys = {}
+        // loop through new  HotelArray, creating an aobject with keys
+          for (let i=0; i<newHotelArray.length; i++) {
+            console.log(JSON.stringify(newHotelArray[i]))
+          newArrayKeys[newHotelArray[i].key]=true
+        }
+  let newMarkerStateObject = {}
+  let newActiveMarker = false
+  // loop through previous markerStateObject - if match newArray keys, retain that key in marker State object
+     for (let [key, value] of Object.entries(markerStateObject)) {
+    if (newArrayKeys[key]) {
+      newMarkerStateObject[key] = true
+      if (activeMarker===key) {
+        newActiveMarker = key
+      }
+    }
+
+
+}
+
+dispatch(updateActiveMarker(newActiveMarker))
+  dispatch(refreshMarkerStateObject(newMarkerStateObject))
         dispatch(updateHotelArray(newSearchResults.hotelArray))
+
+
+
+
+
         // updates map boundary box (for location search when map will move in response to search results)
         if (newSearchResults.mapBbox) {
           // setMapBbox(newSearchResults.mapBbox);
@@ -244,6 +280,7 @@ function HotelApp(props) {
       } else {
         console.log("it's not firstLoad");
         //setSearchLocation({ name: "map area" });
+        dispatch(updateSearchLocationRedux({ name: "map area" }))
       }
       // generates unique key and calls initialise search function
       const newSearchKey = generateKey();

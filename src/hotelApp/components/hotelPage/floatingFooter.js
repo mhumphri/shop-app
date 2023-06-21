@@ -81,9 +81,9 @@ function FloatingFooter(props) {
               <div class="floating-footer-19a">
                 {datesRender}
                 <div>
-                  {datesSet ? (<ActionButton message={"Reserve"} loader={true} clickFunction={props.navigateHome} />)
+                  {datesSet ? (<ActionButton message={"Reserve"} loader={true} clickFunction={props.navigateHome} narrow={props.screenWidth<410 ? true : false} />)
                   :
-                  (<ActionButton message={"Check Availability"} clickFunction={props.scrollToDatepicker} />) }
+                  (<ActionButton message={"Check Availability"} clickFunction={props.scrollToDatepicker} narrow={props.screenWidth<410 ? true : false} />) }
 
 
 

@@ -21,7 +21,7 @@ function ActionButton(props) {
     return (
       <button
         type="button"
-        class="action-button-qqb"
+        class={props.narrow ? "action-button-qqb narrow" : "action-button-qqb"}
         onClick={clickHandlerLoader}
       >
         <div className={spinner ? "spinner" : "spinner hidden"} />
@@ -34,7 +34,7 @@ function ActionButton(props) {
     );
   } else {
     return (
-      <button type="button" class="action-button-qqb" onClick={clickHandler}>
+      <button type="button" class={props.narrow ? "action-button-qqb narrow" : "action-button-qqb"} onClick={clickHandler}>
         <span className="action-button-sk4">{props.message}</span>
       </button>
     );

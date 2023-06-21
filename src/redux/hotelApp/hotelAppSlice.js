@@ -9,7 +9,10 @@ const initialState = {
   numberHotels: 1000,
   maxPages: false,
   activePage: 1,
-  searchLocation: {name: ""},
+  searchLocation: { name: "" },
+  expandMapView: false,
+  markerStateObject: {},
+  activeMarker: false,
 };
 
 const modalsSlice = createSlice({
@@ -40,9 +43,37 @@ const modalsSlice = createSlice({
     updateSearchLocationRedux(state, action) {
       state.searchLocation = action.payload;
     },
+    updateExpandMapView(state, action) {
+      state.expandMapView = action.payload;
+    },
+    updateMarkerStateObject(state, action) {
+      let newMarkerStateObject = {... state.markerStateObject};
+      newMarkerStateObject[action.payload] = true;
+      state.markerStateObject = newMarkerStateObject;
+    },
+    refreshMarkerStateObject(state, action) {
+      console.log("updateMarkerStateObject: " + action.payload)
+      state.markerStateObject = action.payload;
+    },
+    updateActiveMarker(state, action) {
+      state.activeMarker = action.payload;
+    },
   },
 });
 
-export const { updateHotelArray, updateNavigateAway, updateSavedMapData, updateMapBbox, updateNumberHotels, updateMaxPages, updateActivePage, updateSearchLocationRedux } = modalsSlice.actions;
+export const {
+  updateHotelArray,
+  updateNavigateAway,
+  updateSavedMapData,
+  updateMapBbox,
+  updateNumberHotels,
+  updateMaxPages,
+  updateActivePage,
+  updateSearchLocationRedux,
+  updateExpandMapView,
+  updateMarkerStateObject,
+  updateActiveMarker,
+  refreshMarkerStateObject,
+} = modalsSlice.actions;
 
 export default modalsSlice.reducer;

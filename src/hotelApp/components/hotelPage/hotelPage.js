@@ -399,6 +399,7 @@ function HotelPage(props) {
               data={roomData.reviews}
               scrollToDatepicker={() => scrollTo(datepickerRef)}
               costs={costs}
+              screenWidth={screenWidth}
             />
           <Footer />
           </>

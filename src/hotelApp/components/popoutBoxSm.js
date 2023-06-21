@@ -21,7 +21,7 @@ function PopoutBoxSm(props) {
       <div className="popout-box-sm-pm1" onClick={props.removeLargeMarker} />
       <div
         className="popout-box-sm-zt8"
-        onClick={() => navigate(getHref(props.markerData.hotelDataKey))}
+        onClick={props.navigateToHotel}
       >
         <div className="popout-box-sm-ks9">
           <div className="popout-box-sm-he6">
