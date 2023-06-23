@@ -57,12 +57,14 @@ function ResultsMap(props) {
   );
   // boolean showing true is user has navigated away to individual hotel page (used to prevent data reload when they navigate back)
   const navigateAway = useSelector((state) => state.hotelApp.navigateAway);
+
   // map data saved every time there is a map search - used for update page search
   const savedMapData = useSelector((state) => state.hotelApp.savedMapData);
   // keeps log of most recent hotel which has been hovered over in the results list - used to disable styling when props.hoverHotel state changes
   const [hoverHotelLocal, setHoverHotelLocal] = useState();
   // keeps log of currently active pill marker - used for styling
   const currentPillMarkerRef = useRef();
+
   // holds data and google map object for largeMarker
   const largeMarkerRef = useRef();
   // react state mirror of largeMarkerRef - needed to control PopoutBoxSm which is a react component in small view (whereas the equivalent in large view is a google maps marker)
@@ -70,6 +72,9 @@ function ResultsMap(props) {
   // boolean variables which are set to true if map is dragged or zoomed - used to determine in hotelArray update should be triggered when map bounds update
   const mapDraggedRef = useRef();
   const mapZoomedRef = useRef();
+
+
+
 
   // highlights map marker when it is active (hover) in searchListLg.js and vice versa
   useEffect(() => {
@@ -102,6 +107,12 @@ function ResultsMap(props) {
 
   // updates pill markers using latest roomData array - triggers update of markers when props.hotelArray updates
   useEffect(() => {
+
+    console.log("UPDATE_MARKERS_EFFECT")
+
+
+
+
     // creates new pill marker - markerData argument contains the hotel data (element from hotelArray)
     const addPillMarker = (markerData) => {
       const createNewMarker = () => {
@@ -113,22 +124,20 @@ function ResultsMap(props) {
           let pillBoxShadow =
             "rgba(255, 255, 255, 0.18) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.18) 0px 2px 4px";
 
-          /*
+
             // if marker key matches with markerStateObject (redux store of highlighted markers), styling set to "prev clicked"
             if (markerStateObject[markerData.key]) {
-              console.log("markerStateObject MATCH")
               pillBackground = "#EBEBEB";
               pillBoxShadow = "0 0 0 1px #B0B0B0 inset"
             }
 
             // if marker key matches with markerStateObject (redux store of highlighted markers), styling set to "prev clicked"
             if (activeMarker === markerData.key) {
-              console.log("markerStateObject MATCH")
               pillBackground = "black";
               pillColor = "white";
               pillzIndex = 1
             }
-            */
+
 
           // initialises pill marker html render
           const content = document.createElement("div");
@@ -172,11 +181,11 @@ function ResultsMap(props) {
         // if this pillMarker is stored as the current activeMarker, a large marker is added - this is required to maintain map state when navigating back and forth between the seach page and hotel pages
         if (activeMarker === markerData.key) {
           addLargeMarker(markerData);
+          // largeMarkerRef.current = { marker: newMarker, markerData: markerData };
         }
 
         // creates large marker (which shows photo and more detail for hotel) when pill marker is clicked
-        newMarker.addListener("click", (event) => {
-          console.log("clickMarker: " + markerData.key);
+        newMarker.addListener("gmp-click", (event) => {
           clickPill(markerData, newMarker);
           addLargeMarker(markerData);
           // update markerStateObject in redux
@@ -202,6 +211,7 @@ function ResultsMap(props) {
         });
 
         // pushes object containing markerData and google maps marker object to markers array
+        console.log("markers.push")
         markers.push({ marker: newMarker, markerData: markerData });
       };
 
@@ -235,7 +245,7 @@ function ResultsMap(props) {
       newMarker.element.style.zIndex = 10;
 
       // click listener which calls props.setActiveLink when large marker is clicked
-      newMarker.addListener("click", (event) => {
+      newMarker.addListener("gmp-click", (event) => {
         navigateToHotel();
         // props.setActiveLink("/hotels/" + largeMarkerRef.current.markerData.key);
         // dispatch(updateNavigateAway(true))
@@ -248,6 +258,7 @@ function ResultsMap(props) {
     };
 
     if (!props.firstLoad) {
+      console.log("UPDATE_MARKERS_EFFECT_A")
       // initialise variables
       let largeMarkerRetained;
       let keysObject = {};
@@ -275,6 +286,9 @@ function ResultsMap(props) {
         setLargeMarker(false);
       }
 
+
+
+
       // delete markers which do not appear in the current hotelArray (or delete all if refresh argument is true)
       let j = markers.length;
       while (j--) {
@@ -287,14 +301,22 @@ function ResultsMap(props) {
       // add new pill marker objects for all elements of hotelArray which are not in keysObject
       // residualKeysObject stores keys of map markers which have not been deleted
       let residualKeysObject = {};
-      if (!navigateAway) {
+      if (navigateAway) {
+        for (let i = 0; i < markers.length; i++) {
+          markers[1].marker.map = null;
+          markers.splice(i, 1);
+        }
+      }
+      else {
         for (let i = 0; i < markers.length; i++) {
           residualKeysObject[markers[i].markerData.key] = true;
         }
       }
       // pill markers added for elements of hotel array, with undeleted markers from previous hotel array filtered out
       for (let i = 0; i < props.hotelArray.length; i++) {
+        console.log("props.hotelArrayloop1: " + i + " " + props.firstLoad)
         if (!residualKeysObject[props.hotelArray[i].key]) {
+          console.log("props.hotelArrayloop2: " + i + " " + props.firstLoad)
           addPillMarker(props.hotelArray[i]);
         }
       }
@@ -305,8 +327,10 @@ function ResultsMap(props) {
       }
       if (navigateAway) {
         dispatch(updateNavigateAway(false));
+
       }
     }
+
   }, [props.hotelArray, props.firstLoad]);
 
   // hanldes click on large marker - navigates to hotel page for chosen hotel
@@ -340,12 +364,10 @@ function ResultsMap(props) {
   // sets pill marker styles to "currently active" (i.e dark background and white text)
   // takes marker key and google map marker object as arguments
   const setPillStyleCurrent = (markerKey, marker) => {
-    console.log("setPillStyleCurrent: " + markerKey);
     // creates css selector for a pill marker idenitifed by key
     const activeResultSelector = getMarkerSelector(markerKey);
     // sets styles
     if (activeResultSelector) {
-      console.log("setPillStyleCurrent2: " + markerKey);
       activeResultSelector.style.backgroundColor = "black";
       activeResultSelector.style.color = "white";
       marker.element.style.zIndex = 1;
@@ -373,6 +395,7 @@ function ResultsMap(props) {
 
   // handles user click on pill marker - changes newly selected maker style and also stores crrently selected marker in state (which triggers re-tyling of prev selected marker)
   function clickPill(markerData, marker) {
+
     setPillStyleCurrent(markerData.key, marker);
     if (currentPillMarkerRef.current) {
       setPillStylePrev(currentPillMarkerRef.current);
@@ -574,7 +597,7 @@ function ResultsMap(props) {
     });
 
     // event listener for map click events - used to turn off largeMarker (if open)
-    map.addListener("click", (event) => {
+    map.addListener("gmp-click", (event) => {
       removeLargeMarker();
     });
 

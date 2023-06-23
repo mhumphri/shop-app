@@ -10,7 +10,6 @@ dayjs.extend(isSameOrBefore);
 
 // responsive datePicker component
 function DatePicker(props) {
-  console.log("DatePicker")
   const dotwArray = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   // active month being viewed in picker data - LHS month in large view above 850px (where two months are visible)

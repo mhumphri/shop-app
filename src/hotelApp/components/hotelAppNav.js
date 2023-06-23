@@ -8,7 +8,6 @@ import "../css/hotelAppNav.css";
 
 // header, nav and controls for hotel app - both large and small view
 function HotelAppNav(props) {
-  console.log("HotelAppNav")
   // redux hook for dispatching data
   const dispatch = useDispatch();
   // screen width (stored in redux)
@@ -157,7 +156,6 @@ function HotelAppNav(props) {
   const locationSearch = () => {
     // if stored search location is "map area", text input value is set to  "" and search option list is reset to defaults
     if (props.searchLocation.name === "map area") {
-      console.log("locationSearch2");
       setLocationInputText("");
       setSearchResultArray(popularLocationArray);
       setPopularLocationActive(true);

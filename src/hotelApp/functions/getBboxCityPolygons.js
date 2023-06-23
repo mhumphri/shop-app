@@ -27,8 +27,6 @@ const getBboxCityPolygons = (bbox, activeCities) => {
     loopLimit = 18;
   }
 
-  console.log("loopLimit: " + loopLimit)
-
   for (let i = 0; i < loopLimit; i++) {
     const cityPoint = point(activeCities[i].geometry.coordinates);
     const cityArea = activeCities[i].properties.MAX_AREAKM;
@@ -100,12 +98,9 @@ const getBboxCityPolygons = (bbox, activeCities) => {
         areaOuter: areaOuter,
       };
 
-      // console.log("cityObject: " + JSON.stringify(cityObject))
       cityObjects.push(cityObject);
 
   }
-
-  console.log("return city objects")
 
   return cityObjects;
 };

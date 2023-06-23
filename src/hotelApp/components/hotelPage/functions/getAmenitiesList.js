@@ -233,9 +233,6 @@ const getAmenitiesList = (amenitiesArray, listLength) => {
     }
   }
 
-  console.log("newAmenityList: " + newAmenityList);
-  console.log("newGroupObject: " + newGroupObject);
-  console.log("newAmenityList.length: " + newAmenityList.length);
 
   return { list: newAmenityList, modalList: newModalList };
 };

@@ -16,7 +16,6 @@ import "../css/hotelApp.css";
 // homepage component for hotelApp - contains jsx for homepage and search/server comms logic
 
 function HotelApp(props) {
-  console.log("HotelApp")
   // redux hook for dispatching data
   const dispatch = useDispatch();
   // large view (boolean indicating if app currently in large view) and screen height (stored in redux)
@@ -60,7 +59,8 @@ function HotelApp(props) {
   const [hotelArray, setHotelArray] = useState(getHotelArrayInit);
   */
   // Boolean indicating if first load of app is taking place - used to prevent searchLocation variable being set to "map area" when map bounds are first declared
-  const [firstLoad, setFirstLoad] = useState(navigateAway ? false : true);
+  //const [firstLoad, setFirstLoad] = useState(navigateAway ? false : true);
+    const [firstLoad, setFirstLoad] = useState(true);
   // Boolean indicating if markers on map need to be refreshed (due to user navigating back to search page)
   const [refreshMarkers, setRefreshMarkers] = useState();
   // total number of hotels returned by search
@@ -96,7 +96,6 @@ function HotelApp(props) {
   // updates searchLocation in response to user input and sets searchLocationUpdate boolean to true
   const updateSearchLocation = (newLocation) => {
     // setSearchLocation(newLocation);
-    console.log("newLocation: " + JSON.stringify(newLocation) )
     dispatch(updateSearchLocationRedux(newLocation))
     makeServerCall("location", newLocation);
   };
@@ -179,7 +178,6 @@ function HotelApp(props) {
 
   // handles server calls and routes - mimics REST API POST call - uses promises and timeOut functions to imitate server comms
   const makeServerCall = (type, searchData) => {
-    console.log("MAKE_SERVER_CALL1")
     let serverRoute;
 
     const initialiseSearch = (newSearchKey) => {
@@ -193,7 +191,6 @@ function HotelApp(props) {
 
     // hadles data object returned from server, updating state for which data has been returned
     const fulfilServerCall = (newSearchResults) => {
-      console.log("fulfilServerCall")
       // search key for server response must match most recent searchkey stored locally - this is to avoid state being updated with data from search calls which have been superceded
       if (newSearchResults.searchKey === searchKeyRef.current) {
         // update markerStateObject when hotelArray is updated
@@ -201,7 +198,6 @@ function HotelApp(props) {
         let newArrayKeys = {}
         // loop through new  HotelArray, creating an aobject with keys
           for (let i=0; i<newHotelArray.length; i++) {
-            console.log(JSON.stringify(newHotelArray[i]))
           newArrayKeys[newHotelArray[i].key]=true
         }
   let newMarkerStateObject = {}
@@ -247,9 +243,7 @@ dispatch(updateActiveMarker(newActiveMarker))
           dispatch(updateActivePage(newSearchResults.activePage))
         }
         setDataLoading(false);
-        console.log("just before reset first load");
         if (firstLoad) {
-          console.log("inside reset first load");
           setFirstLoad(false);
         }
       }
@@ -259,6 +253,7 @@ dispatch(updateActiveMarker(newActiveMarker))
 
       if (navigateAway) {
         setRefreshMarkers(true)
+        setFirstLoad(false)
 
       }
       else {
@@ -269,16 +264,13 @@ dispatch(updateActiveMarker(newActiveMarker))
       }
 
       // updates savedMapData with latest search data
-      console.log("searchData: " + JSON.stringify(searchData))
       // setSavedMapData(searchData);
       // dispatch(updateSavedMapData(searchData))
       let prevHotelArray = hotelArray;
       // if not first load searchLocation set to "map search" . If firstLoad searchLocation remains unchanged and prevHotelArray is set to false (to avoid init dummy variables being sent to server)
       if (firstLoad) {
-        console.log("it's firstLoad");
         prevHotelArray = [];
       } else {
-        console.log("it's not firstLoad");
         //setSearchLocation({ name: "map area" });
         dispatch(updateSearchLocationRedux({ name: "map area" }))
       }
@@ -301,17 +293,13 @@ dispatch(updateActiveMarker(newActiveMarker))
     }
     // handles server calls initiated by user selecting a new page from the pagination nav
     else if (type === "updatePage") {
-        console.log("MAKE_SERVER_CALL2a")
       // generates unique key and calls initialise search function
       const newSearchKey = generateKey();
-      console.log("MAKE_SERVER_CALL2b")
       initialiseSearch(newSearchKey);
       const newPageNumber = searchData;
       let finalPageHotels = false;
-      console.log("MAKE_SERVER_CALL2c")
       // if page specified by search is the max page posiible, the number of results for the final page is calculated and sent as an argument (inreality this would prob happen server side)
       if (maxPages === newPageNumber) {
-        console.log("maxPages===newPageNumber");
         // if greater than 15*18 (max number of hotels which can be seen due to 15 page max, the number of hotles on the final page is set the max, which is 18)
         if (numberHotels>269) {
           finalPageHotels = 18
@@ -321,8 +309,6 @@ dispatch(updateActiveMarker(newActiveMarker))
           finalPageHotels = numberHotels - (maxPages - 1) * 18;
         }
       }
-      console.log("newSearchKey: "  + newSearchKey)
-      console.log("savedMapData: "  + savedMapData)
       // sets up route (function mimics REST API POST call) for update page search
       serverRoute = updatePageSearch(
         newSearchKey,

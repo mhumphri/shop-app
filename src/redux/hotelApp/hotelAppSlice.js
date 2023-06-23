@@ -52,7 +52,6 @@ const modalsSlice = createSlice({
       state.markerStateObject = newMarkerStateObject;
     },
     refreshMarkerStateObject(state, action) {
-      console.log("updateMarkerStateObject: " + action.payload)
       state.markerStateObject = action.payload;
     },
     updateActiveMarker(state, action) {
