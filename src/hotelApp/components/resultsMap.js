@@ -64,6 +64,8 @@ function ResultsMap(props) {
   const [hoverHotelLocal, setHoverHotelLocal] = useState();
   // keeps log of currently active pill marker - used for styling
   const currentPillMarkerRef = useRef();
+  // updates currentPillMarker ref with active marekr redux vakue - needed for when map reali=oads after navigating away
+  currentPillMarkerRef.current = activeMarker;
 
   // holds data and google map object for largeMarker
   const largeMarkerRef = useRef();
