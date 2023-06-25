@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import ActionButton from "./actionButton";
 import "../../css/hotelPage/scrollNav.css";
 
@@ -6,26 +6,29 @@ function ScrollNav(props) {
   const [scrollNavActive, setScrollNavActive] = useState();
   const [scrollNavRHSActive, setScrollNavRHSActive] = useState();
 
-  const handleScroll = () => {
-    if (props.middleContentBox.current.getBoundingClientRect().top < 0) {
-      setScrollNavActive(true);
-    } else {
-      setScrollNavActive(false);
-    }
 
-    if (props.floatingSearchInner.current.getBoundingClientRect().bottom < 80) {
-      setScrollNavRHSActive(true);
-    } else {
-      setScrollNavRHSActive(false);
-    }
-  };
 
   React.useEffect(() => {
+
+    const handleScroll = () => {
+      if (props.middleContentBox.current.getBoundingClientRect().top < 0) {
+        setScrollNavActive(true);
+      } else {
+        setScrollNavActive(false);
+      }
+
+      if (props.floatingSearchInner.current.getBoundingClientRect().bottom < 80) {
+        setScrollNavRHSActive(true);
+      } else {
+        setScrollNavRHSActive(false);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [props.middleContentBox, props.floatingSearchInner]);
 
   const navOption = (scrollRef, label) => {
     return [

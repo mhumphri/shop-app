@@ -1,57 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { photoModalUpdated  } from '../redux/modals/photoModalSlice'
+import React, { useState, useRef } from "react";
 import "../../css/hotelPage/imageGallery.css";
-import Other1 from "../../images/other1.jpg";
-import Other2 from "../../images/other2.jpg";
-import Other3 from "../../images/other3.jpg";
-import Other4 from "../../images/other4.jpg";
-import Other5 from "../../images/other5.jpg";
-import Other6 from "../../images/other6.jpg";
-import Other7 from "../../images/other7.jpg";
-
-const data = [
-  {
-    img: Other1,
-    label: "mainPic",
-    dataKey: 0,
-  },
-  {
-    img: Other2,
-    label: "roomPic1",
-    dataKey: 2,
-  },
-  {
-    img: Other3,
-    label: "roomPic3",
-    dataKey: 4,
-  },
-  {
-    img: Other4,
-    label: "roomPic2",
-    dataKey: 3,
-  },
-  {
-    img: Other5,
-    label: "roomPic5",
-    dataKey: 6,
-  },
-  {
-    img: Other6,
-    label: "roomPic0",
-    dataKey: 1,
-  },
-  {
-    img: Other7,
-    label: "roomPic4",
-    dataKey: 5,
-  },
-];
 
 function ImageGallery(props) {
   const scrollDiv = useRef(null);
   const [activePhoto, setActivePhoto] = useState(1);
-  const [photoModal, setPhotoModal] = useState();
 
   // updates the number for current photo when user scrolls through gallery
   const handleScroll = () => {
@@ -63,8 +15,6 @@ function ImageGallery(props) {
       console.log("currentPhoto: " + currentPhoto);
     }
   };
-
-  const dispatch = useDispatch();
 
   const selectPhoto = (photoId) => {
     props.setActivePhoto(photoId);
@@ -97,18 +47,24 @@ function ImageGallery(props) {
             <div class="image-gallery-skz">
               <div class="image-gallery-5lt">
                 <div class="image-gallery-13s">
-                  <div class="image-gallery-100">{indImage(props.hotelData.photos[0], 0)}</div>
+                  <div class="image-gallery-100">
+                    {indImage(props.hotelData.photos[0], 0)}
+                  </div>
                 </div>
               </div>
 
               <div class="image-gallery-178">
                 <div class="image-gallery-13s">
                   <div class="image-gallery-1l7">
-                    <div class="image-gallery-100">{indImage(props.hotelData.photos[1], 1)}</div>
+                    <div class="image-gallery-100">
+                      {indImage(props.hotelData.photos[1], 1)}
+                    </div>
                   </div>
 
                   <div class="image-gallery-924">
-                    <div class="image-gallery-100">{indImage(props.hotelData.photos[2], 2)}</div>
+                    <div class="image-gallery-100">
+                      {indImage(props.hotelData.photos[2], 2)}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -116,11 +72,15 @@ function ImageGallery(props) {
               <div class="image-gallery-182">
                 <div class="image-gallery-13s">
                   <div class="image-gallery-1l7">
-                    <div class="image-gallery-100">{indImage(props.hotelData.photos[3], 3)}</div>
+                    <div class="image-gallery-100">
+                      {indImage(props.hotelData.photos[3], 3)}
+                    </div>
                   </div>
 
                   <div class="image-gallery-924">
-                    <div class="image-gallery-100">{indImage(props.hotelData.photos[4], 4)}</div>
+                    <div class="image-gallery-100">
+                      {indImage(props.hotelData.photos[4], 4)}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -172,7 +132,7 @@ function ImageGallery(props) {
           <div class="image-gallery-thq">
             {/* shows current number of current visible photo and total number of photos on arracy */}
             <div class="image-gallery-oab">
-              {activePhoto} / {data.length}
+              {activePhoto} / {props.hotelData.photos.length}
             </div>
           </div>
         </div>

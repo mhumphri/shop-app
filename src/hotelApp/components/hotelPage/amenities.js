@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import getAmenitiesList from "./functions/getAmenitiesList";
 //import SectionButton from "../inputs/sectionButton";
 import "../../css/hotelPage/amenities.css";

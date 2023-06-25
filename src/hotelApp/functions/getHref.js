@@ -1,4 +1,4 @@
-const dayjs = require("dayjs");
+// const dayjs = require("dayjs");
 
 // creates string for stay link href based on search input variables
 const getHref = (roomKey, searchData) => {

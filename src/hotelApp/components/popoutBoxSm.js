@@ -1,11 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import getHref from "../functions/getHref";
 import "../css/popoutBoxSm.css";
 
 function PopoutBoxSm(props) {
-    const navigate = useNavigate();
   // viewport width & height (stored in redux)
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
   const screenHeight = useSelector((state) => state.deviceData.screenHeight);

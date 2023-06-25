@@ -1,14 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import "../../css/hotelPage/guestPickerSearchbox.css";
 
 function GuestPickerSearchbox(props) {
   const stepperArray = ["Adults", "Children", "Infants", "Pets"];
-  /*const guestsData = {
-  "Adults": 2,
-  "Children": 0,
-  "Infants": 0,
-  "Pets": 0
-} */
+
   const limitsData = { Total: 16, Infants: 3 };
 
   const initStepperObject = () => {

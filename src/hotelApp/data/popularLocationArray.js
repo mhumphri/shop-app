@@ -1,4 +1,4 @@
-export default [
+const popularLocationArray = [
   {
     "name": "Paris, France",
     "type": "city"
@@ -16,3 +16,5 @@ export default [
   "type": "city"
 }
 ]
+
+export default popularLocationArray

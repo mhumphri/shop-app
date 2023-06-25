@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import crossButton from "./crossButton";
 import "../css/searchModal.css";
 
@@ -8,10 +8,6 @@ function SearchModal(props) {
 
   // css style for modal conatiner - changes due to animated open/close
   const [modalStyle, setModalStyle] = useState("search-modal-oje");
-  // boolean which is true when text input is in focus
-  const [textInputFocus, setTextInputFocus] = useState();
-  // init refs for text input and scrolling options container - used to focus, blur etc
-  const textInputRef = useRef(null);
 
   const closeModal = () => {
     // close modal
@@ -23,11 +19,7 @@ function SearchModal(props) {
     }, "400");
   };
 
-  // deletes text input value and focuses text input when user inputs clicks on cross button
-  const crossButtonHandler = () => {
-    props.setLocationInputText("");
-    textInputRef.current.focus();
-  };
+
 
   return (
     <>
@@ -82,9 +74,6 @@ function SearchModal(props) {
                       autoComplete="off"
                       value={props.locationInputText}
                       onChange={props.textInputHandler}
-                      ref={textInputRef}
-                      onFocus={() => setTextInputFocus(true)}
-                      onBlur={() => setTextInputFocus(false)}
                     />
                     {props.locationInputText.length > 0
                       ? crossButton(props.deleteInputText)

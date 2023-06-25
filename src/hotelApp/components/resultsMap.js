@@ -599,7 +599,7 @@ function ResultsMap(props) {
     });
 
     // event listener for map click events - used to turn off largeMarker (if open)
-    map.addListener("gmp-click", (event) => {
+    map.addListener("click", (event) => {
       removeLargeMarker();
     });
 
@@ -635,6 +635,7 @@ function ResultsMap(props) {
 
   // function which removes large marker
   const removeLargeMarker = () => {
+    console.log("REMOVE LARGE MARKER")
     largeMarkerRef.current.marker.map = null;
     largeMarkerRef.current = false;
     setLargeMarker(false);

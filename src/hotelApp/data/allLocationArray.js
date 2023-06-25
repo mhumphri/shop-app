@@ -1,4 +1,4 @@
-export default [ {
+const allLocationArray = [ {
   "name": "Aalborg, Denmark",
   "type": "city"
 }, {
@@ -13157,3 +13157,5 @@ export default [ {
   "name": "Ṭarābulus, Lebanon",
   "type": "city"
 }]
+
+export default allLocationArray

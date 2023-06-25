@@ -1,79 +1,65 @@
-import React, { useState, useEffect, useRef } from "react";
-import textRender from "./functions/textRender";
+// import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import "../../css/hotelPage/indReview.css";
 
-
-
-
 function IndReview(props) {
+  const reviewText = useRef(null);
+  // true if text exceeds x lines and "show more" button is enabled
+  // const [boxOverflow, setBoxOverflow] = useState();
 
-const reviewText = useRef(null);
-// true if text exceeds x lines and "show more" button is enabled
-const [boxOverflow, setBoxOverflow] = useState();
+/*
+  function countLines() {
+    let lineLimit = 5;
+    if (props.modal) {
+      lineLimit = 15;
+    } else if (props.largeView) {
+      lineLimit = 3;
+    }
 
-
-function countLines() {
-
-let lineLimit = 5
-if(props.modal) {
-  lineLimit = 15
-}
-else if(props.largeView) {
-  lineLimit = 3
-}
-
-   var divHeight = reviewText.current.offsetHeight
-   var lineHeight = 24;
-   var lines = divHeight / lineHeight;
-   if (lines >= lineLimit) {
-     setBoxOverflow(true)
-   }
-}
-
-useEffect(() => {
-
-countLines()
-
-}, []);
-
-/* returns render of text and line breaks in response to array of text and false (for line break) elements */
-const textRender = (textArray) => {
-  let newText = [];
-  for (let i = 0; i < textArray.length; i++) {
-    if (!textArray[i]) newText.push(<br />);
-    else if (textArray[i].header) {
-      newText.push(
-        <span className="description-1di">{textArray[i].header}</span>
-      );
-    } else {
-      newText.push(textArray[i]);
+    var divHeight = reviewText.current.offsetHeight;
+    var lineHeight = 24;
+    var lines = divHeight / lineHeight;
+    if (lines >= lineLimit) {
+      setBoxOverflow(true);
     }
   }
-  return newText;
-};
 
 
+  useEffect(() => {
+    countLines();
+  }, []);
+  */
 
-  return (  <div role="listitem" class="ind-review-162">
+  /* returns render of text and line breaks in response to array of text and false (for line break) elements */
+  const textRender = (textArray) => {
+    let newText = [];
+    for (let i = 0; i < textArray.length; i++) {
+      if (!textArray[i]) newText.push(<br />);
+      else if (textArray[i].header) {
+        newText.push(
+          <span className="description-1di">{textArray[i].header}</span>
+        );
+      } else {
+        newText.push(textArray[i]);
+      }
+    }
+    return newText;
+  };
 
-        <div>
-          <div class="ind-review-chn">
-            <div class="ind-review-t9g">
-              <h3 tabindex="-1" class="ind-review-14i" elementtiming="LCP-target">
-                {props.data.userName}
-              </h3>
-              <div class="ind-review-s11">
-
-
-                      (August 2022)
-
-
-              </div>
-            </div>
+  return (
+    <div role="listitem" class="ind-review-162">
+      <div>
+        <div class="ind-review-chn">
+          <div class="ind-review-t9g">
+            <h3 tabindex="-1" class="ind-review-14i" elementtiming="LCP-target">
+              {props.data.userName}
+            </h3>
+            <div class="ind-review-s11">(August 2022)</div>
           </div>
         </div>
-        <div>
-          {/*
+      </div>
+      <div>
+        {/*
           <div style={boxOverflow ? {
             lineHeight: "24px",
             overflow: "hidden",
@@ -83,14 +69,17 @@ const textRender = (textArray) => {
             MozBoxOrient: "vertical",
           } : {
             lineHeight: "24px"}}> */}
-            <div style={{
-              lineHeight: "24px"}}>
-            <span>
-              <span ref={reviewText}>{textRender(props.data.text)}</span>
-            </span>
-          </div>
+        <div
+          style={{
+            lineHeight: "24px",
+          }}
+        >
+          <span>
+            <span ref={reviewText}>{textRender(props.data.text)}</span>
+          </span>
         </div>
-        {/* boxOverflow ?
+      </div>
+      {/* boxOverflow ?
           <div class="ind-review-s17">
             <button
               type="button"
@@ -116,9 +105,8 @@ const textRender = (textArray) => {
               </span>
             </button>
           </div> : null  */}
-    </div>)
-
-
+    </div>
+  );
 }
 
 export default IndReview;

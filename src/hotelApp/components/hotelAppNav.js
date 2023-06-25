@@ -26,8 +26,6 @@ function HotelAppNav(props) {
   const textInputRef = useRef(null);
   // array of refs for active dropdown / search modal option list - used for navigating dropdown search options with keyboard
   const searchResultArrayRef = useRef([]);
-  // ref for text input - used to focus, blur etc
-  const textInputLgRef = useRef(null);
 
   // prevents scrolling when search modal is open
   useEffect(() => {
@@ -140,16 +138,7 @@ function HotelAppNav(props) {
         }
   props.setActiveSearch(false);
 }, "100");
-
     }
-
-
-
-
-
-
-
-
   };
 
   // opens dropdown (large view) / searchModal (small view) and clears text input value if stored search value is set to "map area"

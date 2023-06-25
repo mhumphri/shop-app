@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateHotelArray, updateSavedMapData, updateMapBbox, updateNumberHotels, updateMaxPages, updateActivePage, updateSearchLocationRedux, updateExpandMapView, refreshMarkerStateObject, updateActiveMarker } from "../../redux/hotelApp/hotelAppSlice";
+import { updateHotelArray, updateMapBbox, updateNumberHotels, updateMaxPages, updateActivePage, updateSearchLocationRedux, updateExpandMapView, refreshMarkerStateObject, updateActiveMarker } from "../../redux/hotelApp/hotelAppSlice";
 import ResultsMap from "./resultsMap";
 import ResultsList from "./resultsList";
 import HotelAppNav from "./hotelAppNav";
@@ -46,53 +46,29 @@ function HotelApp(props) {
   const activeMarker = useSelector((state) => state.hotelApp.activeMarker);
   //
   const markerStateObject = useSelector((state) => state.hotelApp.markerStateObject);
-
-  // boolean indicating if expanded map view is active
-  // const [expandMapView, setExpandMapView] = useState(false);
   // params of the currently visible map (bounds, center, zoom and box (position on screen))
-  // NEEDED??? /////
   const [mapParameters, setMapParameters] = useState();
-  // current stored search location (either country name or "map area")
-  // const [searchLocation, setSearchLocation] = useState({ name: "" });
-  /*
-  // array containg data for current search results
-  const [hotelArray, setHotelArray] = useState(getHotelArrayInit);
-  */
   // Boolean indicating if first load of app is taking place - used to prevent searchLocation variable being set to "map area" when map bounds are first declared
-  //const [firstLoad, setFirstLoad] = useState(navigateAway ? false : true);
-    const [firstLoad, setFirstLoad] = useState(true);
+  // const [firstLoad, setFirstLoad] = useState(navigateAway ? false : true);
+  const [firstLoad, setFirstLoad] = useState(true);
   // Boolean indicating if markers on map need to be refreshed (due to user navigating back to search page)
   const [refreshMarkers, setRefreshMarkers] = useState();
-  // total number of hotels returned by search
-  // const [numberHotels, setNumberHotels] = useState(1000);
-  // max number of search pages returned by search (capped at 15)
-  // const [maxPages, setMaxPages] = useState();
   // boolean set to true when new search data is loading
   const [dataLoading, setDataLoading] = useState(navigateAway ? false : true);
-  // stores currently active page (which is shown / controlled by paginationNav)
-  // const [activePage, setActivePage] = useState(1);
   // stores currently active page (which is shown / controlled by paginationNav)
   const [activeLink, setActiveLink] = useState();
   // stores hotel key if mouse currently hovering over in results list - used for highlighting pill marker on map
   const [hoverHotel, setHoverHotel] = useState();
   // boolean which indicates if text input / dropdown(large view) / search modal(small view) are open
   const [activeSearch, setActiveSearch] = useState();
-  // holds latest map boundary box returned from server
-  // const [mapBbox, setMapBbox] = useState();
-  // map data saved every time there is a map search - used for update page search
-  // const [savedMapData, setSavedMapData] = useState();
-  // boolean indicating if location search is uderway - used to block a new map search from occuring when the map updates
-  // const [locationSearchCurrent, setLocationSearchCurrent] = useState();
   // holds key for latest search - used to filter out returns for older searches, if several are active simultaneously
   const [latestSearchKey, setLatestSearchKey] = useState();
   // used to store current version latestSearchKey - needed as function is called fromgoogle maps event handler (to avoid react state closure issue)
   const searchKeyRef = useRef();
   searchKeyRef.current = latestSearchKey;
   const locationSearchCurrentRef = useRef();
-
   //ref for map container - used to access position / dimensions of map containers
   const mapContainer = useRef(null);
-
   // updates searchLocation in response to user input and sets searchLocationUpdate boolean to true
   const updateSearchLocation = (newLocation) => {
     // setSearchLocation(newLocation);
@@ -194,7 +170,7 @@ function HotelApp(props) {
       // search key for server response must match most recent searchkey stored locally - this is to avoid state being updated with data from search calls which have been superceded
       if (newSearchResults.searchKey === searchKeyRef.current) {
         // update markerStateObject when hotelArray is updated
-        const newHotelArray = [... newSearchResults.hotelArray];
+        const newHotelArray = [...newSearchResults.hotelArray];
         let newArrayKeys = {}
         // loop through new  HotelArray, creating an aobject with keys
           for (let i=0; i<newHotelArray.length; i++) {
@@ -203,7 +179,7 @@ function HotelApp(props) {
   let newMarkerStateObject = {}
   let newActiveMarker = false
   // loop through previous markerStateObject - if match newArray keys, retain that key in marker State object
-     for (let [key, value] of Object.entries(markerStateObject)) {
+     for (let [key] of Object.entries(markerStateObject)) {
     if (newArrayKeys[key]) {
       newMarkerStateObject[key] = true
       if (activeMarker===key) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import DatePicker from "../../../datepicker/components/datepicker";
 import "../../css/hotelPage/dateInput.css";
 const dayjs = require("dayjs");
