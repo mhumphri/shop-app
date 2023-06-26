@@ -106,6 +106,17 @@ function HotelApp(props) {
     };
   });
 
+
+  // this loads the data for the current room into redux using the room ID param from the URL and enables scrolling on page load
+   useEffect(() => {
+     // creates object with search parameters from url
+     let searchParams = (new URL(document.location)).searchParams;
+     console.log("searchParams: " + searchParams)
+     console.log("searchParams.get_location : " + searchParams.get("location"))
+
+
+   }, []);
+
   // controls toggling of map view by changing css styles - between partial screen and full screen if screenwidth >= 950px, and between full screen and not visible if screen width < 950px
   const toggleMapView = () => {
     // if currently in expanded view set expandMapview to false and css updated

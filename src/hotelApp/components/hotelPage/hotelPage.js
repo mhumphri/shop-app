@@ -186,6 +186,11 @@ function HotelPage(props) {
   const updateSearchLocation = (newLocation) => {
     // setSearchLocation(newLocation);
     // makeServerCall("location", newLocation);
+    const locationName = newLocation.name;
+var locationNameArray = locationName.split(',');
+console.log("locationNameArray[0]: " + locationNameArray[0])
+
+    window.location.href ="/hotel-app/?" + newLocation.type + "=" + locationNameArray[0];
   };
 
   // handles user click on nav search icon - makes srver call to refresh search
