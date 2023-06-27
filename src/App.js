@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate
 } from "react-router-dom";
 import {
   updateScreenDimensions,
@@ -94,7 +95,7 @@ function App() {
             </>
           }
         />
-      {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+       <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       {mainModal ? <Modal /> : null}
     </Router>

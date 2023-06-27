@@ -110,11 +110,6 @@ function ResultsMap(props) {
   // updates pill markers using latest roomData array - triggers update of markers when props.hotelArray updates
   useEffect(() => {
 
-    console.log("UPDATE_MARKERS_EFFECT")
-
-
-
-
     // creates new pill marker - markerData argument contains the hotel data (element from hotelArray)
     const addPillMarker = (markerData) => {
       const createNewMarker = () => {
@@ -213,7 +208,6 @@ function ResultsMap(props) {
         });
 
         // pushes object containing markerData and google maps marker object to markers array
-        console.log("markers.push")
         markers.push({ marker: newMarker, markerData: markerData });
       };
 
@@ -260,7 +254,6 @@ function ResultsMap(props) {
     };
 
     if (!props.firstLoad) {
-      console.log("UPDATE_MARKERS_EFFECT_A")
       // initialise variables
       let largeMarkerRetained;
       let keysObject = {};
@@ -316,9 +309,7 @@ function ResultsMap(props) {
       }
       // pill markers added for elements of hotel array, with undeleted markers from previous hotel array filtered out
       for (let i = 0; i < props.hotelArray.length; i++) {
-        console.log("props.hotelArrayloop1: " + i + " " + props.firstLoad)
         if (!residualKeysObject[props.hotelArray[i].key]) {
-          console.log("props.hotelArrayloop2: " + i + " " + props.firstLoad)
           addPillMarker(props.hotelArray[i]);
         }
       }
@@ -582,8 +573,8 @@ function ResultsMap(props) {
     }
     // creates new google map object
     map = new window.google.maps.Map(document.getElementById("map"), {
-      zoom: mapZoom,
-      center: mapCenter,
+ zoom: props.onloadSearchRef.current ? false : mapZoom,
+    center: props.onloadSearchRef.current ? false : mapCenter,
       mapId: "4504f8b37365c3d0",
       disableDefaultUI: true,
       gestureHandling: "greedy",
@@ -595,6 +586,7 @@ function ResultsMap(props) {
     });
     // updates stored map parameters (bounds, center, zoom etc) when map bounds change
     window.google.maps.event.addListener(map, "idle", function () {
+      console.log("MAP IDLE")
       mapMoveListener.current = true;
     });
 
@@ -620,10 +612,12 @@ function ResultsMap(props) {
   const googleMapChecker = () => {
     // check for maps in case using other google api are being used
     if (!window.google) {
+
       // loops back round if api hasn't loaded
       setTimeout(googleMapChecker, 100);
     } else {
       // the google maps api is ready to use, render the map
+
       renderMap();
     }
   };
@@ -635,7 +629,6 @@ function ResultsMap(props) {
 
   // function which removes large marker
   const removeLargeMarker = () => {
-    console.log("REMOVE LARGE MARKER")
     largeMarkerRef.current.marker.map = null;
     largeMarkerRef.current = false;
     setLargeMarker(false);
@@ -654,10 +647,12 @@ function ResultsMap(props) {
         box: props.mapContainer.current.getBoundingClientRect(),
       };
       dispatch(updateSavedMapData(newMapParameters));
+
       // if map idle has been triggered by either a user drag, change of zoom or search location input change, props.handleMapMove is triggered
       if (mapZoomedRef.current || mapDraggedRef.current) {
-        if (props.locationSearchCurrentRef.current) {
+        if (props.locationSearchCurrentRef.current || props.onloadSearchRef.current) {
           props.locationSearchCurrentRef.current = false;
+          props.onloadSearchRef.current = false;
           mapZoomedRef.current = false;
           mapDraggedRef.current = false;
         } else {
@@ -665,6 +660,11 @@ function ResultsMap(props) {
           mapZoomedRef.current = false;
           mapDraggedRef.current = false;
         }
+      }
+      // catches location searches when they don't cause a map zoom change (in order to set locationSearchCurrentRef to false)
+      else if (props.locationSearchCurrentRef.current) {
+      props.locationSearchCurrentRef.current = false;
+
       }
     }
   });

@@ -28,6 +28,7 @@ const locationSearch = (
 
   // code for city search
   if (locationData.type === "city") {
+    console.log("location_search_1")
     // returns map polygons and other summary data for city
     const cityPolygons = getCityPolygon(locationData.name);
     // returns map boundary box for city map polygons
@@ -55,6 +56,7 @@ const locationSearch = (
       numberHotelsInner = Math.round((finalPageHotels * 2) / 3);
       numberHotelsOuter = finalPageHotels - numberHotelsInner;
     }
+      console.log("location_search_2")
     // generates array of hotels for outer city
     const newHotelArrayOuter = generateHotelArray(
       cityPolygons.name,
@@ -73,8 +75,10 @@ const locationSearch = (
       locationBbox,
       true
     );
+          console.log("location_search_3")
     // arrays for inner/outer city are merged
     newHotelArray = newHotelArrayOuter.concat(newHotelArrayInner);
+      console.log("location_search_4")
   }
     // code for country search
   else if (locationData.type === "country") {
@@ -87,7 +91,20 @@ const locationSearch = (
 
     // calculate pixel area of map on screen
     const mapBox = mapData.box;
-    const bboxAreaPx = mapBox.width * mapBox.height;
+    let bboxAreaPx;
+
+    if (mapBox) {
+        bboxAreaPx = mapBox.width * mapBox.height;
+      }
+      else {
+        if (window.innerWidth<768) {
+        bboxAreaPx = window.innerWidth * window.innerHeight;
+      }
+      else {
+        bboxAreaPx = (window.innerWidth * window.innerHeight)/2;
+      }
+      }
+
     // calculate km2 area of map on screen
     const bboxAreaKm = Math.round(area(locationBboxPoly) / 1000000);
 
@@ -154,6 +171,8 @@ const locationSearch = (
 
   }
 
+  console.log("location_search_5")
+
   // if search typs is "update page" newMaxPages, newNumberHotels, newActivePage are set to false as these values do not need to be updated
   if (searchType === "updatePage") {
     newMaxPages = false;
@@ -161,6 +180,8 @@ const locationSearch = (
     locationBbox = false;
     newActivePage = false;
   }
+
+
   // search data object to be returned
   let newSearchData = {
     searchKey: searchKey,
@@ -170,6 +191,9 @@ const locationSearch = (
     maxPages: newMaxPages,
     activePage: newActivePage,
   };
+
+console.log("location_search_data: " + JSON.stringify(newSearchData))
+
 
   return newSearchData;
 };

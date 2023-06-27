@@ -15,8 +15,7 @@ import FloatingSearchbox from "./floatingSearchbox";
 import Footer from "../footer/footer";
 import "../../css/hotelPage/hotelPage.css";
 
-//
-
+// displays information and takes booking inputs (date, number guests) for a single hotel
 
 function HotelPage(props) {
   // placeholder
@@ -30,7 +29,7 @@ function HotelPage(props) {
   const largeView = useSelector((state) => state.deviceData.largeView);
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
 
-  // XYX
+  // holds data for hotel
   const [hotelData, setHotelData] = useState();
 
   // logs with of LHS panel - used to size datepicker
@@ -138,7 +137,6 @@ function HotelPage(props) {
 
     if (checkinDate && checkoutDate) {
       const numberNights = (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24);
-      console.log("numberNights: " + numberNights);
       let totalGuests = guestsData.Children * 0.5 + guestsData.Adults;
       if (totalGuests > 2) {
         roomRate = (roomRate * totalGuests) / 2;
@@ -184,13 +182,9 @@ function HotelPage(props) {
 
   // updates searchLocation in response to user input and sets searchLocationUpdate boolean to true
   const updateSearchLocation = (newLocation) => {
-    // setSearchLocation(newLocation);
-    // makeServerCall("location", newLocation);
-    const locationName = newLocation.name;
-var locationNameArray = locationName.split(',');
-console.log("locationNameArray[0]: " + locationNameArray[0])
 
-    window.location.href ="/hotel-app/?" + newLocation.type + "=" + locationNameArray[0];
+
+    window.location.href ="/hotel-app/?" + newLocation.type + "=" + newLocation.name;
   };
 
   // handles user click on nav search icon - makes srver call to refresh search

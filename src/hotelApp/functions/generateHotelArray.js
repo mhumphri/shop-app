@@ -58,7 +58,7 @@ const generateHotelArray = (
       locationNameShort = cityName
     }
 
-    let countryIncomeLevel
+    let countryIncomeLevel = 4
 
     for (let i=0; i<countryPolygons.features.length; i++) {
 

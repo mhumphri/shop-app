@@ -6,7 +6,6 @@ import ResultsList from "./resultsList";
 import HotelAppNav from "./hotelAppNav";
 import LinkModal from "./linkModal";
 import generateKey from "../functions/generateKey";
-// import getHotelArrayInit from "../functions/getHotelArrayInit";
 import mapSearch from "../functions/mapSearch";
 import locationSearch from "../functions/locationSearch";
 import updatePageSearch from "../functions/updatePageSearch";
@@ -49,7 +48,6 @@ function HotelApp(props) {
   // params of the currently visible map (bounds, center, zoom and box (position on screen))
   const [mapParameters, setMapParameters] = useState();
   // Boolean indicating if first load of app is taking place - used to prevent searchLocation variable being set to "map area" when map bounds are first declared
-  // const [firstLoad, setFirstLoad] = useState(navigateAway ? false : true);
   const [firstLoad, setFirstLoad] = useState(true);
   // Boolean indicating if markers on map need to be refreshed (due to user navigating back to search page)
   const [refreshMarkers, setRefreshMarkers] = useState();
@@ -84,6 +82,7 @@ function HotelApp(props) {
   const [mapStyle, setMapStyle] = useState(expandMapView ? "m1ict9kd m1k84ca2 dir dir-ltr" : "m1ict9kd dir dir-ltr");
   // ref for outer container of results list (used for controlling visibility of "show list" / "show map" button)
   const listContainerRef = useRef(null);
+  const onloadSearchRef = useRef(null);
 
   // listens for scroll event (to control visibility of map/list items button in render, as it disappears when scrolled down to pagination nav)
   useEffect(() => {
@@ -109,10 +108,27 @@ function HotelApp(props) {
 
   // this loads the data for the current room into redux using the room ID param from the URL and enables scrolling on page load
    useEffect(() => {
+     if (!navigateAway) {
      // creates object with search parameters from url
      let searchParams = (new URL(document.location)).searchParams;
-     console.log("searchParams: " + searchParams)
-     console.log("searchParams.get_location : " + searchParams.get("location"))
+
+     const searchCity = searchParams.get("city")
+     const searchCountry = searchParams.get("country")
+
+     if (searchCity) {
+              onloadSearchRef.current = true;
+       const locationObject = {"name":searchCity, "type":"city"}
+       makeServerCall("location", locationObject);
+       dispatch(updateSearchLocationRedux(locationObject))
+
+     }
+     else if (searchCountry) {
+              onloadSearchRef.current = true;
+       const locationObject = {"name":searchCountry, "type":"country"}
+       makeServerCall("location", locationObject);
+       dispatch(updateSearchLocationRedux(locationObject))
+     }
+   }
 
 
    }, []);
@@ -238,6 +254,7 @@ dispatch(updateActiveMarker(newActiveMarker))
     // handles server calls initiated by map movements ("idle google map event handler")
     if (type === "map") {
 
+      if (!onloadSearchRef.current) {
       if (navigateAway) {
         setRefreshMarkers(true)
         setFirstLoad(false)
@@ -251,8 +268,6 @@ dispatch(updateActiveMarker(newActiveMarker))
       }
 
       // updates savedMapData with latest search data
-      // setSavedMapData(searchData);
-      // dispatch(updateSavedMapData(searchData))
       let prevHotelArray = hotelArray;
       // if not first load searchLocation set to "map search" . If firstLoad searchLocation remains unchanged and prevHotelArray is set to false (to avoid init dummy variables being sent to server)
       if (firstLoad) {
@@ -260,6 +275,7 @@ dispatch(updateActiveMarker(newActiveMarker))
       } else {
         //setSearchLocation({ name: "map area" });
         dispatch(updateSearchLocationRedux({ name: "map area" }))
+        window.history.pushState("object or string", "Title", "/hotel-app/");
       }
       // generates unique key and calls initialise search function
       const newSearchKey = generateKey();
@@ -267,9 +283,16 @@ dispatch(updateActiveMarker(newActiveMarker))
       // sets up route (function mimics REST API POST call) for map search server call
       serverRoute = mapSearch(newSearchKey, searchData, prevHotelArray);
     }
+  }
+  else {
+    // onloadSearchRef.current = false
+  }
     }
     // handles server calls initiated by user selecting option from location dropdown menu
     else if (type === "location") {
+      if (!onloadSearchRef.current) {
+      window.history.pushState("object or string", "Title", "/hotel-app/?" + searchData.type + "=" + searchData.name);
+    }
       // boolean which prevents map search being triggered by map movement caused by change of location
       locationSearchCurrentRef.current = true;
       // generates unique key and calls initialise search function
@@ -437,6 +460,7 @@ dispatch(updateActiveMarker(newActiveMarker))
             mapContainer={mapContainer}
             mapBbox={mapBbox}
             locationSearchCurrentRef={locationSearchCurrentRef}
+            onloadSearchRef={onloadSearchRef}
             refreshMarkers={refreshMarkers}
           />
         </div>
