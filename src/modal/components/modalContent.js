@@ -1,8 +1,8 @@
 const modalContent = {
   hotelApp: {
     name: "Hotel App",
-    description: ['Hotel app is a mock up search page and server for a hotel booking app. The search page displays a list of hotels and a map with corresponding markers. Users can search hotels by entering a location or by navigating the map and select them either by clicking on a result from a list or by clicking on a map marker. Over 4000 city and country options are available which can be filtered using a text input and dropdown menu.', 'The "server" component of the app uses a range of data (geographic, polulation and economic) to return an array of hotel data which includes location, prices, photos and map coordinates. Javascript promises are used to communcate between the front end and back end components.'],
-      libraries: ['React', 'Redux', 'Google Maps Javascript API', 'turf (geospatial library)',],
+    description: ['Hotel app is a mock up search page and server for a hotel booking app. The search page displays a list of hotels and a map with corresponding markers. Users can search hotels by entering a location or by navigating the map and select them either by clicking on a result from a list or by clicking on a map marker. Over 4000 city and country options are available which can be filtered using a text input and dropdown menu. React Router has been used to handle navigation and Redux is used to handle state management between routes.', 'The "server" component of the app uses a range of data (geographic, polulation and economic) to return an array of hotel data which includes location, prices, photos and map coordinates. Javascript promises are used to communcate between the front end and back end components.'],
+      libraries: ['React', 'Redux', 'React Router', 'Google Maps Javascript API', 'turf (geospatial library)',],
       githubHref: "https://github.com/mhumphri/micsportfolio",
   },
   widgets: {

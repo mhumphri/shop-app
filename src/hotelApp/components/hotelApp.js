@@ -5,6 +5,7 @@ import ResultsMap from "./resultsMap";
 import ResultsList from "./resultsList";
 import HotelAppNav from "./hotelAppNav";
 import LinkModal from "./linkModal";
+import Footer from "./footer/footer";
 import generateKey from "../functions/generateKey";
 import mapSearch from "../functions/mapSearch";
 import locationSearch from "../functions/locationSearch";
@@ -464,7 +465,9 @@ dispatch(updateActiveMarker(newActiveMarker))
             refreshMarkers={refreshMarkers}
           />
         </div>
+
       </main>
+      {largeView ? <Footer largeView={true} /> : null }
       {activeLink ? (
         <LinkModal activeLink={activeLink} setActiveLink={setActiveLink} />
       ) : null}

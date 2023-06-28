@@ -313,7 +313,7 @@ function HotelPage(props) {
             </main>
           </div>
         ) : null}
-        <Footer largeView={true} />
+        <Footer largeView={true} narrow={true}/>
       </>
     );
   } else {
@@ -343,7 +343,7 @@ function HotelPage(props) {
               costs={costs}
               screenWidth={screenWidth}
             />
-          <Footer />
+          <Footer  />
           </>
         ) : null}
       </main>

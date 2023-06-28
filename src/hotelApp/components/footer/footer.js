@@ -76,9 +76,8 @@ if (props.largeView) {
     return (
 
         <footer class="footer-1fa">
-          <div class="footer-1s9">
+          <div class={props.narrow ? "footer-1s9" : "footer-1s9 wide"}>
             <div class="footer-fyx">{footerRender(footerLinks)}</div>
-            {/*bottomSection*/}
           </div>
         </footer>
 
@@ -88,7 +87,7 @@ if (props.largeView) {
 
 
       <footer class="footer-1fa">
-      <div class="footer-1s9">
+      <div class="footer-1s9" >
       <div class="footer-fyx">
       {footerRender(footerLinks)}
       </div>
