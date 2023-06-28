@@ -32,7 +32,7 @@ function DateInput(props) {
 
 
   if (checkinDate && checkoutDate) {
-    const numberNights = (checkoutDate - checkinDate)/ (1000*60*60*24)
+    const numberNights = Math.round((checkoutDate - checkinDate)/ (1000*60*60*24))
     let dayLabel = "night"
     if (numberNights>1) {
       dayLabel = "nights"

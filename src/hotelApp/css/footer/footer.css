@@ -1,117 +1,121 @@
 .footer-1fa {
-  position: relative !important;
-  background-color: rgb(247, 247, 247) !important;
-  border-top: 1px solid rgb(221, 221, 221) !important;
+  position: relative;
+  background-color: rgb(247, 247, 247);
+  border-top: 1px solid rgb(221, 221, 221);
 }
 
 .footer-1s9 {
-	margin: 0px auto !important;
-	max-width: 1280px !important;
-	padding: 32px 24px !important;
+	margin: 0px auto;
+	max-width: 1280px;
+	padding: 32px 24px;
+}
+
+.footer-1s9.wide {
+	max-width: none;
 }
 
 
 .footer-fyx {
-  display: flex !important;
-  flex-direction: column !important;
-padding-bottom: 20px !important;
+  display: flex;
+  flex-direction: column;
+padding-bottom: 20px;
 }
 
 .footer-x6q {
-  color: rgb(34, 34, 34) !important;
-  font-size: 14px !important;
-  line-height: 18px !important;
-  font-weight: 800 !important;
+  color: rgb(34, 34, 34);
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 800;
 }
 
 .footer-otc {
-  margin-top: 0px !important;
-  margin-bottom: 0px !important;
-  font-size: unset !important;
-  font-weight: unset !important;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: unset;
+  font-weight: unset;
 }
 
 .footer-yuo {
-  list-style: none !important;
-  margin: 0px !important;
-  padding: 0px !important;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
 }
 
 .footer-wmu {
-  margin-top: 12px !important;
+  margin-top: 12px;
 }
 
 .footer-1l3:not(:last-child) {
-  padding-bottom: 24px !important;
-  margin-bottom: 24px !important;
-  border-bottom: 1px solid rgb(221, 221, 221) !important;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgb(221, 221, 221);
 }
 
 .footer-1e6 {
-  font-family: inherit !important;
-  font-weight: inherit !important;
-  font-style: inherit !important;
-  font-feature-settings: inherit !important;
-  font-variant: inherit !important;
-  text-decoration: none !important;
-  color: #222222 !important;
-  font-size: 14px !important;
-  line-height: 18px !important;
-  outline: none !important;
+  font-family: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  font-feature-settings: inherit;
+  font-variant: inherit;
+  text-decoration: none;
+  color: #222222;
+  font-size: 14px;
+  line-height: 18px;
+  outline: none;
 }
 
 
 
 @media (min-width: 768px) {
   .footer-wmu {
-    flex-basis: 33.3333% !important;
-    padding-left: 12px !important;
-    padding-right: 12px !important;
+    flex-basis: 33.3333%;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
   .footer-yuo {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    margin-left: -12px !important;
-    margin-right: -12px !important;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -12px;
+    margin-right: -12px;
   }
 
 }
 
 .footer-1fa {
-	position: relative !important;
-	background-color: rgb(247, 247, 247) !important;
-	border-top: 1px solid rgb(221, 221, 221) !important;
+	position: relative;
+	background-color: rgb(247, 247, 247);
+	border-top: 1px solid rgb(221, 221, 221);
 }
 
 @media (min-width: 1128px) {
   .footer-wmu {
-    margin-top: 16px !important;
-    padding-left: 0px !important;
-    padding-right: 0px !important;
+    margin-top: 16px;
+    padding-left: 0px;
+    padding-right: 0px;
   }
 
   .footer-yuo {
-    display: block !important;
-    margin-left: 0px !important;
-    margin-right: 0px !important;
+    display: block;
+    margin-left: 0px;
+    margin-right: 0px;
   }
 
   .footer-fyx {
-    flex-direction: row !important;
-    padding-top: 48px !important;
-    padding-bottom: 30px !important;
+    flex-direction: row;
+    padding-top: 48px;
+    padding-bottom: 30px;
   }
 
   .footer-1l3 {
-    flex: 1 0 !important;
-    padding-left: 12px !important;
-    padding-right: 12px !important;
+    flex: 1 0;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
   .footer-1l3:not(:last-child) {
-    padding-bottom: 0px !important;
-    margin-bottom: 0px !important;
-    border-bottom: 0px none !important;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    border-bottom: 0px none;
   }
 }

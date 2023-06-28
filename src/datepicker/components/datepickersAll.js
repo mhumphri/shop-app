@@ -161,9 +161,9 @@ if (largeView) {
 else {
   return(
 
-    <div className="date-pickers-all-ks7" style={{width: screenWidth + "px", marginTop: "70px"}}>
+    <div style={{marginTop: "80px"}}>
 
- <DatePicker width={screenWidth} />
+ <DatePicker width={screenWidth} largeView={true} />
 
    </div>
 
