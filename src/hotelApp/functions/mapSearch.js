@@ -22,10 +22,11 @@ const mapSearch = (
   searchType,
   finalPageHotels
 ) => {
-
   const mapBboxSearch = (north, east, south, west) => {
     const bbox = [west, south, east, north];
-    console.log("west: " + west + "south: " +  south + "east: " +  east + "north: " +  north)
+    console.log(
+      "west: " + west + "south: " + south + "east: " + east + "north: " + north
+    );
 
     // generate a turf polygon represenataion of map boundary box
     const bboxPoly = bboxPolygon(bbox);
@@ -64,12 +65,7 @@ const mapSearch = (
     ];
 
     // expanded map boundary box (expanded by 0.4degrees, /40km) which is used to capture cities which may expand onto the bbox but bave a centre point outside the bbox
-    const expandedBbox = [
-      west - 0.4,
-      south - 0.4,
-      east + 0.4,
-      north + 0.4,
-    ];
+    const expandedBbox = [west - 0.4, south - 0.4, east + 0.4, north + 0.4];
     // generate a turf polygon represenataion of expanded map boundary box
     const expandedBboxPoly = bboxPolygon(expandedBbox);
 
@@ -83,7 +79,9 @@ const mapSearch = (
       // if city coords are inside map boundary box: (1) city is added to array; (2) population is added to total population (as a proportion if only part of the city is inside)
       if (booleanPointInPolygon(cityPoint, bboxPoly)) {
         activeCities.push(cityData.features[i]);
-        const cityRadius = getCityRadius(cityData.features[i].properties.pop_max);
+        const cityRadius = getCityRadius(
+          cityData.features[i].properties.pop_max
+        );
         const cityCircle = circle(cityPoint, cityRadius);
         if (booleanIntersects(cityCircle, bboxPoly)) {
           const intersectingArea = intersect(bboxPoly, cityCircle);
@@ -103,7 +101,9 @@ const mapSearch = (
         booleanPointInPolygon(cityPoint, expandedBboxPoly) &&
         !booleanPointInPolygon(cityPoint, bboxPoly)
       ) {
-        const cityRadius = getCityRadius(cityData.features[i].properties.pop_max);
+        const cityRadius = getCityRadius(
+          cityData.features[i].properties.pop_max
+        );
         const cityCircle = circle(cityPoint, cityRadius);
         if (booleanIntersects(cityCircle, bboxPoly)) {
           activeCities.push(cityData.features[i]);
@@ -215,7 +215,6 @@ const mapSearch = (
       newHotelArray.push(...randomHotelArray);
     }
 
-
     // if search typs is "update page" newMaxPages, newNumberHotels, newActivePage are set to false as these values do not need to be updated
     if (searchType === "updatePage") {
       newMaxPages = false;
@@ -237,7 +236,7 @@ const mapSearch = (
     };
 
     return newSearchData;
-  }
+  };
 
   // map position on screen
   const mapBox = newMapParameters.box;
@@ -256,39 +255,34 @@ const mapSearch = (
   let bboxSouth = newMapParameters.bounds.toJSON().south;
   let bboxWest = newMapParameters.bounds.toJSON().west;
 
+  let newSearchResults;
 
+  const ewDiff = bboxEast - bboxWest;
+  if (ewDiff < 0) {
+    const searchResults1 = mapBboxSearch(bboxNorth, 179, bboxSouth, bboxWest);
+    const searchResults2 = mapBboxSearch(bboxNorth, bboxEast, bboxSouth, -179);
+    let combinedHotels =
+      searchResults1.numberHotels + searchResults2.numberHotels;
+    let proportionHotels1 = searchResults1.numberHotels / combinedHotels;
+    let proportionHotels2 = searchResults2.numberHotels / combinedHotels;
 
+    let hotelslInArray = combinedHotels;
+    if (combinedHotels > 18) {
+      hotelslInArray = 18;
+    }
+    let numberHotels1 = Math.round(proportionHotels1 * hotelslInArray);
+    if (searchResults1.hotelArray.length < numberHotels1) {
+      numberHotels1 = searchResults1.hotelArray.length;
+    }
 
-let newSearchResults
-
-const ewDiff = bboxEast - bboxWest;
-if (ewDiff < 0) {
-   const searchResults1 = mapBboxSearch(bboxNorth, 179, bboxSouth, bboxWest)
-  const searchResults2 = mapBboxSearch(bboxNorth, bboxEast, bboxSouth, -179)
-  let combinedHotels = searchResults1.numberHotels + searchResults2.numberHotels
-  let proportionHotels1 = searchResults1.numberHotels / combinedHotels
-  let proportionHotels2 = searchResults2.numberHotels / combinedHotels
-
-  let hotelslInArray = combinedHotels
-  if (combinedHotels>18) {
-    hotelslInArray = 18
-  }
-  let numberHotels1 = Math.round(proportionHotels1 * hotelslInArray)
-  if (searchResults1.hotelArray.length < numberHotels1) {
-    numberHotels1 = searchResults1.hotelArray.length
-  }
-
-  let numberHotels2 = hotelslInArray - numberHotels1;
-
+    let numberHotels2 = hotelslInArray - numberHotels1;
 
     let combinedHotelArray = searchResults1.hotelArray.slice(0, numberHotels1);
     const hotelArrayFrag2 = searchResults2.hotelArray.slice(0, numberHotels2);
     combinedHotelArray.push(...hotelArrayFrag2);
 
-    let combinedMaxPages = Math.ceil(combinedHotels/18)
-    if (combinedMaxPages>15) (
-      combinedMaxPages = 15
-    )
+    let combinedMaxPages = Math.ceil(combinedHotels / 18);
+    if (combinedMaxPages > 15) combinedMaxPages = 15;
 
     newSearchResults = {
       searchKey: searchKey,
@@ -297,18 +291,12 @@ if (ewDiff < 0) {
       numberHotels: combinedHotels,
       maxPages: combinedMaxPages,
       activePage: 1,
-    }
-}
-else {
-  newSearchResults = mapBboxSearch(bboxNorth, bboxEast, bboxSouth, bboxWest )
-}
+    };
+  } else {
+    newSearchResults = mapBboxSearch(bboxNorth, bboxEast, bboxSouth, bboxWest);
+  }
 
-return newSearchResults
-
-
-
-
-
+  return newSearchResults;
 };
 
 export default mapSearch;

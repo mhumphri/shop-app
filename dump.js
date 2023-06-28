@@ -1,3 +1,19 @@
+
+
+////
+
+let newSearchData = {
+  searchKey: searchKey,
+  hotelArray: newHotelArray,
+  mapBbox: false,
+  numberHotels: newNumberHotels,
+  maxPages: newMaxPages,
+  activePage: newActivePage,
+};
+
+////
+
+
 {"bounds":{"south":34.4474080493929,"west":-28.125,"north":59.66479446051232,"east":28.125},"center":{"lat":48.6,"lng":0},"zoom":5,"box":{"x":1280,"y":85,"width":1280,"height":866,"top":85,"right":2560,"bottom":951,"left":1280}} hotelApp.js:295
 
 // location serach
