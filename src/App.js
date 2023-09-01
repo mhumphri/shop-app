@@ -10,7 +10,7 @@ import {
   updateScreenDimensions,
   updateTouchScreen,
 } from "./redux/deviceData/deviceDataSlice";
-import Footer from "./footer/components/footer";
+import SearchPage from "./searchPage/components/searchPage";
 
 
 function App() {
@@ -50,12 +50,10 @@ function App() {
           path="/"
           element={
             <>
-              hello
-              <Footer />
+              <SearchPage />
             </>
           }
         />
-       <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
