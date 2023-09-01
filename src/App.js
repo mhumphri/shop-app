@@ -10,7 +10,6 @@ import {
   updateScreenDimensions,
   updateTouchScreen,
 } from "./redux/deviceData/deviceDataSlice";
-import Footer from "./footer/components/footer";
 
 
 function App() {
@@ -50,7 +49,7 @@ function App() {
           path="/"
           element={
             <>
-              <Footer />
+              hello
             </>
           }
         />
