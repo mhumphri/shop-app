@@ -10,9 +10,7 @@ import {
   updateScreenDimensions,
   updateTouchScreen,
 } from "./redux/deviceData/deviceDataSlice";
-import Header from "./header/components/header";
 import Footer from "./footer/components/footer";
-import SearchPage from "./searchPage/components/searchPage";
 
 
 function App() {
@@ -52,8 +50,7 @@ function App() {
           path="/"
           element={
             <>
-              <Header largeView={true} />
-              <Footer largeView={true} />
+              <Footer />
             </>
           }
         />
