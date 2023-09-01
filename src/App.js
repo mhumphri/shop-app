@@ -10,13 +10,8 @@ import {
   updateScreenDimensions,
   updateTouchScreen,
 } from "./redux/deviceData/deviceDataSlice";
-import TopNav from "./navs/components/topNav";
 import Homepage from "./homepage/components/homepage";
-import Widgets from "./widgets/components/widgets";
-import HotelApp from "./hotelApp/components/hotelApp";
-import HotelPage from "./hotelApp/components/hotelPage/hotelPage";
-import Modal from "./modal/components/modal";
-import DatepickersAll from "./datepicker/components/datepickersAll";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -55,49 +50,12 @@ function App() {
           path="/"
           element={
             <>
-              <TopNav />
               <Homepage />
-            </>
-          }
-        />
-
-        <Route
-          path="/widgets"
-          element={
-            <>
-              <TopNav narrow={true} itemName="widgets" />
-              <Widgets />
-            </>
-          }
-        />
-        <Route
-          path="/hotel-app"
-          element={
-            <>
-              <HotelApp />
-            </>
-          }
-        />
-        <Route
-          path="hotel-app/hotels/:hotelId"
-          element={
-            <>
-            <HotelPage />
-            </>
-          }
-        />
-        <Route
-          path="/datepickers"
-          element={
-            <>
-              <TopNav narrow={true} itemName="datepickers" />
-              <DatepickersAll />
             </>
           }
         />
        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      {mainModal ? <Modal /> : null}
     </Router>
   );
 }
