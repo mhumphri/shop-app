@@ -10,7 +10,8 @@ import {
   updateScreenDimensions,
   updateTouchScreen,
 } from "./redux/deviceData/deviceDataSlice";
-import Homepage from "./homepage/components/homepage";
+import Header from "./header/components/header";
+import Footer from "./footer/components/footer";
 import SearchPage from "./searchPage/components/searchPage";
 
 
