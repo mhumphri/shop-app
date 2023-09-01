@@ -11,6 +11,7 @@ import {
   updateTouchScreen,
 } from "./redux/deviceData/deviceDataSlice";
 import Homepage from "./homepage/components/homepage";
+import SearchPage from "./searchPage/components/searchPage";
 
 
 function App() {
@@ -50,7 +51,7 @@ function App() {
           path="/"
           element={
             <>
-              <Homepage />
+              <SearchPage />
             </>
           }
         />
