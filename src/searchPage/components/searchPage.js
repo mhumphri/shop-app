@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Header from "../../header/components/header";
 
 
 function SearchPage() {
 
   return (
-    <div>SearchPage</div>
+    <Header largeView={true} noBasket={true} />
   )
 
 }
