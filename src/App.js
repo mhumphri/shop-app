@@ -52,7 +52,8 @@ function App() {
           path="/"
           element={
             <>
-              <SearchPage />
+              <Header largeView={true} />
+              <Footer largeView={true} />
             </>
           }
         />

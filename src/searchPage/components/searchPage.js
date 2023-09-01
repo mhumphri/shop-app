@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Footer from "../../footer/components/footer";
 import Header from "../../header/components/header";
-import ProductSearch from "./productSearch";
+// import ProductSearch from "./productSearch";
 import { categoryArray, itemsArray } from "./data";
 import "../styles/searchPage.css";
 
@@ -21,7 +21,7 @@ function SearchPage() {
         </main> */}
         <Header largeView={true} noBasket={true} />
         <main className="search-page-tr2">
-  [ProductSearch /]
+  {/* <ProductSearch /> */}
          </main>
         <Footer />
       </div>
@@ -36,7 +36,7 @@ function SearchPage() {
         </main> */}
          <Header largeView={true} />
         <main className="search-page-tr2">
-  [ProductSearch largeView={true} /]
+  {/* <ProductSearch largeView={true} />] */}
          </main>
         <Footer />
       </div>
