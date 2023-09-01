@@ -1,6 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import React from "react";
 import "../styles/footer.css";
 
 function Footer(props) {
