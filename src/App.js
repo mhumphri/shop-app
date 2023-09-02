@@ -13,6 +13,8 @@ import {
 import SearchPage from "./searchPage/components/searchPage";
 import ProductPage from "./productPage/components/productPage";
 import Basket from "./basket/components/basket";
+import AddressForm from "./checkout/components/addressForm";
+import PaymentForm from "./checkout/components/paymentForm";
 
 
 function App() {
@@ -63,6 +65,14 @@ function App() {
         <Route
                path="/basket"
                element={<Basket />}
+             />
+             <Route
+               path="/address-form"
+               element={<AddressForm />}
+             />
+        <Route
+               path="/payment-form"
+               element={<PaymentForm />}
              />
       </Routes>
     </Router>
