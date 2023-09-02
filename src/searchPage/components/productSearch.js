@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { categoryArray, itemsArray } from "./data";
-import Header from "../../header/components/header";
+import ContactButton from "../../widgets/components/contactButton";
 import "../styles/productSearch.css";
 
 
@@ -28,6 +28,19 @@ function ProductSearch() {
     numberItems: 27,
   });
   const [activeItemsArray, setActiveItemsArray] = useState(itemsArray);
+
+
+  //
+  useEffect(() => {
+    if (categoryMenuRef.current) {
+      setCategoryMenuWidth(
+        categoryMenuRef.current.getBoundingClientRect().width
+      );
+      setCategoryMenuHeight(
+        categoryMenuRef.current.getBoundingClientRect().height
+      );
+    }
+  }, [screenWidth]);
 
   const openMenu = () => {
     setCategoryMenuOpen(true);
@@ -141,7 +154,7 @@ function ProductSearch() {
 
             <p className="product-search-jw5">Can't find what you're looking for?</p>
             <div className="product-search-uw7">
-            {/*<ContactButton /> */}
+            <ContactButton />
             </div>
           </div>
         </div>
