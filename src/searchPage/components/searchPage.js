@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../header/components/header";
 import ProductSearch from "./productSearch";
-import Footer from "../../footer/components/footer";
 import "../styles/searchPage.css";
 
 
@@ -19,7 +18,6 @@ function SearchPage() {
       <main className="search-page-tr2">
 <ProductSearch />
        </main>
-       <Footer />
     </div>
     );
   } else {
@@ -29,7 +27,6 @@ function SearchPage() {
       <main className="search-page-tr2">
 <ProductSearch largeView={true} />
        </main>
-       <Footer />
         </div>
     );
 
