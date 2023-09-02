@@ -1,18 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../header/components/header";
-import ProductSearch from "./productSearch";
 
 
-function SearchPage() {
+function ProductSearch() {
 
   return (
     <>
-    <Header largeView={true} noBasket={true} />
-    <ProductSearch />
+    ProductSearch
     </>
   )
 
 }
 
-export default SearchPage;
+export default ProductSearch;
