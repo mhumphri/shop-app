@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Header from "../../header/components/header";
-import Footer from "../../footer/components/footer";
+// import Footer from "../../footer/components/footer";
 import ImageGallery from "./imageGallery";
 import ProductSummary from "./productSummary";
 import ProductOptions from "./productOptions";
@@ -64,7 +64,7 @@ function ProductPage(props) {
             <ProductDescription productObject={productObject} />
           </div>
         </main>
-        <Footer />
+      {/*   <Footer /> */}
       </div>
   ):
       (  <div className="search-page-zu4">
@@ -76,7 +76,7 @@ function ProductPage(props) {
             <div className="product-page-io8"><ProductOptions largeView={true} setBasketModalActive={setBasketModalActive} /></div>
           </div>
         </main>
-         <Footer productPage={true} />
+        {/*  <Footer productPage={true} /> */}
 
       </div>)
     }

@@ -11,6 +11,7 @@ import {
   updateTouchScreen,
 } from "./redux/deviceData/deviceDataSlice";
 import SearchPage from "./searchPage/components/searchPage";
+import ProductPage from "./productPage/components/productPage";
 
 
 function App() {
@@ -53,6 +54,10 @@ function App() {
               <SearchPage />
             </>
           }
+        />
+        <Route
+          path="/product/:productID"
+          element={<ProductPage />}
         />
       </Routes>
     </Router>
