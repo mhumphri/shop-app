@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { categoryArray, itemsArray } from "./data";
 import Header from "../../header/components/header";
+import "../styles/productSearch.css";
 
 
 function ProductSearch() {
