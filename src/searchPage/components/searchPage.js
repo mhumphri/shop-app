@@ -6,12 +6,29 @@ import ProductSearch from "./productSearch";
 
 function SearchPage() {
 
-  return (
-    <>
-    <Header largeView={true} noBasket={true} />
-    <ProductSearch />
-    </>
-  )
+  // viewport width (stored in redux)
+  const screenWidth = useSelector((state) => state.deviceData.screenWidth);
+
+
+  if (screenWidth < 900) {
+    return (
+      <>
+      <Header largeView={true} noBasket={true} />
+      <ProductSearch />
+      </>
+    );
+  } else {
+    return (
+      <>
+      <Header largeView={true} />
+      <ProductSearch largeView={true}/>
+      </>
+    );
+
+  }
+
+
+
 
 }
 

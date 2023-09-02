@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { categoryArray, itemsArray } from "./data";
+import BasketButton from "../../widgets/components/basketButton";
 import ContactButton from "../../widgets/components/contactButton";
 import "../styles/productSearch.css";
 
 
-function ProductSearch() {
+function ProductSearch(props) {
 
   // viewport width (stored in redux)
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
@@ -63,6 +64,74 @@ function ProductSearch() {
     setActiveItemsArray(newItemsArray);
   };
 
+  if (props.largeView) {
+    return (
+      <section>
+        <div className="product-search-pa1">
+          <div className="product-search-bs8">
+            <div className="product-search-kd4">
+              <div className="product-search-dw6">
+              <ul className="product-search-kj3">
+                {categoryArray.map((x) => (
+                  <button
+                    className={
+                      activeCategory.name === x.name
+                        ? "product-search-nd3"
+                        : "product-search-nd2"
+                    }
+                    onClick={() => selectItemCategory(x)}
+                  >
+                    <span className="product-search-js2">{x.name}</span>
+                    <span className="product-search-ms6">{x.numberItems}</span>
+                  </button>
+                ))}
+              </ul>
+              <div>
+
+                <p className="product-search-jw5">Can't find what you're looking for?</p>
+                <div className="product-search-uw7">
+                <ContactButton />
+                </div>
+              </div>
+            </div>
+            </div>
+            <div className="product-search-lk1">
+              <div className="product-search-ty1">
+                {activeItemsArray.map((x, index) => (
+                  <div key={x.name} className="product-search-wq4">
+                    <Link
+                      to={"/product/" + index}
+                      className="product-search-us2"
+                    >
+                      <div className="product-search-uu4">
+                        <div className="product-search-dj9">
+                          <div className="product-search-zq1">
+                            <div className="product-search-ry4">
+                              <img
+                                className="product-search-ks8"
+                                src={x.imageUrl}
+                                /*srcset="https://i.etsystatic.com/34623276/c/2442/1941/250/125/il/400df9/4712972989/il_340x270.4712972989_krpc.jpg 340w,https://i.etsystatic.com/34623276/c/2442/1941/250/125/il/400df9/4712972989/il_680x540.4712972989_krpc.jpg 680w"
+                          sizes="(max-width: 9223372036854775807px) 15vw, (max-width: 1679px) 20vw, (max-width: 1199px) 25vw, (max-width: 899px) 33vw, 50vw"*/
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="product-search-fg6">
+                        <h3 className="product-search-nh2">{x.name}</h3>
+                        <div className="product-search-iu4">£{x.price}</div>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  } else {
+
   return (
     <section>
       <div className="product-search-xd3">
@@ -118,7 +187,7 @@ function ProductSearch() {
           </div>
         </div>
         <div className="product-search-hd5">
-        {/*  <BasketButton /> */}
+     <BasketButton />
         </div>
       </div>
       <div className="product-search-cv2">
@@ -161,6 +230,7 @@ function ProductSearch() {
       </div>
     </section>
   );
+}
 
 }
 
