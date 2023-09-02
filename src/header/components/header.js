@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-// import CurrencyButton from "../../widgets/components/currencyButton";
-// import BasketButton from "../../widgets/components/basketButton";
+import CurrencyButton from "../../widgets/components/currencyButton";
+import BasketButton from "../../widgets/components/basketButton";
 import "../styles/header.css";
 
 function Header(props) {
@@ -80,9 +80,9 @@ function Header(props) {
             <span className="header-oy7">Kaidama Creations V</span>
           </Link>
           <div className="header-pw1">
-          {/*  <CurrencyButton />
+         <CurrencyButton /> 
           {props.noBasket? null : <BasketButton />}
-          */}
+
           </div>
           </div>
         </header>
