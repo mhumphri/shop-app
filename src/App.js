@@ -12,6 +12,7 @@ import {
 } from "./redux/deviceData/deviceDataSlice";
 import SearchPage from "./searchPage/components/searchPage";
 import ProductPage from "./productPage/components/productPage";
+import Basket from "./basket/components/basket";
 
 
 function App() {
@@ -59,6 +60,10 @@ function App() {
           path="/product/:productID"
           element={<ProductPage />}
         />
+        <Route
+               path="/basket"
+               element={<Basket />}
+             />
       </Routes>
     </Router>
   );
