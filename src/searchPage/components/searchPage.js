@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../header/components/header";
 import ProductSearch from "./productSearch";
+import Footer from "../../footer/components/footer";
+import "../styles/searchPage.css";
 
 
 function SearchPage() {
@@ -12,17 +14,23 @@ function SearchPage() {
 
   if (screenWidth < 900) {
     return (
-      <>
+      <div className="search-page-zu4">
       <Header largeView={true} noBasket={true} />
-      <ProductSearch />
-      </>
+      <main className="search-page-tr2">
+<ProductSearch />
+       </main>
+       <Footer />
+    </div>
     );
   } else {
     return (
-      <>
+      <div className="search-page-zu4">
       <Header largeView={true} />
-      <ProductSearch largeView={true}/>
-      </>
+      <main className="search-page-tr2">
+<ProductSearch largeView={true} />
+       </main>
+       <Footer />
+        </div>
     );
 
   }

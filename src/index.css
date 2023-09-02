@@ -14,27 +14,9 @@ body {
   */
 }
 
-/*
-
-input,
-textarea,
-button,
-select,
-div,
-a {
-  -webkit-tap-highlight-color: transparent;
+*, ::before, ::after, body {
+  box-sizing: border-box;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-.search-map-nr6 {
-  --search-list-width: 58%;
-  --navigation-bar-offset: 85px;
-}
-*/
 
 .shop-app-tr2 {
   margin-top: 60px;
