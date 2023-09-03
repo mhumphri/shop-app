@@ -16,7 +16,7 @@ function SearchPage() {
 
 useEffect(() => {
 
-fetch("http://shop-app-server.eba-wpmz5hmf.us-west-2.elasticbeanstalk.com/users/")
+fetch("http://shop-app-server.eba-cy2rpvvf.eu-north-1.elasticbeanstalk.com/users/")
   .then((response) => {
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.status}`);
