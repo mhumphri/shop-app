@@ -7,8 +7,32 @@ import "../styles/searchPage.css";
 
 function SearchPage() {
 
+  const [data, setData] = useState({ hits: [] });
+
   // viewport width (stored in redux)
   const screenWidth = useSelector((state) => state.deviceData.screenWidth);
+
+
+
+useEffect(() => {
+
+fetch("http://shop-app-server.eba-wpmz5hmf.us-west-2.elasticbeanstalk.com/users/")
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then((result) => {
+    setData(result)
+    console.log("SuccessXYZ:", result);
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });
+
+
+}, []);
 
 
   if (screenWidth < 900) {

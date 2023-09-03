@@ -2,7 +2,7 @@
   all: unset;
 display: flex;
 align-items: center;
-padding: 10px 18px;
+padding: 8px 16px;
 border-radius: 24px;
 font-size: 14px;
 background-color: rgba(14,14,14,.0901960784);
@@ -19,6 +19,7 @@ user-select: none;
 .contact-button-bd6 {
   margin-left: 2px;
   margin-right: 2px;
+  font-weight: 500;
 }
 
 .contact-button-hd4:hover {

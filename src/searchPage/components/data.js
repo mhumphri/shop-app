@@ -32,3 +32,11 @@ export const itemsArray = [
   { name: "Item Name 18", category: "Planner inserts", price: "3.45", imageUrl: PageLifter1 },
   { name: "Item Name 19", category: "Planner inserts", price: "3.45", imageUrl: PageLifter1 },
 ];
+
+export const productObject = {
+  name: "Item Name 1",
+  category: "Page lifters",
+  price: "3.45",
+  imageUrl: PageLifter1,
+
+}
